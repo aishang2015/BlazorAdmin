@@ -1,0 +1,19 @@
+﻿<MudAppBar Elevation="1" Dense="true">
+	<MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+	<MudText Typo="Typo.h5" Class="ml-3">BlazorAdmin</MudText>
+	<MudSpacer />
+	<MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Dense="true"
+			 AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight">
+		<MudMenuItem Icon="@Icons.Material.Filled.Info" IconSize="Size.Small">Profile</MudMenuItem>
+		<MudMenuItem Icon="@Icons.Material.Filled.AccountBalance" IconSize="Size.Small">My account</MudMenuItem>
+		<MudMenuItem Icon="@Icons.Material.Filled.Logout" IconSize="Size.Small" OnClick="LogoutClick">注销</MudMenuItem>
+	</MudMenu>
+</MudAppBar>
+<MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+	<NavMenu />
+</MudDrawer>
+<MudMainContent>
+	<div class="pa-4">
+		@Child
+	</div>
+</MudMainContent>

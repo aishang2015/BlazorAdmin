@@ -1,0 +1,26 @@
+﻿@attribute [AllowAnonymous]
+
+@page "/login"
+
+<div class="full-screen d-flex justify-center align-center">
+	@if (ShowContent)
+	{
+		<MudPaper Class="pa-8 d-flex justify-center align-center  flex-column">
+			<MudText Typo="Typo.h4">BlazorAdmin</MudText>
+			<div style="width:300px;">
+				<EditForm Model="_loginModel" OnValidSubmit="LoginSubmit" style="width:100%;">
+					<DataAnnotationsValidator />
+					<MudTextField Class="mt-4" @bind-Value="_loginModel.UserName" Variant="Variant.Outlined" Margin="Margin.Dense"
+								  Placeholder="请输入用户名" For="@(() => _loginModel.UserName)"
+								  UserAttributes="InputAttributes"></MudTextField>
+					<MudTextField Class="mt-4" @bind-Value="_loginModel.Password" Variant="Variant.Outlined" Margin="Margin.Dense"
+								  Placeholder="请输入密码" For="@(() => _loginModel.Password)" InputType="InputType.Password"></MudTextField>
+					<div class="mt-4">
+						<MudButton Variant="Variant.Filled" FullWidth="true" Color="Color.Primary"
+								   ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Login">登录</MudButton>
+					</div>
+				</EditForm>
+			</div>
+		</MudPaper>
+	}
+</div>

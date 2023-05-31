@@ -1,0 +1,22 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PageTitle>BlazorAdmin</PageTitle>
+
+<MudLayout>
+	<AuthorizeView Context="authContext">
+		<Authorized>
+			<AuthorizedLayout>
+				<Child>
+					@Body
+				</Child>
+			</AuthorizedLayout>
+		</Authorized>
+		<NotAuthorized>
+			@Body
+		</NotAuthorized>
+	</AuthorizeView>
+</MudLayout>

@@ -1,0 +1,27 @@
+﻿@using System.Net.Http
+@using BlazorAdmin.Core.Auth;
+@using BlazorAdmin.Data;
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.EntityFrameworkCore;
+@using Microsoft.JSInterop
+@using BlazorAdmin
+@using BlazorAdmin.Shared
+
+@using MudBlazor
+
+@inject IDbContextFactory<BlazorAdminDbContext> _dbFactory;
+@inject AuthenticationStateProvider _stateProvider;
+@inject ExternalAuthService _authService;
+@inject ProtectedLocalStorage _localStorage;
+@inject NavigationManager _navManager;
+@inject IDialogService _dialogService;
+@inject ISnackbar _snackbarService;
+
+
+@attribute [Authorize]
