@@ -1,0 +1,29 @@
+﻿<div class="d-flex flex-column">
+	<div class="d-flex justify-center align-center">
+		<MudIcon Icon="@SelectedIcon" Size="Size.Large" @onclick="ElementFocused" @onblur="MouseBlur" tabindex="-1"></MudIcon>
+	</div>
+	<MudPopover Open="@_popoverOpen" Fixed="true" Class="px-4 pt-4" tabindex="-1"
+				RelativeWidth="true" @onmouseenter="MouseEnterPopover" @onmouseleave="MouseLeavePopover" @onblur="MouseBlur">
+
+		<MudTextField Immediate="true" Value="SearchKeyWord" Margin="Margin.Dense" ValueChanged="TextChanged"
+					  T="string" OnBlur="MouseBlur" Placeholder="请输入关键字" />
+		<MudChipSet SelectedChip="SelectedType" SelectedChipChanged="SelectedTypeChanged" Filter="true"
+					Mandatory="true" @onblur="MouseBlur">
+			@foreach (var type in IconTypes)
+			{
+				<MudChip Text="grey" Value="type" @onblur="MouseBlur">@type.Name</MudChip>
+			}
+		</MudChipSet>
+		<MudDivider />
+		<div style="height:300px;overflow:auto;">
+			<Virtualize Items="@FilterIconList">
+				<div class="d-flex align-center cursor-point icon-item" @onclick="()=>SelectIcon(context.Content)">
+					<MudIcon Icon="@context.Content" Size="Size.Large"></MudIcon>
+					<MudSpacer />
+					<MudText>@context.Name</MudText>
+				</div>
+			</Virtualize>
+		</div>
+
+	</MudPopover>
+</div>

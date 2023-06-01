@@ -1,0 +1,13 @@
+﻿@foreach (var m in NavMenuItems)
+{
+	if (m.Childs.Count == 0)
+	{
+		<MudNavLink Href="@m.Route" Icon="@m.MenuIcon" Match="NavLinkMatch.All">@m.MenuName</MudNavLink>
+	}
+	else
+	{
+		<MudNavGroup Title="@m.MenuName" Expanded="true" Icon="@m.MenuIcon">
+			<NavItemMenu NavMenuItems="@m.Childs" />
+		</MudNavGroup>
+	}
+}

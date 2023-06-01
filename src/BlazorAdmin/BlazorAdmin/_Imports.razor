@@ -15,6 +15,7 @@
 
 @using MudBlazor
 
+@inject IJSRuntime _jsRuntime;
 @inject IDbContextFactory<BlazorAdminDbContext> _dbFactory;
 @inject AuthenticationStateProvider _stateProvider;
 @inject ExternalAuthService _authService;

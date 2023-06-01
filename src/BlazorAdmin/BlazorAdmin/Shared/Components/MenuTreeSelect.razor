@@ -1,0 +1,27 @@
+﻿<div class="d-flex flex-column">
+	<MudTextField Value="SelectedMenuName" Placeholder="上级菜单" Variant="Variant.Outlined"
+				  Margin="Margin.Dense" @onfocus="ElementFocused" @onblur="MouseBlur" Label="上级菜单" />
+	<MudPopover Open="@_popoverOpen" Fixed="true" Class="px-4 pt-4" tabindex="-1"
+				RelativeWidth="true" @onmouseenter="MouseEnterPopover" @onmouseleave="MouseLeavePopover" @onblur="MouseBlur">
+		<div class="d-flex align-center">
+
+			<MudText Typo="Typo.subtitle1">上级菜单选择</MudText>
+			<MudSpacer />
+			<MudButton StartIcon="@Icons.Material.Filled.CleanHands" OnClick="CleanSelected"> 清理选中</MudButton>
+		</div>
+		<MudDivider />
+		<div style="max-height:400px;overflow:auto;">
+			<MudTreeView T="MenuItem" Items="@MenuItems" Hover="true" SelectedValueChanged="SelectedTreeItemChanged">
+				<ItemTemplate>
+					<MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.Childs" Value="context">
+						<Content>
+							<MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="context.MenuType == 1" />
+							<MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.MenuName</MudText>
+							<MudSpacer />
+						</Content>
+					</MudTreeViewItem>
+				</ItemTemplate>
+			</MudTreeView>
+		</div>
+	</MudPopover>
+</div>
