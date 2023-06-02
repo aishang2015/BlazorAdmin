@@ -17,12 +17,13 @@
 
 @inject IJSRuntime _jsRuntime;
 @inject IDbContextFactory<BlazorAdminDbContext> _dbFactory;
+@inject IDialogService _dialogService;
+@inject ISnackbar _snackbarService;
+
 @inject AuthenticationStateProvider _stateProvider;
 @inject ExternalAuthService _authService;
 @inject ProtectedLocalStorage _localStorage;
 @inject NavigationManager _navManager;
-@inject IDialogService _dialogService;
-@inject ISnackbar _snackbarService;
 
 
 @attribute [Authorize]

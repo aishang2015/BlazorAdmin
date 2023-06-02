@@ -45,6 +45,8 @@
 							   OnClick="()=>EditUserClick(context.Id)" />
 				<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Key" Color="Color.Secondary"
 							   OnClick="()=>ChangePasswordClick(context.Id)" />
+				<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.LockPerson" Color="Color.Tertiary"
+							   OnClick="()=>SetUserRoleClick(context.Id)" />
 			</MudStack>
 		</MudTd>
 	</RowTemplate>

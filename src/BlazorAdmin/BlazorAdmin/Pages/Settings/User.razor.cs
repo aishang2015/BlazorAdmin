@@ -104,6 +104,16 @@ namespace BlazorAdmin.Pages.Settings
 			await _dialogService.Show<ChangePasswordDialog>(string.Empty, parameters, options).Result;
 		}
 
+		private async Task SetUserRoleClick(int userId)
+		{
+			var parameters = new DialogParameters
+			{
+				{"UserId",userId }
+			};
+			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
+			await _dialogService.Show<UserRoleDialog>(string.Empty, parameters, options).Result;
+		}
+
 		private async Task ChangeUserActive(int userId, bool isEnabled)
 		{
 			using var context = await _dbFactory.CreateDbContextAsync();

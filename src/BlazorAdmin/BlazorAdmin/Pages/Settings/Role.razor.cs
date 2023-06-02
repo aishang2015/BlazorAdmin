@@ -98,6 +98,20 @@ namespace BlazorAdmin.Pages.Settings
 			}
 		}
 
+		private async Task SetRoleMenuClick(int roleId)
+		{
+			var parameters = new DialogParameters
+			{
+				{"RoleId",roleId }
+			};
+			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
+			var result = await _dialogService.Show<RoleMenuDialog>(string.Empty, parameters, options).Result;
+			if (!result.Canceled)
+			{
+				await InitialData();
+			}
+		}
+
 		private async void PageChangedClick(int page)
 		{
 			Page = page;

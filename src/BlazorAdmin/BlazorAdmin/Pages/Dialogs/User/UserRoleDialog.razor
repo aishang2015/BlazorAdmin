@@ -1,0 +1,15 @@
+﻿<MudDialog DisableSidePadding="false">
+	<DialogContent>
+		<div style="width:300px;" class="pb-4 my-4">
+			<MudText Typo="Typo.h6">设置用户角色</MudText>
+			<div class="d-flex flex-column" style="max-height:300px;overflow:auto;">
+				@foreach (var role in RoleList)
+				{
+					<MudCheckBox T="bool" @bind-Checked="CheckedDic[role.Id]" Color="Color.Primary">@role.Name</MudCheckBox>
+				}
+			</div>
+			<MudButton Class="mt-2" StartIcon="@Icons.Material.Filled.Save" FullWidth="true" Variant="Variant.Filled" Color="Color.Primary"
+					   OnClick="SubmitUserRole">提交</MudButton>
+		</div>
+	</DialogContent>
+</MudDialog>

@@ -35,8 +35,7 @@ namespace BlazorAdmin.Data
 
 		public DbSet<Menu> Menus { get; set; }
 
-		public DbSet<UserMenu> UserMenus { get; set; }
-
+		public DbSet<RoleMenu> RoleMenus { get; set; }
 
 		public void InitialData()
 		{

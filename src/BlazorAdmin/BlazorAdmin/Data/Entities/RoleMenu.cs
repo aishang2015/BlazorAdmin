@@ -1,24 +1,20 @@
 ﻿namespace BlazorAdmin.Data.Entities
 {
 	/// <summary>
-	/// 用户菜单
+	/// 角色的菜单
 	/// </summary>
-	public class UserMenu
+	public class RoleMenu
 	{
-
-		/// <summary>
-		/// 
-		/// <summary>
 		public int Id { get; set; }
 
 		/// <summary>
-		/// 用户Id
+		/// 角色id
 		/// <summary>
-		public int UserId { get; set; }
+		public int RoleId { get; set; }
 
 		/// <summary>
-		/// 菜单Id
-		/// <summary>
+		/// 菜单id
+		/// </summary>
 		public int MenuId { get; set; }
 	}
 }

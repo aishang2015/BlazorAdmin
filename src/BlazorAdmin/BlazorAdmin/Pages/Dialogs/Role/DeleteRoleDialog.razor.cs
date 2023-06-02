@@ -17,6 +17,13 @@ namespace BlazorAdmin.Pages.Dialogs.Role
 			if (role != null)
 			{
 				context.Roles.Remove(role);
+
+				var userRoles = context.UserRoles.Where(ur => ur.RoleId == RoleId);
+				context.UserRoles.RemoveRange(userRoles);
+
+				var roleMenus = context.RoleMenus.Where(rm => rm.RoleId == RoleId);
+				context.RoleMenus.RemoveRange(roleMenus);
+
 				await context.SaveChangesAsync();
 				_snackbarService.Add("删除成功！", Severity.Success);
 				MudDialog?.Close(DialogResult.Ok(true));
