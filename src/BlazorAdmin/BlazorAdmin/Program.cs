@@ -88,10 +88,7 @@ app.MapFallbackToPage("/_Host");
 
 using (var context = new BlazorAdminDbContext(builder.Configuration))
 {
-	if (context.Database.EnsureCreated())
-	{
-		context.InitialData();
-	}
+	context.InitialData();
 }
 
 app.Run();

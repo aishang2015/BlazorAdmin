@@ -3,10 +3,10 @@
 
 <div class="d-flex" style="height:100%;">
 	<div class="flex-0" style="width:340px;overflow:auto;">
-		<MudButton Class="mb-2 mr-2" Color="Color.Default" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled"
-				   OnClick="AddMenuClick">添加</MudButton>
-		<MudButton Class="mb-2 mr-2" Color="Color.Default" StartIcon="@Icons.Material.Filled.Remove" Variant="Variant.Filled"
-				   OnClick="DeleteMenuClick">删除</MudButton>
+		<MudButton Class="mb-2 mr-2" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled"
+				   OnClick="AddMenuClick" Size="Size.Small">添加</MudButton>
+		<MudButton Class="mb-2 mr-2" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Remove" Variant="Variant.Filled"
+				   OnClick="DeleteMenuClick" Size="Size.Small">删除</MudButton>
 		<MudDivider Class="mb-2" />
 		<MudTreeView Items="@MenuItems" Hover="true" T="MenuItem" @bind-SelectedValue="SelectedMenuItem">
 			<ItemTemplate>
@@ -38,7 +38,9 @@
 					<DataAnnotationsValidator />
 					@if (MenuEditModel.Type == 1)
 					{
-						<IconSelect @bind-SelectedIcon="MenuEditModel.Icon" />
+						<MudField Class="my-4" Variant="Variant.Outlined" Margin="Margin.Dense" Label="菜单图标">
+							<IconSelect @bind-SelectedIcon="MenuEditModel.Icon" />
+						</MudField>
 					}
 					<MenuTreeSelect @bind-SelectedValue="MenuEditModel.ParentId" />
 					<MudTextField Class="mt-4" @bind-Value="MenuEditModel.Name" Variant="Variant.Outlined" Margin="Margin.Dense"
@@ -51,20 +53,20 @@
 					@if (MenuEditModel.Type == 1)
 					{
 						<MudTextField Class="mt-4" @bind-Value="MenuEditModel.Route" Variant="Variant.Outlined" Margin="Margin.Dense"
-									  Placeholder="请输入路由" For="@(() => MenuEditModel.Route)"
+									  Placeholder="请输入路由" For="@(() => MenuEditModel.Route)" Label="路由"
 									  UserAttributes="InputAttributes"></MudTextField>
 					}
 					else
 					{
 						<MudTextField Class="mt-4" @bind-Value="MenuEditModel.Identify" Variant="Variant.Outlined" Margin="Margin.Dense"
-									  Placeholder="请输入页面元素标识" For="@(() => MenuEditModel.Identify)"
+									  Placeholder="请输入页面元素标识" For="@(() => MenuEditModel.Identify)" Label="元素标识"
 									  UserAttributes="InputAttributes"></MudTextField>
 					}
 
 					<div class="d-flex mt-4">
 						<MudSpacer />
 						<MudButton Variant="Variant.Filled" Color="Color.Default" Class="mr-4"
-								   ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Cancel" OnClick="CancelClick">取消编辑</MudButton>
+								   ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Cancel" OnClick="CancelClick">取消</MudButton>
 						<MudButton Variant="Variant.Filled" Color="Color.Primary"
 								   ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Upload">提交</MudButton>
 					</div>

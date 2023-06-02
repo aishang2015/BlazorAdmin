@@ -22,7 +22,7 @@ namespace BlazorAdmin.Pages.Dialogs.User
 
 		protected override async Task OnInitializedAsync()
 		{
-			using var context = _dbFactory.CreateDbContext();
+			using var context = await _dbFactory.CreateDbContextAsync();
 			var user = context.Users.Find(UserId);
 			if (user != null)
 			{
@@ -66,7 +66,6 @@ namespace BlazorAdmin.Pages.Dialogs.User
 			public int Id { get; set; }
 
 			[Required(ErrorMessage = "请输入用户名")]
-			[MinLength(3, ErrorMessage = "用户名过短")]
 			[MaxLength(200, ErrorMessage = "用户名位数过长")]
 			public string? UserName { get; set; }
 		}

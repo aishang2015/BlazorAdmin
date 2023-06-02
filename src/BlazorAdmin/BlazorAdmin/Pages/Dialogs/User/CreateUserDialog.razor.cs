@@ -42,12 +42,11 @@ namespace BlazorAdmin.Pages.Dialogs.User
 		private record UserCreateModel
 		{
 			[Required(ErrorMessage = "请输入用户名")]
-			[MinLength(3, ErrorMessage = "用户名过短")]
 			[MaxLength(200, ErrorMessage = "用户名位数过长")]
 			public string? UserName { get; set; }
 
 			[Required(ErrorMessage = "请输入密码")]
-			[MinLength(6, ErrorMessage = "密码位数过短")]
+			[MinLength(4, ErrorMessage = "密码位数过短")]
 			[MaxLength(100, ErrorMessage = "密码位数过长")]
 			[RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$", ErrorMessage = "密码中必须包含大小写字母以及数字")]
 			public string? Password { get; set; }

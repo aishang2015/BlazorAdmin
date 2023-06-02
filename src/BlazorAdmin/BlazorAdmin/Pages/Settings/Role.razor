@@ -1,7 +1,50 @@
 ﻿@page "/role"
 
-<h3>Role</h3>
+<div class="d-flex justify-between align-center mb-4">
+	<MudText Typo="Typo.h5">角色</MudText>
+	<MudSpacer />
+	<div style="width:300px">
+		<MudTextField T="string" @bind-Value="SearchText" Margin="Margin.Dense" Placeholder="输入关键字进行搜素"></MudTextField>
+	</div>
+	<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="InitialData"
+				   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+	<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" OnClick="AddRoleClick"
+				   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+</div>
 
-@code {
+<MudTable Class="mb-4" Items="@Roles" Hover="true" Breakpoint="Breakpoint.Sm"
+		  LoadingProgressColor="Color.Info" Dense="true">
+	<ColGroup>
+		<col style="min-width:100px;width:100px;max-width:100px;" />
+		<col style="min-width:150px;" />
+		<col style="min-width:150px;" />
+		<col style="min-width:100px;width:100px;max-width:100px;" />
+	</ColGroup>
+	<HeaderContent>
+		<MudTh>序号</MudTh>
+		<MudTh>角色名称</MudTh>
+		<MudTh>是否启用</MudTh>
+		<MudTh>操作</MudTh>
+	</HeaderContent>
+	<RowTemplate>
+		<MudTd DataLabel="序号">@context.Number</MudTd>
+		<MudTd DataLabel="用户名">@context.Name</MudTd>
+		<MudTd DataLabel="是否启用">
+			<MudSwitch Checked="@context.IsEnabled" T="bool" CheckedChanged="v=>ChangeRoleActive(context.Id,v)" Color="Color.Primary">
+			</MudSwitch>
+		</MudTd>
+		<MudTd DataLabel="操作">
+			<MudStack Row>
+				<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Delete" Color="Color.Error"
+							   OnClick="()=>DeleteRoleClick(context.Id)" />
+				<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary"
+							   OnClick="()=>EditRoleClick(context.Id)" />
+			</MudStack>
+		</MudTd>
+	</RowTemplate>
+</MudTable>
 
-}
+<div class="d-flex justify-between align-center">
+	<MudSpacer />
+	<MudPagination Color="Color.Primary" Count="@((Total - 1)/Size + 1)" Selected="@Page" SelectedChanged="PageChangedClick" />
+</div>

@@ -10,6 +10,11 @@
 		/// <summary>
 		/// 角色名
 		/// <summary>
-		public string Name { get; set; } = null!;
+		public string? Name { get; set; }
+
+		/// <summary>
+		/// 是否启用
+		/// <summary>
+		public bool IsEnabled { get; set; }
 	}
 }
