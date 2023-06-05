@@ -1,10 +1,8 @@
-# BlazorAdmin
+### BlazorAdmin
 
 A simple management project template written using Blazor and MudBlazor.
 
-
-
-
+----
 
 #### Credentials:
 
@@ -12,7 +10,7 @@ Username:BlazorAdmin
 
 Password:BlazorAdmin
 
---------
+---
 
 #### Features:
 
@@ -26,7 +24,7 @@ Password:BlazorAdmin
 
 - Localization
 
-------
+---
 
 #### Technology stack:
 
