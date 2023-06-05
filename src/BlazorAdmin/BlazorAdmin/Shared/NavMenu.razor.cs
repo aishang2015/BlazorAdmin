@@ -12,6 +12,10 @@ namespace BlazorAdmin.Shared
 		{
 			using var context = await _dbFactory.CreateDbContextAsync();
 			MenuList = context.Menus.Where(m => m.Type == 1).ToList();
+
+			var canAccessedMenus = await _accessService.GetCanAccessedMenus();
+			MenuList = MenuList.Where(m => canAccessedMenus.Contains(m.Id)).ToList();
+
 			NavMenuItems = AppendMenuItems(null, MenuList);
 		}
 

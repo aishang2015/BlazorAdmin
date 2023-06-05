@@ -1,5 +1,8 @@
 ﻿using BlazorAdmin.Constants;
+using BlazorAdmin.Core.Helper;
+using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components.Authorization;
+using MudBlazor;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
@@ -34,7 +37,20 @@ namespace BlazorAdmin.Shared
 
 		private async Task LoginSubmit()
 		{
-			await _localStorage.SetAsync(CommonConstant.UserToken, "token");
+			using var context = await _dbFactory.CreateDbContextAsync();
+			var user = context.Users.FirstOrDefault(u => u.Name == _loginModel.UserName);
+			if (user == null || !HashHelper.VerifyPassword(user.PasswordHash, _loginModel!.Password!))
+			{
+				_snackbarService.Add("用户名或密码错误！", Severity.Error);
+				return;
+			}
+
+			var token = _jwtHelper.GenerateJwtToken(new List<Claim>() {
+				new Claim(ClaimConstant.UserId,user.Id.ToString()),
+				new Claim(ClaimConstant.UserName,user.Name)
+			});
+
+			await _localStorage.SetAsync(CommonConstant.UserToken, token);
 			await _authService.SetCurrentUser();
 			_navManager.NavigateTo("/");
 		}

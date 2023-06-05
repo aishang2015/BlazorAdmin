@@ -1,11 +1,15 @@
 ﻿namespace BlazorAdmin.Shared
 {
-	public partial class MainLayout
+	public partial class EmptyLayout
 	{
 		protected override async Task OnAfterRenderAsync(bool firstRender)
 		{
 			await base.OnAfterRenderAsync(firstRender);
-			_themeState.IsDarkChangeEvent += StateHasChanged;
+			if (firstRender)
+			{
+				_themeState.IsDarkChangeEvent += StateHasChanged;
+				await _themeState.LoadTheme();
+			}
 		}
 	}
 }

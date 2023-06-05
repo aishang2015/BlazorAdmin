@@ -1,4 +1,5 @@
 ﻿using BlazorAdmin.Constants;
+using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorAdmin.Shared
@@ -8,6 +9,29 @@ namespace BlazorAdmin.Shared
 		[Parameter] public RenderFragment? Child { get; set; }
 
 		bool _drawerOpen = true;
+
+		string _userName = string.Empty;
+
+		protected override async Task OnInitializedAsync()
+		{
+			await base.OnInitializedAsync();
+
+			var user = await _stateProvider.GetAuthenticationStateAsync();
+			_userName = user.User.GetUserName();
+
+			var currentUri = _navManager.Uri.Substring(_navManager.BaseUri.Length - 1);
+			if (currentUri.Contains('?'))
+			{
+				currentUri = currentUri.Substring(0, currentUri.IndexOf('?'));
+			}
+
+			var couldAccess = await _accessService.CheckUriCanAccess(currentUri);
+			if (!couldAccess)
+			{
+				_navManager.NavigateTo("/noauthorized");
+			}
+
+		}
 
 		void DrawerToggle()
 		{

@@ -1,6 +1,9 @@
 using BlazorAdmin.Constants;
 using BlazorAdmin.Core.Auth;
+using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Data;
+using BlazorAdmin.Services;
+using BlazorAdmin.States;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -31,41 +34,18 @@ builder.Services.AddMudServices(config =>
 // dbcontext
 builder.Services.AddDbContextFactory<BlazorAdminDbContext>();
 
-// jwt auth
-builder.Services.AddAuthentication(options =>
-{
-	options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-	options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
-	using var context = new BlazorAdminDbContext(builder.Configuration);
-	var issuer = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtIssue)!.Value;
-	var audience = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtAudience)!.Value;
-	var key = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtSigningKey)!.Value;
+// jwt helper
+builder.Services.AddScoped<JwtHelper>();
 
-	var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
-
-	options.TokenValidationParameters = new TokenValidationParameters
-	{
-		ValidateIssuer = true,
-		ValidIssuer = issuer,
-
-		ValidateAudience = true,
-		ValidAudience = audience,
-
-		ValidateIssuerSigningKey = true,
-		IssuerSigningKey = securityKey,
-
-		RequireExpirationTime = true,
-		ValidateLifetime = true,
-		ClockSkew = TimeSpan.Zero
-	};
-
-	options.Events = new JwtBearerEvents { };
-});
-
+// custom auth state provider
 builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthStateProvider>();
 builder.Services.AddScoped<ExternalAuthService>();
+
+// some service
+builder.Services.AddScoped<IAccessService, AccessService>();
+
+// some state
+builder.Services.AddScoped<ThemeState>();
 
 var app = builder.Build();
 

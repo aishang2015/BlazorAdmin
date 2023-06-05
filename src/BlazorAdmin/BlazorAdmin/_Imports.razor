@@ -1,6 +1,9 @@
 ﻿@using System.Net.Http
 @using BlazorAdmin.Core.Auth;
+@using BlazorAdmin.Core.Helper;
 @using BlazorAdmin.Data;
+@using BlazorAdmin.Services;
+@using BlazorAdmin.States;
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.Forms
@@ -19,11 +22,14 @@
 @inject IDbContextFactory<BlazorAdminDbContext> _dbFactory;
 @inject IDialogService _dialogService;
 @inject ISnackbar _snackbarService;
+@inject IAccessService _accessService;
 
+@inject JwtHelper _jwtHelper;
 @inject AuthenticationStateProvider _stateProvider;
 @inject ExternalAuthService _authService;
 @inject ProtectedLocalStorage _localStorage;
 @inject NavigationManager _navManager;
 
+@inject ThemeState _themeState;
 
 @attribute [Authorize]

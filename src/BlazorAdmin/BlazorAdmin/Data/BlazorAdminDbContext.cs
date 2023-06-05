@@ -1,6 +1,7 @@
 ﻿using BlazorAdmin.Constants;
 using BlazorAdmin.Data.Entities;
 using BlazorAdmin.Shared.Components;
+using FluentCodeServer.Core;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 
@@ -62,60 +63,36 @@ namespace BlazorAdmin.Data
 				});
 				SaveChanges();
 
-				Menus.Add(new Menu
+				Menus.Add(new Menu { Name = "首页", Type = 1, Route = "/", Order = 1, Icon = Icons.Material.Filled.Home });
+				var entry = Menus.Add(new Menu { Name = "权限", Type = 1, Route = "/", Order = 2, Icon = Icons.Material.Filled.Settings });
+				Menus.Add(new Menu { Name = "关于", Type = 1, Route = "/", Order = 3, Icon = Icons.Material.Filled.TextFields });
+				SaveChanges();
+
+				Menus.Add(new Menu { ParentId = entry.Entity.Id, Name = "用户", Type = 1, Route = "/user", Order = 1, Icon = Icons.Material.Filled.Person });
+				Menus.Add(new Menu { ParentId = entry.Entity.Id, Name = "角色", Type = 1, Route = "/role", Order = 2, Icon = Icons.Material.Filled.LockPerson });
+				Menus.Add(new Menu { ParentId = entry.Entity.Id, Name = "菜单", Type = 1, Route = "/menu", Order = 3, Icon = Icons.Material.Filled.Menu });
+				SaveChanges();
+
+				var roleEntry = Roles.Add(new Role { IsEnabled = true, Name = "Admin" });
+				SaveChanges();
+
+				var userEntry = Users.Add(new User { Name = "BlazorAdmin", IsEnabled = true, PasswordHash = HashHelper.HashPassword("BlazorAdmin") });
+				SaveChanges();
+
+				UserRoles.Add(new UserRole
 				{
-					Name = "首页",
-					Type = 1,
-					Route = "/",
-					Order = 1,
-					Icon = Icons.Material.Filled.Home
-				});
-				var entry = Menus.Add(new Menu
-				{
-					Name = "权限",
-					Type = 1,
-					Route = "/",
-					Order = 2,
-					Icon = Icons.Material.Filled.Settings
-				});
-				Menus.Add(new Menu
-				{
-					Name = "关于",
-					Type = 1,
-					Route = "/",
-					Order = 3,
-					Icon = Icons.Material.Filled.TextFields
+					UserId = userEntry.Entity.Id,
+					RoleId = roleEntry.Entity.Id
 				});
 				SaveChanges();
 
-				Menus.Add(new Menu
+				RoleMenus.AddRange(Menus.Select(m => m.Id).Select(id => new RoleMenu
 				{
-					ParentId = entry.Entity.Id,
-					Name = "用户",
-					Type = 1,
-					Route = "/user",
-					Order = 1,
-					Icon = Icons.Material.Filled.Person
-				});
-				Menus.Add(new Menu
-				{
-					ParentId = entry.Entity.Id,
-					Name = "角色",
-					Type = 1,
-					Route = "/role",
-					Order = 2,
-					Icon = Icons.Material.Filled.LockPerson
-				});
-				Menus.Add(new Menu
-				{
-					ParentId = entry.Entity.Id,
-					Name = "菜单",
-					Type = 1,
-					Route = "/menu",
-					Order = 3,
-					Icon = Icons.Material.Filled.Menu
-				});
+					MenuId = id,
+					RoleId = roleEntry.Entity.Id
+				}));
 				SaveChanges();
+
 				tran.Commit();
 			}
 		}

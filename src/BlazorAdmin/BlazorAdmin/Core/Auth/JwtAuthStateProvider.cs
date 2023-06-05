@@ -1,4 +1,5 @@
 ﻿using BlazorAdmin.Constants;
+using BlazorAdmin.Core.Helper;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using System.Runtime.CompilerServices;
@@ -13,16 +14,6 @@ namespace BlazorAdmin.Core.Auth
 
 		public JwtAuthStateProvider(ExternalAuthService service)
 		{
-			//var token = localStorage.GetAsync<string>(CommonConstant.UserToken).Result;
-
-			//if (!string.IsNullOrEmpty(token.Value))
-			//{
-			//	currentUser = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
-			//	{
-			//		new Claim(ClaimConstant.UserName,"tenka")
-			//	}, "Local")));
-			//}
-
 			service.UserChanged += (newUser) =>
 			{
 				currentUser = new AuthenticationState(newUser);
@@ -30,11 +21,7 @@ namespace BlazorAdmin.Core.Auth
 			};
 		}
 
-		public override async Task<AuthenticationState> GetAuthenticationStateAsync()
-		{
-
-			return currentUser;
-		}
+		public override Task<AuthenticationState> GetAuthenticationStateAsync() => Task.FromResult(currentUser);
 	}
 	public class ExternalAuthService
 	{
@@ -42,23 +29,13 @@ namespace BlazorAdmin.Core.Auth
 		public event Action<ClaimsPrincipal>? UserChanged;
 		private ClaimsPrincipal? currentUser;
 
-		public ExternalAuthService(ProtectedLocalStorage localStorage)
+		private JwtHelper _jwtHelper;
+
+		public ExternalAuthService(ProtectedLocalStorage localStorage,
+			JwtHelper jwtHelper)
 		{
 			_localStorage = localStorage;
-		}
-
-		public ClaimsPrincipal CurrentUser
-		{
-			get { return currentUser ?? new(); }
-			set
-			{
-				currentUser = value;
-
-				if (UserChanged is not null)
-				{
-					UserChanged(currentUser);
-				}
-			}
+			_jwtHelper = jwtHelper;
 		}
 
 		public async Task SetCurrentUser()
@@ -67,10 +44,15 @@ namespace BlazorAdmin.Core.Auth
 
 			if (!string.IsNullOrEmpty(token.Value))
 			{
-				CurrentUser = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
+				var user = _jwtHelper.ValidToken(token.Value);
+				if (user == null)
 				{
-					new Claim(ClaimConstant.UserName,"tenka")
-				}, "Local"));
+					user = new ClaimsPrincipal();
+				}
+				if (UserChanged is not null)
+				{
+					UserChanged(user);
+				}
 			}
 		}
 	}

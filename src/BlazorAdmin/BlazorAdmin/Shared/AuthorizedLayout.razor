@@ -2,10 +2,13 @@
 	<MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
 	<MudText Typo="Typo.h5" Class="ml-3">BlazorAdmin</MudText>
 	<MudSpacer />
+	<MudSwitch @bind-Checked="_themeState.IsDark" ThumbIcon="@(_themeState.IsDark ? Icons.Material.Filled.DarkMode : Icons.Material.Filled.LightMode)"
+			   ThumbIconColor="@(_themeState.IsDark ? Color.Dark:Color.Primary)" Color="Color.Info" UnCheckedColor="Color.Inherit"></MudSwitch>
+	<MudText Typo="Typo.subtitle2">@_userName</MudText>
 	<MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Dense="true"
 			 AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight">
-		<MudMenuItem Icon="@Icons.Material.Filled.Info" IconSize="Size.Small">Profile</MudMenuItem>
-		<MudMenuItem Icon="@Icons.Material.Filled.AccountBalance" IconSize="Size.Small">My account</MudMenuItem>
+		@*		<MudMenuItem Icon="@Icons.Material.Filled.AccountBalance" IconSize="Size.Small">账号信息</MudMenuItem>
+		<MudMenuItem Icon="@Icons.Material.Filled.Password" IconSize="Size.Small">修改密码</MudMenuItem>*@
 		<MudMenuItem Icon="@Icons.Material.Filled.Logout" IconSize="Size.Small" OnClick="LogoutClick">注销</MudMenuItem>
 	</MudMenu>
 </MudAppBar>
