@@ -1,5 +1,6 @@
 ﻿using BlazorAdmin.Constants;
 using BlazorAdmin.Core.Helper;
+using BlazorAdmin.Resources;
 using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor;
@@ -57,10 +58,12 @@ namespace BlazorAdmin.Shared
 
 		private record LoginModel
 		{
-			[Required(ErrorMessage = "请输入用户名")]
+			[Required(ErrorMessageResourceName = "Login_UserNameHelpText",
+				ErrorMessageResourceType = typeof(CusCulture))]
 			public string? UserName { get; set; }
 
-			[Required(ErrorMessage = "请输入密码")]
+			[Required(ErrorMessageResourceName = "Login_PasswordHelpText",
+				ErrorMessageResourceType = typeof(CusCulture))]
 			public string? Password { get; set; }
 		}
 	}

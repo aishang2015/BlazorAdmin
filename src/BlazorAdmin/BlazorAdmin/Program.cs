@@ -1,19 +1,11 @@
-using BlazorAdmin.Constants;
 using BlazorAdmin.Core.Auth;
 using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Data;
 using BlazorAdmin.Services;
 using BlazorAdmin.States;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using MudBlazor;
 using MudBlazor.Services;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +22,7 @@ builder.Services.AddMudServices(config =>
 	config.SnackbarConfiguration.HideTransitionDuration = 200;
 	config.SnackbarConfiguration.ShowTransitionDuration = 200;
 });
+builder.Services.AddMudMarkdownServices();
 
 // dbcontext
 builder.Services.AddDbContextFactory<BlazorAdminDbContext>();
@@ -47,6 +40,9 @@ builder.Services.AddScoped<IAccessService, AccessService>();
 // some state
 builder.Services.AddScoped<ThemeState>();
 
+// locallization
+builder.Services.AddLocalization();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -55,6 +51,9 @@ if (!app.Environment.IsDevelopment())
 	app.UseExceptionHandler("/Error");
 }
 
+app.UseRequestLocalization(new RequestLocalizationOptions()
+	.AddSupportedCultures(new[] { "zh-CN", "en-US" })
+	.AddSupportedUICultures(new[] { "zh-CN", "en-US" }));
 
 app.UseStaticFiles();
 
@@ -63,6 +62,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 

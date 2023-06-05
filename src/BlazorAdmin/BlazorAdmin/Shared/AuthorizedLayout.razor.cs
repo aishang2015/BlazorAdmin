@@ -1,6 +1,10 @@
 ﻿using BlazorAdmin.Constants;
 using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using static MudBlazor.Colors;
 
 namespace BlazorAdmin.Shared
 {
@@ -12,9 +16,13 @@ namespace BlazorAdmin.Shared
 
 		string _userName = string.Empty;
 
+		CultureInfo _culture ;
+
 		protected override async Task OnInitializedAsync()
 		{
 			await base.OnInitializedAsync();
+
+			_culture = CultureInfo.CurrentCulture;
 
 			var user = await _stateProvider.GetAuthenticationStateAsync();
 			_userName = user.User.GetUserName();
@@ -36,6 +44,21 @@ namespace BlazorAdmin.Shared
 		void DrawerToggle()
 		{
 			_drawerOpen = !_drawerOpen;
+		}
+
+		private async Task CultureChanged(string culture)
+		{
+			if (!string.IsNullOrEmpty(culture))
+			{
+				var uri = new Uri(_navManager.Uri)
+						.GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+				var cultureEscaped = Uri.EscapeDataString(culture);
+				var uriEscaped = Uri.EscapeDataString(uri);
+
+				_navManager.NavigateTo(
+					$"api/Culture/Set?culture={cultureEscaped}&redirectUri={uriEscaped}",
+					forceLoad: true);
+			}
 		}
 
 		private async Task LogoutClick()

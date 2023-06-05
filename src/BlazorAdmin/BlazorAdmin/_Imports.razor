@@ -2,6 +2,7 @@
 @using BlazorAdmin.Core.Auth;
 @using BlazorAdmin.Core.Helper;
 @using BlazorAdmin.Data;
+@using BlazorAdmin.Resources;
 @using BlazorAdmin.Services;
 @using BlazorAdmin.States;
 @using Microsoft.AspNetCore.Authorization
@@ -12,6 +13,7 @@
 @using Microsoft.AspNetCore.Components.Web
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Microsoft.EntityFrameworkCore;
+@using Microsoft.Extensions.Localization;
 @using Microsoft.JSInterop
 @using BlazorAdmin
 @using BlazorAdmin.Shared
@@ -29,6 +31,7 @@
 @inject ExternalAuthService _authService;
 @inject ProtectedLocalStorage _localStorage;
 @inject NavigationManager _navManager;
+@inject IStringLocalizer<CusCulture> Loc;
 
 @inject ThemeState _themeState;
 
