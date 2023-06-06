@@ -1,0 +1,34 @@
+{
+  "author": "aishang2015",
+  "classifications": [ "Web/WebAPI" ], 
+  "name": "BlazorAdmin", 
+  "identity": "BlazorAdminTpl",
+  "shortName": "batpl",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "BlazorAdmin",
+  "preferNameDirectory": true,
+  "sources":[
+    {
+      "exclude":[
+        "**/[Bb]in/**", 
+        "**/[Oo]bj/**", 
+        ".template.config/**/*", 
+        "**/*.filelist", 
+        "**/*.user", 
+        "**/*.lock.json",
+        "**/node_modules/**",
+        ".github/**",
+        ".git/**",
+        "LICENSE",
+        "README.md",
+        "**/.vs/**",
+        "**/.vscode/**",
+        
+      ]
+    }
+  ]
+
+}
