@@ -20,6 +20,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>CusCulture.resx</DependentUpon>
     </Compile>
+    <Compile Update="Shared\Components\MenuTreeSelect.razor.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MenuTreeSelect.razor.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

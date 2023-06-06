@@ -5,7 +5,7 @@
 			<EditForm Model="RoleModel" OnValidSubmit="CreateSubmit" style="width:100%;">
 				<DataAnnotationsValidator />
 				<MudTextField Class="mt-4" @bind-Value="RoleModel.RoleName" Variant="Variant.Outlined" Margin="Margin.Dense"
-							  Placeholder="请输入角色名称" For="@(() => RoleModel.RoleName)"
+							  Label="请输入角色名称" For="@(() => RoleModel.RoleName)"
 							  UserAttributes="InputAttributes"></MudTextField>
 				<div class="mt-4">
 					<MudButton Variant="Variant.Filled" FullWidth="true" Color="Color.Primary" Size="Size.Small"

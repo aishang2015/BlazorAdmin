@@ -79,6 +79,15 @@ namespace BlazorAdmin.Resources {
         }
         
         /// <summary>
+        ///   查找类似 清理选中 的本地化字符串。
+        /// </summary>
+        public static string ClearBtnText {
+            get {
+                return ResourceManager.GetString("ClearBtnText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 登录 的本地化字符串。
         /// </summary>
         public static string Login_LoginText {
@@ -102,6 +111,276 @@ namespace BlazorAdmin.Resources {
         public static string Login_UserNameHelpText {
             get {
                 return ResourceManager.GetString("Login_UserNameHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 添加 的本地化字符串。
+        /// </summary>
+        public static string MenuPage_AddButtonText {
+            get {
+                return ResourceManager.GetString("MenuPage_AddButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 取消 的本地化字符串。
+        /// </summary>
+        public static string MenuPage_CancelButtonText {
+            get {
+                return ResourceManager.GetString("MenuPage_CancelButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除 的本地化字符串。
+        /// </summary>
+        public static string MenuPage_DeleteButtonText {
+            get {
+                return ResourceManager.GetString("MenuPage_DeleteButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 菜单图标 的本地化字符串。
+        /// </summary>
+        public static string MenuPage_IconSelectLabel {
+            get {
+                return ResourceManager.GetString("MenuPage_IconSelectLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 元素标识 的本地化字符串。
+        /// </summary>
+        public static string MenuPage_MenuIdentityLabel {
+            get {
+                return ResourceManager.GetString("MenuPage_MenuIdentityLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入页面元素标识 的本地化字符串。
+        /// </summary>
+        public static string MenuPage_MenuIdentityPlaceHolder {
+            get {
+                return ResourceManager.GetString("MenuPage_MenuIdentityPlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 菜单名称 的本地化字符串。
+        /// </summary>
+        public static string MenuPage_MenuNameLablel {
+            get {
+                return ResourceManager.GetString("MenuPage_MenuNameLablel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入菜单名称 的本地化字符串。
+        /// </summary>
+        public static string MenuPage_MenuNamePlaceHolder {
+            get {
+                return ResourceManager.GetString("MenuPage_MenuNamePlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 路由 的本地化字符串。
+        /// </summary>
+        public static string MenuPage_MenuRouteLabel {
+            get {
+                return ResourceManager.GetString("MenuPage_MenuRouteLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入路由 的本地化字符串。
+        /// </summary>
+        public static string MenuPage_MenuRoutePlaceHolder {
+            get {
+                return ResourceManager.GetString("MenuPage_MenuRoutePlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 菜单 的本地化字符串。
+        /// </summary>
+        public static string MenuPage_MenuTypeRadioText1 {
+            get {
+                return ResourceManager.GetString("MenuPage_MenuTypeRadioText1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 页面元素 的本地化字符串。
+        /// </summary>
+        public static string MenuPage_MenuTypeRadioText2 {
+            get {
+                return ResourceManager.GetString("MenuPage_MenuTypeRadioText2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 提交 的本地化字符串。
+        /// </summary>
+        public static string MenuPage_SubmitButtonText {
+            get {
+                return ResourceManager.GetString("MenuPage_SubmitButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 菜单 的本地化字符串。
+        /// </summary>
+        public static string MenuPage_Title {
+            get {
+                return ResourceManager.GetString("MenuPage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 您没有访问该页面的权限... 的本地化字符串。
+        /// </summary>
+        public static string NoAuhtorized_Text {
+            get {
+                return ResourceManager.GetString("NoAuhtorized_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 输入关键字进行搜素 的本地化字符串。
+        /// </summary>
+        public static string RolePage_SearchKeywordPlaceholder {
+            get {
+                return ResourceManager.GetString("RolePage_SearchKeywordPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 序号 的本地化字符串。
+        /// </summary>
+        public static string RolePage_TableH1 {
+            get {
+                return ResourceManager.GetString("RolePage_TableH1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色名称 的本地化字符串。
+        /// </summary>
+        public static string RolePage_TableH2 {
+            get {
+                return ResourceManager.GetString("RolePage_TableH2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 是否启用 的本地化字符串。
+        /// </summary>
+        public static string RolePage_TableH3 {
+            get {
+                return ResourceManager.GetString("RolePage_TableH3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 操作 的本地化字符串。
+        /// </summary>
+        public static string RolePage_TableH4 {
+            get {
+                return ResourceManager.GetString("RolePage_TableH4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色 的本地化字符串。
+        /// </summary>
+        public static string RolePage_Title {
+            get {
+                return ResourceManager.GetString("RolePage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上级菜单 的本地化字符串。
+        /// </summary>
+        public static string UpMenuSelectTitle {
+            get {
+                return ResourceManager.GetString("UpMenuSelectTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上级菜单选择 的本地化字符串。
+        /// </summary>
+        public static string UpMenuTitleText {
+            get {
+                return ResourceManager.GetString("UpMenuTitleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 输入关键字进行搜素 的本地化字符串。
+        /// </summary>
+        public static string UserPage_SearchKeywordPlaceholder {
+            get {
+                return ResourceManager.GetString("UserPage_SearchKeywordPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 序号 的本地化字符串。
+        /// </summary>
+        public static string UserPage_TableH1 {
+            get {
+                return ResourceManager.GetString("UserPage_TableH1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 头像 的本地化字符串。
+        /// </summary>
+        public static string UserPage_TableH2 {
+            get {
+                return ResourceManager.GetString("UserPage_TableH2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户名 的本地化字符串。
+        /// </summary>
+        public static string UserPage_TableH3 {
+            get {
+                return ResourceManager.GetString("UserPage_TableH3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 是否启用 的本地化字符串。
+        /// </summary>
+        public static string UserPage_TableH4 {
+            get {
+                return ResourceManager.GetString("UserPage_TableH4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 操作 的本地化字符串。
+        /// </summary>
+        public static string UserPage_TableH5 {
+            get {
+                return ResourceManager.GetString("UserPage_TableH5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户 的本地化字符串。
+        /// </summary>
+        public static string UserPage_Title {
+            get {
+                return ResourceManager.GetString("UserPage_Title", resourceCulture);
             }
         }
     }

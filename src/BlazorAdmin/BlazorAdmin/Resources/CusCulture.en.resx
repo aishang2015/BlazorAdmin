@@ -123,6 +123,9 @@
   <data name="AuthorizedLayout_Logout" xml:space="preserve">
     <value>Logout</value>
   </data>
+  <data name="ClearBtnText" xml:space="preserve">
+    <value>Clear selected</value>
+  </data>
   <data name="Login_LoginText" xml:space="preserve">
     <value>Login</value>
   </data>
@@ -131,5 +134,95 @@
   </data>
   <data name="Login_UserNameHelpText" xml:space="preserve">
     <value>Please enter the user name</value>
+  </data>
+  <data name="MenuPage_AddButtonText" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="MenuPage_CancelButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="MenuPage_DeleteButtonText" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="MenuPage_IconSelectLabel" xml:space="preserve">
+    <value>Menu Icon</value>
+  </data>
+  <data name="MenuPage_MenuIdentityLabel" xml:space="preserve">
+    <value>Element identifier</value>
+  </data>
+  <data name="MenuPage_MenuIdentityPlaceHolder" xml:space="preserve">
+    <value>Please enter the page element identifier</value>
+  </data>
+  <data name="MenuPage_MenuNameLablel" xml:space="preserve">
+    <value>Menu name</value>
+  </data>
+  <data name="MenuPage_MenuNamePlaceHolder" xml:space="preserve">
+    <value>Please enter the menu name</value>
+  </data>
+  <data name="MenuPage_MenuRouteLabel" xml:space="preserve">
+    <value>Route</value>
+  </data>
+  <data name="MenuPage_MenuRoutePlaceHolder" xml:space="preserve">
+    <value>Please enter the route</value>
+  </data>
+  <data name="MenuPage_MenuTypeRadioText1" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="MenuPage_MenuTypeRadioText2" xml:space="preserve">
+    <value>PageElement</value>
+  </data>
+  <data name="MenuPage_SubmitButtonText" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="MenuPage_Title" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="NoAuhtorized_Text" xml:space="preserve">
+    <value>You do not have permission to access this page...</value>
+  </data>
+  <data name="RolePage_SearchKeywordPlaceholder" xml:space="preserve">
+    <value>Enter keywords to search</value>
+  </data>
+  <data name="RolePage_TableH1" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="RolePage_TableH2" xml:space="preserve">
+    <value>Role Name</value>
+  </data>
+  <data name="RolePage_TableH3" xml:space="preserve">
+    <value>Is Enabled</value>
+  </data>
+  <data name="RolePage_TableH4" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="RolePage_Title" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="UpMenuSelectTitle" xml:space="preserve">
+    <value>Top Menu</value>
+  </data>
+  <data name="UpMenuTitleText" xml:space="preserve">
+    <value>Up menu selection</value>
+  </data>
+  <data name="UserPage_SearchKeywordPlaceholder" xml:space="preserve">
+    <value>Enter keywords to search</value>
+  </data>
+  <data name="UserPage_TableH1" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="UserPage_TableH2" xml:space="preserve">
+    <value>Avatar</value>
+  </data>
+  <data name="UserPage_TableH3" xml:space="preserve">
+    <value>UserName</value>
+  </data>
+  <data name="UserPage_TableH4" xml:space="preserve">
+    <value>IsEnabled</value>
+  </data>
+  <data name="UserPage_TableH5" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="UserPage_Title" xml:space="preserve">
+    <value>User</value>
   </data>
 </root>

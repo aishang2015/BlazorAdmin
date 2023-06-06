@@ -1,10 +1,10 @@
 ﻿@page "/role"
 
 <div class="d-flex justify-between align-center mb-4">
-	<MudText Typo="Typo.h5">角色</MudText>
+	<MudText Typo="Typo.h5">@Loc["RolePage_Title"]</MudText>
 	<MudSpacer />
 	<div style="width:300px">
-		<MudTextField T="string" @bind-Value="SearchText" Margin="Margin.Dense" Placeholder="输入关键字进行搜素"></MudTextField>
+		<MudTextField T="string" @bind-Value="SearchText" Margin="Margin.Dense" Placeholder="@Loc["RolePage_SearchKeywordPlaceholder"]"></MudTextField>
 	</div>
 	<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="InitialData"
 				   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
@@ -21,19 +21,19 @@
 		<col style="min-width:100px;width:100px;max-width:100px;" />
 	</ColGroup>
 	<HeaderContent>
-		<MudTh>序号</MudTh>
-		<MudTh>角色名称</MudTh>
-		<MudTh>是否启用</MudTh>
-		<MudTh>操作</MudTh>
+		<MudTh>@Loc["RolePage_TableH1"]</MudTh>
+		<MudTh>@Loc["RolePage_TableH2"]</MudTh>
+		<MudTh>@Loc["RolePage_TableH3"]</MudTh>
+		<MudTh>@Loc["RolePage_TableH4"]</MudTh>
 	</HeaderContent>
 	<RowTemplate>
-		<MudTd DataLabel="序号">@context.Number</MudTd>
-		<MudTd DataLabel="用户名">@context.Name</MudTd>
-		<MudTd DataLabel="是否启用">
+		<MudTd DataLabel="@Loc["RolePage_TableH1"]">@context.Number</MudTd>
+		<MudTd DataLabel="@Loc["RolePage_TableH2"]">@context.Name</MudTd>
+		<MudTd DataLabel="@Loc["RolePage_TableH3"]">
 			<MudSwitch Checked="@context.IsEnabled" T="bool" CheckedChanged="v=>ChangeRoleActive(context.Id,v)" Color="Color.Primary">
 			</MudSwitch>
 		</MudTd>
-		<MudTd DataLabel="操作">
+		<MudTd DataLabel="@Loc["RolePage_TableH4"]">
 			<MudStack Row>
 				<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Delete" Color="Color.Error"
 							   OnClick="()=>DeleteRoleClick(context.Id)" />
