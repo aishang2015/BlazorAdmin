@@ -26,6 +26,12 @@ jobs:
         cd BlazorAdmin
         dotnet restore
     - name: Build
-      run: dotnet build --no-restore
+      run: |
+        cd src
+        cd BlazorAdmin
+        dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: |
+        cd src
+        cd BlazorAdmin
+        dotnet test --no-build --verbosity normal
