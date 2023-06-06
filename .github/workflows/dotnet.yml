@@ -22,7 +22,8 @@ jobs:
         dotnet-version: 7.x
     - name: Restore dependencies
       run: |
-        cd src/BlazorAdmin
+        cd src
+        cd BlazorAdmin
         dotnet restore
     - name: Build
       run: dotnet build --no-restore
