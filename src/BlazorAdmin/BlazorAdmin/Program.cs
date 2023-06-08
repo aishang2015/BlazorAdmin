@@ -6,8 +6,18 @@ using BlazorAdmin.States;
 using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor;
 using MudBlazor.Services;
+using Serilog.Events;
+using Serilog;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+// log
+Environment.CurrentDirectory = AppContext.BaseDirectory;
+builder.Host.UseSerilog((context, services, configuration) => configuration
+	.ReadFrom.Configuration(context.Configuration)
+	.ReadFrom.Services(services)
+	.WriteTo.Console());
 
 // Add services to the container.
 builder.Services.AddRazorPages();
