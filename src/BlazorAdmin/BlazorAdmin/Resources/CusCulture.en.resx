@@ -120,6 +120,12 @@
   <data name="AuthorizedLayout_Language" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="AuthorizedLayout_Language_enus" xml:space="preserve">
+    <value>English(United State)</value>
+  </data>
+  <data name="AuthorizedLayout_Language_zhcn" xml:space="preserve">
+    <value>Simple Chinese</value>
+  </data>
   <data name="AuthorizedLayout_Logout" xml:space="preserve">
     <value>Logout</value>
   </data>

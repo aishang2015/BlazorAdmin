@@ -2,24 +2,28 @@
 	<MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
 	<MudText Typo="Typo.h5" Class="ml-3">BlazorAdmin</MudText>
 	<MudSpacer />
-	<MudContainer style="width:180px;" class="mr-2">
-		<MudSelect Margin="Margin.Dense" T="string" Variant="Variant.Outlined" Label="@Loc["AuthorizedLayout_Language"]"
-				   ValueChanged="CultureChanged" Dense="true" Value="@_culture.Name">
-			<MudSelectItem Value="@("zh-CN")" />
-			<MudSelectItem Value="@("en-US")" />
-		</MudSelect>
-	</MudContainer>
+
 	<MudSwitch @bind-Checked="_themeState.IsDark" ThumbIcon="@(_themeState.IsDark ? Icons.Material.Filled.DarkMode : Icons.Material.Filled.LightMode)"
 			   ThumbIconColor="@(_themeState.IsDark ? Color.Dark:Color.Primary)" Color="Color.Info" UnCheckedColor="Color.Inherit"></MudSwitch>
+
+	<MudMenu Icon="@Icons.Material.Filled.Language" Color="Color.Inherit" Dense="true"
+			 AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight">
+		<MudMenuItem OnClick="@(()=>CultureChanged("en-US"))">
+			@Loc["AuthorizedLayout_Language_enus"]
+		</MudMenuItem>
+		<MudMenuItem OnClick="@(()=>CultureChanged("zh-CN"))">
+			@Loc["AuthorizedLayout_Language_zhcn"]
+		</MudMenuItem>
+	</MudMenu>
+	<MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.Start" Href="https://github.com/aishang2015/BlazorAdmin" />
 	<MudText Typo="Typo.subtitle2">@_userName</MudText>
 	<MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Dense="true"
 			 AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight">
-		@*		<MudMenuItem Icon="@Icons.Material.Filled.AccountBalance" IconSize="Size.Small">账号信息</MudMenuItem>
-		<MudMenuItem Icon="@Icons.Material.Filled.Password" IconSize="Size.Small">修改密码</MudMenuItem>*@
-
-		<MudMenuItem Icon="@Icons.Material.Filled.Logout" IconSize="Size.Small" OnClick="LogoutClick">
-			@Loc["AuthorizedLayout_Logout"]
-		</MudMenuItem>
+		<MudContainer Class="d-flex flex-column" Style="width:200px;">
+			<MudButton FullWidth="true" Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Logout" IconSize="Size.Small" OnClick="LogoutClick">
+				@Loc["AuthorizedLayout_Logout"]
+			</MudButton>
+		</MudContainer>
 	</MudMenu>
 </MudAppBar>
 <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">

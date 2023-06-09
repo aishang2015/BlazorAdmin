@@ -70,6 +70,24 @@ namespace BlazorAdmin.Resources {
         }
         
         /// <summary>
+        ///   查找类似 英语（美国） 的本地化字符串。
+        /// </summary>
+        public static string AuthorizedLayout_Language_enus {
+            get {
+                return ResourceManager.GetString("AuthorizedLayout_Language_enus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 简体中文 的本地化字符串。
+        /// </summary>
+        public static string AuthorizedLayout_Language_zhcn {
+            get {
+                return ResourceManager.GetString("AuthorizedLayout_Language_zhcn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 注销 的本地化字符串。
         /// </summary>
         public static string AuthorizedLayout_Logout {

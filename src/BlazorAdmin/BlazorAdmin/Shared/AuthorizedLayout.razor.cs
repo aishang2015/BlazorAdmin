@@ -46,7 +46,7 @@ namespace BlazorAdmin.Shared
 			_drawerOpen = !_drawerOpen;
 		}
 
-		private async Task CultureChanged(string culture)
+		private void CultureChanged(string culture)
 		{
 			if (!string.IsNullOrEmpty(culture))
 			{
