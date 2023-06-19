@@ -2,7 +2,7 @@
 
 A simple management project template written using Blazor and MudBlazor.
 
-----
+---
 
 #### Credentials:
 
@@ -23,6 +23,8 @@ Password:BlazorAdmin
 - Theme light/dark switch
 
 - Localization
+
+- Audit/Login Log
 
 ---
 

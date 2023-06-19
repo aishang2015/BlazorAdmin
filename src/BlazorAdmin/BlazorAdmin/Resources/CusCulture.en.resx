@@ -177,6 +177,33 @@
   <data name="ClearBtnText" xml:space="preserve">
     <value>Clear selected</value>
   </data>
+  <data name="LoginLogPage_LoginFail" xml:space="preserve">
+    <value>Fail</value>
+  </data>
+  <data name="LoginLogPage_LoginSuccess" xml:space="preserve">
+    <value>Succeed</value>
+  </data>
+  <data name="LoginLogPage_TableH1" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="LoginLogPage_TableH2" xml:space="preserve">
+    <value>User Name</value>
+  </data>
+  <data name="LoginLogPage_TableH3" xml:space="preserve">
+    <value>Login Time</value>
+  </data>
+  <data name="LoginLogPage_TableH4" xml:space="preserve">
+    <value>Ip</value>
+  </data>
+  <data name="LoginLogPage_TableH5" xml:space="preserve">
+    <value>IsSucceed</value>
+  </data>
+  <data name="LoginLogPage_TableH6" xml:space="preserve">
+    <value>Agent</value>
+  </data>
+  <data name="LoginLogPage_Title" xml:space="preserve">
+    <value>Login Log</value>
+  </data>
   <data name="Login_LoginText" xml:space="preserve">
     <value>Login</value>
   </data>

@@ -177,6 +177,33 @@
   <data name="ClearBtnText" xml:space="preserve">
     <value>清理选中</value>
   </data>
+  <data name="LoginLogPage_LoginFail" xml:space="preserve">
+    <value>失败</value>
+  </data>
+  <data name="LoginLogPage_LoginSuccess" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="LoginLogPage_TableH1" xml:space="preserve">
+    <value>序号</value>
+  </data>
+  <data name="LoginLogPage_TableH2" xml:space="preserve">
+    <value>登录名</value>
+  </data>
+  <data name="LoginLogPage_TableH3" xml:space="preserve">
+    <value>登录时间</value>
+  </data>
+  <data name="LoginLogPage_TableH4" xml:space="preserve">
+    <value>登录IP</value>
+  </data>
+  <data name="LoginLogPage_TableH5" xml:space="preserve">
+    <value>是否成功</value>
+  </data>
+  <data name="LoginLogPage_TableH6" xml:space="preserve">
+    <value>登录客户端</value>
+  </data>
+  <data name="LoginLogPage_Title" xml:space="preserve">
+    <value>登录日志</value>
+  </data>
   <data name="Login_LoginText" xml:space="preserve">
     <value>登录</value>
   </data>

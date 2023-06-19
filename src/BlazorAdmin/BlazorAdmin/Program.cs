@@ -58,6 +58,9 @@ builder.Services.AddScoped<ThemeState>();
 // locallization
 builder.Services.AddLocalization();
 
+// get ip and agent only for record login log 
+builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

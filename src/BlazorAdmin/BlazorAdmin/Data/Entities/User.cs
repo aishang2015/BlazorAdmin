@@ -11,7 +11,7 @@ namespace BlazorAdmin.Data.Entities
 		[Comment("用户角色")]
 		public string? Avatar { get; set; }
 
-		[Comment("用户角色")]
+		[Comment("用户名")]
 		public string Name { get; set; } = null!;
 
 		[Comment("密码哈希")]

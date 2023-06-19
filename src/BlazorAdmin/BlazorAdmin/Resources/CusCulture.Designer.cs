@@ -268,6 +268,87 @@ namespace BlazorAdmin.Resources {
         }
         
         /// <summary>
+        ///   查找类似 失败 的本地化字符串。
+        /// </summary>
+        public static string LoginLogPage_LoginFail {
+            get {
+                return ResourceManager.GetString("LoginLogPage_LoginFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 成功 的本地化字符串。
+        /// </summary>
+        public static string LoginLogPage_LoginSuccess {
+            get {
+                return ResourceManager.GetString("LoginLogPage_LoginSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 序号 的本地化字符串。
+        /// </summary>
+        public static string LoginLogPage_TableH1 {
+            get {
+                return ResourceManager.GetString("LoginLogPage_TableH1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录名 的本地化字符串。
+        /// </summary>
+        public static string LoginLogPage_TableH2 {
+            get {
+                return ResourceManager.GetString("LoginLogPage_TableH2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录时间 的本地化字符串。
+        /// </summary>
+        public static string LoginLogPage_TableH3 {
+            get {
+                return ResourceManager.GetString("LoginLogPage_TableH3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录IP 的本地化字符串。
+        /// </summary>
+        public static string LoginLogPage_TableH4 {
+            get {
+                return ResourceManager.GetString("LoginLogPage_TableH4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 是否成功 的本地化字符串。
+        /// </summary>
+        public static string LoginLogPage_TableH5 {
+            get {
+                return ResourceManager.GetString("LoginLogPage_TableH5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录客户端 的本地化字符串。
+        /// </summary>
+        public static string LoginLogPage_TableH6 {
+            get {
+                return ResourceManager.GetString("LoginLogPage_TableH6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录日志 的本地化字符串。
+        /// </summary>
+        public static string LoginLogPage_Title {
+            get {
+                return ResourceManager.GetString("LoginLogPage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 添加 的本地化字符串。
         /// </summary>
         public static string MenuPage_AddButtonText {

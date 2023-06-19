@@ -1,5 +1,6 @@
 ﻿using BlazorAdmin.Constants;
 using BlazorAdmin.Core.Helper;
+using BlazorAdmin.Data;
 using BlazorAdmin.Resources;
 using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -43,6 +44,7 @@ namespace BlazorAdmin.Shared
 			if (user == null || !HashHelper.VerifyPassword(user.PasswordHash, _loginModel!.Password!))
 			{
 				_snackbarService.Add("用户名或密码错误！", Severity.Error);
+				await RecordLogin(_loginModel.UserName!, false, context);
 				return;
 			}
 
@@ -53,7 +55,22 @@ namespace BlazorAdmin.Shared
 
 			await _localStorage.SetAsync(CommonConstant.UserToken, token);
 			await _authService.SetCurrentUser();
+			await RecordLogin(_loginModel.UserName!, true, context);
 			_navManager.NavigateTo("/");
+		}
+
+		private async Task RecordLogin(string userName, bool isSucceed,
+			BlazorAdminDbContext context)
+		{
+			context.LoginLogs.Add(new Data.Entities.LoginLog
+			{
+				UserName = userName,
+				IsSuccessd = isSucceed,
+				Time = DateTime.Now,
+				Ip = _httpAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString(),
+				Agent = _httpAccessor.HttpContext?.Request.Headers["User-Agent"]
+			});
+			await context.SaveChangesAsync();
 		}
 
 		private record LoginModel

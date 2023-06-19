@@ -35,6 +35,8 @@ namespace BlazorAdmin.Data
 
 		public DbSet<AuditLogDetail> AuditLogDetails { get; set; }
 
+		public DbSet<LoginLog> LoginLogs { get; set; }
+
 		public void InitialData()
 		{
 			if (Database.EnsureCreated())
@@ -67,6 +69,7 @@ namespace BlazorAdmin.Data
 				SaveChanges();
 
 				Menus.Add(new Menu { ParentId = entry.Entity.Id, Name = "审计", Type = 1, Route = "/auditLog", Order = 1, Icon = Icons.Material.Filled.Verified });
+				Menus.Add(new Menu { ParentId = entry.Entity.Id, Name = "登录", Type = 1, Route = "/loginLog", Order = 2, Icon = Icons.Material.Filled.Login });
 				SaveChanges();
 
 				Menus.Add(new Menu { ParentId = entry2.Entity.Id, Name = "用户", Type = 1, Route = "/user", Order = 1, Icon = Icons.Material.Filled.Person });

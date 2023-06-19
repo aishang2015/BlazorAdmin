@@ -1,6 +1,10 @@
 ﻿<MudDialog DisableSidePadding="false">
 	<DialogContent>
 		<div class="my-4" style="width:600px;height:400px;overflow:auto;">
+			<div class="d-flex align-center mb-4">
+				<MudIcon Icon="@Icons.Material.Filled.Details" Class="mr-2"></MudIcon>
+				<MudText Typo="Typo.h5">字段详情</MudText>
+			</div>
 			<MudTable Class="mb-4" Items="@AuditLogDetails" Hover="true" Breakpoint="Breakpoint.Sm"
 					  LoadingProgressColor="Color.Info" Dense="true">
 				<ColGroup>
