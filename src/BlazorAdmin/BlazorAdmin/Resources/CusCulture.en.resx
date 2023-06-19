@@ -117,6 +117,51 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AuditLogDetailDialog_TableH1" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="AuditLogDetailDialog_TableH2" xml:space="preserve">
+    <value>Property</value>
+  </data>
+  <data name="AuditLogDetailDialog_TableH3" xml:space="preserve">
+    <value>Old Value</value>
+  </data>
+  <data name="AuditLogDetailDialog_TableH4" xml:space="preserve">
+    <value>New Value</value>
+  </data>
+  <data name="AuditLogPage_OperationCreate" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="AuditLogPage_OperationDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="AuditLogPage_OperationModify" xml:space="preserve">
+    <value>Modify</value>
+  </data>
+  <data name="AuditLogPage_TableH1" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="AuditLogPage_TableH2" xml:space="preserve">
+    <value>Transaction Id</value>
+  </data>
+  <data name="AuditLogPage_TableH3" xml:space="preserve">
+    <value>Operator</value>
+  </data>
+  <data name="AuditLogPage_TableH4" xml:space="preserve">
+    <value>Operate Target</value>
+  </data>
+  <data name="AuditLogPage_TableH5" xml:space="preserve">
+    <value>Operate Type</value>
+  </data>
+  <data name="AuditLogPage_TableH6" xml:space="preserve">
+    <value>Operate Time</value>
+  </data>
+  <data name="AuditLogPage_TableH7" xml:space="preserve">
+    <value>Operate</value>
+  </data>
+  <data name="AuditLogPage_Title" xml:space="preserve">
+    <value>Audit Log</value>
+  </data>
   <data name="AuthorizedLayout_Language" xml:space="preserve">
     <value>Language</value>
   </data>

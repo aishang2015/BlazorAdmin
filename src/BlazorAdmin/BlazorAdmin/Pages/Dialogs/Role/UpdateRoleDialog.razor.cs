@@ -49,7 +49,7 @@ namespace BlazorAdmin.Pages.Dialogs.Role
 			if (role != null)
 			{
 				role.Name = RoleModel.RoleName!;
-				await context.SaveChangesAsync();
+				await context.CustomSaveChangesAsync(_stateProvider);
 				_snackbarService.Add("更新成功！", Severity.Success);
 				MudDialog?.Close(DialogResult.Ok(true));
 			}

@@ -1,30 +1,23 @@
-﻿namespace BlazorAdmin.Data.Entities
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace BlazorAdmin.Data.Entities
 {
-	/// <summary>
-	/// 用户
-	/// </summary>
+	[Comment("用户")]
 	public class User
 	{
+		[Comment("主键")]
 		public int Id { get; set; }
 
-		/// <summary>
-		/// 头像
-		/// <summary>
+		[Comment("用户角色")]
 		public string? Avatar { get; set; }
 
-		/// <summary>
-		/// 用户名
-		/// <summary>
+		[Comment("用户角色")]
 		public string Name { get; set; } = null!;
 
-		/// <summary>
-		/// 密码哈希
-		/// <summary>
+		[Comment("密码哈希")]
 		public string PasswordHash { get; set; } = null!;
 
-		/// <summary>
-		/// 是否启用
-		/// <summary>
+		[Comment("是否启用")]
 		public bool IsEnabled { get; set; }
 	}
 }

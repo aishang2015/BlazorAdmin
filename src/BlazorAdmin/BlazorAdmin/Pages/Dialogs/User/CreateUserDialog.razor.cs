@@ -34,7 +34,7 @@ namespace BlazorAdmin.Pages.Dialogs.User
 				Name = UserModel.UserName!,
 				PasswordHash = HashHelper.HashPassword(UserModel.Password!)
 			});
-			await context.SaveChangesAsync();
+			await context.CustomSaveChangesAsync(_stateProvider);
 			_snackbarService.Add("创建成功！", Severity.Success);
 			MudDialog?.Close(DialogResult.Ok(true));
 		}

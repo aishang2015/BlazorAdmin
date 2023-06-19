@@ -1,20 +1,17 @@
-﻿namespace BlazorAdmin.Data.Entities
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace BlazorAdmin.Data.Entities
 {
-	/// <summary>
-	/// 角色
-	/// </summary>
+	[Comment("角色")]
 	public class Role
 	{
+		[Comment("主键")]
 		public int Id { get; set; }
 
-		/// <summary>
-		/// 角色名
-		/// <summary>
+		[Comment("角色名")]
 		public string? Name { get; set; }
 
-		/// <summary>
-		/// 是否启用
-		/// <summary>
+		[Comment("是否启用")]
 		public bool IsEnabled { get; set; }
 	}
 }

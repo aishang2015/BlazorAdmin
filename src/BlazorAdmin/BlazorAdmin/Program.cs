@@ -8,7 +8,8 @@ using MudBlazor;
 using MudBlazor.Services;
 using Serilog.Events;
 using Serilog;
-
+using BlazorAdmin.HostServices;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +36,11 @@ builder.Services.AddMudServices(config =>
 builder.Services.AddMudMarkdownServices();
 
 // dbcontext
-builder.Services.AddDbContextFactory<BlazorAdminDbContext>();
+builder.Services.AddDbContextFactory<BlazorAdminDbContext>(b =>
+{
+	b.UseSqlite(builder.Configuration.GetConnectionString("Rbac"));
+});
+builder.Services.AddHostedService<DbContextInitialBackgroundService>();
 
 // jwt helper
 builder.Services.AddScoped<JwtHelper>();
@@ -75,10 +80,5 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
-
-using (var context = new BlazorAdminDbContext(builder.Configuration))
-{
-	context.InitialData();
-}
 
 app.Run();

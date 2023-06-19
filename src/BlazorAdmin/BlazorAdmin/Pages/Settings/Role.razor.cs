@@ -53,7 +53,7 @@ namespace BlazorAdmin.Pages.Settings
 			if (role != null)
 			{
 				role.IsEnabled = isEnabled;
-				await context.SaveChangesAsync();
+				await context.CustomSaveChangesAsync(_stateProvider);
 				_snackbarService.Add("状态修改成功！", Severity.Success);
 				Roles.FirstOrDefault(u => u.Id == roleId)!.IsEnabled = isEnabled;
 			}

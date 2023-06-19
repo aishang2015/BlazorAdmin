@@ -1,7 +1,7 @@
 ﻿<div class="d-flex flex-column">
 	<MudTextField Value="SelectedMenuName" Placeholder="@Loc["UpMenuSelectTitle"]" Variant="Variant.Outlined"
 				  Margin="Margin.Dense" @onfocus="ElementFocused" @onblur="MouseBlur" Label="@Loc["UpMenuSelectTitle"]" />
-	<MudPopover Open="@_popoverOpen" Fixed="true" Class="px-4 pt-4" tabindex="-1"
+	<MudPopover Open="@_popoverOpen" Fixed="true" Class="pa-4" tabindex="-1"
 				RelativeWidth="true" @onmouseenter="MouseEnterPopover" @onmouseleave="MouseLeavePopover" @onblur="MouseBlur">
 		<div class="d-flex align-center">
 

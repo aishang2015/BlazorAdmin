@@ -61,6 +61,141 @@ namespace BlazorAdmin.Resources {
         }
         
         /// <summary>
+        ///   查找类似 序号 的本地化字符串。
+        /// </summary>
+        public static string AuditLogDetailDialog_TableH1 {
+            get {
+                return ResourceManager.GetString("AuditLogDetailDialog_TableH1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 属性名 的本地化字符串。
+        /// </summary>
+        public static string AuditLogDetailDialog_TableH2 {
+            get {
+                return ResourceManager.GetString("AuditLogDetailDialog_TableH2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 旧值 的本地化字符串。
+        /// </summary>
+        public static string AuditLogDetailDialog_TableH3 {
+            get {
+                return ResourceManager.GetString("AuditLogDetailDialog_TableH3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新值 的本地化字符串。
+        /// </summary>
+        public static string AuditLogDetailDialog_TableH4 {
+            get {
+                return ResourceManager.GetString("AuditLogDetailDialog_TableH4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 添加 的本地化字符串。
+        /// </summary>
+        public static string AuditLogPage_OperationCreate {
+            get {
+                return ResourceManager.GetString("AuditLogPage_OperationCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除 的本地化字符串。
+        /// </summary>
+        public static string AuditLogPage_OperationDelete {
+            get {
+                return ResourceManager.GetString("AuditLogPage_OperationDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 修改 的本地化字符串。
+        /// </summary>
+        public static string AuditLogPage_OperationModify {
+            get {
+                return ResourceManager.GetString("AuditLogPage_OperationModify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 序号 的本地化字符串。
+        /// </summary>
+        public static string AuditLogPage_TableH1 {
+            get {
+                return ResourceManager.GetString("AuditLogPage_TableH1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 事务id 的本地化字符串。
+        /// </summary>
+        public static string AuditLogPage_TableH2 {
+            get {
+                return ResourceManager.GetString("AuditLogPage_TableH2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 操作人 的本地化字符串。
+        /// </summary>
+        public static string AuditLogPage_TableH3 {
+            get {
+                return ResourceManager.GetString("AuditLogPage_TableH3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 操作对象 的本地化字符串。
+        /// </summary>
+        public static string AuditLogPage_TableH4 {
+            get {
+                return ResourceManager.GetString("AuditLogPage_TableH4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 操作类型 的本地化字符串。
+        /// </summary>
+        public static string AuditLogPage_TableH5 {
+            get {
+                return ResourceManager.GetString("AuditLogPage_TableH5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 操作时间 的本地化字符串。
+        /// </summary>
+        public static string AuditLogPage_TableH6 {
+            get {
+                return ResourceManager.GetString("AuditLogPage_TableH6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 操作 的本地化字符串。
+        /// </summary>
+        public static string AuditLogPage_TableH7 {
+            get {
+                return ResourceManager.GetString("AuditLogPage_TableH7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 审计日志 的本地化字符串。
+        /// </summary>
+        public static string AuditLogPage_Title {
+            get {
+                return ResourceManager.GetString("AuditLogPage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 语言 的本地化字符串。
         /// </summary>
         public static string AuthorizedLayout_Language {

@@ -43,7 +43,7 @@ namespace BlazorAdmin.Pages.Dialogs.User
 				RoleId = kv.Key,
 			}));
 
-			await context.SaveChangesAsync();
+			await context.CustomSaveChangesAsync(_stateProvider);
 
 			_snackbarService.Add("提交成功！", Severity.Success);
 			MudDialog?.Close(DialogResult.Ok(true));

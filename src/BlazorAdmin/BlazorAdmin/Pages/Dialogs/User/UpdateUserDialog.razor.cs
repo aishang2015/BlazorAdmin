@@ -51,7 +51,7 @@ namespace BlazorAdmin.Pages.Dialogs.User
 			if (user != null)
 			{
 				user.Name = UserModel.UserName!;
-				await context.SaveChangesAsync();
+				await context.CustomSaveChangesAsync(_stateProvider);
 				_snackbarService.Add("更新成功！", Severity.Success);
 				MudDialog?.Close(DialogResult.Ok(true));
 			}

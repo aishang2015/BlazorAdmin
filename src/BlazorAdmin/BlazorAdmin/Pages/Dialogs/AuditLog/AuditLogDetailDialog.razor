@@ -1,0 +1,27 @@
+﻿<MudDialog DisableSidePadding="false">
+	<DialogContent>
+		<div class="my-4" style="width:600px;height:400px;overflow:auto;">
+			<MudTable Class="mb-4" Items="@AuditLogDetails" Hover="true" Breakpoint="Breakpoint.Sm"
+					  LoadingProgressColor="Color.Info" Dense="true">
+				<ColGroup>
+					<col style="min-width:100px;width:100px;max-width:100px;" />
+					<col style="min-width:150px;" />
+					<col style="min-width:150px;" />
+					<col style="min-width:150px;" />
+				</ColGroup>
+				<HeaderContent>
+					<MudTh>@Loc["AuditLogDetailDialog_TableH1"]</MudTh>
+					<MudTh>@Loc["AuditLogDetailDialog_TableH2"]</MudTh>
+					<MudTh>@Loc["AuditLogDetailDialog_TableH3"]</MudTh>
+					<MudTh>@Loc["AuditLogDetailDialog_TableH4"]</MudTh>
+				</HeaderContent>
+				<RowTemplate>
+					<MudTd DataLabel="@Loc["AuditLogDetailDialog_TableH1"]">@context.Number</MudTd>
+					<MudTd DataLabel="@Loc["AuditLogDetailDialog_TableH2"]">@context.PropertyName</MudTd>
+					<MudTd DataLabel="@Loc["AuditLogDetailDialog_TableH3"]">@context.OldValue</MudTd>
+					<MudTd DataLabel="@Loc["AuditLogDetailDialog_TableH4"]">@context.NewValue</MudTd>
+				</RowTemplate>
+			</MudTable>
+		</div>
+	</DialogContent>
+</MudDialog>

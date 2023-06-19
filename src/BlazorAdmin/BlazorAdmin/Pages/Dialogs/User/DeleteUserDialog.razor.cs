@@ -21,7 +21,7 @@ namespace BlazorAdmin.Pages.Dialogs.User
 				var urs = context.UserRoles.Where(ur => ur.UserId == UserId);
 				context.UserRoles.RemoveRange(urs);
 
-				await context.SaveChangesAsync();
+				await context.CustomSaveChangesAsync(_stateProvider);
 
 				_snackbarService.Add("删除成功！", Severity.Success);
 				MudDialog?.Close(DialogResult.Ok(true));

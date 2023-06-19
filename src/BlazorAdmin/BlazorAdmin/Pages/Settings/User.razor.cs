@@ -121,7 +121,7 @@ namespace BlazorAdmin.Pages.Settings
 			if (user != null)
 			{
 				user.IsEnabled = isEnabled;
-				await context.SaveChangesAsync();
+				await context.CustomSaveChangesAsync(_stateProvider);
 				_snackbarService.Add("状态修改成功！", Severity.Success);
 				Users.FirstOrDefault(u => u.Id == userId)!.IsEnabled = isEnabled;
 			}

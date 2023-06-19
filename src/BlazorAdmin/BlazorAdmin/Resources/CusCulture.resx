@@ -117,6 +117,51 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AuditLogDetailDialog_TableH1" xml:space="preserve">
+    <value>序号</value>
+  </data>
+  <data name="AuditLogDetailDialog_TableH2" xml:space="preserve">
+    <value>属性名</value>
+  </data>
+  <data name="AuditLogDetailDialog_TableH3" xml:space="preserve">
+    <value>旧值</value>
+  </data>
+  <data name="AuditLogDetailDialog_TableH4" xml:space="preserve">
+    <value>新值</value>
+  </data>
+  <data name="AuditLogPage_OperationCreate" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="AuditLogPage_OperationDelete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="AuditLogPage_OperationModify" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="AuditLogPage_TableH1" xml:space="preserve">
+    <value>序号</value>
+  </data>
+  <data name="AuditLogPage_TableH2" xml:space="preserve">
+    <value>事务id</value>
+  </data>
+  <data name="AuditLogPage_TableH3" xml:space="preserve">
+    <value>操作人</value>
+  </data>
+  <data name="AuditLogPage_TableH4" xml:space="preserve">
+    <value>操作对象</value>
+  </data>
+  <data name="AuditLogPage_TableH5" xml:space="preserve">
+    <value>操作类型</value>
+  </data>
+  <data name="AuditLogPage_TableH6" xml:space="preserve">
+    <value>操作时间</value>
+  </data>
+  <data name="AuditLogPage_TableH7" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="AuditLogPage_Title" xml:space="preserve">
+    <value>审计日志</value>
+  </data>
   <data name="AuthorizedLayout_Language" xml:space="preserve">
     <value>语言</value>
   </data>

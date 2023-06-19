@@ -1,21 +1,17 @@
-﻿namespace BlazorAdmin.Data.Entities
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace BlazorAdmin.Data.Entities
 {
-	/// <summary>
-	/// 用户角色
-	/// </summary>
+	[Comment("用户角色")]
 	public class UserRole
 	{
-
+		[Comment("主键")]
 		public int Id { get; set; }
 
-		/// <summary>
-		/// 用户id
-		/// <summary>
+		[Comment("用户id")]
 		public int UserId { get; set; }
 
-		/// <summary>
-		/// 角色id
-		/// <summary>
+		[Comment("角色id")]
 		public int RoleId { get; set; }
 	}
 }

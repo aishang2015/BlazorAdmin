@@ -1,45 +1,32 @@
-﻿namespace BlazorAdmin.Data.Entities
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace BlazorAdmin.Data.Entities
 {
-	/// <summary>
-	/// 菜单
-	/// </summary>
+	[Comment("菜单")]
 	public class Menu
 	{
+		[Comment("主键")]
 		public int Id { get; set; }
 
-		/// <summary>
-		/// 上级ID
-		/// <summary>
+		[Comment("上级ID")]
 		public int? ParentId { get; set; }
 
-		/// <summary>
-		/// 菜单图标
-		/// </summary>
+		[Comment("菜单图标")]
 		public string? Icon { get; set; }
 
-		/// <summary>
-		/// 菜单名称
-		/// <summary>
+		[Comment("菜单名称")]
 		public string? Name { get; set; }
 
-		/// <summary>
-		/// 类型 1 菜单 2按钮
-		/// </summary>
+		[Comment("类型 1 菜单 2按钮")]
 		public int Type { get; set; }
 
-		/// <summary>
-		/// 路由
-		/// <summary>
+		[Comment("路由")]
 		public string? Route { get; set; }
 
-		/// <summary>
-		/// 元素标识
-		/// </summary>
+		[Comment("元素标识")]
 		public string? Identify { get; set; }
 
-		/// <summary>
-		/// 排序
-		/// </summary>
+		[Comment("排序")]
 		public int Order { get; set; }
 	}
 }
