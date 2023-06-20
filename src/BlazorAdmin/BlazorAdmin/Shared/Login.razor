@@ -14,9 +14,11 @@
 					<DataAnnotationsValidator />
 					<MudTextField Class="mt-4" @bind-Value="_loginModel.UserName" Variant="Variant.Outlined" Margin="Margin.Dense"
 								  Placeholder="@Loc["Login_UserNameHelpText"]" For="@(() => _loginModel.UserName)"
-								  UserAttributes="InputAttributes"></MudTextField>
+								  UserAttributes="InputAttributes" AdornmentIcon="@Icons.Material.Filled.AccountCircle"
+								  Adornment="Adornment.Start"></MudTextField>
 					<MudTextField Class="mt-4" @bind-Value="_loginModel.Password" Variant="Variant.Outlined" Margin="Margin.Dense"
-								  Placeholder="@Loc["Login_PasswordHelpText"]" For="@(() => _loginModel.Password)" InputType="InputType.Password"></MudTextField>
+								  Placeholder="@Loc["Login_PasswordHelpText"]" For="@(() => _loginModel.Password)" InputType="InputType.Password"
+								  AdornmentIcon="@Icons.Material.Filled.Password" Adornment="Adornment.Start"></MudTextField>
 					<div class="mt-4">
 						<MudButton Variant="Variant.Filled" FullWidth="true" Color="Color.Primary"
 								   ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Login">@Loc["Login_LoginText"]</MudButton>

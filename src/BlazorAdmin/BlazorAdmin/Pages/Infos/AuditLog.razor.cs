@@ -1,4 +1,5 @@
-﻿using BlazorAdmin.Pages.Dialogs.AuditLog;
+﻿using BlazorAdmin.Core.Extension;
+using BlazorAdmin.Pages.Dialogs.AuditLog;
 using BlazorAdmin.Pages.Dialogs.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -10,6 +11,16 @@ namespace BlazorAdmin.Pages.Infos
 	public partial class AuditLog
 	{
 		private List<AuditLogModel> AuditLogs = new();
+
+		private List<Operator> Operators = new();
+
+		private List<OperateTarget> OperateTargets = new();
+
+		private string? SelectedUser;
+
+		private string? SelectedOperateTarget;
+
+		private string? SelectedOperation;
 
 		private int Page = 1;
 
@@ -23,11 +34,15 @@ namespace BlazorAdmin.Pages.Infos
 			await InitialAsync();
 		}
 
-
 		private async Task InitialAsync()
 		{
 			using var context = await _dbFactory.CreateDbContextAsync();
-			var query = from log in context.AuditLogs
+			var auditLogQuery = context.AuditLogs
+				.AndIfExist(SelectedUser, q => q.UserId == int.Parse(SelectedUser!))
+				.AndIfExist(SelectedOperateTarget, q => q.EntityName == SelectedOperateTarget)
+				.AndIfExist(SelectedOperation, q => q.Operation == int.Parse(SelectedOperation!));
+
+			var query = from log in auditLogQuery
 						join user in context.Users on log.UserId equals user.Id
 						orderby log.OperateTime descending
 						select new
@@ -52,6 +67,18 @@ namespace BlazorAdmin.Pages.Infos
 					UserName = d.Name
 				}).ToList();
 			Total = query.Count();
+
+			Operators = context.Users.Select(u => new Operator
+			{
+				Id = u.Id,
+				UserName = u.Name,
+			}).ToList();
+
+			OperateTargets = model.GetEntityTypes().Select(t => new OperateTarget
+			{
+				DisplayName = t.GetComment() ?? "",
+				EntityName = t.Name
+			}).ToList();
 		}
 
 		private async Task ViewDetail(Guid id)
@@ -62,7 +89,6 @@ namespace BlazorAdmin.Pages.Infos
 			};
 			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
 			await _dialogService.Show<AuditLogDetailDialog>(string.Empty, parameters, options).Result;
-
 		}
 
 		private async void PageChangedClick(int page)
@@ -86,6 +112,21 @@ namespace BlazorAdmin.Pages.Infos
 			public int Operation { get; set; }
 
 			public DateTime OperateTime { get; set; }
+		}
+
+
+		private class OperateTarget
+		{
+			public string EntityName { get; set; } = null!;
+
+			public string DisplayName { get; set; } = null!;
+		}
+
+		private class Operator
+		{
+			public int Id { get; set; }
+
+			public string UserName { get; set; } = null!;
 		}
 	}
 }

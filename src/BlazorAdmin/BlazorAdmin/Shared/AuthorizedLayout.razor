@@ -3,8 +3,6 @@
 	<MudText Typo="Typo.h5" Class="ml-3">BlazorAdmin</MudText>
 	<MudSpacer />
 
-	<MudSwitch @bind-Checked="_themeState.IsDark" ThumbIcon="@(_themeState.IsDark ? Icons.Material.Filled.DarkMode : Icons.Material.Filled.LightMode)"
-			   ThumbIconColor="@(_themeState.IsDark ? Color.Dark:Color.Primary)" Color="Color.Info" UnCheckedColor="Color.Inherit"></MudSwitch>
 
 	<MudMenu Icon="@Icons.Material.Filled.Language" Color="Color.Inherit" Dense="true"
 			 AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight">
@@ -20,6 +18,9 @@
 	<MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Dense="true"
 			 AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight">
 		<MudContainer Class="d-flex flex-column" Style="width:200px;">
+			<MudSwitch @bind-Checked="_themeState.IsDark" ThumbIcon="@(_themeState.IsDark ? Icons.Material.Filled.DarkMode : Icons.Material.Filled.LightMode)"
+					   ThumbIconColor="@(_themeState.IsDark ? Color.Dark:Color.Primary)" Color="Color.Info" UnCheckedColor="Color.Inherit"></MudSwitch>
+
 			<MudButton FullWidth="true" Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Logout" IconSize="Size.Small" OnClick="LogoutClick">
 				@Loc["AuthorizedLayout_Logout"]
 			</MudButton>

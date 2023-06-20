@@ -2,18 +2,47 @@
 
 <div class="d-flex align-center mb-4">
 	<MudText Typo="Typo.h5">@Loc["AuditLogPage_Title"]</MudText>
+	<MudSpacer />
+	<div style="width:140px" class="mr-2">
+		<MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH3"]"
+				   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedUser" Clearable>
+			@foreach (var o in Operators)
+			{
+				<MudSelectItem Value="@o.Id.ToString()">@o.UserName</MudSelectItem>
+			}
+		</MudSelect>
+	</div>
+	<div style="width:140px" class="mr-2">
+		<MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH4"]"
+				   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedOperateTarget" Clearable>
+			@foreach (var o in OperateTargets)
+			{
+				<MudSelectItem Value="@o.EntityName">@o.DisplayName</MudSelectItem>
+			}
+		</MudSelect>
+	</div>
+	<div style="width:140px" class="mr-2">
+		<MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH5"]"
+				   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedOperation" Clearable>
+			<MudSelectItem Value="@("2")">@Loc["AuditLogPage_OperationDelete"]</MudSelectItem>
+			<MudSelectItem Value="@("3")">@Loc["AuditLogPage_OperationModify"]</MudSelectItem>
+			<MudSelectItem Value="@("4")">@Loc["AuditLogPage_OperationCreate"]</MudSelectItem>
+		</MudSelect>
+	</div>
+	<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="InitialAsync"
+				   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
 </div>
 <MudTable Class="mb-4" Items="@AuditLogs" Hover="true" Breakpoint="Breakpoint.Sm"
 		  LoadingProgressColor="Color.Info" Dense="true">
-	<ColGroup>
-		<col style="min-width:100px;width:100px;max-width:100px;" />
-		<col style="min-width:150px;" />
-		<col style="min-width:150px;" />
-		<col style="min-width:150px;" />
-		<col style="min-width:150px;" />
-		<col style="min-width:150px;" />
-		<col style="min-width:70px;width:70px;max-width:70px;" />
-	</ColGroup>
+	@*	<ColGroup>
+	<col style="min-width:100px;width:100px;max-width:100px;" />
+	<col style="min-width:150px;" />
+	<col style="min-width:150px;" />
+	<col style="min-width:150px;" />
+	<col style="min-width:150px;" />
+	<col style="min-width:150px;" />
+	<col style="min-width:70px;width:70px;max-width:70px;" />
+	</ColGroup>*@
 	<HeaderContent>
 		<MudTh>@Loc["AuditLogPage_TableH1"]</MudTh>
 		<MudTh>@Loc["AuditLogPage_TableH2"]</MudTh>
