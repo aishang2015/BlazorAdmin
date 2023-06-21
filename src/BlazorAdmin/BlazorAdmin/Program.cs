@@ -10,6 +10,7 @@ using Serilog.Events;
 using Serilog;
 using BlazorAdmin.HostServices;
 using Microsoft.EntityFrameworkCore;
+using BlazorAdmin.Core.Dynamic;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -83,5 +84,7 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+
+DynamicLoader.Load();
 
 app.Run();

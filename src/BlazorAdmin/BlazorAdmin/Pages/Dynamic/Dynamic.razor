@@ -1,0 +1,32 @@
+﻿@page "/dynamic/{EntityName}"
+
+<div class="d-flex align-center mb-4">
+	<MudText Typo="Typo.h5">@Title</MudText>
+</div>
+
+<MudTable Class="mb-4" Items="@TableItems" Hover="true" Breakpoint="Breakpoint.Sm"
+		  LoadingProgressColor="Color.Info" Dense="true">
+	<ColGroup>
+		@foreach (var field in Fields.Where(f => f.IsDisplay))
+		{
+			<col />
+		}
+	</ColGroup>
+	<HeaderContent>
+		@foreach (var field in Fields.Where(f => f.IsDisplay))
+		{
+			<MudTh>@field.Title</MudTh>
+		}
+	</HeaderContent>
+	<RowTemplate>
+		@foreach (var field in Fields.Where(f => f.IsDisplay))
+		{
+			<MudTd DataLabel="@field.Name">@(((IDictionary<string, object>)context)[field.Name!])</MudTd>
+		}
+	</RowTemplate>
+</MudTable>
+
+<div class="d-flex align-center">
+	<MudSpacer />
+	<MudPagination Color="Color.Primary" Count="@((Total - 1)/Size + 1)" Selected="@Page" SelectedChanged="PageChangedClick" />
+</div>
