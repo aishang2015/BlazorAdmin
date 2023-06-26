@@ -258,6 +258,9 @@
   <data name="NoAuhtorized_Text" xml:space="preserve">
     <value>You do not have permission to access this page...</value>
   </data>
+  <data name="NotFound_Text" xml:space="preserve">
+    <value>Sorry, there's nothing at this address.</value>
+  </data>
   <data name="RolePage_SearchKeywordPlaceholder" xml:space="preserve">
     <value>Enter keywords to search</value>
   </data>

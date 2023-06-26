@@ -5,6 +5,8 @@
 	{
 		public string? Title { get; set; }
 
+		public bool HaveNumberColumn { get; set; } = true;
+
 		public bool AllowEdit { get; set; }
 
 		public bool AllowDelete { get; set; }

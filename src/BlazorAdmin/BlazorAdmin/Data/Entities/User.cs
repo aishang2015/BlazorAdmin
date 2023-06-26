@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 namespace BlazorAdmin.Data.Entities
 {
 	[Comment("用户")]
-	[DynamicEntity(Title = "用户")]
+	[DynamicEntity(Title = "用户", AllowEdit = true, AllowDelete = true, AllowAdd = true)]
 	public class User
 	{
 		[Comment("主键")]
-		[DynamicProperty(IsDisplay = false)]
+		[DynamicProperty(IsDisplay = false, IsKey = true)]
 		public int Id { get; set; }
 
 		[Comment("用户头像")]
@@ -20,7 +20,7 @@ namespace BlazorAdmin.Data.Entities
 		public string Name { get; set; } = null!;
 
 		[Comment("密码哈希")]
-		[DynamicProperty(IsDisplay = false)]
+		[DynamicProperty(Title = "密码", Order = 4)]
 		public string PasswordHash { get; set; } = null!;
 
 		[Comment("是否启用")]

@@ -1,10 +1,7 @@
 ﻿using BlazorAdmin.Constants;
 using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Globalization;
-using System.Text.RegularExpressions;
-using static MudBlazor.Colors;
 
 namespace BlazorAdmin.Shared
 {
@@ -16,7 +13,7 @@ namespace BlazorAdmin.Shared
 
 		string _userName = string.Empty;
 
-		CultureInfo _culture ;
+		CultureInfo _culture;
 
 		protected override async Task OnInitializedAsync()
 		{

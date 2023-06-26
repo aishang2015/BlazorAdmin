@@ -1,8 +1,11 @@
 ﻿using BlazorAdmin.Core.Dynamic;
 using BlazorAdmin.Data;
 using BlazorAdmin.Data.Entities;
+using BlazorAdmin.Pages.Dialogs.User;
+using BlazorAdmin.Pages.Settings;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyModel;
+using MudBlazor;
 using System.Dynamic;
 using System.Reflection;
 using System.Xml.Linq;
@@ -28,9 +31,9 @@ namespace BlazorAdmin.Pages.Dynamic
 
 		#region 
 
-		private Type QueryUtilType = null!;
+		private DynamicEntityInfo? EntityInfo;
 
-		private Type? EntityType = null!;
+		private dynamic UtilInstance = null!;
 
 		#endregion
 
@@ -39,36 +42,33 @@ namespace BlazorAdmin.Pages.Dynamic
 		{
 			await base.OnParametersSetAsync();
 
-			EntityType = DynamicLoader.LoadedDynamicEntityInfos
-				.FirstOrDefault(t => string.Equals(t.EntityName, EntityName, StringComparison.CurrentCultureIgnoreCase))?
-				.EntityType;
+			EntityInfo = DynamicLoader.LoadedDynamicEntityInfos
+				.FirstOrDefault(t => string.Equals(t.EntityName, EntityName, StringComparison.CurrentCultureIgnoreCase));
 
-			if (EntityType == null)
+			if (EntityInfo == null)
 			{
 				throw new KeyNotFoundException($"{EntityName} not found.");
 			}
 
-			Title = EntityType.Name;
+			Title = EntityInfo.Title;
 
-			QueryUtilType = DynamicLoader.LoadedDynamicAssembly!.GetTypes()
-				.FirstOrDefault(t => t.Name == $"{EntityType.Name}Util")!;
+			var utilType = DynamicLoader.LoadedDynamicAssembly!.GetTypes()
+				.FirstOrDefault(t => t.Name == $"{EntityInfo.EntityName}Util")!;
+			UtilInstance = Activator.CreateInstance(utilType!)!;
 
 			await InitialDataAsync();
 		}
 
 		private async Task InitialDataAsync()
 		{
-			dynamic utilInstance = Activator.CreateInstance(QueryUtilType!)!;
-			var methodInfo = utilInstance.GetType().GetMethod($"Get{EntityType!.Name}");
+			var methodInfo = UtilInstance.GetType().GetMethod($"Get{EntityInfo!.EntityName}");
 			var context = await _dbFactory.CreateDbContextAsync();
-			var result = methodInfo!.Invoke(utilInstance, new object[] { context, Page, Size });
+			var result = methodInfo!.Invoke(UtilInstance, new object[] { context, Page, Size });
 			var list = result.Item1;
 			Total = result.Item2;
 
 			Fields.Clear();
-			var dynamicFieldInfoList = DynamicLoader.LoadedDynamicEntityInfos
-				.FirstOrDefault(t => string.Equals(t.EntityName, EntityName, StringComparison.CurrentCultureIgnoreCase))!
-				.DynamicPropertyInfos.OrderBy(p => p.Order);
+			var dynamicFieldInfoList = EntityInfo.DynamicPropertyInfos.OrderBy(p => p.Order);
 			foreach (var property in dynamicFieldInfoList!)
 			{
 				Fields.Add(new Field
@@ -83,7 +83,7 @@ namespace BlazorAdmin.Pages.Dynamic
 			foreach (var data in list)
 			{
 				IDictionary<string, object> obj = new ExpandoObject()!;
-				foreach (var property in EntityType.GetProperties())
+				foreach (var property in EntityInfo!.EntityType.GetProperties())
 				{
 					obj.Add(property.Name, property.GetValue(data, null));
 				}
@@ -95,6 +95,44 @@ namespace BlazorAdmin.Pages.Dynamic
 		{
 			Page = page;
 			await InitialDataAsync();
+		}
+
+		private async Task AddOneRecord()
+		{
+			var parameters = new DialogParameters
+			{
+				{ "EntityInfo", EntityInfo },
+				{ "UtilInstance", UtilInstance }
+			};
+			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
+			var result = await _dialogService.Show<DynamicAddDialog>(string.Empty, parameters, options).Result;
+			if (!result.Canceled)
+			{
+				await InitialDataAsync();
+			}
+		}
+
+		private async Task DeleteOneRecord(dynamic context)
+		{
+			var keys = new List<object>();
+			foreach (var property in EntityInfo!.DynamicPropertyInfos.Where(p => p.IsKey))
+			{
+				var value = ((IDictionary<string, object>)context)[property.PropertyName!];
+				keys.Add(value);
+			}
+
+			var parameters = new DialogParameters
+			{
+				{ "EntityInfo", EntityInfo },
+				{ "UtilInstance", UtilInstance },
+				{ "Keys",keys.ToArray()}
+			};
+			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
+			var result = await _dialogService.Show<DynamicDeleteDialog>(string.Empty, parameters, options).Result;
+			if (!result.Canceled)
+			{
+				await InitialDataAsync();
+			}
 		}
 
 		private class Field

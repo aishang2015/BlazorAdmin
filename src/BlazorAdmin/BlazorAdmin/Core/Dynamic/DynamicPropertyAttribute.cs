@@ -7,7 +7,9 @@
 
 		public string? Format { get; set; }
 
-		public int Order { get; set; } = 0;
+		public int Order { get; set; }
+
+		public bool IsKey { get; set; }
 
 		public bool IsDisplay { get; set; } = true;
 

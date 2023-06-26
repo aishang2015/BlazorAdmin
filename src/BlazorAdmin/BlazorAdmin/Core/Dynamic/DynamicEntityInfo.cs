@@ -6,6 +6,8 @@
 
 		public Type EntityType { get; set; } = null!;
 
+		public bool HaveNumberColumn { get; set; } = true;
+
 		public string? Title { get; set; }
 
 		public bool AllowEdit { get; set; } = true;
@@ -27,7 +29,9 @@
 
 		public string? Format { get; set; }
 
-		public int Order { get; set; } = 0;
+		public int Order { get; set; }
+
+		public bool IsKey { get; set; }
 
 		public bool IsDisplay { get; set; } = true;
 

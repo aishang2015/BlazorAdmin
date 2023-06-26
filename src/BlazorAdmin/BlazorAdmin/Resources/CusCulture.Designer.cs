@@ -484,6 +484,15 @@ namespace BlazorAdmin.Resources {
         }
         
         /// <summary>
+        ///   查找类似 对不起，没有找到这个地址 的本地化字符串。
+        /// </summary>
+        public static string NotFound_Text {
+            get {
+                return ResourceManager.GetString("NotFound_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 输入关键字进行搜素 的本地化字符串。
         /// </summary>
         public static string RolePage_SearchKeywordPlaceholder {

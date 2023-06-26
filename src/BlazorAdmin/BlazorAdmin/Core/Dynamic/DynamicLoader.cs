@@ -1,4 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using BlazorAdmin.Data;
+using BlazorAdmin.Data.Entities;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.DependencyModel;
 using System.Reflection;
@@ -17,7 +19,8 @@ namespace BlazorAdmin.Core.Dynamic
 				.Where(lib => !lib.Serviceable && lib.Type != "referenceassembly")
 				.Select(lib => Assembly.Load(lib.Name))
 				.SelectMany(a => a.GetTypes())
-				.Where(t => t.Namespace == "BlazorAdmin.Data.Entities").ToList();
+				.Where(t => t.GetCustomAttribute<DynamicEntityAttribute>() != null)
+				.ToList();
 
 			if (classes.Any())
 			{
@@ -26,12 +29,26 @@ namespace BlazorAdmin.Core.Dynamic
 					using BlazorAdmin.Data.Entities;
 					using System.Collections.Generic;
 					using System.Linq;
+					using System.Threading.Tasks;
 
 					public class {Entity}Util {
 						public (List<{Entity}>,int) Get{Entity}(BlazorAdminDbContext dbContext, int page ,int size){
 							var result = dbContext.Set<{Entity}>().Skip((page - 1) * size).Take(size).ToList();
 							var count = dbContext.Set<{Entity}>().Count();
 							return (result, count);
+						}
+
+						public async Task Add{Entity}(BlazorAdminDbContext dbContext,{Entity} entity){
+							dbContext.Set<{Entity}>().Add(entity);
+							await dbContext.SaveChangesAsync();
+						}
+											
+						public async Task Delete{Entity}(BlazorAdminDbContext dbContext,object[] keys){
+							var entity = dbContext.Set<{Entity}>().Find(keys);
+							if(entity != null){
+								dbContext.Set<{Entity}>().Remove(entity);
+								await dbContext.SaveChangesAsync();
+							}
 						}
 					}
 
@@ -49,6 +66,7 @@ namespace BlazorAdmin.Core.Dynamic
 					if (entityAttributeInfo != null)
 					{
 						entityInfo.Title = entityAttributeInfo.Title;
+						entityInfo.HaveNumberColumn = entityAttributeInfo.HaveNumberColumn;
 						entityInfo.AllowEdit = entityAttributeInfo.AllowEdit;
 						entityInfo.AllowDelete = entityAttributeInfo.AllowDelete;
 						entityInfo.AllowEdit = entityAttributeInfo.AllowEdit;
@@ -70,6 +88,7 @@ namespace BlazorAdmin.Core.Dynamic
 							propertyInfo.Title = propertyAttributeInfo.Title;
 							propertyInfo.Format = propertyAttributeInfo.Format;
 							propertyInfo.Order = propertyAttributeInfo.Order;
+							propertyInfo.IsKey = propertyAttributeInfo.IsKey;
 							propertyInfo.IsDisplay = propertyAttributeInfo.IsDisplay;
 							propertyInfo.AllowEdit = propertyAttributeInfo.AllowEdit;
 						}

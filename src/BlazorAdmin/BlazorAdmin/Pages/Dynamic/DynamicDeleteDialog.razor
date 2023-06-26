@@ -1,0 +1,15 @@
+﻿<MudDialog DisableSidePadding="false">
+	<DialogContent>
+		<div style="width:300px;" class="pb-4 mt-4">
+			<div class="d-flex align-center">
+				<MudIcon Icon="@Icons.Material.Filled.Warning" Size="Size.Large" Class="mr-2"></MudIcon>
+				<MudText Typo="Typo.h5">是否删除该信息</MudText>
+			</div>
+			<div class="d-flex align-center mt-6">
+				<MudSpacer />
+				<MudButton Variant="Variant.Filled" Color="Color.Error" Size="Size.Medium"
+						   StartIcon="@Icons.Material.Filled.Delete" OnClick="ConfirmDelete">确认删除</MudButton>
+			</div>
+		</div>
+	</DialogContent>
+</MudDialog>

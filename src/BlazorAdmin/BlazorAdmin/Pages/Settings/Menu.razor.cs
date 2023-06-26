@@ -103,7 +103,10 @@ namespace BlazorAdmin.Pages.Settings
 		private void AddMenuClick()
 		{
 			EditVisible = true;
-			MenuEditModel = new();
+			MenuEditModel = new()
+			{
+				Icon = Icons.Material.Filled.Home
+			};
 		}
 
 		private async Task EditMenuClick(int menuId)

@@ -258,6 +258,9 @@
   <data name="NoAuhtorized_Text" xml:space="preserve">
     <value>您没有访问该页面的权限...</value>
   </data>
+  <data name="NotFound_Text" xml:space="preserve">
+    <value>对不起，没有找到这个地址</value>
+  </data>
   <data name="RolePage_SearchKeywordPlaceholder" xml:space="preserve">
     <value>输入关键字进行搜素</value>
   </data>
