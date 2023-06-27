@@ -48,7 +48,7 @@
 			<MudTd DataLabel="">
 				@if (EntityInfo.AllowEdit)
 				{
-					<MudIconButton Size="MudBlazor.Size.Small" Icon="@Icons.Material.Filled.Edit"></MudIconButton>
+					<MudIconButton Size="MudBlazor.Size.Small" Icon="@Icons.Material.Filled.Edit" OnClick="()=>EditOneRecord(context)"></MudIconButton>
 				}
 				@if (EntityInfo.AllowDelete)
 				{

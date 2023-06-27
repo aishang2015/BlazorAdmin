@@ -50,6 +50,11 @@ namespace BlazorAdmin.Core.Dynamic
 								await dbContext.SaveChangesAsync();
 							}
 						}
+
+						public async Task Update{Entity}(BlazorAdminDbContext dbContext,{Entity} entity){
+							dbContext.Set<{Entity}>().Update(entity);
+							await dbContext.SaveChangesAsync();						
+						}
 					}
 
 					""";

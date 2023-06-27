@@ -135,6 +135,23 @@ namespace BlazorAdmin.Pages.Dynamic
 			}
 		}
 
+		private async Task EditOneRecord(dynamic context)
+		{
+			var parameters = new DialogParameters
+			{
+				{ "EntityInfo", EntityInfo },
+				{ "UtilInstance", UtilInstance },
+				{ "Context", context}
+			};
+			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
+			var result = await _dialogService.Show<DynamicEditDialog>(string.Empty, parameters, options).Result;
+			if (!result.Canceled)
+			{
+				await InitialDataAsync();
+			}
+
+		}
+
 		private class Field
 		{
 			public string? Title { get; set; }
