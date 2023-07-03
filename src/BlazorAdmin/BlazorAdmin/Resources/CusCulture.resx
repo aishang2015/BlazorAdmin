@@ -255,6 +255,9 @@
   <data name="MenuPage_Title" xml:space="preserve">
     <value>菜单</value>
   </data>
+  <data name="NoAuhtorized_ChangeUserText" xml:space="preserve">
+    <value>切换其他用户</value>
+  </data>
   <data name="NoAuhtorized_Text" xml:space="preserve">
     <value>您没有访问该页面的权限...</value>
   </data>

@@ -475,6 +475,15 @@ namespace BlazorAdmin.Resources {
         }
         
         /// <summary>
+        ///   查找类似 切换其他用户 的本地化字符串。
+        /// </summary>
+        public static string NoAuhtorized_ChangeUserText {
+            get {
+                return ResourceManager.GetString("NoAuhtorized_ChangeUserText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 您没有访问该页面的权限... 的本地化字符串。
         /// </summary>
         public static string NoAuhtorized_Text {

@@ -16,7 +16,8 @@ namespace BlazorAdmin.Pages.Dialogs.Role
 			var role = context.Roles.Find(RoleId);
 			if (role != null)
 			{
-				context.Roles.Remove(role);
+				role.IsDeleted = true;
+				context.Roles.Update(role);
 
 				var userRoles = context.UserRoles.Where(ur => ur.RoleId == RoleId);
 				context.UserRoles.RemoveRange(userRoles);

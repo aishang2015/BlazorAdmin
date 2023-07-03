@@ -16,7 +16,8 @@ namespace BlazorAdmin.Pages.Dialogs.User
 			var user = context.Users.Find(UserId);
 			if (user != null)
 			{
-				context.Users.Remove(user);
+				user.IsDeleted = true;
+				context.Users.Update(user);
 
 				var urs = context.UserRoles.Where(ur => ur.UserId == UserId);
 				context.UserRoles.RemoveRange(urs);

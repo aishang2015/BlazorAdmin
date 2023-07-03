@@ -40,7 +40,8 @@ namespace BlazorAdmin.Shared
 		private async Task LoginSubmit()
 		{
 			using var context = await _dbFactory.CreateDbContextAsync();
-			var user = context.Users.FirstOrDefault(u => u.Name == _loginModel.UserName);
+			var user = context.Users.FirstOrDefault(u => u.Name == _loginModel.UserName &&
+				u.IsEnabled && !u.IsDeleted);
 			if (user == null || !HashHelper.VerifyPassword(user.PasswordHash, _loginModel!.Password!))
 			{
 				_snackbarService.Add("用户名或密码错误！", Severity.Error);

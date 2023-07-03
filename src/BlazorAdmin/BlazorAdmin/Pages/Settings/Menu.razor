@@ -9,7 +9,7 @@
 			<MudButton Class=" mr-2" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled"
 					   OnClick="AddMenuClick" Size="Size.Medium">@Loc["MenuPage_AddButtonText"]</MudButton>
 			<MudButton Class=" mr-2" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Remove" Variant="Variant.Filled"
-					   OnClick="DeleteMenuClick" Size="Size.Medium">@Loc["MenuPage_DeleteButtonText"]</MudButton>
+					   OnClick="DeleteMenuClick" Size="Size.Medium" Disabled="SelectedMenuItem == null">@Loc["MenuPage_DeleteButtonText"]</MudButton>
 		</div>
 		<MudDivider Class="mb-2" />
 		<MudTreeView Items="@MenuItems" Hover="true" T="MenuItem" @bind-SelectedValue="SelectedMenuItem">

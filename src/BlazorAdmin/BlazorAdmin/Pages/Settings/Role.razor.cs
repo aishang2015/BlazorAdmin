@@ -26,7 +26,7 @@ namespace BlazorAdmin.Pages.Settings
 		private async Task InitialData()
 		{
 			using var context = await _dbFactory.CreateDbContextAsync();
-			IQueryable<Data.Entities.Role> query = context.Roles.AsQueryable();
+			IQueryable<Data.Entities.Role> query = context.Roles.Where(r => !r.IsDeleted);
 			if (!string.IsNullOrEmpty(SearchText))
 			{
 				query = query.Where(u => u.Name!.Contains(SearchText));

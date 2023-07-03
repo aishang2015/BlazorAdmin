@@ -26,5 +26,9 @@ namespace BlazorAdmin.Data.Entities
 		[Comment("是否启用")]
 		[DynamicProperty(Title = "是否启用", Order = 2)]
 		public bool IsEnabled { get; set; }
+
+		[Comment("是否删除")]
+		[DynamicProperty(IsDisplay = false)]
+		public bool IsDeleted { get; set; }
 	}
 }

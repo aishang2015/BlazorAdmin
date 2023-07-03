@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BlazorAdmin.Core.Dynamic;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlazorAdmin.Data.Entities
 {
@@ -13,5 +14,9 @@ namespace BlazorAdmin.Data.Entities
 
 		[Comment("是否启用")]
 		public bool IsEnabled { get; set; }
+
+		[Comment("是否删除")]
+		[DynamicProperty(IsDisplay = false)]
+		public bool IsDeleted { get; set; }
 	}
 }

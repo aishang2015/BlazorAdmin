@@ -19,7 +19,7 @@ namespace BlazorAdmin.Pages.Dialogs.User
 		protected override async Task OnInitializedAsync()
 		{
 			using var context = await _dbFactory.CreateDbContextAsync();
-			RoleList = await context.Roles.ToListAsync();
+			RoleList = await context.Roles.Where(r => r.IsEnabled && !r.IsDeleted).ToListAsync();
 
 			var userRoles = await context.UserRoles.Where(ur => ur.UserId == UserId).ToListAsync();
 

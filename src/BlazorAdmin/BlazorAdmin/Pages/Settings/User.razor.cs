@@ -26,7 +26,7 @@ namespace BlazorAdmin.Pages.Settings
 		{
 			using var context = await _dbFactory.CreateDbContextAsync();
 
-			IQueryable<Data.Entities.User> query = context.Users.AsQueryable();
+			IQueryable<Data.Entities.User> query = context.Users.Where(u => !u.IsDeleted);
 			if (!string.IsNullOrEmpty(SearchText))
 			{
 				query = query.Where(u => u.Name.Contains(SearchText));
