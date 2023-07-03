@@ -40,7 +40,19 @@ namespace BlazorAdmin.Core.Auth
 
 		public async Task SetCurrentUser()
 		{
-			var token = await _localStorage.GetAsync<string>(CommonConstant.UserToken);
+			ProtectedBrowserStorageResult<string> token;
+			try
+			{
+				token = await _localStorage.GetAsync<string>(CommonConstant.UserToken);
+			}
+			catch (System.Security.Cryptography.CryptographicException)
+			{
+				if (UserChanged is not null)
+				{
+					UserChanged(new ClaimsPrincipal());
+				}
+				return;
+			}
 
 			if (!string.IsNullOrEmpty(token.Value))
 			{
