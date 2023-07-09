@@ -6,16 +6,16 @@
 				RelativeWidth="true" @onmouseenter="MouseEnterPopover" @onmouseleave="MouseLeavePopover" @onblur="MouseBlur">
 
 		<MudTextField Immediate="true" Value="SearchKeyWord" Margin="Margin.Dense" ValueChanged="TextChanged"
-					  T="string" OnBlur="MouseBlur" Placeholder="请输入关键字" />
+					  T="string" OnBlur="MouseBlur" Placeholder="请输入关键字" Variant="Variant.Outlined"/>
 		<MudChipSet SelectedChip="SelectedType" SelectedChipChanged="SelectedTypeChanged" Filter="true"
 					Mandatory="true" @onblur="MouseBlur">
 			@foreach (var type in IconTypes)
 			{
-				<MudChip Text="grey" Value="type" @onblur="MouseBlur">@type.Name</MudChip>
+				<MudChip Variant="Variant.Outlined" Text="grey" Value="type" @onblur="MouseBlur"
+					SelectedColor="Color.Primary">@type.Name</MudChip>
 			}
 		</MudChipSet>
-		<MudDivider />
-		<div style="height:300px;overflow:auto;">
+		<div style="height:300px;overflow:auto;" class="mt-2">
 			<Virtualize Items="@FilterIconList">
 				<div class="d-flex align-center cursor-point icon-item" @onclick="()=>SelectIcon(context.Content)">
 					<MudIcon Icon="@context.Content" Size="Size.Large"></MudIcon>

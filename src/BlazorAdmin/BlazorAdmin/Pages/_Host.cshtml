@@ -6,33 +6,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <base href="~/" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
-    <link href="_content/MudBlazor.Markdown/MudBlazor.Markdown.min.css" rel="stylesheet" />
-    <link href="BlazorAdmin.styles.css" rel="stylesheet" />
-    <link rel="icon" type="image/png" href="favicon.png"/>
-    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<base href="~/" />
+	<!-- Screen version -->
+	<link rel="stylesheet" href="https://cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.6.0/style.css" />
+	<link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+	<link href="_content/MudBlazor.Markdown/MudBlazor.Markdown.min.css" rel="stylesheet" />
+	<link href="BlazorAdmin.styles.css" rel="stylesheet" />
+	<link rel="icon" type="image/png" href="favicon.png" />
+	<component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 </head>
 <body>
-    <component type="typeof(App)" render-mode="ServerPrerendered" />
+	<style>
 
-    <div id="blazor-error-ui">
-        <environment include="Staging,Production">
-            An error has occurred. This application may no longer respond until reloaded.
-        </environment>
-        <environment include="Development">
-            An unhandled exception has occurred. See browser dev tools for details.
-        </environment>
-        <a href="" class="reload">Reload</a>
-        <a class="dismiss">🗙</a>
-    </div>
+		* {
+			font-family: "LXGW WenKai Screen", sans-serif !important;
+		}
+	</style>
+	<component type="typeof(App)" render-mode="ServerPrerendered" />
 
-    <script type="text/javascript" src="libs/Sortable.min.js"></script>
-    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
-    <script src="_content/MudBlazor.Markdown/MudBlazor.Markdown.min.js"></script>
-    <script src="_framework/blazor.server.js"></script>
+	<div id="blazor-error-ui">
+		<environment include="Staging,Production">
+			An error has occurred. This application may no longer respond until reloaded.
+		</environment>
+		<environment include="Development">
+			An unhandled exception has occurred. See browser dev tools for details.
+		</environment>
+		<a href="" class="reload">Reload</a>
+		<a class="dismiss">🗙</a>
+	</div>
+
+	<script type="text/javascript" src="libs/Sortable.min.js"></script>
+	<script src="_content/MudBlazor/MudBlazor.min.js"></script>
+	<script src="_content/MudBlazor.Markdown/MudBlazor.Markdown.min.js"></script>
+	<script src="_framework/blazor.server.js"></script>
 </body>
 </html>
