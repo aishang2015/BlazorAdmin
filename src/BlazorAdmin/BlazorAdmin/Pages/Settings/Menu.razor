@@ -6,10 +6,16 @@
 		<div class="d-flex justify-center align-center mb-4">
 			<MudText Typo="Typo.h5">@Loc["MenuPage_Title"]</MudText>
 			<MudSpacer />
-			<MudButton Class=" mr-2" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled"
-					   OnClick="AddMenuClick" Size="Size.Medium">@Loc["MenuPage_AddButtonText"]</MudButton>
-			<MudButton Class=" mr-2" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Remove" Variant="Variant.Filled"
-					   OnClick="DeleteMenuClick" Size="Size.Medium" Disabled="SelectedMenuItem == null">@Loc["MenuPage_DeleteButtonText"]</MudButton>
+			@if (_accessService.CheckHasElementRights("MenuAddBtn").Result)
+			{
+				<MudButton Class=" mr-2" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled"
+						   OnClick="AddMenuClick" Size="Size.Medium">@Loc["MenuPage_AddButtonText"]</MudButton>
+			}
+			@if (_accessService.CheckHasElementRights("MenuDeleteBtn").Result)
+			{
+				<MudButton Class=" mr-2" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Remove" Variant="Variant.Filled"
+						   OnClick="DeleteMenuClick" Size="Size.Medium" Disabled="SelectedMenuItem == null">@Loc["MenuPage_DeleteButtonText"]</MudButton>
+			}
 		</div>
 		<MudDivider Class="mb-2" />
 		<MudTreeView Items="@MenuItems" Hover="true" T="MenuItem" @bind-SelectedValue="SelectedMenuItem">
@@ -29,9 +35,15 @@
 						<MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.MenuName</MudText>
 						<div class="identify" style="display:none;">@context.Id</div>
 						<MudSpacer />
-						<MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Edit" OnClick="()=>EditMenuClick(context.Id)"
-									   Color="Color.Inherit"></MudIconButton>
-						<MudIcon Icon="@Icons.Material.Filled.DragHandle" Class="draghandle cursor-grabbing" />
+						@if (_accessService.CheckHasElementRights("MenuUpdateBtn").Result)
+						{
+							<MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Edit" OnClick="()=>EditMenuClick(context.Id)"
+										   Color="Color.Inherit"></MudIconButton>
+						}
+						@if (_accessService.CheckHasElementRights("MenuOrderBtn").Result)
+						{
+							<MudIcon Icon="@Icons.Material.Filled.DragHandle" Class="draghandle cursor-grabbing" />
+						}
 					</Content>
 				</MudTreeViewItem>
 			</ItemTemplate>

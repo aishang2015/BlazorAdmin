@@ -8,8 +8,11 @@
 	</div>
 	<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="InitialData"
 				   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
-	<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" OnClick="AddUserClick"
-				   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+	@if (_accessService.CheckHasElementRights("UserAddBtn").Result)
+	{
+		<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" OnClick="AddUserClick"
+					   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+	}
 </div>
 <MudTable Class="mb-4" Items="@Users" Hover="true" Breakpoint="Breakpoint.Sm"
 		  LoadingProgressColor="Color.Info" Dense="true">
@@ -34,19 +37,31 @@
 		</MudTd>
 		<MudTd DataLabel="@Loc["UserPage_TableH3"]">@context.Name</MudTd>
 		<MudTd DataLabel="@Loc["UserPage_TableH4"]">
-			<MudSwitch Checked="@context.IsEnabled" T="bool" CheckedChanged="v=>ChangeUserActive(context.Id,v)" Color="Color.Primary">
+			<MudSwitch Checked="@context.IsEnabled" Disabled="@(!_accessService.CheckHasElementRights("UserActiveBtn").Result)" T="bool" CheckedChanged="v=>ChangeUserActive(context.Id,v)" Color="Color.Primary">
 			</MudSwitch>
 		</MudTd>
 		<MudTd DataLabel="@Loc["UserPage_TableH5"]">
 			<MudStack Row>
-				<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Delete" Color="Color.Error"
-							   OnClick="()=>DeleteUserClick(context.Id)" />
-				<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary"
-							   OnClick="()=>EditUserClick(context.Id)" />
-				<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Key" Color="Color.Secondary"
-							   OnClick="()=>ChangePasswordClick(context.Id)" />
-				<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.LockPerson" Color="Color.Tertiary"
-							   OnClick="()=>SetUserRoleClick(context.Id)" />
+				@if (_accessService.CheckHasElementRights("UserUpdateBtn").Result)
+				{
+					<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary"
+								   OnClick="()=>EditUserClick(context.Id)" />
+				}
+				@if (_accessService.CheckHasElementRights("UserPwdChangeBtn").Result)
+				{
+					<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Key" Color="Color.Secondary"
+								   OnClick="()=>ChangePasswordClick(context.Id)" />
+				}
+				@if (_accessService.CheckHasElementRights("UserRoleSettingBtn").Result)
+				{
+					<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.LockPerson" Color="Color.Tertiary"
+								   OnClick="()=>SetUserRoleClick(context.Id)" />
+				}
+				@if (_accessService.CheckHasElementRights("UserDeleteBtn").Result)
+				{
+					<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Delete" Color="Color.Error"
+								   OnClick="()=>DeleteUserClick(context.Id)" />
+				}
 			</MudStack>
 		</MudTd>
 	</RowTemplate>

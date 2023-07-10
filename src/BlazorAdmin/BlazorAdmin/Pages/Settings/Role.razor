@@ -8,8 +8,11 @@
 	</div>
 	<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="InitialData"
 				   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
-	<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" OnClick="AddRoleClick"
-				   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+	@if (_accessService.CheckHasElementRights("RoleAddBtn").Result)
+	{
+		<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" OnClick="AddRoleClick"
+					   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+	}
 </div>
 
 <MudTable Class="mb-4" Items="@Roles" Hover="true" Breakpoint="Breakpoint.Sm"
@@ -30,17 +33,26 @@
 		<MudTd DataLabel="@Loc["RolePage_TableH1"]">@context.Number</MudTd>
 		<MudTd DataLabel="@Loc["RolePage_TableH2"]">@context.Name</MudTd>
 		<MudTd DataLabel="@Loc["RolePage_TableH3"]">
-			<MudSwitch Checked="@context.IsEnabled" T="bool" CheckedChanged="v=>ChangeRoleActive(context.Id,v)" Color="Color.Primary">
+			<MudSwitch Checked="@context.IsEnabled" T="bool" Disabled="@(!_accessService.CheckHasElementRights("RoleActiveBtn").Result)" CheckedChanged="v=>ChangeRoleActive(context.Id,v)" Color="Color.Primary">
 			</MudSwitch>
 		</MudTd>
 		<MudTd DataLabel="@Loc["RolePage_TableH4"]">
 			<MudStack Row>
-				<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Delete" Color="Color.Error"
-							   OnClick="()=>DeleteRoleClick(context.Id)" />
-				<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary"
-							   OnClick="()=>EditRoleClick(context.Id)" />
-				<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Menu" Color="Color.Tertiary"
-							   OnClick="()=>SetRoleMenuClick(context.Id)" />
+				@if (_accessService.CheckHasElementRights("RoleDeleteBtn").Result)
+				{
+					<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Delete" Color="Color.Error"
+								   OnClick="()=>DeleteRoleClick(context.Id)" />
+				}
+				@if (_accessService.CheckHasElementRights("RoleUpdateBtn").Result)
+				{
+					<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary"
+								   OnClick="()=>EditRoleClick(context.Id)" />
+				}
+				@if (_accessService.CheckHasElementRights("RoleMenuBtn").Result)
+				{
+					<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Menu" Color="Color.Tertiary"
+								   OnClick="()=>SetRoleMenuClick(context.Id)" />
+				}
 			</MudStack>
 		</MudTd>
 	</RowTemplate>

@@ -72,10 +72,29 @@ namespace BlazorAdmin.Data
 				Menus.Add(new Menu { ParentId = entry.Entity.Id, Name = "登录", Type = 1, Route = "/loginLog", Order = 2, Icon = Icons.Material.Filled.Login });
 				SaveChanges();
 
-				Menus.Add(new Menu { ParentId = entry2.Entity.Id, Name = "用户", Type = 1, Route = "/user", Order = 1, Icon = Icons.Material.Filled.Person });
-				Menus.Add(new Menu { ParentId = entry2.Entity.Id, Name = "角色", Type = 1, Route = "/role", Order = 2, Icon = Icons.Material.Filled.LockPerson });
-				Menus.Add(new Menu { ParentId = entry2.Entity.Id, Name = "菜单", Type = 1, Route = "/menu", Order = 3, Icon = Icons.Material.Filled.Menu });
+				var userManageEnty = Menus.Add(new Menu { ParentId = entry2.Entity.Id, Name = "用户", Type = 1, Route = "/user", Order = 1, Icon = Icons.Material.Filled.Person });
+				var roleManageEntry = Menus.Add(new Menu { ParentId = entry2.Entity.Id, Name = "角色", Type = 1, Route = "/role", Order = 2, Icon = Icons.Material.Filled.LockPerson });
+				var menuManageEntry = Menus.Add(new Menu { ParentId = entry2.Entity.Id, Name = "菜单", Type = 1, Route = "/menu", Order = 3, Icon = Icons.Material.Filled.Menu });
 				SaveChanges();
+
+				Menus.Add(new Menu { ParentId = userManageEnty.Entity.Id, Name = "添加按钮", Type = 2, Order = 1, Identify = "UserAddBtn" });
+				Menus.Add(new Menu { ParentId = userManageEnty.Entity.Id, Name = "修改按钮", Type = 2, Order = 2, Identify = "UserUpdateBtn" });
+				Menus.Add(new Menu { ParentId = userManageEnty.Entity.Id, Name = "删除按钮", Type = 2, Order = 3, Identify = "UserDeleteBtn" });
+				Menus.Add(new Menu { ParentId = userManageEnty.Entity.Id, Name = "修改密码按钮", Type = 2, Order = 4, Identify = "UserPwdChangeBtn" });
+				Menus.Add(new Menu { ParentId = userManageEnty.Entity.Id, Name = "设置角色", Type = 2, Order = 5, Identify = "UserRoleSettingBtn" });
+				Menus.Add(new Menu { ParentId = userManageEnty.Entity.Id, Name = "启用选框", Type = 2, Order = 6, Identify = "UserActiveBtn" });
+
+				Menus.Add(new Menu { ParentId = roleManageEntry.Entity.Id, Name = "添加按钮", Type = 2, Order = 1, Identify = "RoleAddBtn" });
+				Menus.Add(new Menu { ParentId = roleManageEntry.Entity.Id, Name = "修改按钮", Type = 2, Order = 2, Identify = "RoleUpdateBtn" });
+				Menus.Add(new Menu { ParentId = roleManageEntry.Entity.Id, Name = "删除按钮", Type = 2, Order = 3, Identify = "RoleDeleteBtn" });
+				Menus.Add(new Menu { ParentId = roleManageEntry.Entity.Id, Name = "菜单权限按钮", Type = 2, Order = 3, Identify = "RoleMenuBtn" });
+				Menus.Add(new Menu { ParentId = roleManageEntry.Entity.Id, Name = "启用选框", Type = 2, Order = 6, Identify = "RoleActiveBtn" });
+
+				Menus.Add(new Menu { ParentId = menuManageEntry.Entity.Id, Name = "添加按钮", Type = 2, Order = 1, Identify = "MenuAddBtn" });
+				Menus.Add(new Menu { ParentId = menuManageEntry.Entity.Id, Name = "修改按钮", Type = 2, Order = 2, Identify = "MenuUpdateBtn" });
+				Menus.Add(new Menu { ParentId = menuManageEntry.Entity.Id, Name = "删除按钮", Type = 2, Order = 3, Identify = "MenuDeleteBtn" });
+				Menus.Add(new Menu { ParentId = menuManageEntry.Entity.Id, Name = "排序按钮", Type = 2, Order = 4, Identify = "MenuOrderBtn" });
+
 
 				var roleEntry = Roles.Add(new Role { IsEnabled = true, Name = "Admin" });
 				SaveChanges();
