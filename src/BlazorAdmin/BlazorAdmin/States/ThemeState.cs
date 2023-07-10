@@ -22,10 +22,17 @@ namespace BlazorAdmin.States
 
 		public async Task LoadTheme()
 		{
-			var localData = await _protectedLocalStorage.GetAsync<bool>("IsDark");
-			if (localData.Success)
+			try
 			{
-				IsDark = localData.Value;
+				var localData = await _protectedLocalStorage.GetAsync<bool>("IsDark");
+				if (localData.Success)
+				{
+					IsDark = localData.Value;
+				}
+			}
+			catch (Exception)
+			{
+				IsDark = true;
 			}
 		}
 
