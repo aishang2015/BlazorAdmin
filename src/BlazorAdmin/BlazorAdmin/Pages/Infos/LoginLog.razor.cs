@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BlazorAdmin.Core.Extension;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlazorAdmin.Pages.Infos
 {
@@ -11,6 +12,9 @@ namespace BlazorAdmin.Pages.Infos
 		private int Size = 10;
 
 		private int Total = 0;
+
+		private string? SearchedLoginName;
+
 		protected override async Task OnInitializedAsync()
 		{
 			await base.OnInitializedAsync();
@@ -19,7 +23,9 @@ namespace BlazorAdmin.Pages.Infos
 		private async Task InitialAsync()
 		{
 			using var context = await _dbFactory.CreateDbContextAsync();
-			LoginLogs = context.LoginLogs.OrderByDescending(l => l.Id)
+			var query = context.LoginLogs.
+				AndIfExist(SearchedLoginName, l => l.UserName == SearchedLoginName);
+			LoginLogs = query.OrderByDescending(l => l.Id)
 				.Skip((Page - 1) * Size).Take(Size).ToList()
 				.Select((l, i) => new LoginLogModel
 				{
@@ -31,7 +37,7 @@ namespace BlazorAdmin.Pages.Infos
 					IsSuccessd = l.IsSuccessd,
 					UserName = l.UserName,
 				}).ToList();
-			Total = context.LoginLogs.Count();
+			Total = query.Count();
 		}
 
 		private async void PageChangedClick(int page)
