@@ -157,7 +157,7 @@
     <value>操作时间</value>
   </data>
   <data name="AuditLogPage_TableH7" xml:space="preserve">
-    <value>操作</value>
+    <value>值记录</value>
   </data>
   <data name="AuditLogPage_Title" xml:space="preserve">
     <value>审计日志</value>
@@ -232,10 +232,10 @@
     <value>请输入页面元素标识</value>
   </data>
   <data name="MenuPage_MenuNameLablel" xml:space="preserve">
-    <value>菜单名称</value>
+    <value>名称</value>
   </data>
   <data name="MenuPage_MenuNamePlaceHolder" xml:space="preserve">
-    <value>请输入菜单名称</value>
+    <value>请输入名称</value>
   </data>
   <data name="MenuPage_MenuRouteLabel" xml:space="preserve">
     <value>路由</value>

@@ -55,7 +55,7 @@ namespace BlazorAdmin.Pages.Settings
 
 				context.Menus.Add(new Data.Entities.Menu
 				{
-					Icon = MenuEditModel.Icon,
+					Icon = MenuEditModel.Type == 1 ? MenuEditModel.Icon : null,
 					Name = MenuEditModel.Name,
 					Identify = MenuEditModel.Identify,
 					ParentId = MenuEditModel.ParentId,
@@ -72,7 +72,7 @@ namespace BlazorAdmin.Pages.Settings
 					_snackbarService.Add("此菜单不存在！", Severity.Error);
 					return;
 				}
-				menu.Icon = MenuEditModel.Icon;
+				menu.Icon = MenuEditModel.Type == 1 ? MenuEditModel.Icon : null;
 				menu.Name = MenuEditModel.Name;
 				menu.Identify = MenuEditModel.Identify;
 				menu.ParentId = MenuEditModel.ParentId;

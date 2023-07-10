@@ -17,9 +17,14 @@
 				<MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.Childs" Value="context">
 					<Content>
 						<MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="context.Childs.Count > 0" />
-						@if (!string.IsNullOrEmpty(context.Icon))
+						@if (context.MenuType == 1)
 						{
 							<MudIcon Icon="@context.Icon"></MudIcon>
+						}
+						else
+						{
+							<MudIcon Icon="@Icons.Material.Outlined.Square"></MudIcon>
+
 						}
 						<MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.MenuName</MudText>
 						<div class="identify" style="display:none;">@context.Id</div>

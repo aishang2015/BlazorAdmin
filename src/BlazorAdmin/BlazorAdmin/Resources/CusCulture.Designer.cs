@@ -178,7 +178,7 @@ namespace BlazorAdmin.Resources {
         }
         
         /// <summary>
-        ///   查找类似 操作 的本地化字符串。
+        ///   查找类似 值记录 的本地化字符串。
         /// </summary>
         public static string AuditLogPage_TableH7 {
             get {
@@ -403,7 +403,7 @@ namespace BlazorAdmin.Resources {
         }
         
         /// <summary>
-        ///   查找类似 菜单名称 的本地化字符串。
+        ///   查找类似 名称 的本地化字符串。
         /// </summary>
         public static string MenuPage_MenuNameLablel {
             get {
@@ -412,7 +412,7 @@ namespace BlazorAdmin.Resources {
         }
         
         /// <summary>
-        ///   查找类似 请输入菜单名称 的本地化字符串。
+        ///   查找类似 请输入名称 的本地化字符串。
         /// </summary>
         public static string MenuPage_MenuNamePlaceHolder {
             get {
