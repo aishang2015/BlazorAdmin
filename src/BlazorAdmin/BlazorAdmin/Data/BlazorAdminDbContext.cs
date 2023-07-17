@@ -8,7 +8,7 @@ using MudBlazor;
 
 namespace BlazorAdmin.Data
 {
-    public class BlazorAdminDbContext : DbContext
+	public class BlazorAdminDbContext : DbContext
 	{
 		public BlazorAdminDbContext(DbContextOptions<BlazorAdminDbContext> options) : base(options)
 		{

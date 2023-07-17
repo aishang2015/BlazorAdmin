@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace BlazorAdmin.Shared
 {
-    public partial class Login
+	public partial class Login
 	{
 		private Dictionary<string, object> InputAttributes { get; set; } =
 			new Dictionary<string, object>()

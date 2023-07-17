@@ -7,7 +7,7 @@ using System.Globalization;
 
 namespace BlazorAdmin.Shared
 {
-    public partial class AuthorizedLayout
+	public partial class AuthorizedLayout
 	{
 		[Parameter] public RenderFragment? Child { get; set; }
 

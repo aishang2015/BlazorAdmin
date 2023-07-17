@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace BlazorAdmin.Core.Auth
 {
-    public class JwtAuthStateProvider : AuthenticationStateProvider
+	public class JwtAuthStateProvider : AuthenticationStateProvider
 	{
 
 		private AuthenticationState currentUser = new AuthenticationState(new ClaimsPrincipal());

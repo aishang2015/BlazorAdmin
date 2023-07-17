@@ -1,9 +1,9 @@
 ﻿namespace BlazorAdmin.Data.Constants
 {
-    public record ClaimConstant
-    {
-        public const string UserId = "UserId";
+	public record ClaimConstant
+	{
+		public const string UserId = "UserId";
 
-        public const string UserName = "UserName";
-    }
+		public const string UserName = "UserName";
+	}
 }

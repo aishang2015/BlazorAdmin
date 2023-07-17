@@ -8,7 +8,7 @@ using System.Text;
 
 namespace BlazorAdmin.Core.Helper
 {
-    public class JwtHelper
+	public class JwtHelper
 	{
 		private readonly IDbContextFactory<BlazorAdminDbContext> _dbContextFactory;
 

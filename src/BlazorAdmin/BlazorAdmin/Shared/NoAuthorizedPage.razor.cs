@@ -2,7 +2,7 @@
 
 namespace BlazorAdmin.Shared
 {
-    public partial class NoAuthorizedPage
+	public partial class NoAuthorizedPage
 	{
 		private async Task LogoutClick()
 		{
