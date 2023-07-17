@@ -19,6 +19,10 @@ namespace BlazorAdmin.Data.Entities
 		[DynamicProperty(Title = "用户名", Order = 3)]
 		public string Name { get; set; } = null!;
 
+		[Comment("姓名")]
+		[DynamicProperty(Title = "姓名", Order = 3)]
+		public string RealName { get; set; } = null!;
+
 		[Comment("密码哈希")]
 		[DynamicProperty(Title = "密码", Order = 4)]
 		public string PasswordHash { get; set; } = null!;

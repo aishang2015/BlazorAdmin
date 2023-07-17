@@ -628,6 +628,15 @@ namespace BlazorAdmin.Resources {
         }
         
         /// <summary>
+        ///   查找类似 姓名 的本地化字符串。
+        /// </summary>
+        public static string UserPage_TableH6 {
+            get {
+                return ResourceManager.GetString("UserPage_TableH6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 用户 的本地化字符串。
         /// </summary>
         public static string UserPage_Title {

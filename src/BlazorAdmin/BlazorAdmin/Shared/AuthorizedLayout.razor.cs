@@ -1,6 +1,8 @@
 ﻿using BlazorAdmin.Constants;
+using BlazorAdmin.Pages.Dialogs.Layout;
 using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System.Globalization;
 
 namespace BlazorAdmin.Shared
@@ -21,9 +23,6 @@ namespace BlazorAdmin.Shared
 
 			_culture = CultureInfo.CurrentCulture;
 
-			var user = await _stateProvider.GetAuthenticationStateAsync();
-			_userName = user.User.GetUserName();
-
 			var currentUri = _navManager.Uri.Substring(_navManager.BaseUri.Length - 1);
 			if (currentUri.Contains('?'))
 			{
@@ -34,6 +33,13 @@ namespace BlazorAdmin.Shared
 			if (!couldAccess)
 			{
 				_navManager.NavigateTo("/noauthorized");
+			}
+			else
+			{
+				var user = await _stateProvider.GetAuthenticationStateAsync();
+				using var context = await _dbFactory.CreateDbContextAsync();
+				var userInfo = context.Users.Find(user.User.GetUserId());
+				_userName = userInfo.RealName;
 			}
 
 		}
@@ -57,6 +63,14 @@ namespace BlazorAdmin.Shared
 					forceLoad: true);
 			}
 		}
+
+		private async Task ShowUserSettings()
+		{
+			var parameters = new DialogParameters { };
+			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
+			await _dialogService.Show<ProfileSetting>(string.Empty, parameters, options).Result;
+		}
+
 
 		private async Task LogoutClick()
 		{

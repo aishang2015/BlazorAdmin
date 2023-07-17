@@ -7,6 +7,9 @@
 				<MudTextField Class="mt-4" @bind-Value="UserModel.UserName" Variant="Variant.Outlined" Margin="Margin.Dense"
 							  Label="用户名" For="@(() => UserModel.UserName)"
 							  UserAttributes="InputAttributes"></MudTextField>
+				<MudTextField Class="mt-4" @bind-Value="UserModel.RealName" Variant="Variant.Outlined" Margin="Margin.Dense"
+							  Label="姓名" For="@(() => UserModel.RealName)"
+							  UserAttributes="InputAttributes"></MudTextField>
 				<div class="mt-4 d-flex">
 					<MudSpacer />
 					<MudButton Variant="Variant.Text" FullWidth="false" Color="Color.Primary" Size="Size.Medium"

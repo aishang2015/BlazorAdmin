@@ -32,6 +32,7 @@ namespace BlazorAdmin.Pages.Dialogs.User
 			{
 				IsEnabled = true,
 				Name = UserModel.UserName!,
+				RealName = UserModel.RealName!,
 				PasswordHash = HashHelper.HashPassword(UserModel.Password!)
 			});
 			await context.CustomSaveChangesAsync(_stateProvider);
@@ -44,6 +45,10 @@ namespace BlazorAdmin.Pages.Dialogs.User
 			[Required(ErrorMessage = "请输入用户名")]
 			[MaxLength(200, ErrorMessage = "用户名位数过长")]
 			public string? UserName { get; set; }
+
+			[Required(ErrorMessage = "请输入姓名")]
+			[MaxLength(200, ErrorMessage = "姓名位数过长")]
+			public string? RealName { get; set; }
 
 			[Required(ErrorMessage = "请输入密码")]
 			[MinLength(4, ErrorMessage = "密码位数过短")]

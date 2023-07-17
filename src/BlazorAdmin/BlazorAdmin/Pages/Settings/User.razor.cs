@@ -38,6 +38,7 @@ namespace BlazorAdmin.Pages.Settings
 					Id = p.Id,
 					Avatar = p.Avatar,
 					Name = p.Name,
+					RealName = p.RealName,
 					IsEnabled = p.IsEnabled
 				}).ToListAsync();
 			Total = await query.CountAsync();
@@ -136,6 +137,8 @@ namespace BlazorAdmin.Pages.Settings
 			public string? Avatar { get; set; }
 
 			public string Name { get; set; } = null!;
+
+			public string? RealName { get; set; }
 
 			public bool IsEnabled { get; set; }
 		}

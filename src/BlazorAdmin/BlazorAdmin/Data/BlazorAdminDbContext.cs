@@ -99,7 +99,13 @@ namespace BlazorAdmin.Data
 				var roleEntry = Roles.Add(new Role { IsEnabled = true, Name = "Admin" });
 				SaveChanges();
 
-				var userEntry = Users.Add(new User { Name = "BlazorAdmin", IsEnabled = true, PasswordHash = HashHelper.HashPassword("BlazorAdmin") });
+				var userEntry = Users.Add(new User
+				{
+					Name = "BlazorAdmin",
+					IsEnabled = true,
+					PasswordHash = HashHelper.HashPassword("BlazorAdmin"),
+					RealName = "Administrator"
+				});
 				SaveChanges();
 
 				UserRoles.Add(new UserRole

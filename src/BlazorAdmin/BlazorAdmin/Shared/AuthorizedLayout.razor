@@ -3,6 +3,7 @@
 	<MudText Typo="Typo.h5" Class="ml-3">BlazorAdmin</MudText>
 	<MudSpacer />
 
+	<MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.Start" Href="https://github.com/aishang2015/BlazorAdmin" />
 
 	<MudMenu Icon="@Icons.Material.Filled.Language" Color="Color.Inherit" Dense="true"
 			 AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight">
@@ -13,21 +14,26 @@
 			@Loc["AuthorizedLayout_Language_zhcn"]
 		</MudMenuItem>
 	</MudMenu>
-	<MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.Start" Href="https://github.com/aishang2015/BlazorAdmin" />
+
+	<MudToggleIconButton @bind-Toggled="_themeState.IsDark" Style="margin-right:12px;"
+						 Icon="@Icons.Material.Filled.DarkMode" Color="@Color.Inherit" Title="Off"
+						 ToggledIcon="@Icons.Material.Filled.LightMode" ToggledColor="@Color.Inherit" ToggledTitle="On" />
 
 	<MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Dense="true"
 			 AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight">
 		<ActivatorContent>
-			<MudAvatar Size="Size.Small" Color="Color.Primary">@_userName.First()</MudAvatar>
+			<MudAvatar Size="Size.Small" Color="_themeState.IsDark ? Color.Primary : Color.Dark">@_userName.First()</MudAvatar>
 		</ActivatorContent>
 		<ChildContent>
-			<MudContainer Class="d-flex flex-column" Style="width:200px;">
-				<MudSwitch @bind-Checked="_themeState.IsDark" ThumbIcon="@(_themeState.IsDark ? Icons.Material.Filled.DarkMode : Icons.Material.Filled.LightMode)"
-						   ThumbIconColor="@(_themeState.IsDark ? Color.Dark:Color.Primary)" Color="Color.Info" UnCheckedColor="Color.Inherit"></MudSwitch>
+			<MudContainer Class="d-flex flex-column" Style="width:260px;">
 
-				<MudButton FullWidth="true" Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Logout" IconSize="Size.Small" OnClick="LogoutClick">
-					@Loc["AuthorizedLayout_Logout"]
-				</MudButton>
+				<MudContainer Class="d-flex flex-column align-center justify-center" Style="width:200px;">
+					<MudText Typo="Typo.h6">@_userName</MudText>
+				</MudContainer>
+				<MudDivider Class="my-2" />
+				<MudMenuItem Icon="@Icons.Material.Filled.Settings" OnClick="ShowUserSettings">账号设置</MudMenuItem>
+				<MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="LogoutClick">@Loc["AuthorizedLayout_Logout"]</MudMenuItem>
+
 			</MudContainer>
 		</ChildContent>
 	</MudMenu>
