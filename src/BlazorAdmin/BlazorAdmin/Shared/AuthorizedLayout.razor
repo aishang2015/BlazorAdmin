@@ -25,10 +25,10 @@
 			<MudAvatar Size="Size.Small" Color="_themeState.IsDark ? Color.Primary : Color.Dark">@_userName.First()</MudAvatar>
 		</ActivatorContent>
 		<ChildContent>
-			<MudContainer Class="d-flex flex-column" Style="width:260px;">
+			<MudContainer Class="d-flex flex-column" Style="width:200px;">
 
-				<MudContainer Class="d-flex flex-column align-center justify-center" Style="width:200px;">
-					<MudText Typo="Typo.h6">@_userName</MudText>
+				<MudContainer Class="d-flex flex-column align-center justify-center">
+					<MudText Typo="Typo.subtitle1" Style="max-width:160px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">@_userName</MudText>
 				</MudContainer>
 				<MudDivider Class="my-2" />
 				<MudMenuItem Icon="@Icons.Material.Filled.Settings" OnClick="ShowUserSettings">账号设置</MudMenuItem>

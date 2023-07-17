@@ -1,5 +1,5 @@
-﻿using BlazorAdmin.Constants;
-using BlazorAdmin.Data;
+﻿using BlazorAdmin.Data;
+using BlazorAdmin.Data.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,7 +8,7 @@ using System.Text;
 
 namespace BlazorAdmin.Core.Helper
 {
-	public class JwtHelper
+    public class JwtHelper
 	{
 		private readonly IDbContextFactory<BlazorAdminDbContext> _dbContextFactory;
 

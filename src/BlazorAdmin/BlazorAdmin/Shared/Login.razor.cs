@@ -1,5 +1,5 @@
-﻿using BlazorAdmin.Constants;
-using BlazorAdmin.Data;
+﻿using BlazorAdmin.Data;
+using BlazorAdmin.Data.Constants;
 using BlazorAdmin.Resources;
 using FluentCodeServer.Core;
 using MudBlazor;
@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace BlazorAdmin.Shared
 {
-	public partial class Login
+    public partial class Login
 	{
 		private Dictionary<string, object> InputAttributes { get; set; } =
 			new Dictionary<string, object>()

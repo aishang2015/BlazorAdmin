@@ -24,6 +24,8 @@ namespace BlazorAdmin.Pages.Rbac
 		// 当前页面的引用，用于js回调
 		private DotNetObjectReference<Menu> _menuPageRef = null!;
 
+		private bool ReRenderFlg = true;
+
 		protected override async Task OnInitializedAsync()
 		{
 			_menuPageRef = DotNetObjectReference.Create(this);
@@ -32,9 +34,14 @@ namespace BlazorAdmin.Pages.Rbac
 
 		private async Task InitialMenuTree()
 		{
+
 			using var context = await _dbFactory.CreateDbContextAsync();
 			var menus = context.Menus.OrderBy(m => m.Order).ToList();
 			MenuItems = AppendMenuItems(null, menus);
+
+			ReRenderFlg = false;
+			await Task.Yield();
+			ReRenderFlg = true;
 		}
 
 		protected override async Task OnAfterRenderAsync(bool firstRender)

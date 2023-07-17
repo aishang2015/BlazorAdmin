@@ -1,4 +1,4 @@
-﻿using BlazorAdmin.Constants;
+﻿using BlazorAdmin.Data.Constants;
 using BlazorAdmin.Pages.Dialogs.Layout;
 using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
@@ -7,7 +7,7 @@ using System.Globalization;
 
 namespace BlazorAdmin.Shared
 {
-	public partial class AuthorizedLayout
+    public partial class AuthorizedLayout
 	{
 		[Parameter] public RenderFragment? Child { get; set; }
 

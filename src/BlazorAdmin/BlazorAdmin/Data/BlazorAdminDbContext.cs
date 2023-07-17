@@ -1,4 +1,4 @@
-﻿using BlazorAdmin.Constants;
+﻿using BlazorAdmin.Data.Constants;
 using BlazorAdmin.Data.Entities;
 using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -8,7 +8,7 @@ using MudBlazor;
 
 namespace BlazorAdmin.Data
 {
-	public class BlazorAdminDbContext : DbContext
+    public class BlazorAdminDbContext : DbContext
 	{
 		public BlazorAdminDbContext(DbContextOptions<BlazorAdminDbContext> options) : base(options)
 		{

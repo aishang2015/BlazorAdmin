@@ -1,8 +1,8 @@
-﻿using BlazorAdmin.Constants;
+﻿using BlazorAdmin.Data.Constants;
 
 namespace BlazorAdmin.Shared
 {
-	public partial class NoAuthorizedPage
+    public partial class NoAuthorizedPage
 	{
 		private async Task LogoutClick()
 		{

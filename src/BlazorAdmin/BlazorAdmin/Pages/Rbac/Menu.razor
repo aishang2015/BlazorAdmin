@@ -18,36 +18,39 @@
 			}
 		</div>
 		<MudDivider Class="mb-2" />
-		<MudTreeView Items="@MenuItems" Hover="true" T="MenuItem" @bind-SelectedValue="SelectedMenuItem">
-			<ItemTemplate>
-				<MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.Childs" Value="context">
-					<Content>
-						<MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="context.Childs.Count > 0" />
-						@if (context.MenuType == 1)
-						{
-							<MudIcon Icon="@context.Icon"></MudIcon>
-						}
-						else
-						{
-							<MudIcon Icon="@Icons.Material.Outlined.Square"></MudIcon>
+		@if (ReRenderFlg)
+		{
+			<MudTreeView Items="@MenuItems" Hover="true" T="MenuItem" @bind-SelectedValue="SelectedMenuItem">
+				<ItemTemplate>
+					<MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.Childs" Value="context">
+						<Content>
+							<MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="context.Childs.Count > 0" />
+							@if (context.MenuType == 1)
+							{
+								<MudIcon Icon="@context.Icon"></MudIcon>
+							}
+							else
+							{
+								<MudIcon Icon="@Icons.Material.Outlined.Square"></MudIcon>
 
-						}
-						<MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.MenuName</MudText>
-						<div class="identify" style="display:none;">@context.Id</div>
-						<MudSpacer />
-						@if (_accessService.CheckHasElementRights("MenuUpdateBtn").Result)
-						{
-							<MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Edit" OnClick="()=>EditMenuClick(context.Id)"
-										   Color="Color.Inherit"></MudIconButton>
-						}
-						@if (_accessService.CheckHasElementRights("MenuOrderBtn").Result)
-						{
-							<MudIcon Icon="@Icons.Material.Filled.DragHandle" Class="draghandle cursor-grabbing" />
-						}
-					</Content>
-				</MudTreeViewItem>
-			</ItemTemplate>
-		</MudTreeView>
+							}
+							<MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.MenuName</MudText>
+							<div class="identify" style="display:none;">@context.Id</div>
+							<MudSpacer />
+							@if (_accessService.CheckHasElementRights("MenuUpdateBtn").Result)
+							{
+								<MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Edit" OnClick="()=>EditMenuClick(context.Id)"
+											   Color="Color.Inherit"></MudIconButton>
+							}
+							@if (_accessService.CheckHasElementRights("MenuOrderBtn").Result)
+							{
+								<MudIcon Icon="@Icons.Material.Filled.DragHandle" Class="draghandle cursor-grabbing" />
+							}
+						</Content>
+					</MudTreeViewItem>
+				</ItemTemplate>
+			</MudTreeView>
+		}
 	</div>
 	<MudDivider Vertical="true" />
 	<div class="flex-1">

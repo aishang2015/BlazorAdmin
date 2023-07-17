@@ -1,9 +1,9 @@
-﻿using BlazorAdmin.Constants;
+﻿using BlazorAdmin.Data.Constants;
 using System.Security.Claims;
 
 namespace FluentCodeServer.Core
 {
-	public static class ClaimsPrincipalExtensions
+    public static class ClaimsPrincipalExtensions
 	{
 		public static int GetUserId(this ClaimsPrincipal user)
 		{
