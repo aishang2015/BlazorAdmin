@@ -1,11 +1,9 @@
 ﻿using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
 
-namespace BlazorAdmin.Pages.Dialogs.User
+namespace BlazorAdmin.Pages.Dialogs.Rbac.User
 {
 	public partial class CreateUserDialog
 	{

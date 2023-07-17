@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using System.Linq;
 using System.Reflection;
 
 namespace BlazorAdmin.Shared.Components

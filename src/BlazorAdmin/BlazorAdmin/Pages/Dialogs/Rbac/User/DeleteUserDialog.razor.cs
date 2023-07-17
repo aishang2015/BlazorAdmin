@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace BlazorAdmin.Pages.Dialogs.User
+namespace BlazorAdmin.Pages.Dialogs.Rbac.User
 {
 	public partial class DeleteUserDialog
 	{

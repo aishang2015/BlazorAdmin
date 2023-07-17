@@ -1,12 +1,9 @@
-﻿using BlazorAdmin.Data.Entities;
-using BlazorAdmin.Pages.Dialogs.Menu;
-using BlazorAdmin.Pages.Dialogs.User;
+﻿using BlazorAdmin.Pages.Dialogs.Rbac.Menu;
 using Microsoft.JSInterop;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
-using static MudBlazor.CategoryTypes;
 
-namespace BlazorAdmin.Pages.Settings
+namespace BlazorAdmin.Pages.Rbac
 {
 	public partial class Menu
 	{

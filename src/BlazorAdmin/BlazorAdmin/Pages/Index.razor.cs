@@ -1,9 +1,9 @@
 ﻿namespace BlazorAdmin.Pages
 {
-    public partial class Index
-    {
+	public partial class Index
+	{
 
-        private string Value { get; } = """
+		private string Value { get; } = """
             ### BlazorAdmin
 
             A simple management project template written using Blazor and MudBlazor.
@@ -42,5 +42,5 @@
             - Entity Framework 7
             
             """;
-    }
+	}
 }

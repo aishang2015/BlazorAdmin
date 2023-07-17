@@ -1,9 +1,7 @@
 ﻿using BlazorAdmin.Constants;
-using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Data;
 using BlazorAdmin.Resources;
 using FluentCodeServer.Core;
-using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;

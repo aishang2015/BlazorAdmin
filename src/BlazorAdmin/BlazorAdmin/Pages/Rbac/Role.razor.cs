@@ -1,10 +1,8 @@
-﻿using BlazorAdmin.Data.Entities;
-using BlazorAdmin.Pages.Dialogs.Role;
-using BlazorAdmin.Pages.Dialogs.User;
+﻿using BlazorAdmin.Pages.Dialogs.Rbac.Role;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 
-namespace BlazorAdmin.Pages.Settings
+namespace BlazorAdmin.Pages.Rbac
 {
 	public partial class Role
 	{

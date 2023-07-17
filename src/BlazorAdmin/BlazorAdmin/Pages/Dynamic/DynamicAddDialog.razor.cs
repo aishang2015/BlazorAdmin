@@ -1,7 +1,6 @@
 ﻿using BlazorAdmin.Core.Dynamic;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using static MudBlazor.Colors;
 
 namespace BlazorAdmin.Pages.Dynamic
 {

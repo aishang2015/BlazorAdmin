@@ -2,7 +2,7 @@
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
 
-namespace BlazorAdmin.Pages.Dialogs.Role
+namespace BlazorAdmin.Pages.Dialogs.Rbac.Role
 {
 	public partial class CreateRoleDialog
 	{

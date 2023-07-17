@@ -1,7 +1,4 @@
-﻿using BlazorAdmin.Data.Entities;
-using Microsoft.AspNetCore.Components;
-using MudBlazor;
-using static MudBlazor.CategoryTypes;
+﻿using Microsoft.AspNetCore.Components;
 
 namespace BlazorAdmin.Shared.Components
 {

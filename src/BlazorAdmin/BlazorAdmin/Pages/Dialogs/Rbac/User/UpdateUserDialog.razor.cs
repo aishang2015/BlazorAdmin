@@ -1,10 +1,8 @@
-﻿using FluentCodeServer.Core;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
-namespace BlazorAdmin.Pages.Dialogs.User
+namespace BlazorAdmin.Pages.Dialogs.Rbac.User
 {
 	public partial class UpdateUserDialog
 	{
@@ -52,6 +50,7 @@ namespace BlazorAdmin.Pages.Dialogs.User
 			if (user != null)
 			{
 				user.Name = UserModel.UserName!;
+				user.RealName = UserModel.RealName!;
 				await context.CustomSaveChangesAsync(_stateProvider);
 				_snackbarService.Add("更新成功！", Severity.Success);
 				MudDialog?.Close(DialogResult.Ok(true));

@@ -1,10 +1,8 @@
 ﻿using BlazorAdmin.Data.Entities;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using static BlazorAdmin.Shared.Components.NavItemMenu;
-using static MudBlazor.Colors;
 
-namespace BlazorAdmin.Pages.Dialogs.Role
+namespace BlazorAdmin.Pages.Dialogs.Rbac.Role
 {
 	public partial class RoleMenuDialog
 	{

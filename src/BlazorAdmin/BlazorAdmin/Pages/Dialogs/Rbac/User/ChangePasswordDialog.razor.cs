@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
 
-namespace BlazorAdmin.Pages.Dialogs.User
+namespace BlazorAdmin.Pages.Dialogs.Rbac.User
 {
 	public partial class ChangePasswordDialog
 	{

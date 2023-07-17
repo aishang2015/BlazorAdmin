@@ -1,15 +1,7 @@
 ﻿using BlazorAdmin.Core.Dynamic;
-using BlazorAdmin.Data;
-using BlazorAdmin.Data.Entities;
-using BlazorAdmin.Pages.Dialogs.User;
-using BlazorAdmin.Pages.Settings;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyModel;
 using MudBlazor;
 using System.Dynamic;
-using System.Reflection;
-using System.Xml.Linq;
-using static MudBlazor.CategoryTypes;
 
 namespace BlazorAdmin.Pages.Dynamic
 {

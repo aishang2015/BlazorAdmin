@@ -15,10 +15,10 @@ namespace BlazorAdmin.Data.Entities
 		public DateTime Time { get; set; }
 
 		[Comment("登录客户端")]
-		public string? Agent { get; set; } 
+		public string? Agent { get; set; }
 
 		[Comment("登录IP")]
-		public string? Ip { get; set; } 
+		public string? Ip { get; set; }
 
 		[Comment("是否成功")]
 		public bool IsSuccessd { get; set; }

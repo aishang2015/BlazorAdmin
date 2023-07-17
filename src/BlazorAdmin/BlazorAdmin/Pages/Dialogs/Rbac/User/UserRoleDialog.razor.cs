@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 
-namespace BlazorAdmin.Pages.Dialogs.User
+namespace BlazorAdmin.Pages.Dialogs.Rbac.User
 {
 	public partial class UserRoleDialog
 	{

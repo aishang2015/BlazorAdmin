@@ -1,16 +1,15 @@
 using BlazorAdmin.Core.Auth;
+using BlazorAdmin.Core.Dynamic;
 using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Data;
+using BlazorAdmin.HostServices;
 using BlazorAdmin.Services;
 using BlazorAdmin.States;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 using MudBlazor.Services;
-using Serilog.Events;
 using Serilog;
-using BlazorAdmin.HostServices;
-using Microsoft.EntityFrameworkCore;
-using BlazorAdmin.Core.Dynamic;
 
 var builder = WebApplication.CreateBuilder(args);
 

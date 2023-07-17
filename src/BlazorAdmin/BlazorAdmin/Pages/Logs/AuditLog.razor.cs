@@ -1,12 +1,11 @@
 ﻿using BlazorAdmin.Core.Extension;
-using BlazorAdmin.Pages.Dialogs.AuditLog;
-using BlazorAdmin.Pages.Dialogs.User;
+using BlazorAdmin.Pages.Dialogs.Logs.AuditLog;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using MudBlazor;
 
-namespace BlazorAdmin.Pages.Infos
+namespace BlazorAdmin.Pages.Logs
 {
 	public partial class AuditLog
 	{

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using MudBlazor;
 
-namespace BlazorAdmin.Pages.Dialogs.AuditLog
+namespace BlazorAdmin.Pages.Dialogs.Logs.AuditLog
 {
 	public partial class AuditLogDetailDialog
 	{

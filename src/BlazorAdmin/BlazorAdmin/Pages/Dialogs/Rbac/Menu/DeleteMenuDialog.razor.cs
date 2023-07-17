@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
-using System.Linq;
 
-namespace BlazorAdmin.Pages.Dialogs.Menu
+namespace BlazorAdmin.Pages.Dialogs.Rbac.Menu
 {
 	public partial class DeleteMenuDialog
 	{
