@@ -8,6 +8,7 @@
 			if (firstRender)
 			{
 				_themeState.IsDarkChangeEvent += StateHasChanged;
+				_themeState.ThemeChangeEvent += StateHasChanged;
 				await _themeState.LoadTheme();
 			}
 		}

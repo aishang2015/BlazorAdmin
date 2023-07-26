@@ -6,6 +6,7 @@
 		{
 			await base.OnAfterRenderAsync(firstRender);
 			_themeState.IsDarkChangeEvent += StateHasChanged;
+			_themeState.ThemeChangeEvent += StateHasChanged;
 		}
 	}
 }

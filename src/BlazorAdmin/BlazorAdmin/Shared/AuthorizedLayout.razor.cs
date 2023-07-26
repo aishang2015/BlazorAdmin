@@ -13,6 +13,10 @@ namespace BlazorAdmin.Shared
 
 		bool _drawerOpen = true;
 
+		bool visible;
+
+		DialogOptions dialogOptions = new() {  NoHeader = true };
+
 		string _userName = string.Empty;
 
 		CultureInfo _culture;

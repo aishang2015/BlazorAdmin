@@ -19,6 +19,17 @@
 						 Icon="@Icons.Material.Filled.DarkMode" Color="@Color.Inherit" Title="Off"
 						 ToggledIcon="@Icons.Material.Filled.LightMode" ToggledColor="@Color.Inherit" ToggledTitle="On" />
 
+	<MudIconButton Style="margin-right:12px;" Icon="@Icons.Material.Filled.FormatColorFill" Color="Color.Inherit" Edge="Edge.Start" OnClick="()=>{visible=true;}" />
+
+	<MudDialog @bind-IsVisible="visible" DisableSidePadding="true" Options="dialogOptions">
+		<TitleContent>
+			<MudText>@Loc["AuthorizedLayout_ColorPickerTitle"]</MudText>
+		</TitleContent>
+		<DialogContent>
+			<MudColorPicker DisableToolbar="false" PickerVariant="PickerVariant.Static" @bind-Value="@_themeState.PrimaryColor" />
+		</DialogContent>
+	</MudDialog>
+
 	<MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Dense="true"
 			 AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight">
 		<ActivatorContent>

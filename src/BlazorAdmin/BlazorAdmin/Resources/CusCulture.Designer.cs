@@ -196,6 +196,15 @@ namespace BlazorAdmin.Resources {
         }
         
         /// <summary>
+        ///   查找类似 主颜色选择 的本地化字符串。
+        /// </summary>
+        public static string AuthorizedLayout_ColorPickerTitle {
+            get {
+                return ResourceManager.GetString("AuthorizedLayout_ColorPickerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 语言 的本地化字符串。
         /// </summary>
         public static string AuthorizedLayout_Language {
