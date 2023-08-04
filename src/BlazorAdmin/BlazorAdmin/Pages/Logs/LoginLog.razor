@@ -35,11 +35,11 @@
 		<MudTd DataLabel="@Loc["LoginLogPage_TableH5"]">
 			@if (context.IsSuccessd)
 			{
-				<MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Success">@Loc["LoginLogPage_LoginSuccess"]</MudChip>
+				<MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["LoginLogPage_LoginSuccess"]</MudChip>
 			}
 			else
 			{
-				<MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Default">@Loc["LoginLogPage_LoginFail"]</MudChip>
+				<MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Error">@Loc["LoginLogPage_LoginFail"]</MudChip>
 			}
 		</MudTd>
 		<MudTd DataLabel="@Loc["LoginLogPage_TableH6"]">@context.Agent</MudTd>

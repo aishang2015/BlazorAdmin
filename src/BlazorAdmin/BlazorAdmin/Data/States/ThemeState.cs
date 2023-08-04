@@ -39,6 +39,11 @@ namespace BlazorAdmin.Data.States
 					_theme.Palette.Primary = color;
 					_theme.Palette.AppbarBackground = color;
 					_theme.PaletteDark.Primary = color;
+
+					_theme.Palette.PrimaryDarken = color.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
+					_theme.Palette.PrimaryLighten = color.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
+					_theme.PaletteDark.PrimaryDarken = color.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
+					_theme.PaletteDark.PrimaryLighten = color.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
 				}
 			}
 			catch (Exception)
@@ -81,6 +86,11 @@ namespace BlazorAdmin.Data.States
 				_theme.Palette.Primary = value;
 				_theme.Palette.AppbarBackground = value;
 				_theme.PaletteDark.Primary = value;
+
+				_theme.Palette.PrimaryDarken = value.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
+				_theme.Palette.PrimaryLighten = value.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
+				_theme.PaletteDark.PrimaryDarken = value.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
+				_theme.PaletteDark.PrimaryLighten = value.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
 				ThemeStateChanged();
 			}
 		}
