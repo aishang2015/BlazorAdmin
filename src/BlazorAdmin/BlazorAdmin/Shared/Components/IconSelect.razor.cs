@@ -22,14 +22,19 @@ namespace BlazorAdmin.Shared.Components
 
 		private string? SearchKeyWord;
 
-		private List<Type> IconTypes = new List<Type>()
+		private string SelectIconGroup = "Material";
+
+		private List<Type> MaterialIconTypes = new List<Type>()
 		{
 			typeof(Icons.Material.Filled),
 			typeof(Icons.Material.Outlined),
 			typeof(Icons.Material.Rounded),
 			typeof(Icons.Material.Sharp),
 			typeof(Icons.Material.TwoTone),
+		};
 
+		private List<Type> CustomIconTypes = new List<Type>()
+		{
 			typeof(Icons.Custom.Brands),
 			typeof(Icons.Custom.FileFormats),
 			typeof(Icons.Custom.Uncategorized),
@@ -48,7 +53,15 @@ namespace BlazorAdmin.Shared.Components
 		private void SelectedTypeChanged(MudChip chip)
 		{
 			SelectedType = chip;
-			GetIcons((Type)chip.Value);
+			if (chip != null)
+			{
+				GetIcons((Type)chip.Value);
+			}
+			else
+			{
+				IconList.Clear();
+				FilterIconList.Clear();
+			}
 		}
 
 		private void TextChanged(string keyword)

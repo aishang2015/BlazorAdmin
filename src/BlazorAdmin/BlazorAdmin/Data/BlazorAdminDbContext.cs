@@ -59,7 +59,7 @@ namespace BlazorAdmin.Data
 
 				Menus.Add(new Menu { Name = "首页", Type = 1, Route = "/", Order = 1, Icon = Icons.Material.Filled.Home });
 				var entry = Menus.Add(new Menu { Name = "日志", Type = 1, Route = "/", Order = 2, Icon = Icons.Material.Filled.Info });
-				var entry2 = Menus.Add(new Menu { Name = "权限", Type = 1, Route = "/", Order = 3, Icon = Icons.Material.Filled.Settings });
+				var entry2 = Menus.Add(new Menu { Name = "权限", Type = 1, Route = "/", Order = 3, Icon = Icons.Material.Filled.VerifiedUser });
 				Menus.Add(new Menu { Name = "关于", Type = 1, Route = "/", Order = 4, Icon = Icons.Material.Filled.TextFields });
 				SaveChanges();
 

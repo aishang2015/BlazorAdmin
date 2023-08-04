@@ -3,24 +3,47 @@
 		<MudIcon Icon="@SelectedIcon" Size="Size.Medium" @onclick="ElementFocused" @onblur="MouseBlur" tabindex="-1"></MudIcon>
 	</div>
 	<MudPopover Open="@_popoverOpen" Fixed="true" Class="px-4 pt-4" tabindex="-1"
-				RelativeWidth="true" @onmouseenter="MouseEnterPopover" @onmouseleave="MouseLeavePopover" @onblur="MouseBlur">
+				AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter"
+	@onmouseenter="MouseEnterPopover" @onmouseleave="MouseLeavePopover" @onblur="MouseBlur">
 
-		<MudTextField Immediate="true" Value="SearchKeyWord" Margin="Margin.Dense" ValueChanged="TextChanged"
-					  T="string" OnBlur="MouseBlur" Placeholder="请输入关键字" Variant="Variant.Outlined"/>
+		<div class="d-flex">
+
+			<div style="width:320px;" >
+				<MudTextField Immediate="true" Value="SearchKeyWord" Margin="Margin.Dense" ValueChanged="TextChanged"
+							  T="string" OnBlur="MouseBlur" Placeholder="请输入关键字" Variant="Variant.Outlined" />
+			</div>
+			<div style="width:160px;" class="ml-2">
+				<MudSelect T="string" Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="SelectIconGroup">
+					<MudSelectItem T="string" Value="@("Material")">Material</MudSelectItem>
+					<MudSelectItem T="string" Value="@("Custom")">Custom</MudSelectItem>
+				</MudSelect>
+			</div>
+		</div>
 		<MudChipSet SelectedChip="SelectedType" SelectedChipChanged="SelectedTypeChanged" Filter="true"
 					Mandatory="true" @onblur="MouseBlur">
-			@foreach (var type in IconTypes)
+			@if (SelectIconGroup == "Material")
 			{
-				<MudChip Variant="Variant.Outlined" Text="grey" Value="type" @onblur="MouseBlur"
-					SelectedColor="Color.Primary">@type.Name</MudChip>
+				@foreach (var type in MaterialIconTypes)
+				{
+					<MudChip Variant="Variant.Outlined" Text="grey" Value="type" @onblur="MouseBlur"
+							 SelectedColor="Color.Primary">@type.Name</MudChip>
+				}
+			}
+			else
+			{
+				@foreach (var type in CustomIconTypes)
+				{
+					<MudChip Variant="Variant.Outlined" Text="grey" Value="type" @onblur="MouseBlur"
+							 SelectedColor="Color.Primary">@type.Name</MudChip>
+				}
 			}
 		</MudChipSet>
 		<div style="height:300px;overflow:auto;" class="mt-2">
 			<Virtualize Items="@FilterIconList">
 				<div class="d-flex align-center cursor-point icon-item" @onclick="()=>SelectIcon(context.Content)">
-					<MudIcon Icon="@context.Content" Size="Size.Large"></MudIcon>
+					<MudIcon Icon="@context.Content" Style="font-size: 3rem;" Class="ml-1"></MudIcon>
 					<MudSpacer />
-					<MudText>@context.Name</MudText>
+					<MudText Class="mr-1">@context.Name</MudText>
 				</div>
 			</Virtualize>
 		</div>
