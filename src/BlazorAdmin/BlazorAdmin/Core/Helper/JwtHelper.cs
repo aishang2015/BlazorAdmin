@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace BlazorAdmin.Core.Helper
@@ -25,9 +26,14 @@ namespace BlazorAdmin.Core.Helper
 			using var context = _dbContextFactory.CreateDbContext();
 			var issuer = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtIssue)!.Value;
 			var audience = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtAudience)!.Value;
-			var key = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtSigningKey)!.Value;
+			var privateKey = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtSigningRsaPrivateKey)!.Value;
+			var publicKey = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtSigningRsaPublicKey)!.Value;
 
-			var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+			// firstly public key，secondly private key
+			var rsa = RSA.Create();
+			rsa.ImportRSAPublicKey(Convert.FromBase64String(publicKey), out int publicReadBytes);
+			rsa.ImportRSAPrivateKey(Convert.FromBase64String(privateKey), out int privateReadBytes);
+			var securityKey = new RsaSecurityKey(rsa);
 
 			_validationParameters = new TokenValidationParameters
 			{
@@ -46,7 +52,7 @@ namespace BlazorAdmin.Core.Helper
 			var expireSpan = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtExpireMinute)!.Value;
 			_expireSpan = int.Parse(expireSpan);
 
-			_credentials = new SigningCredentials(_validationParameters.IssuerSigningKey, SecurityAlgorithms.HmacSha256);
+			_credentials = new SigningCredentials(_validationParameters.IssuerSigningKey, SecurityAlgorithms.RsaSha256);
 		}
 
 		public string GenerateJwtToken(List<Claim> claims)

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MudBlazor;
+using System.Security.Cryptography;
 
 namespace BlazorAdmin.Data
 {
@@ -36,6 +37,10 @@ namespace BlazorAdmin.Data
 		{
 			if (Database.EnsureCreated())
 			{
+				var rsa = RSA.Create();
+				var privateKey = Convert.ToBase64String(rsa.ExportRSAPrivateKey());
+				var publicKey = Convert.ToBase64String(rsa.ExportRSAPublicKey());
+
 				using var tran = Database.BeginTransaction();
 
 				Settings.AddRange(new Setting
@@ -48,8 +53,12 @@ namespace BlazorAdmin.Data
 					Value = "Admin"
 				}, new Setting
 				{
-					Key = JwtConstant.JwtSigningKey,
-					Value = Guid.NewGuid().ToString()
+					Key = JwtConstant.JwtSigningRsaPrivateKey,
+					Value = privateKey
+				}, new Setting
+				{
+					Key = JwtConstant.JwtSigningRsaPublicKey,
+					Value = publicKey
 				}, new Setting
 				{
 					Key = JwtConstant.JwtExpireMinute,
@@ -60,7 +69,7 @@ namespace BlazorAdmin.Data
 				Menus.Add(new Menu { Name = "首页", Type = 1, Route = "/", Order = 1, Icon = Icons.Material.Filled.Home });
 				var entry = Menus.Add(new Menu { Name = "日志", Type = 1, Route = "/", Order = 2, Icon = Icons.Material.Filled.Info });
 				var entry2 = Menus.Add(new Menu { Name = "权限", Type = 1, Route = "/", Order = 3, Icon = Icons.Material.Filled.VerifiedUser });
-				Menus.Add(new Menu { Name = "关于", Type = 1, Route = "/", Order = 4, Icon = Icons.Material.Filled.TextFields });
+				Menus.Add(new Menu { Name = "关于", Type = 1, Route = "/about", Order = 4, Icon = Icons.Material.Filled.TextFields });
 				SaveChanges();
 
 				Menus.Add(new Menu { ParentId = entry.Entity.Id, Name = "审计", Type = 1, Route = "/auditLog", Order = 1, Icon = Icons.Material.Filled.Verified });
