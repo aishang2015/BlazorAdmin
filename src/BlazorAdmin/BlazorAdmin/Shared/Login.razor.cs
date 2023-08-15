@@ -18,6 +18,8 @@ namespace BlazorAdmin.Shared
 
 		private bool ShowContent;
 
+		private bool IsLoading = false;
+
 		private LoginModel _loginModel = new();
 
 		protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -37,6 +39,7 @@ namespace BlazorAdmin.Shared
 
 		private async Task LoginSubmit()
 		{
+			IsLoading = true;
 			using var context = await _dbFactory.CreateDbContextAsync();
 			var user = context.Users.FirstOrDefault(u => u.Name == _loginModel.UserName &&
 				u.IsEnabled && !u.IsDeleted);
@@ -44,6 +47,7 @@ namespace BlazorAdmin.Shared
 			{
 				_snackbarService.Add("用户名或密码错误！", Severity.Error);
 				await RecordLogin(_loginModel.UserName!, false, context);
+				IsLoading = false;
 				return;
 			}
 

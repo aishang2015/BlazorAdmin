@@ -21,7 +21,17 @@
 								  AdornmentIcon="@Icons.Material.Filled.Password" Adornment="Adornment.Start"></MudTextField>
 					<div class="mt-4">
 						<MudButton Variant="Variant.Filled" FullWidth="true" Color="Color.Primary"
-								   ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Login">@Loc["Login_LoginText"]</MudButton>
+								   ButtonType="ButtonType.Submit" Disabled="IsLoading">
+							@if (IsLoading)
+							{
+								<MudProgressCircular Color="Color.Default" Indeterminate="true" Size="Size.Small" />
+							}
+							else
+							{
+								<MudIcon Icon="@Icons.Material.Filled.Login"></MudIcon>
+							}
+							<MudText Class="ml-2">@Loc["Login_LoginText"]</MudText>
+						</MudButton>
 					</div>
 				</EditForm>
 			</div>
