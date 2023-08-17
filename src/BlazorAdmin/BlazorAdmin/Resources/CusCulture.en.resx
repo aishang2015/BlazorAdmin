@@ -177,8 +177,14 @@
   <data name="AuthorizedLayout_Logout" xml:space="preserve">
     <value>Logout</value>
   </data>
+  <data name="BackToHome_Text" xml:space="preserve">
+    <value>Back To Home Page</value>
+  </data>
   <data name="ClearBtnText" xml:space="preserve">
     <value>Clear selected</value>
+  </data>
+  <data name="Error_Text" xml:space="preserve">
+    <value>A system error has occurred!</value>
   </data>
   <data name="LoginLogPage_LoginFail" xml:space="preserve">
     <value>Fail</value>

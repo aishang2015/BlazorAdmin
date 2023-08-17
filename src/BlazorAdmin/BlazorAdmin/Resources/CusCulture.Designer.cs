@@ -241,11 +241,29 @@ namespace BlazorAdmin.Resources {
         }
         
         /// <summary>
+        ///   查找类似 返回首页 的本地化字符串。
+        /// </summary>
+        public static string BackToHome_Text {
+            get {
+                return ResourceManager.GetString("BackToHome_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 清理选中 的本地化字符串。
         /// </summary>
         public static string ClearBtnText {
             get {
                 return ResourceManager.GetString("ClearBtnText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 发生了一个系统错误！ 的本地化字符串。
+        /// </summary>
+        public static string Error_Text {
+            get {
+                return ResourceManager.GetString("Error_Text", resourceCulture);
             }
         }
         

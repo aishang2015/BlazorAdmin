@@ -6,17 +6,24 @@
 
 <PageTitle>BlazorAdmin</PageTitle>
 
-<MudLayout>
-	<AuthorizeView Context="authContext">
-		<Authorized>
-			<AuthorizedLayout>
-				<Child>
+<LoggerErrorBoundary>
+	<ChildContent>
+		<MudLayout>
+			<AuthorizeView Context="authContext">
+				<Authorized>
+					<AuthorizedLayout>
+						<Child>
+							@Body
+						</Child>
+					</AuthorizedLayout>
+				</Authorized>
+				<NotAuthorized>
 					@Body
-				</Child>
-			</AuthorizedLayout>
-		</Authorized>
-		<NotAuthorized>
-			@Body
-		</NotAuthorized>
-	</AuthorizeView>
-</MudLayout>
+				</NotAuthorized>
+			</AuthorizeView>
+		</MudLayout>
+	</ChildContent>
+	<ErrorContent>
+		<ErrorPage />
+	</ErrorContent>
+</LoggerErrorBoundary>
