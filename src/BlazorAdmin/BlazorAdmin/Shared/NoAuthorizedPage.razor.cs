@@ -1,6 +1,4 @@
-﻿using BlazorAdmin.Data.Constants;
-
-namespace BlazorAdmin.Shared
+﻿namespace BlazorAdmin.Shared
 {
 	public partial class NoAuthorizedPage
 	{

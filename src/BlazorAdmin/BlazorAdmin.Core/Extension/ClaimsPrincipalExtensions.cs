@@ -1,4 +1,4 @@
-﻿using BlazorAdmin.Data.Constants;
+﻿using BlazorAdmin.Core.Constants;
 using System.Security.Claims;
 
 namespace FluentCodeServer.Core

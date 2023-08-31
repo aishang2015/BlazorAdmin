@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace BlazorAdmin.Services
+namespace BlazorAdmin.Core.Services
 {
 
 	public interface IAccessService

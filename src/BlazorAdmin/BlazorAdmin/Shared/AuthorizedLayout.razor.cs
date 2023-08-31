@@ -1,5 +1,4 @@
-﻿using BlazorAdmin.Data.Constants;
-using BlazorAdmin.Shared.Dialogs.Layout;
+﻿using BlazorAdmin.Shared.Dialogs.Layout;
 using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -15,7 +14,7 @@ namespace BlazorAdmin.Shared
 
 		bool visible;
 
-		DialogOptions dialogOptions = new() {  NoHeader = true };
+		DialogOptions dialogOptions = new() { NoHeader = true };
 
 		string _userName = string.Empty;
 

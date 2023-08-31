@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace FluentCodeServer.Core
+namespace BlazorAdmin.Core.Helper
 {
 	public static class HashHelper
 	{

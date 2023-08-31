@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using MudBlazor;
 using MudBlazor.Utilities;
-using static MudBlazor.Colors;
 
 namespace BlazorAdmin.Data.States
 {

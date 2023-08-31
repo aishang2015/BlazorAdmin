@@ -3,34 +3,34 @@ using MudBlazor;
 
 namespace BlazorAdmin.Pages.Rbac.User.Dialogs
 {
-    public partial class DeleteUserDialog
-    {
-        [Parameter] public int UserId { get; set; }
+	public partial class DeleteUserDialog
+	{
+		[Parameter] public int UserId { get; set; }
 
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+		[CascadingParameter] MudDialogInstance? MudDialog { get; set; }
 
 
-        private async Task ConfirmDelete()
-        {
-            using var context = await _dbFactory.CreateDbContextAsync();
-            var user = context.Users.Find(UserId);
-            if (user != null)
-            {
-                user.IsDeleted = true;
-                context.Users.Update(user);
+		private async Task ConfirmDelete()
+		{
+			using var context = await _dbFactory.CreateDbContextAsync();
+			var user = context.Users.Find(UserId);
+			if (user != null)
+			{
+				user.IsDeleted = true;
+				context.Users.Update(user);
 
-                var urs = context.UserRoles.Where(ur => ur.UserId == UserId);
-                context.UserRoles.RemoveRange(urs);
+				var urs = context.UserRoles.Where(ur => ur.UserId == UserId);
+				context.UserRoles.RemoveRange(urs);
 
-                await context.CustomSaveChangesAsync(_stateProvider);
+				await context.CustomSaveChangesAsync(_stateProvider);
 
-                _snackbarService.Add("删除成功！", Severity.Success);
-                MudDialog?.Close(DialogResult.Ok(true));
-            }
-            else
-            {
-                _snackbarService.Add("用户信息不存在！", Severity.Error);
-            }
-        }
-    }
+				_snackbarService.Add("删除成功！", Severity.Success);
+				MudDialog?.Close(DialogResult.Ok(true));
+			}
+			else
+			{
+				_snackbarService.Add("用户信息不存在！", Severity.Error);
+			}
+		}
+	}
 }

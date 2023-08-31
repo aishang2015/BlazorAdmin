@@ -1,4 +1,4 @@
-﻿namespace BlazorAdmin.Data.Constants
+﻿namespace BlazorAdmin.Core.Constants
 {
 	public record JwtConstant
 	{
