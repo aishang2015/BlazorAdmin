@@ -1,7 +1,8 @@
+global using BlazorAdmin.Data;
+
 using BlazorAdmin.Core.Auth;
 using BlazorAdmin.Core.Dynamic;
 using BlazorAdmin.Core.Helper;
-using BlazorAdmin.Data;
 using BlazorAdmin.Data.States;
 using BlazorAdmin.Services;
 using Microsoft.AspNetCore.Components.Authorization;

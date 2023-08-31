@@ -1,5 +1,4 @@
-﻿using BlazorAdmin.Core.Dynamic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace BlazorAdmin.Data.Entities
 {
@@ -16,7 +15,6 @@ namespace BlazorAdmin.Data.Entities
 		public bool IsEnabled { get; set; }
 
 		[Comment("是否删除")]
-		[DynamicProperty(IsDisplay = false)]
 		public bool IsDeleted { get; set; }
 	}
 }

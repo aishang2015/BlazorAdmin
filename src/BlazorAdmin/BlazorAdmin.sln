@@ -5,6 +5,8 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAdmin", "BlazorAdmin\BlazorAdmin.csproj", "{38CA0DFA-071E-419A-98C9-E4382393CBE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAdmin.Data", "BlazorAdmin.Data\BlazorAdmin.Data.csproj", "{B78F5BDC-650D-4F14-B9A9-3A324EA93E3B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{38CA0DFA-071E-419A-98C9-E4382393CBE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38CA0DFA-071E-419A-98C9-E4382393CBE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38CA0DFA-071E-419A-98C9-E4382393CBE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B78F5BDC-650D-4F14-B9A9-3A324EA93E3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B78F5BDC-650D-4F14-B9A9-3A324EA93E3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B78F5BDC-650D-4F14-B9A9-3A324EA93E3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B78F5BDC-650D-4F14-B9A9-3A324EA93E3B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
