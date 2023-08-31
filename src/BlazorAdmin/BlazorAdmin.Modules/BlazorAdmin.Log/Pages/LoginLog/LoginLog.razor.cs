@@ -1,6 +1,6 @@
 ﻿using BlazorAdmin.Core.Extension;
 
-namespace BlazorAdmin.Pages.Logs.LoginLog
+namespace BlazorAdmin.Log.Pages.LoginLog
 {
 	public partial class LoginLog
 	{

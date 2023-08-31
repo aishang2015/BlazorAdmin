@@ -22,12 +22,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Pages\Logs\LoginLog\Dialogs\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
 	  <ProjectReference Include="..\BlazorAdmin.Data\BlazorAdmin.Data.csproj" />
+	  <ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Log\BlazorAdmin.Log.csproj" />
 	  <ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Rbac\BlazorAdmin.Rbac.csproj" />
 	</ItemGroup>
 
