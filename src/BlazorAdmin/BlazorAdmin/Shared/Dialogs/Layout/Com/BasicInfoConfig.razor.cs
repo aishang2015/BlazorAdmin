@@ -1,7 +1,7 @@
 ﻿using FluentCodeServer.Core;
 using MudBlazor;
 
-namespace BlazorAdmin.Pages.Dialogs.Layout.Com
+namespace BlazorAdmin.Shared.Dialogs.Layout.Com
 {
 	public partial class BasicInfoConfig
 	{

@@ -1,5 +1,5 @@
 ﻿using BlazorAdmin.Data.Constants;
-using BlazorAdmin.Pages.Dialogs.Layout;
+using BlazorAdmin.Shared.Dialogs.Layout;
 using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;

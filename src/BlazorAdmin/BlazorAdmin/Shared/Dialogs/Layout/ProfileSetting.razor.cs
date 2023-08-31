@@ -1,4 +1,4 @@
-﻿namespace BlazorAdmin.Pages.Dialogs.Layout
+﻿namespace BlazorAdmin.Shared.Dialogs.Layout
 {
 	public partial class ProfileSetting
 	{

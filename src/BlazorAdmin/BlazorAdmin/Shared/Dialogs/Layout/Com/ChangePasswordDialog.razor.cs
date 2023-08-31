@@ -3,19 +3,19 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
 
-namespace BlazorAdmin.Pages.Dialogs.Rbac.User
+namespace BlazorAdmin.Shared.Dialogs.Layout.Com
 {
 	public partial class ChangePasswordDialog
 	{
 		[CascadingParameter] MudDialogInstance? MudDialog { get; set; }
-		[Parameter] public int UserId { get; set; }
 
 		private PasswordChangeModel PasswordModel = new();
 
 		private async Task Submit()
 		{
 			using var context = _dbFactory.CreateDbContext();
-			var user = context.Users.Find(UserId);
+			var userState = await _stateProvider.GetAuthenticationStateAsync();
+			var user = context.Users.Find(userState.User.GetUserId());
 			if (user != null)
 			{
 				user.PasswordHash = HashHelper.HashPassword(PasswordModel.Password!);
@@ -36,6 +36,9 @@ namespace BlazorAdmin.Pages.Dialogs.Rbac.User
 			[MaxLength(100, ErrorMessage = "密码位数过长")]
 			[RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$", ErrorMessage = "密码中必须包含大小写字母以及数字")]
 			public string? Password { get; set; }
+
+			[Compare(nameof(Password), ErrorMessage = "两次输入的密码不一致")]
+			public string? ConfirmPassword { get; set; }
 		}
 	}
 }
