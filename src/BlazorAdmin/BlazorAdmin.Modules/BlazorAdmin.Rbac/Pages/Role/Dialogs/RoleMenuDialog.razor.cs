@@ -1,8 +1,9 @@
-﻿using BlazorAdmin.Data.Entities;
+﻿using BlazorAdmin.Core.Data;
+using BlazorAdmin.Data.Entities;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace BlazorAdmin.Pages.Rbac.Role.Dialogs
+namespace BlazorAdmin.Rbac.Pages.Role.Dialogs
 {
 	public partial class RoleMenuDialog
 	{

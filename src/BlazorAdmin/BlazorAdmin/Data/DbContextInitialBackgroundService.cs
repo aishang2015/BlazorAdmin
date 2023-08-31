@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BlazorAdmin.Core.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlazorAdmin.Data
 {

@@ -1,9 +1,11 @@
-﻿using BlazorAdmin.Pages.Rbac.Menu.Dialogs;
+﻿
+using BlazorAdmin.Core.Data;
+using BlazorAdmin.Rbac.Pages.Menu.Dialogs;
 using Microsoft.JSInterop;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
 
-namespace BlazorAdmin.Pages.Rbac.Menu
+namespace BlazorAdmin.Rbac.Pages.Menu
 {
 	public partial class Menu
 	{

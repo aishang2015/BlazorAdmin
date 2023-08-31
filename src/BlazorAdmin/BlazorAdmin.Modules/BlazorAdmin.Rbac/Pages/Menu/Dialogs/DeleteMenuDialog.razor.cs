@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 
-namespace BlazorAdmin.Pages.Rbac.Menu.Dialogs
+namespace BlazorAdmin.Rbac.Pages.Menu.Dialogs
 {
 	public partial class DeleteMenuDialog
 	{

@@ -3,8 +3,9 @@
 @using BlazorAdmin.Core.Helper;
 @using BlazorAdmin.Core.Resources;
 @using BlazorAdmin.Data;
-@using BlazorAdmin.Data.States;
 @using BlazorAdmin.Core.Services;
+@using BlazorAdmin.Rbac.Components;
+@using BlazorAdmin.Core.Data;
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.Forms
@@ -16,7 +17,6 @@
 @using Microsoft.Extensions.Localization;
 @using Microsoft.JSInterop
 @using BlazorAdmin
-@using BlazorAdmin.Shared
 
 @using MudBlazor
 
@@ -25,7 +25,6 @@
 @inject IDialogService _dialogService;
 @inject ISnackbar _snackbarService;
 @inject IAccessService _accessService;
-@inject IHttpContextAccessor _httpAccessor;
 
 @inject JwtHelper _jwtHelper;
 @inject AuthenticationStateProvider _stateProvider;
@@ -34,6 +33,5 @@
 @inject NavigationManager _navManager;
 @inject IStringLocalizer<CusCulture> Loc;
 
-@inject ThemeState _themeState;
 
 @attribute [Authorize]

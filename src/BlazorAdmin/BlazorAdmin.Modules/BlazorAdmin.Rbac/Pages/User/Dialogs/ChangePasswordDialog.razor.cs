@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using BlazorAdmin.Core.Data;
+using BlazorAdmin.Core.Helper;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
 
-namespace BlazorAdmin.Pages.Rbac.User.Dialogs
+namespace BlazorAdmin.Rbac.Pages.User.Dialogs
 {
 	public partial class ChangePasswordDialog
 	{

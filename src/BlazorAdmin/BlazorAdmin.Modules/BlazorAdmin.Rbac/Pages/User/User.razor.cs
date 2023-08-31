@@ -1,8 +1,9 @@
-﻿using BlazorAdmin.Pages.Rbac.User.Dialogs;
+﻿using BlazorAdmin.Core.Data;
+using BlazorAdmin.Rbac.Pages.User.Dialogs;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 
-namespace BlazorAdmin.Pages.Rbac.User
+namespace BlazorAdmin.Rbac.Pages.User
 {
 	public partial class User
 	{

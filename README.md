@@ -26,6 +26,8 @@ Password:BlazorAdmin
 
 - Audit/Login Log
 
+- Modularization
+
 ---
 
 #### Technology stack:

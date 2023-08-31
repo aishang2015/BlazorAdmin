@@ -1,4 +1,4 @@
-﻿using BlazorAdmin.Resources;
+﻿using BlazorAdmin.Core.Resources;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;

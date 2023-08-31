@@ -1,9 +1,10 @@
-﻿using BlazorAdmin.Data.Entities;
+﻿using BlazorAdmin.Core.Data;
+using BlazorAdmin.Data.Entities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 
-namespace BlazorAdmin.Pages.Rbac.User.Dialogs
+namespace BlazorAdmin.Rbac.Pages.User.Dialogs
 {
 	public partial class UserRoleDialog
 	{

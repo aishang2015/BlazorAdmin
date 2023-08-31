@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BlazorAdmin.Resources {
+namespace BlazorAdmin.Core.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace BlazorAdmin.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BlazorAdmin.Resources.CusCulture", typeof(CusCulture).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BlazorAdmin.Core.Resources.CusCulture", typeof(CusCulture).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

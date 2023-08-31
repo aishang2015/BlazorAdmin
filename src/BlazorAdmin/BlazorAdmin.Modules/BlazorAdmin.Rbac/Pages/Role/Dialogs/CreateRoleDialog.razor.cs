@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using BlazorAdmin.Core.Data;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
 
-namespace BlazorAdmin.Pages.Rbac.Role.Dialogs
+namespace BlazorAdmin.Rbac.Pages.Role.Dialogs
 {
 	public partial class CreateRoleDialog
 	{

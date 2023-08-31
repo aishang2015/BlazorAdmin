@@ -1,4 +1,7 @@
-﻿using BlazorAdmin.Data.Entities;
+﻿using BlazorAdmin.Core.Constants;
+using BlazorAdmin.Core.Helper;
+using BlazorAdmin.Data;
+using BlazorAdmin.Data.Entities;
 using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +10,7 @@ using System.Security.Cryptography;
 using Role = BlazorAdmin.Data.Entities.Role;
 using User = BlazorAdmin.Data.Entities.User;
 
-namespace BlazorAdmin.Data
+namespace BlazorAdmin.Core.Data
 {
 	public static class BlazorAdminDbContextExtension
 	{

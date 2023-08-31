@@ -10,32 +10,15 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
-		<PackageReference Include="MudBlazor" Version="6.8.0" />
-		<PackageReference Include="MudBlazor.Markdown" Version="0.1.2" />
 		<PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Update="Resources\CusCulture.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>CusCulture.resx</DependentUpon>
-		</Compile>
 		<Compile Update="Shared\Components\MenuTreeSelect.razor.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>MenuTreeSelect.razor.resx</DependentUpon>
 		</Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Update="Resources\CusCulture.en.resx">
-			<Generator>PublicResXFileCodeGenerator</Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Resources\CusCulture.resx">
-			<Generator>PublicResXFileCodeGenerator</Generator>
-			<LastGenOutput>CusCulture.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -45,6 +28,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
 	  <ProjectReference Include="..\BlazorAdmin.Data\BlazorAdmin.Data.csproj" />
+	  <ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Rbac\BlazorAdmin.Rbac.csproj" />
 	</ItemGroup>
 
 </Project>
