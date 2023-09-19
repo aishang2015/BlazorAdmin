@@ -58,8 +58,8 @@ namespace BlazorAdmin.Rbac.Pages.User
 		private async Task AddUserClick()
 		{
 			var parameters = new DialogParameters { };
-			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
-			var result = await _dialogService.Show<CreateUserDialog>(string.Empty, parameters, options).Result;
+			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
+			var result = await _dialogService.Show<CreateUserDialog>("创建新用户", parameters, options).Result;
 			if (!result.Canceled)
 			{
 				await InitialData();
@@ -72,8 +72,8 @@ namespace BlazorAdmin.Rbac.Pages.User
 			{
 				{"UserId",userId }
 			};
-			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
-			var result = await _dialogService.Show<DeleteUserDialog>(string.Empty, parameters, options).Result;
+			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
+			var result = await _dialogService.Show<DeleteUserDialog>("是否删除该用户", parameters, options).Result;
 			if (!result.Canceled)
 			{
 				await InitialData();
@@ -87,8 +87,8 @@ namespace BlazorAdmin.Rbac.Pages.User
 			{
 				{"UserId",userId }
 			};
-			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
-			var result = await _dialogService.Show<UpdateUserDialog>(string.Empty, parameters, options).Result;
+			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
+			var result = await _dialogService.Show<UpdateUserDialog>("编辑用户", parameters, options).Result;
 			if (!result.Canceled)
 			{
 				await InitialData();
@@ -101,8 +101,8 @@ namespace BlazorAdmin.Rbac.Pages.User
 			{
 				{"UserId",userId }
 			};
-			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
-			await _dialogService.Show<ChangePasswordDialog>(string.Empty, parameters, options).Result;
+			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
+			await _dialogService.Show<ChangePasswordDialog>("修改用户密码", parameters, options).Result;
 		}
 
 		private async Task SetUserRoleClick(int userId)
@@ -111,8 +111,8 @@ namespace BlazorAdmin.Rbac.Pages.User
 			{
 				{"UserId",userId }
 			};
-			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
-			await _dialogService.Show<UserRoleDialog>(string.Empty, parameters, options).Result;
+			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
+			await _dialogService.Show<UserRoleDialog>("设置用户角色", parameters, options).Result;
 		}
 
 		private async Task ChangeUserActive(int userId, bool isEnabled)

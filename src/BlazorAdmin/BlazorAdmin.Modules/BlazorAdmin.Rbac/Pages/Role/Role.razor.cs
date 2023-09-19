@@ -61,8 +61,8 @@ namespace BlazorAdmin.Rbac.Pages.Role
 		private async Task AddRoleClick()
 		{
 			var parameters = new DialogParameters { };
-			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
-			var result = await _dialogService.Show<CreateRoleDialog>(string.Empty, parameters, options).Result;
+			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
+			var result = await _dialogService.Show<CreateRoleDialog>("创建新角色", parameters, options).Result;
 			if (!result.Canceled)
 			{
 				await InitialData();
@@ -75,8 +75,8 @@ namespace BlazorAdmin.Rbac.Pages.Role
 			{
 				{"RoleId",roleId }
 			};
-			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
-			var result = await _dialogService.Show<DeleteRoleDialog>(string.Empty, parameters, options).Result;
+			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
+			var result = await _dialogService.Show<DeleteRoleDialog>("是否删除该角色", parameters, options).Result;
 			if (!result.Canceled)
 			{
 				await InitialData();
@@ -89,8 +89,8 @@ namespace BlazorAdmin.Rbac.Pages.Role
 			{
 				{"RoleId",roleId }
 			};
-			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
-			var result = await _dialogService.Show<UpdateRoleDialog>(string.Empty, parameters, options).Result;
+			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
+			var result = await _dialogService.Show<UpdateRoleDialog>("编辑该角色", parameters, options).Result;
 			if (!result.Canceled)
 			{
 				await InitialData();
@@ -103,8 +103,8 @@ namespace BlazorAdmin.Rbac.Pages.Role
 			{
 				{"RoleId",roleId }
 			};
-			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
-			var result = await _dialogService.Show<RoleMenuDialog>(string.Empty, parameters, options).Result;
+			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
+			var result = await _dialogService.Show<RoleMenuDialog>("设置角色菜单", parameters, options).Result;
 			if (!result.Canceled)
 			{
 				await InitialData();

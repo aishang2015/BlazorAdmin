@@ -1,10 +1,9 @@
-﻿<MudDialog DisableSidePadding="true">
+﻿<MudDialog>
 	<DialogContent>
-		<div style="width:300px;" class="px-6 py-2">
-			<MudText Typo="Typo.h6">创建新角色</MudText>
+		<div style="width:300px;">
 			<EditForm Model="RoleModel" OnValidSubmit="CreateSubmit" style="width:100%;">
 				<DataAnnotationsValidator />
-				<MudTextField Class="mt-4" @bind-Value="RoleModel.RoleName" Variant="Variant.Outlined" Margin="Margin.Dense"
+				<MudTextField @bind-Value="RoleModel.RoleName" Variant="Variant.Outlined" Margin="Margin.Dense"
 							  Label="请输入角色名称" For="@(() => RoleModel.RoleName)"
 							  UserAttributes="InputAttributes"></MudTextField>
 				<div class="mt-4 d-flex">

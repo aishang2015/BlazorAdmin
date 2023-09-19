@@ -1,8 +1,6 @@
-﻿<MudDialog DisableSidePadding="true">
+﻿<MudDialog>
 	<DialogContent>
-		<div style="width:300px;" class="px-6 py-2">
-			<MudText Typo="Typo.h6">设置角色菜单</MudText>
-
+		<div style="width:300px;">
 			<MudTreeView T="MenuTreeItem" Items="@MenuTreeItemSet" Hover="true">
 				<ItemTemplate>
 					<MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.Childs" Value="context">

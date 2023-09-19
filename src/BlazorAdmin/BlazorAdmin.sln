@@ -5,15 +5,15 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAdmin", "BlazorAdmin\BlazorAdmin.csproj", "{38CA0DFA-071E-419A-98C9-E4382393CBE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAdmin.Data", "BlazorAdmin.Data\BlazorAdmin.Data.csproj", "{B78F5BDC-650D-4F14-B9A9-3A324EA93E3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAdmin.Data", "BlazorAdmin.Data\BlazorAdmin.Data.csproj", "{B78F5BDC-650D-4F14-B9A9-3A324EA93E3B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlazorAdmin.Modules", "BlazorAdmin.Modules", "{8BBD5B11-B311-4365-883C-D3E6E6A09D8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAdmin.Core", "BlazorAdmin.Core\BlazorAdmin.Core.csproj", "{CB1A3D3F-E3B5-45BE-8FC2-BAC55BC827D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAdmin.Core", "BlazorAdmin.Core\BlazorAdmin.Core.csproj", "{CB1A3D3F-E3B5-45BE-8FC2-BAC55BC827D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAdmin.Rbac", "BlazorAdmin.Modules\BlazorAdmin.Rbac\BlazorAdmin.Rbac.csproj", "{0F01CA43-B027-45A6-948B-AC73D4F70488}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAdmin.Rbac", "BlazorAdmin.Modules\BlazorAdmin.Rbac\BlazorAdmin.Rbac.csproj", "{0F01CA43-B027-45A6-948B-AC73D4F70488}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAdmin.Log", "BlazorAdmin.Modules\BlazorAdmin.Log\BlazorAdmin.Log.csproj", "{51FE8C62-7993-425A-85E4-4B4A4A5F6E97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAdmin.Log", "BlazorAdmin.Modules\BlazorAdmin.Log\BlazorAdmin.Log.csproj", "{51FE8C62-7993-425A-85E4-4B4A4A5F6E97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

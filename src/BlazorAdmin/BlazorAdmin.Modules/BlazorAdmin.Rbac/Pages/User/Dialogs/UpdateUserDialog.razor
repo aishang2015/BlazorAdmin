@@ -1,10 +1,9 @@
-﻿<MudDialog DisableSidePadding="true">
+﻿<MudDialog>
 	<DialogContent>
-		<div style="width:300px;" class="px-6 py-2">
-			<MudText Typo="Typo.h6">编辑用户</MudText>
+		<div style="width:300px;">
 			<EditForm Model="UserModel" OnValidSubmit="UpdateSumbit" style="width:100%;">
 				<DataAnnotationsValidator />
-				<MudTextField Class="mt-4" @bind-Value="UserModel.UserName" Variant="Variant.Outlined" Margin="Margin.Dense"
+				<MudTextField  @bind-Value="UserModel.UserName" Variant="Variant.Outlined" Margin="Margin.Dense"
 							  Label="用户名" For="@(() => UserModel.UserName)"
 							  UserAttributes="InputAttributes"></MudTextField>
 				<MudTextField Class="mt-4" @bind-Value="UserModel.RealName" Variant="Variant.Outlined" Margin="Margin.Dense"
