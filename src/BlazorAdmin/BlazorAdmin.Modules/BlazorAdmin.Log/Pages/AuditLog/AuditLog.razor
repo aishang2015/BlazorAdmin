@@ -32,55 +32,38 @@
 	<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="InitialAsync"
 				   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
 </div>
-<MudTable Class="mb-4" Items="@AuditLogs" Hover="true" Breakpoint="Breakpoint.Sm"
-		  LoadingProgressColor="Color.Info" Dense="true">
-	@*	<ColGroup>
-	<col style="min-width:100px;width:100px;max-width:100px;" />
-	<col style="min-width:150px;" />
-	<col style="min-width:150px;" />
-	<col style="min-width:150px;" />
-	<col style="min-width:150px;" />
-	<col style="min-width:150px;" />
-	<col style="min-width:70px;width:70px;max-width:70px;" />
-	</ColGroup>*@
-	<HeaderContent>
-		<MudTh>@Loc["AuditLogPage_TableH1"]</MudTh>
-		<MudTh>@Loc["AuditLogPage_TableH2"]</MudTh>
-		<MudTh>@Loc["AuditLogPage_TableH3"]</MudTh>
-		<MudTh>@Loc["AuditLogPage_TableH4"]</MudTh>
-		<MudTh>@Loc["AuditLogPage_TableH5"]</MudTh>
-		<MudTh>@Loc["AuditLogPage_TableH6"]</MudTh>
-		<MudTh>@Loc["AuditLogPage_TableH7"]</MudTh>
-	</HeaderContent>
-	<RowTemplate>
-		<MudTd DataLabel="@Loc["AuditLogPage_TableH1"]">@context.Number</MudTd>
-		<MudTd DataLabel="@Loc["AuditLogPage_TableH2"]">@context.TransactionId</MudTd>
-		<MudTd DataLabel="@Loc["AuditLogPage_TableH3"]">@context.UserName</MudTd>
-		<MudTd DataLabel="@Loc["AuditLogPage_TableH4"]">@context.EntityName</MudTd>
-		<MudTd DataLabel="@Loc["AuditLogPage_TableH5"]">
-			@if (context.Operation == 2)
-			{
-				<MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Warning">@Loc["AuditLogPage_OperationDelete"]</MudChip>
-			}
-			else if (context.Operation == 3)
-			{
-				<MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Tertiary">@Loc["AuditLogPage_OperationModify"]</MudChip>
-			}
-			else if (context.Operation == 4)
-			{
-				<MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["AuditLogPage_OperationCreate"]</MudChip>
-			}
-		</MudTd>
-		<MudTd DataLabel="@Loc["AuditLogPage_TableH6"]">@context.OperateTime</MudTd>
-		<MudTd DataLabel="@Loc["AuditLogPage_TableH7"]">
-			<MudStack Row>
+<MudDataGrid Items="@AuditLogs" Dense="true" Filterable="false" SortMode="@SortMode.None" Groupable="false">
+	<Columns>
+		<PropertyColumn Property="x => x.Number" Title="@Loc["AuditLogPage_TableH1"]" StickyLeft="true" CellStyle="width:80px;" HeaderStyle="white-space:nowrap" />
+		<PropertyColumn Property="x => x.TransactionId" Title="@Loc["AuditLogPage_TableH2"]" CellStyle="white-space:nowrap" />
+		<PropertyColumn Property="x => x.UserName" Title="@Loc["AuditLogPage_TableH3"]" CellStyle="white-space:nowrap" />
+		<PropertyColumn Property="x => x.EntityName" Title="@Loc["AuditLogPage_TableH4"]" HeaderStyle="white-space:nowrap" />
+		<TemplateColumn Title="@Loc["AuditLogPage_TableH5"]" HeaderStyle="white-space:nowrap">
+			<CellTemplate>
+				@if (context.Item.Operation == 2)
+				{
+					<MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["AuditLogPage_OperationDelete"]</MudChip>
+				}
+				else if (context.Item.Operation == 3)
+				{
+					<MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["AuditLogPage_OperationModify"]</MudChip>
+				}
+				else if (context.Item.Operation == 4)
+				{
+					<MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["AuditLogPage_OperationCreate"]</MudChip>
+				}
+			</CellTemplate>
+		</TemplateColumn>
+		<PropertyColumn Property="x => x.OperateTime" Title="@Loc["AuditLogPage_TableH6"]" CellStyle="white-space:nowrap" />
+		<TemplateColumn Title="@Loc["AuditLogPage_TableH7"]" StickyRight="true" CellStyle="width:80px;text-align:center;" HeaderStyle="white-space:nowrap">
+			<CellTemplate>
 				<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Details" Color="Color.Primary"
-							   OnClick="()=>ViewDetail(context.Id)" />
-			</MudStack>
-		</MudTd>
-	</RowTemplate>
-</MudTable>
-<div class="d-flex justify-between align-center">
+							   OnClick="()=>ViewDetail(context.Item.Id)" />
+			</CellTemplate>
+		</TemplateColumn>
+	</Columns>
+</MudDataGrid>
+<div class="d-flex justify-between align-center mt-4">
 	<MudSpacer />
 	<MudPagination Color="Color.Primary" Count="@((Total - 1)/Size + 1)" Selected="@Page" SelectedChanged="PageChangedClick" />
 </div>
