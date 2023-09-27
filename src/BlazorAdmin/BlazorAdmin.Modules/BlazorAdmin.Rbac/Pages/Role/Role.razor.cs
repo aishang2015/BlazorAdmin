@@ -53,7 +53,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
 			{
 				role.IsEnabled = isEnabled;
 				await context.CustomSaveChangesAsync(_stateProvider);
-				_snackbarService.Add("状态修改成功！", Severity.Success);
+				_snackbarService.Add(Loc["RolePage_StatusChangedMessage"], Severity.Success);
 				Roles.FirstOrDefault(u => u.Id == roleId)!.IsEnabled = isEnabled;
 			}
 		}
@@ -62,7 +62,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
 		{
 			var parameters = new DialogParameters { };
 			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-			var result = await _dialogService.Show<CreateRoleDialog>("创建新角色", parameters, options).Result;
+			var result = await _dialogService.Show<CreateRoleDialog>(Loc["RolePage_CreateNewTitle"], parameters, options).Result;
 			if (!result.Canceled)
 			{
 				await InitialData();
@@ -76,7 +76,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
 				{"RoleId",roleId }
 			};
 			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-			var result = await _dialogService.Show<DeleteRoleDialog>("是否删除该角色", parameters, options).Result;
+			var result = await _dialogService.Show<DeleteRoleDialog>(Loc["RolePage_DeleteTitle"], parameters, options).Result;
 			if (!result.Canceled)
 			{
 				await InitialData();
@@ -90,7 +90,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
 				{"RoleId",roleId }
 			};
 			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-			var result = await _dialogService.Show<UpdateRoleDialog>("编辑该角色", parameters, options).Result;
+			var result = await _dialogService.Show<UpdateRoleDialog>(Loc["RolePage_EditTitle"], parameters, options).Result;
 			if (!result.Canceled)
 			{
 				await InitialData();
@@ -104,7 +104,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
 				{"RoleId",roleId }
 			};
 			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-			var result = await _dialogService.Show<RoleMenuDialog>("设置角色菜单", parameters, options).Result;
+			var result = await _dialogService.Show<RoleMenuDialog>(Loc["RolePage_SetRoleMenuTitle"], parameters, options).Result;
 			if (!result.Canceled)
 			{
 				await InitialData();

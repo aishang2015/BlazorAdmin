@@ -59,7 +59,7 @@ namespace BlazorAdmin.Rbac.Pages.User
 		{
 			var parameters = new DialogParameters { };
 			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-			var result = await _dialogService.Show<CreateUserDialog>("创建新用户", parameters, options).Result;
+			var result = await _dialogService.Show<CreateUserDialog>(Loc["UserPage_CreateNewTitle"], parameters, options).Result;
 			if (!result.Canceled)
 			{
 				await InitialData();
@@ -73,7 +73,7 @@ namespace BlazorAdmin.Rbac.Pages.User
 				{"UserId",userId }
 			};
 			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-			var result = await _dialogService.Show<DeleteUserDialog>("是否删除该用户", parameters, options).Result;
+			var result = await _dialogService.Show<DeleteUserDialog>(Loc["UserPage_DeleteTitle"], parameters, options).Result;
 			if (!result.Canceled)
 			{
 				await InitialData();
@@ -88,7 +88,7 @@ namespace BlazorAdmin.Rbac.Pages.User
 				{"UserId",userId }
 			};
 			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-			var result = await _dialogService.Show<UpdateUserDialog>("编辑用户", parameters, options).Result;
+			var result = await _dialogService.Show<UpdateUserDialog>(Loc["UserPage_EditTitle"], parameters, options).Result;
 			if (!result.Canceled)
 			{
 				await InitialData();
@@ -102,7 +102,7 @@ namespace BlazorAdmin.Rbac.Pages.User
 				{"UserId",userId }
 			};
 			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-			await _dialogService.Show<ChangePasswordDialog>("修改用户密码", parameters, options).Result;
+			await _dialogService.Show<ChangePasswordDialog>(Loc["UserPage_ModifyPasswordTitle"], parameters, options).Result;
 		}
 
 		private async Task SetUserRoleClick(int userId)
@@ -112,7 +112,7 @@ namespace BlazorAdmin.Rbac.Pages.User
 				{"UserId",userId }
 			};
 			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-			await _dialogService.Show<UserRoleDialog>("设置用户角色", parameters, options).Result;
+			await _dialogService.Show<UserRoleDialog>(Loc["UserPage_SetUserRoleTitle"], parameters, options).Result;
 		}
 
 		private async Task ChangeUserActive(int userId, bool isEnabled)
@@ -123,7 +123,7 @@ namespace BlazorAdmin.Rbac.Pages.User
 			{
 				user.IsEnabled = isEnabled;
 				await context.CustomSaveChangesAsync(_stateProvider);
-				_snackbarService.Add("状态修改成功！", Severity.Success);
+				_snackbarService.Add(Loc["UserPage_StatusChangedMessage"], Severity.Success);
 				Users.FirstOrDefault(u => u.Id == userId)!.IsEnabled = isEnabled;
 			}
 		}

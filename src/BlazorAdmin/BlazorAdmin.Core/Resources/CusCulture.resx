@@ -180,9 +180,6 @@
   <data name="BackToHome_Text" xml:space="preserve">
     <value>返回首页</value>
   </data>
-  <data name="ClearBtnText" xml:space="preserve">
-    <value>清理选中</value>
-  </data>
   <data name="Error_Text" xml:space="preserve">
     <value>发生了一个系统错误！</value>
   </data>
@@ -222,48 +219,6 @@
   <data name="Login_UserNameHelpText" xml:space="preserve">
     <value>请输入用户名</value>
   </data>
-  <data name="MenuPage_AddButtonText" xml:space="preserve">
-    <value>添加</value>
-  </data>
-  <data name="MenuPage_CancelButtonText" xml:space="preserve">
-    <value>取消</value>
-  </data>
-  <data name="MenuPage_DeleteButtonText" xml:space="preserve">
-    <value>删除</value>
-  </data>
-  <data name="MenuPage_IconSelectLabel" xml:space="preserve">
-    <value>菜单图标</value>
-  </data>
-  <data name="MenuPage_MenuIdentityLabel" xml:space="preserve">
-    <value>元素标识</value>
-  </data>
-  <data name="MenuPage_MenuIdentityPlaceHolder" xml:space="preserve">
-    <value>请输入页面元素标识</value>
-  </data>
-  <data name="MenuPage_MenuNameLablel" xml:space="preserve">
-    <value>名称</value>
-  </data>
-  <data name="MenuPage_MenuNamePlaceHolder" xml:space="preserve">
-    <value>请输入名称</value>
-  </data>
-  <data name="MenuPage_MenuRouteLabel" xml:space="preserve">
-    <value>路由</value>
-  </data>
-  <data name="MenuPage_MenuRoutePlaceHolder" xml:space="preserve">
-    <value>请输入路由</value>
-  </data>
-  <data name="MenuPage_MenuTypeRadioText1" xml:space="preserve">
-    <value>菜单</value>
-  </data>
-  <data name="MenuPage_MenuTypeRadioText2" xml:space="preserve">
-    <value>页面元素</value>
-  </data>
-  <data name="MenuPage_SubmitButtonText" xml:space="preserve">
-    <value>提交</value>
-  </data>
-  <data name="MenuPage_Title" xml:space="preserve">
-    <value>菜单</value>
-  </data>
   <data name="NoAuhtorized_ChangeUserText" xml:space="preserve">
     <value>切换其他用户</value>
   </data>
@@ -272,53 +227,5 @@
   </data>
   <data name="NotFound_Text" xml:space="preserve">
     <value>对不起，没有找到这个地址</value>
-  </data>
-  <data name="RolePage_SearchKeywordPlaceholder" xml:space="preserve">
-    <value>输入关键字进行搜素</value>
-  </data>
-  <data name="RolePage_TableH1" xml:space="preserve">
-    <value>序号</value>
-  </data>
-  <data name="RolePage_TableH2" xml:space="preserve">
-    <value>角色名称</value>
-  </data>
-  <data name="RolePage_TableH3" xml:space="preserve">
-    <value>是否启用</value>
-  </data>
-  <data name="RolePage_TableH4" xml:space="preserve">
-    <value>操作</value>
-  </data>
-  <data name="RolePage_Title" xml:space="preserve">
-    <value>角色</value>
-  </data>
-  <data name="UpMenuSelectTitle" xml:space="preserve">
-    <value>上级菜单</value>
-  </data>
-  <data name="UpMenuTitleText" xml:space="preserve">
-    <value>上级菜单选择</value>
-  </data>
-  <data name="UserPage_SearchKeywordPlaceholder" xml:space="preserve">
-    <value>输入关键字进行搜素</value>
-  </data>
-  <data name="UserPage_TableH1" xml:space="preserve">
-    <value>序号</value>
-  </data>
-  <data name="UserPage_TableH2" xml:space="preserve">
-    <value>头像</value>
-  </data>
-  <data name="UserPage_TableH3" xml:space="preserve">
-    <value>用户名</value>
-  </data>
-  <data name="UserPage_TableH4" xml:space="preserve">
-    <value>是否启用</value>
-  </data>
-  <data name="UserPage_TableH5" xml:space="preserve">
-    <value>操作</value>
-  </data>
-  <data name="UserPage_TableH6" xml:space="preserve">
-    <value>姓名</value>
-  </data>
-  <data name="UserPage_Title" xml:space="preserve">
-    <value>用户</value>
   </data>
 </root>
