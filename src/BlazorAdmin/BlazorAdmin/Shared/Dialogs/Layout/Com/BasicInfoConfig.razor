@@ -18,7 +18,15 @@
 				<div class="d-flex">
 					<MudText>用户名</MudText>
 					<MudSpacer />
-					<MudText>@_user.Name</MudText>
+					@if (!_isEditUserName)
+					{
+						<MudText @onclick="EditUserName">@_user.Name</MudText>
+					}
+					else
+					{
+						<MudTextField @bind-Value="_editUserName" Immediate="true" @onblur="EditUserNameBlur"
+									  Margin="Margin.Dense" Variant="Variant.Outlined"></MudTextField>
+					}
 				</div>
 			</MudListItem>
 			<MudDivider />
@@ -26,7 +34,15 @@
 				<div class="d-flex">
 					<MudText>姓名</MudText>
 					<MudSpacer />
-					<MudText>@_user.RealName</MudText>
+					@if (!_isEditRealName)
+					{
+						<MudText @onclick="EditRealName">@_user.RealName</MudText>
+					}
+					else
+					{
+						<MudTextField @bind-Value="_editRealName" Immediate="true" @onblur="EditRealNameBlur"
+									  Margin="Margin.Dense" Variant="Variant.Outlined"></MudTextField>
+					}
 				</div>
 			</MudListItem>
 			<MudDivider />
