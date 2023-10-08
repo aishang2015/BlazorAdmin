@@ -48,7 +48,7 @@ namespace BlazorAdmin.Log.Pages.AuditLog
 						{
 							log.Id,
 							log.TransactionId,
-							user.Name,
+							user.RealName,
 							log.Operation,
 							log.OperateTime,
 							log.EntityName,
@@ -63,14 +63,14 @@ namespace BlazorAdmin.Log.Pages.AuditLog
 					EntityName = model.FindEntityType(d.EntityName)?.GetComment(),
 					OperateTime = d.OperateTime,
 					Operation = d.Operation,
-					UserName = d.Name
+					UserName = d.RealName
 				}).ToList();
 			Total = query.Count();
 
 			Operators = context.Users.Select(u => new Operator
 			{
 				Id = u.Id,
-				UserName = u.Name,
+				UserName = u.RealName,
 			}).ToList();
 
 			OperateTargets = model.GetEntityTypes().Select(t => new OperateTarget

@@ -34,15 +34,7 @@
 				<div class="d-flex">
 					<MudText>姓名</MudText>
 					<MudSpacer />
-					@if (!_isEditRealName)
-					{
-						<MudText @onclick="EditRealName">@_user.RealName</MudText>
-					}
-					else
-					{
-						<MudTextField @bind-Value="_editRealName" Immediate="true" @onblur="EditRealNameBlur"
-									  Margin="Margin.Dense" Variant="Variant.Outlined"></MudTextField>
-					}
+					<MudText @onclick="EditRealName">@_user.RealName</MudText>
 				</div>
 			</MudListItem>
 			<MudDivider />

@@ -89,7 +89,7 @@ namespace BlazorAdmin.Core.Data
 					Name = "BlazorAdmin",
 					IsEnabled = true,
 					PasswordHash = HashHelper.HashPassword("BlazorAdmin"),
-					RealName = "Administrator"
+					RealName = "BlazorAdmin"
 				});
 				dbContext.SaveChanges();
 
