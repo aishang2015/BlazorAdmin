@@ -19,4 +19,19 @@
     <ProjectReference Include="..\..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Resources\RbacCulture.Designer.cs">
+      <DependentUpon>RbacCulture.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\RbacCulture.resx">
+      <LastGenOutput>RbacCulture.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

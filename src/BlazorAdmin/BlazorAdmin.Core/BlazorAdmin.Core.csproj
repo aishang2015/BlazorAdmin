@@ -24,11 +24,6 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>CusCulture.resx</DependentUpon>
 	  </Compile>
-	  <Compile Update="Resources\RbacCulture.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>RbacCulture.resx</DependentUpon>
-	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -39,10 +34,6 @@
 	  <EmbeddedResource Update="Resources\CusCulture.resx">
 	    <LastGenOutput>CusCulture.Designer.cs</LastGenOutput>
 	    <Generator>PublicResXFileCodeGenerator</Generator>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Resources\RbacCulture.resx">
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	    <LastGenOutput>RbacCulture.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
 	</ItemGroup>
 

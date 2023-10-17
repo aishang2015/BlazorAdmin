@@ -7,39 +7,45 @@
             ### BlazorAdmin
 
             A simple management project template written using Blazor and MudBlazor.
-            
-            ---
+
+            * * *
 
             #### Credentials:
 
             Username:BlazorAdmin
+
             Password:BlazorAdmin
 
-            ---
+            * * *
 
             #### Features:
 
-            - Implemented RBAC
+            -   Implemented RBAC
 
-            - JWT Authentication
+            -   JWT Authentication
 
-            - Built on Mudblazor
+            -   Built on Mudblazor
 
-            - Theme light/dark switch
+            -   Theme light/dark switch
 
-            - Localization
+            -   Localization
 
-            ---
+            -   Audit/Login Log
+
+            -   Modularization
+
+
+            * * *
 
             #### Technology stack:
 
-            - .NET 7
+            -   .NET 7
 
-            - Blazor Server
+            -   Blazor Server
 
-            - MudBlazor
+            -   MudBlazor
 
-            - Entity Framework 7
+            -   Entity Framework 7
             
             """;
 	}
