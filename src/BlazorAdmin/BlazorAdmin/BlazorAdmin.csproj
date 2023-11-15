@@ -26,6 +26,7 @@
 	  <ProjectReference Include="..\BlazorAdmin.Data\BlazorAdmin.Data.csproj" />
 	  <ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Log\BlazorAdmin.Log.csproj" />
 	  <ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Rbac\BlazorAdmin.Rbac.csproj" />
+	  <ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Setting\BlazorAdmin.Setting.csproj" />
 	</ItemGroup>
 
 </Project>
