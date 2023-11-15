@@ -22,8 +22,8 @@
 				<RowTemplate>
 					<MudTd DataLabel="@Loc["AuditLogDetailDialog_TableH1"]">@context.Number</MudTd>
 					<MudTd DataLabel="@Loc["AuditLogDetailDialog_TableH2"]">@context.PropertyName</MudTd>
-					<MudTd DataLabel="@Loc["AuditLogDetailDialog_TableH3"]">@context.OldValue</MudTd>
-					<MudTd DataLabel="@Loc["AuditLogDetailDialog_TableH4"]">@context.NewValue</MudTd>
+					<MudTd DataLabel="@Loc["AuditLogDetailDialog_TableH3"]" Style="word-break:break-all;">@context.OldValue</MudTd>
+						<MudTd DataLabel="@Loc["AuditLogDetailDialog_TableH4"]" Style="word-break:break-all;">@context.NewValue</MudTd>
 				</RowTemplate>
 			</MudTable>
 		</div>
