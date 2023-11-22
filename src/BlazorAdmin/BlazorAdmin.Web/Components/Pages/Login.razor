@@ -1,0 +1,42 @@
+﻿@using BlazorAdmin.Web.Components.Layout
+
+@layout EmptyLayout
+
+@attribute [AllowAnonymous]
+
+@page "/login"
+
+<div class="full-screen d-flex justify-center align-center">
+	@if (ShowContent)
+	{
+		<MudPaper Class="pa-8 d-flex justify-center align-center flex-column py-16">
+			<MudText Typo="Typo.h4">BlazorAdmin</MudText>
+			<div style="width:300px;">
+				<EditForm Model="_loginModel" OnValidSubmit="LoginSubmit" style="width:100%;">
+					<DataAnnotationsValidator />
+					<MudTextField Class="mt-4" @bind-Value="_loginModel.UserName" Variant="Variant.Outlined" Margin="Margin.Dense"
+								  Placeholder="@Loc["Login_UserNameHelpText"]" For="@(() => _loginModel.UserName)"
+								  UserAttributes="InputAttributes" AdornmentIcon="@Icons.Material.Filled.AccountCircle"
+								  Adornment="Adornment.Start"></MudTextField>
+					<MudTextField Class="mt-4" @bind-Value="_loginModel.Password" Variant="Variant.Outlined" Margin="Margin.Dense"
+								  Placeholder="@Loc["Login_PasswordHelpText"]" For="@(() => _loginModel.Password)" InputType="InputType.Password"
+								  AdornmentIcon="@Icons.Material.Filled.Password" Adornment="Adornment.Start"></MudTextField>
+					<div class="mt-4">
+						<MudButton Variant="Variant.Filled" FullWidth="true" Color="Color.Primary"
+								   ButtonType="ButtonType.Submit" Disabled="IsLoading">
+							@if (IsLoading)
+							{
+								<MudProgressCircular Color="Color.Default" Indeterminate="true" Size="Size.Small" />
+							}
+							else
+							{
+								<MudIcon Icon="@Icons.Material.Filled.Login"></MudIcon>
+							}
+							<MudText Class="ml-2">@Loc["Login_LoginText"]</MudText>
+						</MudButton>
+					</div>
+				</EditForm>
+			</div>
+		</MudPaper>
+	}
+</div>

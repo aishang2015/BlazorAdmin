@@ -22,6 +22,7 @@ namespace BlazorAdmin.Core.Auth
 
 		public override Task<AuthenticationState> GetAuthenticationStateAsync() => Task.FromResult(currentUser);
 	}
+
 	public class ExternalAuthService
 	{
 		private ProtectedLocalStorage _localStorage;

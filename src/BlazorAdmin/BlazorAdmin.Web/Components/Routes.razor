@@ -1,0 +1,25 @@
+﻿@using BlazorAdmin.Web.Components.Layout
+@using BlazorAdmin.Web.Components.Shared
+@using Microsoft.AspNetCore.Components.Authorization
+
+
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
+@rendermode InteractiveServer
+
+<CascadingAuthenticationState>
+	<Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="AdditionalAssemblies">
+		<Found Context="routeData">
+			<AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+				<NotAuthorized>
+					<Loading />
+				</NotAuthorized>
+			</AuthorizeRouteView>
+			<FocusOnNavigate RouteData="@routeData" Selector="h1" />
+		</Found>
+		<NotFound>
+			<LayoutView Layout="@typeof(EmptyLayout)">
+				<NotFoundPage />
+			</LayoutView>
+		</NotFound>
+	</Router>
+</CascadingAuthenticationState>

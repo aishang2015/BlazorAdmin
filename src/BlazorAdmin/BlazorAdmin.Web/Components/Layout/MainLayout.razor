@@ -1,0 +1,38 @@
+﻿@using BlazorAdmin.Web.Components.Shared
+@inherits LayoutComponentBase
+
+@rendermode InteractiveServer
+
+<MudThemeProvider IsDarkMode="@_themeState.IsDark" Theme="@_themeState.MudTheme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PageTitle>BlazorAdmin</PageTitle>
+
+<LoggerErrorBoundary>
+	<ChildContent>
+		<MudLayout>
+			<AuthorizeView Context="authContext">
+				<Authorized>
+					<AuthorizedLayout>
+						<Child>
+							@Body
+						</Child>
+					</AuthorizedLayout>
+				</Authorized>
+				<NotAuthorized>
+					@Body
+				</NotAuthorized>
+			</AuthorizeView>
+		</MudLayout>
+	</ChildContent>
+	<ErrorContent>
+		<ErrorPage />
+	</ErrorContent>
+</LoggerErrorBoundary>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>

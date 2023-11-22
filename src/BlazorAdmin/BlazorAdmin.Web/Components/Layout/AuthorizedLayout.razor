@@ -1,0 +1,60 @@
+﻿@using BlazorAdmin.Web.Components.Shared
+<MudAppBar Elevation="1" Dense="true">
+	<MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+	<MudText Typo="Typo.h5" Class="ml-3">BlazorAdmin</MudText>
+	<MudSpacer />
+
+	<MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.Start" Href="https://github.com/aishang2015/BlazorAdmin" />
+
+	<MudMenu Icon="@Icons.Material.Filled.Language" Color="Color.Inherit" Dense="true"
+			 AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight">
+		<MudMenuItem OnClick="@(()=>CultureChanged("en-US"))">
+			@Loc["AuthorizedLayout_Language_enus"]
+		</MudMenuItem>
+		<MudMenuItem OnClick="@(()=>CultureChanged("zh-CN"))">
+			@Loc["AuthorizedLayout_Language_zhcn"]
+		</MudMenuItem>
+	</MudMenu>
+
+	<MudToggleIconButton @bind-Toggled="_themeState.IsDark" Style="margin-right:12px;"
+						 Icon="@Icons.Material.Filled.DarkMode" Color="@Color.Inherit" Title="Off"
+						 ToggledIcon="@Icons.Material.Filled.LightMode" ToggledColor="@Color.Inherit" ToggledTitle="On" />
+
+	<MudIconButton Style="margin-right:12px;" Icon="@Icons.Material.Filled.FormatColorFill" Color="Color.Inherit" Edge="Edge.Start" OnClick="()=>{visible=true;}" />
+
+	<MudDialog @bind-IsVisible="visible" DisableSidePadding="true" Options="dialogOptions">
+		<TitleContent>
+			<MudText>@Loc["AuthorizedLayout_ColorPickerTitle"]</MudText>
+		</TitleContent>
+		<DialogContent>
+			<MudColorPicker DisableToolbar="false" PickerVariant="PickerVariant.Static" @bind-Value="@_themeState.PrimaryColor" />
+		</DialogContent>
+	</MudDialog>
+
+	<MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Dense="true"
+			 AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight">
+		<ActivatorContent>
+			<MudAvatar Size="Size.Small" Color="_themeState.IsDark ? Color.Primary : Color.Dark">@_userName.First()</MudAvatar>
+		</ActivatorContent>
+		<ChildContent>
+			<MudContainer Class="d-flex flex-column" Style="width:200px;">
+
+				<MudContainer Class="d-flex flex-column align-center justify-center">
+					<MudText Typo="Typo.subtitle1" Style="max-width:160px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">@_userName</MudText>
+				</MudContainer>
+				<MudDivider Class="my-2" />
+				<MudMenuItem Icon="@Icons.Material.Filled.Settings" OnClick="ShowUserSettings">账号设置</MudMenuItem>
+				<MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="LogoutClick">@Loc["AuthorizedLayout_Logout"]</MudMenuItem>
+
+			</MudContainer>
+		</ChildContent>
+	</MudMenu>
+</MudAppBar>
+<MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+	<NavMenu />
+</MudDrawer>
+<MudMainContent Style="height:100vh;">
+	<div class="pa-4" style="height:100%;overflow:auto;">
+		@Child
+	</div>
+</MudMainContent>

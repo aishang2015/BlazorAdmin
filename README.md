@@ -32,10 +32,10 @@ Password:BlazorAdmin
 
 #### Technology stack:
 
-- .NET 7
+- .NET 8
 
 - Blazor Server
 
 - MudBlazor
 
-- Entity Framework 7
+- Entity Framework 8
