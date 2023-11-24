@@ -10,7 +10,24 @@
 				<div class="d-flex">
 					<MudText>头像</MudText>
 					<MudSpacer />
-					<MudAvatar Color="Color.Primary">@_user.RealName?.First()</MudAvatar>
+					<MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+						<ButtonTemplate>
+							<MudIconButton for="@context.Id" HtmlTag="label">
+								@if (string.IsNullOrEmpty(_user.Avatar))
+								{
+									<MudAvatar Size="Size.Small" Color="_themeState.IsDark ? Color.Primary : Color.Dark">
+										@_user.RealName.First()
+									</MudAvatar>
+								}
+								else
+								{
+									<MudAvatar>
+										<MudImage Src="@("Avatars/" + _user.Avatar)"></MudImage>
+									</MudAvatar>
+								}
+							</MudIconButton>
+						</ButtonTemplate>
+					</MudFileUpload>
 				</div>
 			</MudListItem>
 			<MudDivider />
@@ -35,16 +52,16 @@
 					<MudText>姓名</MudText>
 					<MudSpacer />
 					<MudText @onclick="EditRealName">@_user.RealName</MudText>
-				</div>
-			</MudListItem>
-			<MudDivider />
-			<MudListItem>
-				<div class="d-flex">
-					<MudText>密码</MudText>
-					<MudSpacer></MudSpacer>
-					<MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="ChangePwd">修改</MudButton>
-				</div>
-			</MudListItem>
-		</MudList>
-	</MudPaper>
-</div>
+					</div>
+				</MudListItem>
+				<MudDivider />
+				<MudListItem>
+					<div class="d-flex">
+						<MudText>密码</MudText>
+						<MudSpacer></MudSpacer>
+						<MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="ChangePwd">修改</MudButton>
+					</div>
+				</MudListItem>
+			</MudList>
+		</MudPaper>
+	</div>

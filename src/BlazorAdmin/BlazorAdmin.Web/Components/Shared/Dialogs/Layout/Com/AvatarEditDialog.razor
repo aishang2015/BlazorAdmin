@@ -1,0 +1,17 @@
+﻿@using Cropper.Blazor.Components;
+<MudDialog DisableSidePadding="true">
+	<DialogContent>
+		<div class="img-container d-flex pa-2 ">
+			<div class="cropper-img">
+				<CropperComponent Src="@src"
+								  @ref="cropperComponent"
+								  Options="_options" />
+			</div>
+			<div class="flex-1 d-flex flex-column justify-center align-center">
+				<div @ref="ElementReference" class="previewed-image" />
+				<MudButton StartIcon="@Icons.Material.Filled.Save" Color="Color.Primary" Class="mt-2"
+						   Variant="Variant.Filled" OnClick="SaveAvatar">保存头像</MudButton>
+			</div>
+		</div>
+	</DialogContent>
+</MudDialog>

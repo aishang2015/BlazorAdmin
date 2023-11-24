@@ -1,11 +1,16 @@
 ﻿using BlazorAdmin.Data.Entities;
+using BlazorAdmin.Rbac.Pages.User;
 using FluentCodeServer.Core;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
+using User = BlazorAdmin.Data.Entities.User;
 
 namespace BlazorAdmin.Web.Components.Shared.Dialogs.Layout.Com
 {
 	public partial class BasicInfoConfig
 	{
+
 		private User _user = new();
 
 		private bool _isEditUserName = false;
@@ -104,5 +109,21 @@ namespace BlazorAdmin.Web.Components.Shared.Dialogs.Layout.Com
 			}
 		}
 
+		private async Task UploadFiles(IBrowserFile file)
+		{
+			var parameters = new DialogParameters
+			{
+				{"BrowserFile",file }
+			};
+			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = false };
+			var result = await _dialogService.Show<AvatarEditDialog>("编辑图片", parameters, options).Result;
+			if (!result.Canceled)
+			{
+				using var context = await _dbFactory.CreateDbContextAsync();
+				var user = await _stateProvider.GetAuthenticationStateAsync();
+				_user = context.Users.Find(user.User.GetUserId());
+				StateHasChanged();
+			}
+		}
 	}
 }

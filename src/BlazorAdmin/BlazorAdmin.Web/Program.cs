@@ -13,6 +13,8 @@ using BlazorAdmin.Web.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.AspNetCore.Authorization;
+using Cropper.Blazor.Extensions;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +39,7 @@ builder.Services.AddMudServices(config =>
 	config.SnackbarConfiguration.ShowTransitionDuration = 200;
 });
 builder.Services.AddMudMarkdownServices();
+builder.Services.AddCropper();
 
 builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, BlazorAuthorizationMiddlewareResultHandler>();
 
@@ -81,6 +84,13 @@ if (!app.Environment.IsDevelopment())
 app.UseRequestLocalization(new RequestLocalizationOptions()
 	.AddSupportedCultures(new[] { "zh-CN", "en-US" })
 	.AddSupportedUICultures(new[] { "zh-CN", "en-US" }));
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+           Path.Combine(AppContext.BaseDirectory, "Avatars")),
+    RequestPath = "/Avatars"
+});
 
 app.UseStaticFiles();
 app.UseAntiforgery();

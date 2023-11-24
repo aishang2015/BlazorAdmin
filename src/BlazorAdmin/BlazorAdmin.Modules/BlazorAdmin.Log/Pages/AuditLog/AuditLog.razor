@@ -1,79 +1,79 @@
 ﻿@page "/auditLog"
 
-	<div class="d-flex align-center mb-4">
-		<MudText Typo="Typo.h5">
-			@Loc["AuditLogPage_Title"]
-		</MudText>
-		<MudSpacer />
-		<div style="width:140px" class="mr-2">
-			<MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH3"]"
-					   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedUser" Clearable>
-				@foreach (var o in Operators)
-				{
-					<MudSelectItem Value="@o.Id.ToString()">@o.UserName</MudSelectItem>
-				}
-			</MudSelect>
-		</div>
-		<div style="width:140px" class="mr-2">
-			<MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH4"]"
-					   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedOperateTarget" Clearable>
-				@foreach (var o in OperateTargets)
-				{
-					<MudSelectItem Value="@o.EntityName">@o.DisplayName</MudSelectItem>
-				}
-			</MudSelect>
-		</div>
-		<div style="width:140px" class="mr-2">
-			<MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH5"]"
-					   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedOperation" Clearable>
-				<MudSelectItem Value="@("2")">
-					@Loc["AuditLogPage_OperationDelete"]
-				</MudSelectItem>
-				<MudSelectItem Value="@("3")">
-					@Loc["AuditLogPage_OperationModify"]
-				</MudSelectItem>
-				<MudSelectItem Value="@("4")">
-					@Loc["AuditLogPage_OperationCreate"]
-				</MudSelectItem>
-			</MudSelect>
-		</div>
-		<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="InitialAsync"
-					   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+<div class="d-flex align-center mb-4">
+	<MudText Typo="Typo.h5">
+		@Loc["AuditLogPage_Title"]
+	</MudText>
+	<MudSpacer />
+	<div style="width:140px" class="mr-2">
+		<MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH3"]"
+				   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedUser" Clearable>
+			@foreach (var o in Operators)
+			{
+				<MudSelectItem Value="@o.Id.ToString()">@o.UserName</MudSelectItem>
+			}
+		</MudSelect>
 	</div>
+	<div style="width:140px" class="mr-2">
+		<MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH4"]"
+				   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedOperateTarget" Clearable>
+			@foreach (var o in OperateTargets)
+			{
+				<MudSelectItem Value="@o.EntityName">@o.DisplayName</MudSelectItem>
+			}
+		</MudSelect>
+	</div>
+	<div style="width:140px" class="mr-2">
+		<MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH5"]"
+				   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedOperation" Clearable>
+			<MudSelectItem Value="@("2")">
+				@Loc["AuditLogPage_OperationDelete"]
+			</MudSelectItem>
+			<MudSelectItem Value="@("3")">
+				@Loc["AuditLogPage_OperationModify"]
+			</MudSelectItem>
+			<MudSelectItem Value="@("4")">
+				@Loc["AuditLogPage_OperationCreate"]
+			</MudSelectItem>
+		</MudSelect>
+	</div>
+	<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="InitialAsync"
+				   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+</div>
 <MudDataGrid Items="@AuditLogs" Dense="true" Filterable="false" ColumnResizeMode="ResizeMode.Column"
-				 SortMode="@SortMode.None" Groupable="false" Virtualize="true" FixedHeader="true" Height="calc(100vh - 200px)">
-		<Columns>
-			<PropertyColumn Property="x => x.Number" Title="@Loc["AuditLogPage_TableH1"]" StickyLeft="true" 
-					HeaderStyle="white-space:nowrap" CellStyle="width:40px;text-align:center;"/>
-			<PropertyColumn Property="x => x.TransactionId" Title="@Loc["AuditLogPage_TableH2"]" CellStyle="white-space:nowrap" />
-			<PropertyColumn Property="x => x.UserName" Title="@Loc["AuditLogPage_TableH3"]" CellStyle="white-space:nowrap" />
-			<PropertyColumn Property="x => x.EntityName" Title="@Loc["AuditLogPage_TableH4"]" HeaderStyle="white-space:nowrap" />
-			<TemplateColumn Title="@Loc["AuditLogPage_TableH5"]" HeaderStyle="white-space:nowrap">
-				<CellTemplate>
-					@if (context.Item.Operation == 2)
-					{
-						<MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["AuditLogPage_OperationDelete"]</MudChip>
-					}
-					else if (context.Item.Operation == 3)
-					{
-						<MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["AuditLogPage_OperationModify"]</MudChip>
-					}
-					else if (context.Item.Operation == 4)
-					{
-						<MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["AuditLogPage_OperationCreate"]</MudChip>
-					}
-				</CellTemplate>
-			</TemplateColumn>
-			<PropertyColumn Property="x => x.OperateTime" Title="@Loc["AuditLogPage_TableH6"]" CellStyle="white-space:nowrap" />
-			<TemplateColumn Title="@Loc["AuditLogPage_TableH7"]" StickyRight="true" CellStyle="text-align:center;" HeaderStyle="white-space:nowrap">
-				<CellTemplate>
-					<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Details" Color="Color.Primary"
-								   OnClick="()=>ViewDetail(context.Item.Id)" />
-				</CellTemplate>
-			</TemplateColumn>
-		</Columns>
-	</MudDataGrid>
-	<div class="d-flex justify-between align-center mt-4">
-		<MudSpacer />
-		<MudPagination Color="Color.Primary" Count="@((Total - 1)/Size + 1)" Selected="@Page" SelectedChanged="PageChangedClick" />
-	</div>
+			 SortMode="@SortMode.None" Groupable="false" Virtualize="true" FixedHeader="true" Height="calc(100vh - 200px)">
+	<Columns>
+		<PropertyColumn Property="x => x.Number" Title="@Loc["AuditLogPage_TableH1"]" StickyLeft="true"
+						HeaderStyle="white-space:nowrap" CellStyle="width:40px;text-align:center;" />
+		<PropertyColumn Property="x => x.TransactionId" Title="@Loc["AuditLogPage_TableH2"]" CellStyle="white-space:nowrap" />
+		<PropertyColumn Property="x => x.UserName" Title="@Loc["AuditLogPage_TableH3"]" CellStyle="white-space:nowrap" />
+		<PropertyColumn Property="x => x.EntityName" Title="@Loc["AuditLogPage_TableH4"]" HeaderStyle="white-space:nowrap" />
+		<TemplateColumn Title="@Loc["AuditLogPage_TableH5"]" HeaderStyle="white-space:nowrap">
+			<CellTemplate>
+				@if (context.Item.Operation == 2)
+				{
+					<MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["AuditLogPage_OperationDelete"]</MudChip>
+				}
+				else if (context.Item.Operation == 3)
+				{
+					<MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["AuditLogPage_OperationModify"]</MudChip>
+				}
+				else if (context.Item.Operation == 4)
+				{
+					<MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["AuditLogPage_OperationCreate"]</MudChip>
+				}
+			</CellTemplate>
+		</TemplateColumn>
+		<PropertyColumn Property="x => x.OperateTime" Title="@Loc["AuditLogPage_TableH6"]" CellStyle="white-space:nowrap" />
+		<TemplateColumn Title="@Loc["AuditLogPage_TableH7"]" StickyRight="true" CellStyle="text-align:center;" HeaderStyle="white-space:nowrap">
+			<CellTemplate>
+				<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Details" Color="Color.Primary"
+							   OnClick="()=>ViewDetail(context.Item.Id)" />
+			</CellTemplate>
+		</TemplateColumn>
+	</Columns>
+</MudDataGrid>
+<div class="d-flex justify-between align-center mt-4">
+	<MudSpacer />
+	<MudPagination Color="Color.Primary" Count="@((Total - 1)/Size + 1)" Selected="@Page" SelectedChanged="PageChangedClick" />
+</div>

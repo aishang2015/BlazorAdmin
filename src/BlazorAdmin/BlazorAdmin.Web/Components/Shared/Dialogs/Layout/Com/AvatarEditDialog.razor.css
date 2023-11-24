@@ -1,0 +1,16 @@
+﻿.img-container {
+    height: 400px;
+    width: 600px;
+}
+
+.cropper-img {
+    width: 400px;
+    height: 400px;
+}
+
+.previewed-image {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 50px;
+}
