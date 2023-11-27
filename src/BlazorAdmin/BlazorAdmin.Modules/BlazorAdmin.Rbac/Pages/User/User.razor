@@ -35,7 +35,19 @@
 	<RowTemplate>
 		<MudTd DataLabel="@Loc["UserPage_TableH1"]">@context.Number</MudTd>
 		<MudTd DataLabel="@Loc["UserPage_TableH2"]">
-			<MudAvatar Color="Color.Primary">@context.RealName.First()</MudAvatar>
+				@if (string.IsNullOrEmpty(context.Avatar))
+				{
+					<MudAvatar Color="Color.Primary">
+						@context.RealName?.First()
+					</MudAvatar>
+				}
+				else
+				{
+					<MudAvatar>
+						<MudImage Src="@("Avatars/" + context.Avatar)">
+							</MudImage>
+					</MudAvatar>
+				}
 		</MudTd>
 		<MudTd DataLabel="@Loc["UserPage_TableH3"]">@context.Name</MudTd>
 		<MudTd DataLabel="@Loc["UserPage_TableH6"]">@context.RealName</MudTd>

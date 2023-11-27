@@ -7,7 +7,7 @@
 	<MudPaper Outlined="true" Class="pa-2">
 		<MudList DisablePadding="true">
 			<MudListItem>
-				<div class="d-flex">
+				<div class="d-flex align-center">
 					<MudText>头像</MudText>
 					<MudSpacer />
 					<MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
@@ -15,7 +15,7 @@
 							<MudIconButton for="@context.Id" HtmlTag="label">
 								@if (string.IsNullOrEmpty(_user.Avatar))
 								{
-									<MudAvatar Size="Size.Small" Color="_themeState.IsDark ? Color.Primary : Color.Dark">
+									<MudAvatar Color="Color.Primary">
 										@_user.RealName.First()
 									</MudAvatar>
 								}
@@ -32,7 +32,7 @@
 			</MudListItem>
 			<MudDivider />
 			<MudListItem>
-				<div class="d-flex">
+				<div class="d-flex align-center">
 					<MudText>用户名</MudText>
 					<MudSpacer />
 					@if (!_isEditUserName)
@@ -42,13 +42,13 @@
 					else
 					{
 						<MudTextField @bind-Value="_editUserName" Immediate="true" @onblur="EditUserNameBlur"
-									  Margin="Margin.Dense" Variant="Variant.Outlined"></MudTextField>
+									  Margin="Margin.Dense" Variant="Variant.Outlined" AutoFocus="true"></MudTextField>
 					}
 				</div>
 			</MudListItem>
 			<MudDivider />
 			<MudListItem>
-				<div class="d-flex">
+				<div class="d-flex align-center">
 					<MudText>姓名</MudText>
 					<MudSpacer />
 					<MudText @onclick="EditRealName">@_user.RealName</MudText>
@@ -56,7 +56,7 @@
 				</MudListItem>
 				<MudDivider />
 				<MudListItem>
-					<div class="d-flex">
+					<div class="d-flex align-center">
 						<MudText>密码</MudText>
 						<MudSpacer></MudSpacer>
 						<MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="ChangePwd">修改</MudButton>
