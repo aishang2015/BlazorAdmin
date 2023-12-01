@@ -29,6 +29,14 @@ namespace BlazorAdmin.Web.Data.States
 				if (localData.Success)
 				{
 					IsDark = localData.Value;
+					if (IsDark)
+					{
+						_theme.PaletteDark.AppbarBackground = "#001529";
+						_theme.PaletteDark.DrawerBackground = "#001529";
+
+						_theme.PaletteDark.Background = "#1a1a27";
+						_theme.PaletteDark.Surface = "#1a1a27";
+					}
 				}
 
 				var primaryColor = await _protectedLocalStorage.GetAsync<string>("PrimaryColor");
