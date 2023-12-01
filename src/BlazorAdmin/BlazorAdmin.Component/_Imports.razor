@@ -1,0 +1,34 @@
+﻿@using System.Net.Http
+@using BlazorAdmin.Component.Resources
+@using BlazorAdmin.Core.Auth;
+@using BlazorAdmin.Core.Helper;
+@using BlazorAdmin.Core.Resources;
+@using BlazorAdmin.Data;
+@using BlazorAdmin.Core.Services;
+@using BlazorAdmin.Core.Data;
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.EntityFrameworkCore;
+@using Microsoft.Extensions.Localization;
+@using Microsoft.JSInterop
+@using BlazorAdmin
+
+@using MudBlazor
+
+@inject IJSRuntime _jsRuntime;
+@inject IDbContextFactory<BlazorAdminDbContext> _dbFactory;
+@inject IDialogService _dialogService;
+@inject ISnackbar _snackbarService;
+@inject IAccessService _accessService;
+
+@inject JwtHelper _jwtHelper;
+@inject AuthenticationStateProvider _stateProvider;
+@inject ExternalAuthService _authService;
+@inject ProtectedLocalStorage _localStorage;
+@inject NavigationManager _navManager;
+@inject IStringLocalizer<CommonComponent> _loc;

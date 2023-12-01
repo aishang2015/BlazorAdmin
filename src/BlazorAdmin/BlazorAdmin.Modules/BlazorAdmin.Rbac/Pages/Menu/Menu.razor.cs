@@ -1,6 +1,7 @@
 ﻿
+using BlazorAdmin.Component.Dialogs;
 using BlazorAdmin.Core.Data;
-using BlazorAdmin.Rbac.Pages.Menu.Dialogs;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
@@ -143,22 +144,34 @@ namespace BlazorAdmin.Rbac.Pages.Menu
 				return;
 			}
 
-			using var context = await _dbFactory.CreateDbContextAsync();
-			var menus = context.Menus.ToList();
-			var subtreeIdList = FindAllSubTreeIds(SelectedMenuItem.Id, menus);
-			subtreeIdList.Add(SelectedMenuItem.Id);
+			await _dialogService.ShowDeleteDialog(null, null,
+				async (CommonDialogEventArgs e) =>
+						{
+							using var db = await _dbFactory.CreateDbContextAsync();
 
-			var parameters = new DialogParameters
-			{
-				{"MenuIdList",subtreeIdList}
-			};
-			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
-			var result = await _dialogService.Show<DeleteMenuDialog>(string.Empty, parameters, options).Result;
-			if (!result.Canceled)
-			{
-				await InitialMenuTree();
-				SelectedMenuItem = null;
-			}
+							var menus = db.Menus.ToList();
+							var subtreeIdList = FindAllSubTreeIds(SelectedMenuItem.Id, menus);
+							subtreeIdList.Add(SelectedMenuItem.Id);
+
+							using var tran = db.Database.BeginTransaction();
+
+							var count = await db.Menus.Where(m => subtreeIdList.Contains(m.Id)).ExecuteDeleteAsync();
+							await db.RoleMenus.Where(rm => subtreeIdList.Contains(rm.MenuId)).ExecuteDeleteAsync();
+							await tran.CommitAsync();
+
+							if (count > 0)
+							{
+								_snackbarService.Add("删除成功！", Severity.Success);
+								await InitialMenuTree();
+							}
+							else
+							{
+								_snackbarService.Add("菜单不存在！", Severity.Error);
+							}
+							StateHasChanged();
+						}
+				);
+
 		}
 
 		private void CancelClick()

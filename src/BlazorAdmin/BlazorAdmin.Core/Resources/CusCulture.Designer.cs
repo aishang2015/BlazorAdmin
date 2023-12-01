@@ -214,7 +214,7 @@ namespace BlazorAdmin.Core.Resources {
         }
         
         /// <summary>
-        ///   查找类似 英语（美国） 的本地化字符串。
+        ///   查找类似 English(United State) 的本地化字符串。
         /// </summary>
         public static string AuthorizedLayout_Language_enus {
             get {

@@ -36,6 +36,7 @@ namespace BlazorAdmin.Web.Data.States
 
 						_theme.PaletteDark.Background = "#1a1a27";
 						_theme.PaletteDark.Surface = "#1a1a27";
+						_theme.PaletteDark.HoverOpacity = .2;
 					}
 				}
 

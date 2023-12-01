@@ -16,22 +16,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BlazorAdmin.Component\BlazorAdmin.Component.csproj" />
-    <ProjectReference Include="..\..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
+    <ProjectReference Include="..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Resources\RbacCulture.Designer.cs">
-      <DependentUpon>RbacCulture.resx</DependentUpon>
+    <Compile Update="Resources\CommonComponent.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DependentUpon>CommonComponent.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\RbacCulture.resx">
-      <LastGenOutput>RbacCulture.Designer.cs</LastGenOutput>
+    <EmbeddedResource Update="Resources\CommonComponent.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonComponent.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
