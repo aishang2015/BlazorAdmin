@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BlazorAdmin.Component.Dialogs
+﻿namespace BlazorAdmin.Component.Dialogs
 {
 	public record CommonDialogEventArgs
 	{

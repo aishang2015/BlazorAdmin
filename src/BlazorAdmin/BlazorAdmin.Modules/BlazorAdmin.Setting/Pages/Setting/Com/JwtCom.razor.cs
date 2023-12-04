@@ -1,15 +1,8 @@
 ﻿using BlazorAdmin.Core.Constants;
 using BlazorAdmin.Core.Data;
 using BlazorAdmin.Setting.Pages.Setting.Dialogs;
-using Microsoft.EntityFrameworkCore;
 using MudBlazor;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlazorAdmin.Setting.Pages.Setting.Com
 {

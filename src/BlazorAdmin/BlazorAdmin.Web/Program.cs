@@ -1,20 +1,19 @@
-using BlazorAdmin.Web.Components;
-using MudBlazor.Services;
-using MudBlazor;
-using Serilog;
 using BlazorAdmin.Core.Auth;
 using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Core.Services;
-using Microsoft.AspNetCore.Components.Authorization;
-using BlazorAdmin.Web.Data.States;
 using BlazorAdmin.Data;
-using Microsoft.EntityFrameworkCore;
+using BlazorAdmin.Web.Components;
 using BlazorAdmin.Web.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization.Policy;
-using Microsoft.AspNetCore.Authorization;
+using BlazorAdmin.Web.Data.States;
 using Cropper.Blazor.Extensions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Policy;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using MudBlazor;
+using MudBlazor.Services;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -87,9 +86,9 @@ app.UseRequestLocalization(new RequestLocalizationOptions()
 
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(
-           Path.Combine(AppContext.BaseDirectory, "Avatars")),
-    RequestPath = "/Avatars"
+	FileProvider = new PhysicalFileProvider(
+		   Path.Combine(AppContext.BaseDirectory, "Avatars")),
+	RequestPath = "/Avatars"
 });
 
 app.UseStaticFiles();

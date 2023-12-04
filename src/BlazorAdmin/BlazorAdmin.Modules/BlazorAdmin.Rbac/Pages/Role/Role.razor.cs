@@ -1,4 +1,5 @@
-﻿using BlazorAdmin.Core.Data;
+﻿using BlazorAdmin.Component.Dialogs;
+using BlazorAdmin.Core.Data;
 using BlazorAdmin.Rbac.Pages.Role.Dialogs;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
@@ -71,16 +72,32 @@ namespace BlazorAdmin.Rbac.Pages.Role
 
 		private async Task DeleteRoleClick(int roleId)
 		{
-			var parameters = new DialogParameters
-			{
-				{"RoleId",roleId }
-			};
-			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-			var result = await _dialogService.Show<DeleteRoleDialog>(Loc["RolePage_DeleteTitle"], parameters, options).Result;
-			if (!result.Canceled)
-			{
-				await InitialData();
-			}
+			await _dialogService.ShowDeleteDialog(Loc["RolePage_DeleteTitle"], null,
+				async (e) =>
+				{
+					using var context = await _dbFactory.CreateDbContextAsync();
+					var role = context.Roles.Find(roleId);
+					if (role != null)
+					{
+						role.IsDeleted = true;
+						context.Roles.Update(role);
+
+						var userRoles = context.UserRoles.Where(ur => ur.RoleId == roleId);
+						context.UserRoles.RemoveRange(userRoles);
+
+						var roleMenus = context.RoleMenus.Where(rm => rm.RoleId == roleId);
+						context.RoleMenus.RemoveRange(roleMenus);
+
+						await context.CustomSaveChangesAsync(_stateProvider);
+						_snackbarService.Add("删除成功！", Severity.Success);
+					}
+					else
+					{
+						_snackbarService.Add("角色信息不存在！", Severity.Error);
+					}
+
+					await InitialData();
+				});
 		}
 
 		private async Task EditRoleClick(int roleId)

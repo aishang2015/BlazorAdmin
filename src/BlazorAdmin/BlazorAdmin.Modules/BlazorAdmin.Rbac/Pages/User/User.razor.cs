@@ -1,4 +1,5 @@
-﻿using BlazorAdmin.Core.Data;
+﻿using BlazorAdmin.Component.Dialogs;
+using BlazorAdmin.Core.Data;
 using BlazorAdmin.Rbac.Pages.User.Dialogs;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
@@ -68,16 +69,29 @@ namespace BlazorAdmin.Rbac.Pages.User
 
 		private async Task DeleteUserClick(int userId)
 		{
-			var parameters = new DialogParameters
+			await _dialogService.ShowDeleteDialog(Loc["UserPage_DeleteTitle"], null,
+			async (e) =>
 			{
-				{"UserId",userId }
-			};
-			var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-			var result = await _dialogService.Show<DeleteUserDialog>(Loc["UserPage_DeleteTitle"], parameters, options).Result;
-			if (!result.Canceled)
-			{
+				using var context = await _dbFactory.CreateDbContextAsync();
+				var user = context.Users.Find(userId);
+				if (user != null)
+				{
+					user.IsDeleted = true;
+					context.Users.Update(user);
+
+					var urs = context.UserRoles.Where(ur => ur.UserId == userId);
+					context.UserRoles.RemoveRange(urs);
+
+					await context.CustomSaveChangesAsync(_stateProvider);
+
+					_snackbarService.Add("删除成功！", Severity.Success);
+				}
+				else
+				{
+					_snackbarService.Add("用户信息不存在！", Severity.Error);
+				}
 				await InitialData();
-			}
+			});
 		}
 
 

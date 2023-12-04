@@ -1,26 +1,25 @@
 ﻿@page "/loginLog"
 
-<div class="d-flex align-center mb-4">
-	<MudText Typo="Typo.h5">@Loc["LoginLogPage_Title"]</MudText>
-		<MudSpacer />
-		<div style="width:200px" class="mr-2">
-			<MudTextField @bind-Value="SearchedLoginName" Label="@Loc["LoginLogPage_TableH2"]" Clearable="true"></MudTextField>
-		</div>
-		<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="InitialAsync"
-					   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+<PageHeader Title="@Loc["LoginLogPage_Title"]">
+	<div style="width:200px" class="mr-2">
+		<MudTextField @bind-Value="SearchedLoginName" Label="@Loc["LoginLogPage_TableH2"]" Clearable="true"></MudTextField>
 	</div>
-	<MudTable Class="mb-4" Items="@LoginLogs" Hover="true" Breakpoint="Breakpoint.Sm"
-			  LoadingProgressColor="Color.Info" Dense="true" FixedHeader="true" Virtualize="true" Height="calc(100vh - 200px)">
-		<ColGroup>
-			<col style="min-width:100px;width:100px;max-width:100px;" />
-			<col style="min-width:150px;" />
-			<col style="min-width:200px;" />
-			<col style="min-width:150px;" />
-			<col style="min-width:150px;" />
-			<col style="max-width:150px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" />
-		</ColGroup>
-		<HeaderContent>
-			<MudTh>@Loc["LoginLogPage_TableH1"]</MudTh>
+	<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="InitialAsync"
+				   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+</PageHeader>
+
+<MudTable Class="mb-4" Items="@LoginLogs" Hover="true" Breakpoint="Breakpoint.Sm"
+		  LoadingProgressColor="Color.Info" Dense="true" FixedHeader="true" Virtualize="true" Height="calc(100vh - 200px)">
+	<ColGroup>
+		<col style="min-width:100px;width:100px;max-width:100px;" />
+		<col style="min-width:150px;" />
+		<col style="min-width:200px;" />
+		<col style="min-width:150px;" />
+		<col style="min-width:150px;" />
+		<col style="max-width:150px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" />
+	</ColGroup>
+	<HeaderContent>
+		<MudTh>@Loc["LoginLogPage_TableH1"]</MudTh>
 			<MudTh>@Loc["LoginLogPage_TableH2"]</MudTh>
 			<MudTh>@Loc["LoginLogPage_TableH3"]</MudTh>
 			<MudTh>@Loc["LoginLogPage_TableH4"]</MudTh>

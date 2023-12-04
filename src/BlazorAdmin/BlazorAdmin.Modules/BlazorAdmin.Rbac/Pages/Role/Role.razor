@@ -33,7 +33,8 @@
 		<MudTd DataLabel="@Loc["RolePage_TableH1"]">@context.Number</MudTd>
 		<MudTd DataLabel="@Loc["RolePage_TableH2"]">@context.Name</MudTd>
 		<MudTd DataLabel="@Loc["RolePage_TableH3"]">
-			<MudSwitch Checked="@context.IsEnabled" T="bool" Disabled="@(!_accessService.CheckHasElementRights("RoleActiveBtn").Result)" CheckedChanged="v=>ChangeRoleActive(context.Id,v)" Color="Color.Primary">
+			<MudSwitch Checked="@context.IsEnabled" T="bool" Disabled="@(!_accessService.CheckHasElementRights("RoleActiveBtn").Result)" 
+			           CheckedChanged="v=>ChangeRoleActive(context.Id,v)" Color="Color.Primary">
 			</MudSwitch>
 		</MudTd>
 		<MudTd DataLabel="@Loc["RolePage_TableH4"]">

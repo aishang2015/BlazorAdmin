@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BlazorAdmin.Component\BlazorAdmin.Component.csproj" />
     <ProjectReference Include="..\..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
   </ItemGroup>
 

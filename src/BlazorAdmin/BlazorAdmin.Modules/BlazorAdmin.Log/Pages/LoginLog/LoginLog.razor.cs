@@ -18,6 +18,8 @@ namespace BlazorAdmin.Log.Pages.LoginLog
 		{
 			await base.OnInitializedAsync();
 			await InitialAsync();
+
+
 		}
 		private async Task InitialAsync()
 		{

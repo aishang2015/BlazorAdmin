@@ -1,10 +1,6 @@
 ﻿@page "/auditLog"
 
-<div class="d-flex align-center mb-4">
-	<MudText Typo="Typo.h5">
-		@Loc["AuditLogPage_Title"]
-	</MudText>
-	<MudSpacer />
+<PageHeader Title="@Loc["AuditLogPage_Title"]">
 	<div style="width:140px" class="mr-2">
 		<MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH3"]"
 				   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedUser" Clearable>
@@ -39,7 +35,7 @@
 	</div>
 	<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="InitialAsync"
 				   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
-</div>
+</PageHeader>
 <MudDataGrid Items="@AuditLogs" Dense="true" Filterable="false" ColumnResizeMode="ResizeMode.Column"
 			 SortMode="@SortMode.None" Groupable="false" Virtualize="true" FixedHeader="true" Height="calc(100vh - 200px)">
 	<Columns>
