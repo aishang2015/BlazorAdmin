@@ -45,7 +45,5 @@
 
 		</RowTemplate>
 	</MudTable>
-	<div class="d-flex justify-between align-center">
-		<MudSpacer />
-		<MudPagination Color="Color.Primary" Count="@((Total - 1)/Size + 1)" Selected="@Page" SelectedChanged="PageChangedClick" />
-	</div>
+
+	<PagePagination Page="@Page" Size="@Size" Total="@Total" PageChangedClick="PageChangedClick"></PagePagination>

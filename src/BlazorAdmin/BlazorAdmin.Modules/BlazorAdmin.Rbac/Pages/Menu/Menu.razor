@@ -1,101 +1,101 @@
 ﻿@page "/menu"
 
 <div class="d-flex" style="height:100%;">
-	<div class="flex-0" style="width:340px;overflow:auto;">
-		<div class="d-flex justify-center align-center mb-4">
-			<MudText Typo="Typo.h5">@Loc["MenuPage_Title"]</MudText>
-			<MudSpacer />
-			@if (_accessService.CheckHasElementRights("MenuAddBtn").Result)
-			{
-				<MudButton Class=" mr-2" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled"
-						   OnClick="AddMenuClick" Size="Size.Medium">@Loc["MenuPage_AddButtonText"]</MudButton>
-			}
-			@if (_accessService.CheckHasElementRights("MenuDeleteBtn").Result)
-			{
-				<MudButton Class=" mr-2" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Remove" Variant="Variant.Filled"
-						   OnClick="DeleteMenuClick" Size="Size.Medium" Disabled="SelectedMenuItem == null">@Loc["MenuPage_DeleteButtonText"]</MudButton>
-			}
-		</div>
-		<MudDivider Class="mb-2" />
-		@if (ReRenderFlg)
-		{
-			<MudTreeView Items="@MenuItems" Hover="true" T="MenuItem" @bind-SelectedValue="SelectedMenuItem">
-				<ItemTemplate>
-					<MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.Childs" Value="context">
-						<Content>
-							<MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="context.Childs.Count > 0" />
-							@if (context.MenuType == 1)
-							{
-								<MudIcon Icon="@context.Icon"></MudIcon>
-							}
-							else
-							{
-								<MudIcon Icon="@Icons.Material.Outlined.Square"></MudIcon>
+    <div class="flex-0" style="width:340px;overflow:auto;">
+        <div class="d-flex justify-center align-center mb-4">
+            <MudText Typo="Typo.h5">@Loc["MenuPage_Title"]</MudText>
+                <MudSpacer />
+                @if (_accessService.CheckHasElementRights("MenuAddBtn").Result)
+            {
+                <MudButton Class=" mr-2" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled"
+                           OnClick="AddMenuClick" Size="Size.Medium">@Loc["MenuPage_AddButtonText"]</MudButton>
+            }
+            @if (_accessService.CheckHasElementRights("MenuDeleteBtn").Result)
+            {
+                <MudButton Class=" mr-2" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Remove" Variant="Variant.Filled"
+                           OnClick="DeleteMenuClick" Size="Size.Medium" Disabled="SelectedMenuItem == null">@Loc["MenuPage_DeleteButtonText"]</MudButton>
+            }
+        </div>
+        <MudDivider Class="mb-2" />
+        @if (ReRenderFlg)
+        {
+            <MudTreeView Items="@MenuItems" Hover="true" T="MenuItem" @bind-SelectedValue="SelectedMenuItem">
+                <ItemTemplate>
+                    <MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.Childs" Value="context">
+                        <Content>
+                            <MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="context.Childs.Count > 0" />
+                            @if (context.MenuType == 1)
+                            {
+                                <MudIcon Icon="@context.Icon"></MudIcon>
+                            }
+                            else
+                            {
+                                <MudIcon Icon="@Icons.Material.Outlined.Square"></MudIcon>
 
-							}
-							<MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.MenuName</MudText>
-							<div class="identify" style="display:none;">@context.Id</div>
-							<MudSpacer />
-							@if (_accessService.CheckHasElementRights("MenuUpdateBtn").Result)
-							{
-								<MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Edit" OnClick="()=>EditMenuClick(context.Id)"
-											   Color="Color.Inherit"></MudIconButton>
-							}
-							@if (_accessService.CheckHasElementRights("MenuOrderBtn").Result)
-							{
-								<MudIcon Icon="@Icons.Material.Filled.DragHandle" Class="draghandle cursor-grabbing" />
-							}
-						</Content>
-					</MudTreeViewItem>
-				</ItemTemplate>
-			</MudTreeView>
-		}
-	</div>
-	<MudDivider Vertical="true" Class="mx-4" />
-	<div class="flex-1">
+                            }
+                            <MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.MenuName</MudText>
+                                <div class="identify" style="display:none;">@context.Id</div>
+                            <MudSpacer />
+                            @if (_accessService.CheckHasElementRights("MenuUpdateBtn").Result)
+                            {
+                                <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Edit" OnClick="()=>EditMenuClick(context.Id)"
+                                               Color="Color.Inherit"></MudIconButton>
+                            }
+                            @if (_accessService.CheckHasElementRights("MenuOrderBtn").Result)
+                            {
+                                <MudIcon Icon="@Icons.Material.Filled.DragHandle" Class="draghandle cursor-grabbing" />
+                            }
+                        </Content>
+                    </MudTreeViewItem>
+                </ItemTemplate>
+            </MudTreeView>
+        }
+    </div>
+    <MudDivider Vertical="true" Class="mx-4" />
+    <div class="flex-1">
 
-		@if (EditVisible)
-		{
-			<div class="pa-4">
-				<EditForm Model="MenuEditModel" OnValidSubmit="EditSubmit" style="width:100%;">
-					<DataAnnotationsValidator />
-					@if (MenuEditModel.Type == 1)
-					{
-						<MudField Class="my-4" Variant="Variant.Outlined" Margin="Margin.Dense" Label="@Loc["MenuPage_IconSelectLabel"]">
-							<IconSelect @bind-SelectedIcon="MenuEditModel.Icon" />
-						</MudField>
-					}
-					<MenuTreeSelect @bind-SelectedValue="MenuEditModel.ParentId" />
-					<MudTextField Class="mt-4" @bind-Value="MenuEditModel.Name" Variant="Variant.Outlined" Margin="Margin.Dense"
-								  Placeholder="@Loc["MenuPage_MenuNamePlaceHolder"]" For="@(() => MenuEditModel.Name)"
-								  UserAttributes="InputAttributes" Label="@Loc["MenuPage_MenuNameLablel"]"></MudTextField>
-					<MudRadioGroup @bind-SelectedOption="MenuEditModel.Type">
-						<MudRadio Option="1" Color="Color.Primary" Size="Size.Small">@Loc["MenuPage_MenuTypeRadioText1"]</MudRadio>
-						<MudRadio Option="2" Color="Color.Primary" Size="Size.Small">@Loc["MenuPage_MenuTypeRadioText2"]</MudRadio>
-					</MudRadioGroup>
-					@if (MenuEditModel.Type == 1)
-					{
-						<MudTextField Class="mt-4" @bind-Value="MenuEditModel.Route" Variant="Variant.Outlined" Margin="Margin.Dense"
-									  Placeholder="@Loc["MenuPage_MenuRoutePlaceHolder"]" For="@(() => MenuEditModel.Route)" Label="@Loc["MenuPage_MenuRouteLabel"]"
-									  UserAttributes="InputAttributes"></MudTextField>
-					}
-					else
-					{
-						<MudTextField Class="mt-4" @bind-Value="MenuEditModel.Identify" Variant="Variant.Outlined" Margin="Margin.Dense"
-									  Placeholder="@Loc["MenuPage_MenuIdentityPlaceHolder"]" For="@(() => MenuEditModel.Identify)" Label="@Loc["MenuPage_MenuIdentityLabel"]"
-									  UserAttributes="InputAttributes"></MudTextField>
-					}
+        @if (EditVisible)
+        {
+            <div class="pa-4">
+                <EditForm Model="MenuEditModel" OnValidSubmit="EditSubmit" style="width:100%;">
+                    <DataAnnotationsValidator />
+                    @if (MenuEditModel.Type == 1)
+                    {
+                        <MudField Class="my-4" Variant="Variant.Outlined" Margin="Margin.Dense" Label="@Loc["MenuPage_IconSelectLabel"]">
+                            <IconSelect @bind-SelectedIcon="MenuEditModel.Icon"/>
+                        </MudField>
+                    }
+                    <MenuTreeSelect @bind-SelectedValue="MenuEditModel.ParentId" />
+                    <MudTextField Class="mt-4" @bind-Value="MenuEditModel.Name" Variant="Variant.Outlined" Margin="Margin.Dense"
+                                  Placeholder="@Loc["MenuPage_MenuNamePlaceHolder"]" For="@(() => MenuEditModel.Name)"
+                                  UserAttributes="InputAttributes" Label="@Loc["MenuPage_MenuNameLablel"]"></MudTextField>
+                    <MudRadioGroup @bind-SelectedOption="MenuEditModel.Type">
+                        <MudRadio Option="1" Color="Color.Primary" Size="Size.Small">@Loc["MenuPage_MenuTypeRadioText1"]</MudRadio>
+                            <MudRadio Option="2" Color="Color.Primary" Size="Size.Small">@Loc["MenuPage_MenuTypeRadioText2"]</MudRadio>
+                        </MudRadioGroup>
+                        @if (MenuEditModel.Type == 1)
+                    {
+                        <MudTextField Class="mt-4" @bind-Value="MenuEditModel.Route" Variant="Variant.Outlined" Margin="Margin.Dense"
+                                      Placeholder="@Loc["MenuPage_MenuRoutePlaceHolder"]" For="@(() => MenuEditModel.Route)" Label="@Loc["MenuPage_MenuRouteLabel"]"
+                                      UserAttributes="InputAttributes"></MudTextField>
+                    }
+                    else
+                    {
+                        <MudTextField Class="mt-4" @bind-Value="MenuEditModel.Identify" Variant="Variant.Outlined" Margin="Margin.Dense"
+                                      Placeholder="@Loc["MenuPage_MenuIdentityPlaceHolder"]" For="@(() => MenuEditModel.Identify)" Label="@Loc["MenuPage_MenuIdentityLabel"]"
+                                      UserAttributes="InputAttributes"></MudTextField>
+                    }
 
-					<div class="d-flex mt-4">
-						<MudSpacer />
-						<MudButton Variant="Variant.Filled" Color="Color.Default" Class="mr-4"
-								   ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Cancel" OnClick="CancelClick">@Loc["MenuPage_CancelButtonText"]</MudButton>
-						<MudButton Variant="Variant.Filled" Color="Color.Primary"
-								   ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Upload">@Loc["MenuPage_SubmitButtonText"]</MudButton>
-					</div>
-				</EditForm>
-			</div>
-		}
-	</div>
+                    <div class="d-flex mt-4">
+                        <MudSpacer />
+                        <MudButton Variant="Variant.Filled" Color="Color.Default" Class="mr-4"
+                                   ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Cancel" OnClick="CancelClick">@Loc["MenuPage_CancelButtonText"]</MudButton>
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                                       ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Upload">@Loc["MenuPage_SubmitButtonText"]</MudButton>
+                        </div>
+                    </EditForm>
+                </div>
+        }
+    </div>
 </div>
 

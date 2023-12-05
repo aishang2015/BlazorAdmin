@@ -1,65 +1,61 @@
 ﻿@page "/role"
 
-<div class="d-flex justify-between align-center mb-4">
-	<MudText Typo="Typo.h5">@Loc["RolePage_Title"]</MudText>
-	<MudSpacer />
-	<div style="width:300px">
-		<MudTextField T="string" @bind-Value="SearchText" Margin="Margin.Dense" Placeholder="@Loc["RolePage_SearchKeywordPlaceholder"]"></MudTextField>
-	</div>
-	<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="InitialData"
-				   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
-	@if (_accessService.CheckHasElementRights("RoleAddBtn").Result)
-	{
-		<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" OnClick="AddRoleClick"
-					   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
-	}
-</div>
+<PageHeader Title="@Loc["RolePage_Title"]">
+    <div style="width:300px">
+        <MudTextField T="string" @bind-Value="SearchText" Margin="Margin.Dense" Placeholder="@Loc["RolePage_SearchKeywordPlaceholder"]"></MudTextField>
+    </div>
+    <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="InitialData"
+                   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+    @if (_accessService.CheckHasElementRights("RoleAddBtn").Result)
+    {
+        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" OnClick="AddRoleClick"
+                       Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+    }
+</PageHeader>
 
 <MudTable Class="mb-4" Items="@Roles" Hover="true" Breakpoint="Breakpoint.Sm"
-		  LoadingProgressColor="Color.Info" Dense="true" FixedHeader="true" Virtualize="true" Height="calc(100vh - 200px)">
-	<ColGroup>
-		<col style="min-width:100px;width:100px;max-width:100px;" />
-		<col style="min-width:150px;" />
-		<col style="min-width:150px;" />
-		<col style="min-width:100px;width:100px;max-width:100px;" />
-	</ColGroup>
-	<HeaderContent>
-		<MudTh>@Loc["RolePage_TableH1"]</MudTh>
-		<MudTh>@Loc["RolePage_TableH2"]</MudTh>
-		<MudTh>@Loc["RolePage_TableH3"]</MudTh>
-		<MudTh>@Loc["RolePage_TableH4"]</MudTh>
-	</HeaderContent>
-	<RowTemplate>
-		<MudTd DataLabel="@Loc["RolePage_TableH1"]">@context.Number</MudTd>
-		<MudTd DataLabel="@Loc["RolePage_TableH2"]">@context.Name</MudTd>
-		<MudTd DataLabel="@Loc["RolePage_TableH3"]">
-			<MudSwitch Checked="@context.IsEnabled" T="bool" Disabled="@(!_accessService.CheckHasElementRights("RoleActiveBtn").Result)" 
-			           CheckedChanged="v=>ChangeRoleActive(context.Id,v)" Color="Color.Primary">
-			</MudSwitch>
-		</MudTd>
-		<MudTd DataLabel="@Loc["RolePage_TableH4"]">
-			<MudStack Row>
-				@if (_accessService.CheckHasElementRights("RoleDeleteBtn").Result)
-				{
-					<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Delete" Color="Color.Error"
-								   OnClick="()=>DeleteRoleClick(context.Id)" />
-				}
-				@if (_accessService.CheckHasElementRights("RoleUpdateBtn").Result)
-				{
-					<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary"
-								   OnClick="()=>EditRoleClick(context.Id)" />
-				}
-				@if (_accessService.CheckHasElementRights("RoleMenuBtn").Result)
-				{
-					<MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Menu" Color="Color.Tertiary"
-								   OnClick="()=>SetRoleMenuClick(context.Id)" />
-				}
-			</MudStack>
-		</MudTd>
-	</RowTemplate>
+          LoadingProgressColor="Color.Info" Dense="true" FixedHeader="true" Virtualize="true" Height="calc(100vh - 200px)">
+    <ColGroup>
+        <col style="min-width:100px;width:100px;max-width:100px;" />
+        <col style="min-width:150px;" />
+        <col style="min-width:150px;" />
+        <col style="min-width:100px;width:100px;max-width:100px;" />
+    </ColGroup>
+    <HeaderContent>
+        <MudTh>@Loc["RolePage_TableH1"]</MudTh>
+            <MudTh>@Loc["RolePage_TableH2"]</MudTh>
+            <MudTh>@Loc["RolePage_TableH3"]</MudTh>
+            <MudTh>@Loc["RolePage_TableH4"]</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="@Loc["RolePage_TableH1"]">@context.Number</MudTd>
+            <MudTd DataLabel="@Loc["RolePage_TableH2"]">@context.Name</MudTd>
+            <MudTd DataLabel="@Loc["RolePage_TableH3"]">
+                <MudSwitch Checked="@context.IsEnabled" T="bool" Disabled="@(!_accessService.CheckHasElementRights("RoleActiveBtn").Result)"
+                           CheckedChanged="v=>ChangeRoleActive(context.Id,v)" Color="Color.Primary">
+                </MudSwitch>
+            </MudTd>
+            <MudTd DataLabel="@Loc["RolePage_TableH4"]">
+                <MudStack Row>
+                @if (_accessService.CheckHasElementRights("RoleDeleteBtn").Result)
+                {
+                    <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Delete" Color="Color.Error"
+                                   OnClick="()=>DeleteRoleClick(context.Id)" />
+                }
+                @if (_accessService.CheckHasElementRights("RoleUpdateBtn").Result)
+                {
+                    <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary"
+                                   OnClick="()=>EditRoleClick(context.Id)" />
+                }
+                @if (_accessService.CheckHasElementRights("RoleMenuBtn").Result)
+                {
+                    <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Menu" Color="Color.Tertiary"
+                                   OnClick="()=>SetRoleMenuClick(context.Id)" />
+                }
+            </MudStack>
+        </MudTd>
+    </RowTemplate>
 </MudTable>
 
-<div class="d-flex justify-between align-center">
-	<MudSpacer />
-	<MudPagination Color="Color.Primary" Count="@((Total - 1)/Size + 1)" Selected="@Page" SelectedChanged="PageChangedClick" />
-</div>
+
+<PagePagination Page="@Page" Size="@Size" Total="@Total" PageChangedClick="PageChangedClick"></PagePagination>

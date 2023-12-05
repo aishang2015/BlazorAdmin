@@ -1,6 +1,6 @@
-﻿<div class="d-flex flex-column">
+﻿<div class="d-flex flex-column cursor-pointer" @onclick="ElementFocused" @onblur="MouseBlur" tabindex="-1">
 	<div class="d-flex justify-center align-center">
-		<MudIcon Icon="@SelectedIcon" Size="Size.Medium" @onclick="ElementFocused" @onblur="MouseBlur" tabindex="-1"></MudIcon>
+		<MudIcon Icon="@SelectedIcon" Size="Size.Medium"></MudIcon>
 	</div>
 	<MudPopover Open="@_popoverOpen" Fixed="true" Class="px-4 pt-4" tabindex="-1"
 				AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter"
@@ -13,7 +13,8 @@
 							  T="string" OnBlur="MouseBlur" Placeholder="@Loc["MenuPage_SearchIconPlaceholder"]" Variant="Variant.Outlined" />
 			</div>
 			<div style="width:160px;" class="ml-2">
-				<MudSelect T="string" Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="SelectIconGroup">
+				<MudSelect T="string" Variant="Variant.Outlined" Margin="Margin.Dense" Value="SelectIconGroup"
+						   ValueChanged="SelectIconGroupChanged">
 					<MudSelectItem T="string" Value="@("Material")">Material</MudSelectItem>
 					<MudSelectItem T="string" Value="@("Custom")">Custom</MudSelectItem>
 				</MudSelect>

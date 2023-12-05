@@ -50,6 +50,11 @@ namespace BlazorAdmin.Rbac.Components
 			}
 		}
 
+		private void SelectIconGroupChanged(string group)
+		{
+			SelectIconGroup = group;
+		}
+
 		private void SelectedTypeChanged(MudChip chip)
 		{
 			SelectedType = chip;

@@ -20,22 +20,22 @@ var builder = WebApplication.CreateBuilder(args);
 // log
 Environment.CurrentDirectory = AppContext.BaseDirectory;
 builder.Host.UseSerilog((context, services, configuration) => configuration
-	.ReadFrom.Configuration(context.Configuration)
-	.ReadFrom.Services(services)
-	.WriteTo.Console());
+    .ReadFrom.Configuration(context.Configuration)
+    .ReadFrom.Services(services)
+    .WriteTo.Console());
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-	.AddInteractiveServerComponents();
+    .AddInteractiveServerComponents();
 
 // mudblazor
 builder.Services.AddMudServices(config =>
 {
-	config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;
+    config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;
 
-	config.SnackbarConfiguration.VisibleStateDuration = 3000;
-	config.SnackbarConfiguration.HideTransitionDuration = 200;
-	config.SnackbarConfiguration.ShowTransitionDuration = 200;
+    config.SnackbarConfiguration.VisibleStateDuration = 3000;
+    config.SnackbarConfiguration.HideTransitionDuration = 200;
+    config.SnackbarConfiguration.ShowTransitionDuration = 200;
 });
 builder.Services.AddMudMarkdownServices();
 builder.Services.AddCropper();
@@ -45,7 +45,7 @@ builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, BlazorAutho
 // dbcontext
 builder.Services.AddDbContextFactory<BlazorAdminDbContext>(b =>
 {
-	b.UseSqlite(builder.Configuration.GetConnectionString("Rbac"));
+    b.UseSqlite(builder.Configuration.GetConnectionString("Rbac"));
 });
 builder.Services.AddHostedService<DbContextInitialBackgroundService>();
 
@@ -77,18 +77,23 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-	app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    app.UseExceptionHandler("/Error", createScopeForErrors: true);
 }
 
 app.UseRequestLocalization(new RequestLocalizationOptions()
-	.AddSupportedCultures(new[] { "zh-CN", "en-US" })
-	.AddSupportedUICultures(new[] { "zh-CN", "en-US" }));
+    .AddSupportedCultures(new[] { "zh-CN", "en-US" })
+    .AddSupportedUICultures(new[] { "zh-CN", "en-US" }));
+
+var avatarDirectory = Path.Combine(AppContext.BaseDirectory, "Avatars");
+if (!Directory.Exists(avatarDirectory))
+{
+    Directory.CreateDirectory(avatarDirectory);
+}
 
 app.UseStaticFiles(new StaticFileOptions
 {
-	FileProvider = new PhysicalFileProvider(
-		   Path.Combine(AppContext.BaseDirectory, "Avatars")),
-	RequestPath = "/Avatars"
+    FileProvider = new PhysicalFileProvider(avatarDirectory),
+    RequestPath = "/Avatars"
 });
 
 app.UseStaticFiles();
@@ -97,8 +102,8 @@ app.UseAntiforgery();
 app.MapControllers();
 
 app.MapRazorComponents<App>()
-	.AddInteractiveServerRenderMode()
-	.AddAdditionalAssemblies(Routes.AdditionalAssemblies.ToArray()); // rcl的page无法在浏览器上直接route https://github.com/dotnet/aspnetcore/issues/49313
+    .AddInteractiveServerRenderMode()
+    .AddAdditionalAssemblies(Routes.AdditionalAssemblies.ToArray()); // rcl的page无法在浏览器上直接route https://github.com/dotnet/aspnetcore/issues/49313
 
 app.Run();
 
@@ -106,8 +111,8 @@ app.Run();
 // AuthorizeRouteView 不起作用
 public class BlazorAuthorizationMiddlewareResultHandler : IAuthorizationMiddlewareResultHandler
 {
-	public Task HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
-	{
-		return next(context);
-	}
+    public Task HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
+    {
+        return next(context);
+    }
 }
