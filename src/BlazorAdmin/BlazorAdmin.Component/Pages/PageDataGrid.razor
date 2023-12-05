@@ -1,0 +1,16 @@
+﻿@typeparam T
+
+<MudDataGrid Items="Items" Dense="true" Filterable="false" ColumnResizeMode="ResizeMode.Column"
+             SortMode="@SortMode.None" Groupable="false" Virtualize="true" FixedHeader="true" Height="calc(100vh - 200px)">
+    <Columns>
+        @ChildContent
+    </Columns>
+</MudDataGrid>
+
+@code {
+
+    [Parameter] public IEnumerable<T> Items { get; set; } = new List<T>();
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+}  
