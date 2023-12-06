@@ -63,10 +63,10 @@ namespace BlazorAdmin.Web.Components.Layout
 				var uri = new Uri(_navManager.Uri)
 						.GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
 				var cultureEscaped = Uri.EscapeDataString(culture);
-				var uriEscaped = Uri.EscapeDataString(uri);
+				//var uriEscaped = Uri.EscapeDataString(uri);
 
 				_navManager.NavigateTo(
-					$"api/Culture/Set?culture={cultureEscaped}&redirectUri={uriEscaped}",
+					$"api/Culture/Set?culture={cultureEscaped}&redirectUri={uri}",
 					forceLoad: true);
 			}
 		}

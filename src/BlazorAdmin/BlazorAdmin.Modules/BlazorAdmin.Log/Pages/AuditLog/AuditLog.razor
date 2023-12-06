@@ -2,6 +2,10 @@
 
 <PageHeader Title="@Loc["AuditLogPage_Title"]">
     <div style="width:140px" class="mr-2">
+        <MudTextField Label="@Loc["AuditLogPage_TableH2"]" Clearable
+            @bind-Value="InputTransaction"></MudTextField>
+    </div>
+    <div style="width:140px" class="mr-2">
         <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH3"]"
                    AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedUser" Clearable>
             @foreach (var o in Operators)
