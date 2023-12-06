@@ -34,7 +34,7 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
 				RealName = UserModel.RealName!,
 				PasswordHash = HashHelper.HashPassword(UserModel.Password!)
 			});
-			await context.CustomSaveChangesAsync(_stateProvider);
+			await context.AuditSaveChangesAsync();
 			_snackbarService.Add("创建成功！", Severity.Success);
 			MudDialog?.Close(DialogResult.Ok(true));
 		}

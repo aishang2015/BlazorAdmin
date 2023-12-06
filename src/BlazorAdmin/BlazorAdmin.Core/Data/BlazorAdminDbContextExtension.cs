@@ -1,6 +1,6 @@
-﻿using BlazorAdmin.Core.Constants;
-using BlazorAdmin.Core.Helper;
+﻿using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Data;
+using BlazorAdmin.Data.Constants;
 using BlazorAdmin.Data.Entities;
 using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -12,7 +12,7 @@ using User = BlazorAdmin.Data.Entities.User;
 
 namespace BlazorAdmin.Core.Data
 {
-	public static class BlazorAdminDbContextExtension
+    public static class BlazorAdminDbContextExtension
 	{
 		public static void InitialData(this BlazorAdminDbContext dbContext)
 		{
@@ -115,81 +115,6 @@ namespace BlazorAdmin.Core.Data
 			}
 		}
 
-		public static async Task CustomSaveChangesAsync(this BlazorAdminDbContext dbContext,
-			AuthenticationStateProvider provider)
-		{
-			var userState = await provider.GetAuthenticationStateAsync();
-			if (userState.User.Identity != null && userState.User.Identity.IsAuthenticated)
-			{
-				var userId = userState.User.GetUserId();
-				var entries = dbContext.ChangeTracker.Entries()
-					.Where(e => e.State is EntityState.Added or EntityState.Deleted or EntityState.Modified)
-					.ToList();
-
-				var transactionId = dbContext.Database.CurrentTransaction?.TransactionId ?? Guid.NewGuid();
-
-				foreach (var entry in entries)
-				{
-					var logId = Guid.NewGuid();
-					var auditLog = new AuditLog()
-					{
-						Id = logId,
-						TransactionId = transactionId,
-						OperateTime = DateTime.UtcNow,
-						EntityName = entry.Metadata.Name,
-						Operation = (int)entry.State,
-						UserId = userId
-					};
-					dbContext.AuditLogs.Add(auditLog);
-
-
-					if (entry.State is EntityState.Modified)
-					{
-						var modifiedProperties = entry.Properties.Where(p => p.IsModified);
-						foreach (var property in modifiedProperties)
-						{
-							var auditLogDetail = new AuditLogDetail()
-							{
-								AuditLogId = logId,
-								EntityName = entry.Metadata.Name,
-								PropertyName = property.Metadata.Name,
-								NewValue = property.CurrentValue?.ToString(),
-								OldValue = property.OriginalValue?.ToString()
-							};
-							dbContext.AuditLogDetails.Add(auditLogDetail);
-						}
-					}
-					else if (entry.State is EntityState.Deleted)
-					{
-						foreach (var p in entry.Properties)
-						{
-							var auditLogDetail = new AuditLogDetail()
-							{
-								AuditLogId = logId,
-								EntityName = entry.Metadata.Name,
-								PropertyName = p.Metadata.Name,
-								OldValue = p.OriginalValue?.ToString()
-							};
-							dbContext.AuditLogDetails.Add(auditLogDetail);
-						}
-					}
-					else if (entry.State is EntityState.Added)
-					{
-						foreach (var p in entry.Properties)
-						{
-							var auditLogDetail = new AuditLogDetail()
-							{
-								AuditLogId = logId,
-								EntityName = entry.Metadata.Name,
-								PropertyName = p.Metadata.Name,
-								NewValue = p.OriginalValue?.ToString()
-							};
-							dbContext.AuditLogDetails.Add(auditLogDetail);
-						}
-					}
-				}
-			}
-			await dbContext.SaveChangesAsync();
-		}
+		
 	}
 }

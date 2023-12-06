@@ -1,12 +1,12 @@
-﻿using BlazorAdmin.Core.Constants;
-using BlazorAdmin.Core.Data;
+﻿using BlazorAdmin.Core.Data;
+using BlazorAdmin.Data.Constants;
 using BlazorAdmin.Setting.Pages.Setting.Dialogs;
 using MudBlazor;
 using System.Security.Cryptography;
 
 namespace BlazorAdmin.Setting.Pages.Setting.Com
 {
-	public partial class JwtCom
+    public partial class JwtCom
 	{
 		private JwtConfig JwtConfigModel;
 
@@ -55,7 +55,7 @@ namespace BlazorAdmin.Setting.Pages.Setting.Com
 			rsaPrivateKey.Value = JwtConfigModel.RsaPrivateKey;
 			var rsaPublicKey = dbContext.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtSigningRsaPublicKey);
 			rsaPublicKey.Value = JwtConfigModel.RsaPublicKey;
-			await dbContext.CustomSaveChangesAsync(_stateProvider);
+			await dbContext.AuditSaveChangesAsync();
 
 			_snackbarService.Add("保存成功！", Severity.Success);
 		}

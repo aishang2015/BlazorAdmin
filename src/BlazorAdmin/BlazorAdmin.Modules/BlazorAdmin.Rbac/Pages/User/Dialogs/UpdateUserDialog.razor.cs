@@ -52,7 +52,7 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
 			{
 				user.Name = UserModel.UserName!;
 				user.RealName = UserModel.RealName!;
-				await context.CustomSaveChangesAsync(_stateProvider);
+				await context.AuditSaveChangesAsync();
 				_snackbarService.Add("更新成功！", Severity.Success);
 				MudDialog?.Close(DialogResult.Ok(true));
 			}

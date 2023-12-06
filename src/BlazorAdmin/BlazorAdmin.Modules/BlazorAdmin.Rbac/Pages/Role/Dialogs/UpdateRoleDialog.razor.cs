@@ -50,7 +50,7 @@ namespace BlazorAdmin.Rbac.Pages.Role.Dialogs
 			if (role != null)
 			{
 				role.Name = RoleModel.RoleName!;
-				await context.CustomSaveChangesAsync(_stateProvider);
+				await context.AuditSaveChangesAsync();
 				_snackbarService.Add("更新成功！", Severity.Success);
 				MudDialog?.Close(DialogResult.Ok(true));
 			}

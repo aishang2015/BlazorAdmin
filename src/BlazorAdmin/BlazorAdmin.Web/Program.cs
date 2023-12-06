@@ -46,7 +46,7 @@ builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, BlazorAutho
 builder.Services.AddDbContextFactory<BlazorAdminDbContext>(b =>
 {
     b.UseSqlite(builder.Configuration.GetConnectionString("Rbac"));
-});
+}, ServiceLifetime.Scoped);
 builder.Services.AddHostedService<DbContextInitialBackgroundService>();
 
 // jwt helper

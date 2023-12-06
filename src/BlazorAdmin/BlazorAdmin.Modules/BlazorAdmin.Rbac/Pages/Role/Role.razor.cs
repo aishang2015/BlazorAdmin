@@ -53,7 +53,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
 			if (role != null)
 			{
 				role.IsEnabled = isEnabled;
-				await context.CustomSaveChangesAsync(_stateProvider);
+				await context.AuditSaveChangesAsync();
 				_snackbarService.Add(Loc["RolePage_StatusChangedMessage"], Severity.Success);
 				Roles.FirstOrDefault(u => u.Id == roleId)!.IsEnabled = isEnabled;
 			}
@@ -88,7 +88,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
 						var roleMenus = context.RoleMenus.Where(rm => rm.RoleId == roleId);
 						context.RoleMenus.RemoveRange(roleMenus);
 
-						await context.CustomSaveChangesAsync(_stateProvider);
+						await context.AuditSaveChangesAsync();
 						_snackbarService.Add("删除成功！", Severity.Success);
 					}
 					else

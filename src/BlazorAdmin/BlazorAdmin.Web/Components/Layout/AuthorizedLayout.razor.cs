@@ -1,5 +1,4 @@
-﻿
-using BlazorAdmin.Core.Constants;
+﻿using BlazorAdmin.Data.Constants;
 using BlazorAdmin.Web.Components.Shared.Dialogs.Layout;
 using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
@@ -8,7 +7,7 @@ using System.Globalization;
 
 namespace BlazorAdmin.Web.Components.Layout
 {
-	public partial class AuthorizedLayout
+    public partial class AuthorizedLayout
 	{
 		[Parameter] public RenderFragment? Child { get; set; }
 
@@ -88,9 +87,10 @@ namespace BlazorAdmin.Web.Components.Layout
 
 
 		private async Task LogoutClick()
-		{
-			await _localStorage.DeleteAsync(CommonConstant.UserToken);
-			await _authService.SetCurrentUser();
+        {
+            await _localStorage.DeleteAsync(CommonConstant.UserId);
+            await _localStorage.DeleteAsync(CommonConstant.UserToken);
+            await _authService.SetCurrentUser();
 			_navManager.NavigateTo("/login", true);
 		}
 	}
