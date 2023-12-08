@@ -72,7 +72,11 @@ namespace BlazorAdmin.Rbac.Pages.Role
 
         private async Task DeleteRoleClick(int roleId)
         {
-            var result = await _dialogService.ShowConfirmUserPasswodDialog();
+            var isConfirmed = await _dialogService.ShowConfirmUserPasswodDialog();
+            if (!isConfirmed)
+            {
+                return;
+            }
 
             await _dialogService.ShowDeleteDialog(Loc["RolePage_DeleteTitle"], null,
                 async (e) =>
