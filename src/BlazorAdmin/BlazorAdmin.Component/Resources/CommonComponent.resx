@@ -123,4 +123,19 @@
   <data name="CommonDeleteDialogTitle" xml:space="preserve">
     <value>是否删除此项目？</value>
   </data>
+  <data name="ConfirmInputPassword" xml:space="preserve">
+    <value>请输入您的密码。</value>
+  </data>
+  <data name="ConfirmInputPasswordButtonText" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="NotFindUser" xml:space="preserve">
+    <value>未找到当前登录用户信息！</value>
+  </data>
+  <data name="PasswordHelpText" xml:space="preserve">
+    <value>请输入您的密码</value>
+  </data>
+  <data name="PasswordValidFail" xml:space="preserve">
+    <value>密码验证失败！</value>
+  </data>
 </root>

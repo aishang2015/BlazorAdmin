@@ -77,5 +77,50 @@ namespace BlazorAdmin.Component.Resources {
                 return ResourceManager.GetString("CommonDeleteDialogTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 请输入您的密码。 的本地化字符串。
+        /// </summary>
+        public static string ConfirmInputPassword {
+            get {
+                return ResourceManager.GetString("ConfirmInputPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 确认 的本地化字符串。
+        /// </summary>
+        public static string ConfirmInputPasswordButtonText {
+            get {
+                return ResourceManager.GetString("ConfirmInputPasswordButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未找到当前登录用户信息！ 的本地化字符串。
+        /// </summary>
+        public static string NotFindUser {
+            get {
+                return ResourceManager.GetString("NotFindUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入您的密码 的本地化字符串。
+        /// </summary>
+        public static string PasswordHelpText {
+            get {
+                return ResourceManager.GetString("PasswordHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 密码验证失败！ 的本地化字符串。
+        /// </summary>
+        public static string PasswordValidFail {
+            get {
+                return ResourceManager.GetString("PasswordValidFail", resourceCulture);
+            }
+        }
     }
 }

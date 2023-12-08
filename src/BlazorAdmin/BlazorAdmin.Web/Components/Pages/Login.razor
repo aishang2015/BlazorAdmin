@@ -20,7 +20,8 @@
 								  Adornment="Adornment.Start"></MudTextField>
 					<MudTextField Class="mt-4" @bind-Value="_loginModel.Password" Variant="Variant.Outlined" Margin="Margin.Dense"
 								  Placeholder="@Loc["Login_PasswordHelpText"]" For="@(() => _loginModel.Password)" InputType="InputType.Password"
-								  AdornmentIcon="@Icons.Material.Filled.Password" Adornment="Adornment.Start"></MudTextField>
+								  AdornmentIcon="@Icons.Material.Filled.Password" Adornment="Adornment.Start"
+								  UserAttributes="InputAttributes"></MudTextField>
 					<div class="mt-4">
 						<MudButton Variant="Variant.Filled" FullWidth="true" Color="Color.Primary"
 								   ButtonType="ButtonType.Submit" Disabled="IsLoading">
