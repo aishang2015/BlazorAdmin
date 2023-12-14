@@ -150,6 +150,9 @@
   <data name="MenuPage_MenuRoutePlaceHolder" xml:space="preserve">
     <value>Please enter the route</value>
   </data>
+  <data name="MenuPage_MenuTypeRadioLabel" xml:space="preserve">
+    <value>Type</value>
+  </data>
   <data name="MenuPage_MenuTypeRadioText1" xml:space="preserve">
     <value>Menu</value>
   </data>

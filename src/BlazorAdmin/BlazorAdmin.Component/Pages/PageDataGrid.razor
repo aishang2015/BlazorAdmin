@@ -1,7 +1,8 @@
 ﻿@typeparam T
 
 <MudDataGrid Items="Items" Dense="true" Filterable="false" ColumnResizeMode="ResizeMode.Column"
-             SortMode="@SortMode.None" Groupable="false" Virtualize="true" FixedHeader="true" Height="calc(100vh - 200px)">
+             SortMode="@SortMode.None" Groupable="false" Virtualize="true" FixedHeader="true"
+             Height="@(HasPagination ? "calc(100vh - 200px)" : "calc(100vh - 150px)")">
     <Columns>
         @ChildContent
     </Columns>
@@ -12,5 +13,7 @@
     [Parameter] public IEnumerable<T> Items { get; set; } = new List<T>();
 
     [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    [Parameter] public bool HasPagination { get; set; } = true;
 
 }  

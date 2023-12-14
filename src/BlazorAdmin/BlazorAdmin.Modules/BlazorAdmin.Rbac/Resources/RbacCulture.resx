@@ -150,6 +150,9 @@
   <data name="MenuPage_MenuRoutePlaceHolder" xml:space="preserve">
     <value>请输入路由</value>
   </data>
+  <data name="MenuPage_MenuTypeRadioLabel" xml:space="preserve">
+    <value>类型</value>
+  </data>
   <data name="MenuPage_MenuTypeRadioText1" xml:space="preserve">
     <value>菜单</value>
   </data>

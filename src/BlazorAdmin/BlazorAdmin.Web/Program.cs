@@ -26,7 +26,11 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+    .AddInteractiveServerComponents()
+	.AddHubOptions(options =>
+	{
+		options.MaximumReceiveMessageSize = 320 * 1024;
+	});
 
 // mudblazor
 builder.Services.AddMudServices(config =>
