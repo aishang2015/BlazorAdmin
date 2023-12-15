@@ -46,6 +46,12 @@ builder.Services.AddCropper();
 
 builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, BlazorAuthorizationMiddlewareResultHandler>();
 
+var dbDirectory = Path.Combine(AppContext.BaseDirectory, "DB");
+if (!Directory.Exists(dbDirectory))
+{
+    Directory.CreateDirectory(dbDirectory);
+}
+
 // dbcontext
 builder.Services.AddDbContextFactory<BlazorAdminDbContext>(b =>
 {
