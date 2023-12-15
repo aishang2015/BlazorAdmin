@@ -1,0 +1,65 @@
+﻿<MudDialog DisableSidePadding>
+    <DialogContent>
+        <div id="chat-title" class="px-4">
+            <MudText Typo="Typo.h5">
+                @_loc["ChatTitle"]
+            </MudText>
+        </div>
+        <MudDivider Class="flex-none my-2"></MudDivider>
+        <div id="chat-area" class="d-flex">
+            <div id="channel-list" class="d-flex flex-column">
+                <div class="flex-none d-flex justify-center align-center px-2">
+                    <MudTextField Class="flex-none" @bind-Value="_textValue" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                    <div class="flex-none ml-2">
+                        <MudIconButton Icon="@Icons.Material.Filled.Add" Variant="Variant.Outlined"
+                                       Size="Size.Medium"></MudIconButton>
+                    </div>
+                </div>
+                <MudDivider Class="flex-none my-2"></MudDivider>
+                <div class="flex-1" style="overflow:auto">
+                    <MudPaper>
+                        <MudList @bind-SelectedValue="_selectedValue" @bind-SelectedItem="_selectedItem" Clickable DisablePadding>
+                            <Virtualize Items="@Enumerable.Range(1,1000).ToArray()" Context="context">
+                                <MudListItem Avatar="@Icons.Material.Filled.Image" Value="@context" Dense="true">
+                                    <MudText Typo="Typo.body1">Photos</MudText>
+                                    <MudText Typo="Typo.caption">Photos</MudText>
+                                </MudListItem>
+                            </Virtualize>
+                        </MudList>
+                    </MudPaper>
+                </div>
+            </div>
+            <MudDivider Vertical="true" FlexItem="true" />
+            <div id="message-list" class="d-flex flex-column">
+                <div id="message-area" class="flex-1">
+                    <Virtualize Items="@Enumerable.Range(1,100).ToArray()" Context="context">
+                        <div class="d-flex ma-2">
+                            <MudAvatar Color="Color.Primary" Class="mr-2">M</MudAvatar>
+                            <MudPaper Class="pa-2" Outlined="true" Style="max-width:70%;">
+                                Lorem ipsum dolor sit amet, vis erat denique in, dicunt prodesset te vix
+                                Lorem ipsum dolor sit amet, vis erat denique in, dicunt prodesset te vix
+                                Lorem ipsum dolor sit amet, vis erat denique in, dicunt prodesset te vix
+                                Lorem ipsum dolor sit amet, vis erat denique in, dicunt prodesset te vix
+                            </MudPaper>
+                        </div>
+                        <div class="d-flex flex-row-reverse ma-2">
+                            <MudAvatar Color="Color.Primary" Class="ml-2">M</MudAvatar>
+                            <MudPaper Class="pa-2" Outlined="true" Style="max-width:70%;">
+                                Lorem ipsum dolor sit
+                            </MudPaper>
+                        </div>
+
+                    </Virtualize>
+                </div>
+                <MudDivider Class="flex-none my-2"></MudDivider>
+                <div id="send-area" class="flex-none d-flex justify-center align-center px-2">
+                    <MudTextField Class="flex-1" @bind-Value="_messageValue" Variant="Variant.Outlined" Label="@_loc["ChatMessageSendLabel"]" Margin="Margin.Dense"></MudTextField>
+                    <div class="flex-none ml-2">
+                        <MudIconButton Icon="@Icons.Material.Filled.Send" Variant="Variant.Outlined"
+                                       Size="Size.Medium"></MudIconButton>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </DialogContent>
+</MudDialog>

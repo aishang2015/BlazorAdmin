@@ -16,6 +16,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
 		<ProjectReference Include="..\BlazorAdmin.Data\BlazorAdmin.Data.csproj" />
+		<ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Im\BlazorAdmin.Im.csproj" />
 		<ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Log\BlazorAdmin.Log.csproj" />
 		<ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Rbac\BlazorAdmin.Rbac.csproj" />
 		<ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Setting\BlazorAdmin.Setting.csproj" />

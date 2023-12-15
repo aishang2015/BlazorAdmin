@@ -1,0 +1,14 @@
+﻿<MudTooltip Text="@_loc["ChatToolTipText"]" Color="Color.Primary">
+    @if (_haveMsg)
+    {
+        <MudBadge Dot="true" Color="Color.Error" Overlap="true">
+            <MudIconButton Icon="@Icons.Material.Filled.Chat" Style="margin-right:12px;"
+                           Color="Color.Inherit" Edge="Edge.Start" OnClick="ViewIm" />
+        </MudBadge>
+    }
+    else
+    {
+        <MudIconButton Icon="@Icons.Material.Filled.Chat" Style="margin-right:12px;"
+                       Color="Color.Inherit" Edge="Edge.Start" OnClick="ViewIm" />
+    }
+</MudTooltip>

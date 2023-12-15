@@ -1,4 +1,5 @@
 using BlazorAdmin.Core.Auth;
+using BlazorAdmin.Core.Data;
 using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Core.Services;
 using BlazorAdmin.Data;
@@ -57,6 +58,7 @@ builder.Services.AddDbContextFactory<BlazorAdminDbContext>(b =>
 {
     b.UseSqlite(builder.Configuration.GetConnectionString("Rbac"));
 }, ServiceLifetime.Scoped);
+builder.Services.AddSingleton<BlazroAdminChatDbContextFactory>();
 builder.Services.AddHostedService<DbContextInitialBackgroundService>();
 
 // jwt helper
