@@ -22,7 +22,9 @@ namespace BlazorAdmin.Data.Entities
 
     public enum ChatChannelType
     {
-        对话 = 1,
-        群聊 = 2,
+        普通对话 = 1,
+        普通群聊 = 2,
+        系统对话 = 3,
     }
+
 }

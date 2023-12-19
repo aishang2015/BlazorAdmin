@@ -1,4 +1,5 @@
-﻿using BlazorAdmin.Core.Helper;
+﻿using BlazorAdmin.Core.Data;
+using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Core.Resources;
 using BlazorAdmin.Data;
 using BlazorAdmin.Data.Constants;
@@ -43,7 +44,7 @@ namespace BlazorAdmin.Web.Components.Pages
 			IsLoading = true;
 			using var context = await _dbFactory.CreateDbContextAsync();
 			var user = context.Users.FirstOrDefault(u => u.Name == _loginModel.UserName &&
-				u.IsEnabled && !u.IsDeleted);
+				u.IsEnabled && !u.IsDeleted && !u.IsSpecial);
 			if (user == null || !HashHelper.VerifyPassword(user.PasswordHash, _loginModel!.Password!))
 			{
 				_snackbarService.Add("用户名或密码错误！", Severity.Error);
@@ -52,7 +53,7 @@ namespace BlazorAdmin.Web.Components.Pages
 				return;
 			}
 
-			var token = _jwtHelper.GenerateJwtToken(new List<Claim>() {
+            var token = _jwtHelper.GenerateJwtToken(new List<Claim>() {
 				new Claim(ClaimConstant.UserId,user.Id.ToString()),
 				new Claim(ClaimConstant.UserName,user.Name)
 			});

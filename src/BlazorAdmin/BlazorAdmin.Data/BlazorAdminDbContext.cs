@@ -33,6 +33,14 @@ namespace BlazorAdmin.Data
 
         public DbSet<LoginLog> LoginLogs { get; set; }
 
+
+        public DbSet<ChatChannel> ChatChannels { get; set; }
+
+        public DbSet<ChatChannelMember> ChatChannelMembers { get; set; }
+
+        public DbSet<ChatMessage> ChatMessages { get; set; }
+
+
         public async Task AuditSaveChangesAsync()
         {
             var userIdResult = await _localStorage.GetAsync<int>(CommonConstant.UserId);

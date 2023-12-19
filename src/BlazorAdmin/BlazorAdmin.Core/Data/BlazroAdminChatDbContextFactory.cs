@@ -23,9 +23,10 @@ namespace BlazorAdmin.Core.Data
             _configuration = configuration;
         }
 
-        public BlazroAdminChatDbContext CreateDbContext()
+        public BlazroAdminChatDbContext CreateDbContext(int channelId)
         {
-            var connection = _configuration.GetConnectionString("ChatMessageTpl");
+            var connection = string.Format(_configuration.GetConnectionString("ChatMessageTpl")!, channelId);
+
             var optionsBuilder = new DbContextOptionsBuilder<BlazroAdminChatDbContext>()
                 .UseLoggerFactory(_loggerFactory)
                 .UseSqlite(connection)

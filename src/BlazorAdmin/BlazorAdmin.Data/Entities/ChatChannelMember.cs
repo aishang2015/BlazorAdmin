@@ -17,6 +17,6 @@ namespace BlazorAdmin.Data.Entities
         public int ChatChannelId { get; set; }
 
         [Comment("成员Id")]
-        public int UserId { get; set; }
+        public int MemberId { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace BlazorAdmin.Rbac.Pages.User
 		{
 			using var context = await _dbFactory.CreateDbContextAsync();
 
-			IQueryable<Data.Entities.User> query = context.Users.Where(u => !u.IsDeleted);
+			IQueryable<Data.Entities.User> query = context.Users.Where(u => !u.IsDeleted && !u.IsSpecial);
 			if (!string.IsNullOrEmpty(SearchText))
 			{
 				query = query.Where(u => u.Name.Contains(SearchText));

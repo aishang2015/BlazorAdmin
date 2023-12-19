@@ -1,4 +1,6 @@
-﻿<MudTooltip Text="@_loc["ChatToolTipText"]" Color="Color.Primary">
+﻿@implements IAsyncDisposable
+
+<MudTooltip Text="@_loc["ChatToolTipText"]" Color="Color.Primary">
     @if (_haveMsg)
     {
         <MudBadge Dot="true" Color="Color.Error" Overlap="true">

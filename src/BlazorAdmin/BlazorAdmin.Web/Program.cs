@@ -1,12 +1,15 @@
 using BlazorAdmin.Core.Auth;
+using BlazorAdmin.Core.Chat;
 using BlazorAdmin.Core.Data;
 using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Core.Services;
 using BlazorAdmin.Data;
+using BlazorAdmin.Im.Backgrounds;
 using BlazorAdmin.Web.Components;
 using BlazorAdmin.Web.Data;
 using BlazorAdmin.Web.Data.States;
 using Cropper.Blazor.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -28,10 +31,10 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
-	.AddHubOptions(options =>
-	{
-		options.MaximumReceiveMessageSize = 320 * 1024;
-	});
+    .AddHubOptions(options =>
+    {
+        options.MaximumReceiveMessageSize = 320 * 1024;
+    });
 
 // mudblazor
 builder.Services.AddMudServices(config =>
@@ -60,6 +63,7 @@ builder.Services.AddDbContextFactory<BlazorAdminDbContext>(b =>
 }, ServiceLifetime.Scoped);
 builder.Services.AddSingleton<BlazroAdminChatDbContextFactory>();
 builder.Services.AddHostedService<DbContextInitialBackgroundService>();
+builder.Services.AddHostedService<SendMessageBackgroundService>();
 
 // jwt helper
 builder.Services.AddScoped<JwtHelper>();
@@ -111,11 +115,16 @@ app.UseStaticFiles(new StaticFileOptions
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddAdditionalAssemblies(Routes.AdditionalAssemblies.ToArray()); // rcl的page无法在浏览器上直接route https://github.com/dotnet/aspnetcore/issues/49313
+
+app.MapHub<ChatHub>(ChatHub.ChatHubUrl);
 
 app.Run();
 
