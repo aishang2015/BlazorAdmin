@@ -1,4 +1,5 @@
-﻿<MudDialog DisableSidePadding>
+﻿@using BlazorAdmin.Im.Components.Messages
+<MudDialog DisableSidePadding>
     <DialogContent>
         <div id="chat-title" class="px-4">
             <MudText Typo="Typo.h5">
@@ -18,11 +19,30 @@
                 <MudDivider Class="flex-none my-2"></MudDivider>
                 <div class="flex-1" style="overflow:auto">
                     <MudPaper>
-                        <MudList @bind-SelectedValue="_selectedValue" @bind-SelectedItem="_selectedItem" Clickable DisablePadding>
-                            <Virtualize Items="@Enumerable.Range(1,1000).ToArray()" Context="context">
-                                <MudListItem Avatar="@Icons.Material.Filled.Image" Value="@context" Dense="true">
-                                    <MudText Typo="Typo.body1">Photos</MudText>
-                                    <MudText Typo="Typo.caption">Photos</MudText>
+                        <MudList SelectedValue="_selectedValue" SelectedValueChanged="SelectedChannelChanged"
+                                 @bind-SelectedItem="_selectedItem" Clickable DisablePadding>
+                            <Virtualize Items="@Channels" Context="context">
+                                <MudListItem Value="@context" Dense="true">
+                                    <div class="d-flex">
+                                        @if (string.IsNullOrEmpty(context.Avatar))
+                                        {
+                                            <MudAvatar Size="Size.Medium" Color="Color.Primary">
+                                                @context.ChannelName?.First()
+                                            </MudAvatar>
+                                        }
+                                        else
+                                        {
+                                            <MudAvatar Size="Size.Medium">
+                                                <MudImage Src="@("Avatars/" + context.Avatar)"></MudImage>
+                                            </MudAvatar>
+                                        }
+                                        <div class="ml-2">
+                                            <MudText Typo="Typo.body1">
+                                                @context.ChannelName
+                                            </MudText>
+                                            <MudText Typo="Typo.caption">ces </MudText>
+                                        </div>
+                                    </div>
                                 </MudListItem>
                             </Virtualize>
                         </MudList>
@@ -32,22 +52,20 @@
             <MudDivider Vertical="true" FlexItem="true" />
             <div id="message-list" class="d-flex flex-column">
                 <div id="message-area" class="flex-1">
-                    <Virtualize Items="@Enumerable.Range(1,100).ToArray()" Context="context">
-                        <div class="d-flex ma-2">
-                            <MudAvatar Color="Color.Primary" Class="mr-2">M</MudAvatar>
-                            <MudPaper Class="pa-2" Outlined="true" Style="max-width:70%;">
-                                Lorem ipsum dolor sit amet, vis erat denique in, dicunt prodesset te vix
-                                Lorem ipsum dolor sit amet, vis erat denique in, dicunt prodesset te vix
-                                Lorem ipsum dolor sit amet, vis erat denique in, dicunt prodesset te vix
-                                Lorem ipsum dolor sit amet, vis erat denique in, dicunt prodesset te vix
-                            </MudPaper>
-                        </div>
-                        <div class="d-flex flex-row-reverse ma-2">
-                            <MudAvatar Color="Color.Primary" Class="ml-2">M</MudAvatar>
-                            <MudPaper Class="pa-2" Outlined="true" Style="max-width:70%;">
-                                Lorem ipsum dolor sit
-                            </MudPaper>
-                        </div>
+                    <Virtualize Items="@MessageModels" Context="context">
+
+                        @if (context.IsCurrentUserSend)
+                        {
+                            <SelfMessage Avatar="@UserModels.First(u=>u.UserId == context.SenderId)?.Avatar"
+                                         RealName="@UserModels.First(u=>u.UserId == context.SenderId)?.RealName"
+                                         Message="@context.Content" SendTime="@context.CreatedTime"></SelfMessage>
+                        }
+                        else
+                        {
+                            <OtherMessage Avatar="@UserModels.First(u=>u.UserId == context.SenderId)?.Avatar"
+                                          RealName="@UserModels.First(u=>u.UserId == context.SenderId)?.RealName"
+                                          Message="@context.Content" SendTime="@context.CreatedTime"></OtherMessage>
+                        }
 
                     </Virtualize>
                 </div>

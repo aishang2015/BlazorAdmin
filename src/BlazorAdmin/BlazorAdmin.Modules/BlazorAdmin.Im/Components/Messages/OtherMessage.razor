@@ -1,0 +1,33 @@
+﻿
+<div class="d-flex align-start ma-2 mb-4">
+    @if (string.IsNullOrEmpty(Avatar))
+    {
+        <MudAvatar Size="Size.Medium" Color="Color.Primary">
+            @RealName?.First()
+        </MudAvatar>
+    }
+    else
+    {
+        <MudAvatar Size="Size.Medium">
+            <MudImage Src="@("Avatars/" + Avatar)"></MudImage>
+        </MudAvatar>
+    }
+    <div>
+        <MudPaper Class="ml-2 pa-2 " Elevation="3" Style="max-width:70%;background-color:var(--mud-palette-background-grey)">
+            @Message
+        </MudPaper>
+        <MudText Class="ml-2" Typo="Typo.caption" Style="color:var(--mud-palette-action-default)">
+            @SendTime
+        </MudText>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string? Avatar { get; set; }
+
+    [Parameter] public string? RealName { get; set; }
+
+    [Parameter] public DateTime? SendTime { get; set; }
+
+    [Parameter] public string? Message { get; set; }
+}
