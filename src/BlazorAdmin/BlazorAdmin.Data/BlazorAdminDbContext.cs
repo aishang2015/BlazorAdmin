@@ -40,6 +40,8 @@ namespace BlazorAdmin.Data
 
         public DbSet<ChatMessage> ChatMessages { get; set; }
 
+        public DbSet<ChatMessageNoRead> ChatMessageNoReads { get; set; }
+
 
         public async Task AuditSaveChangesAsync()
         {

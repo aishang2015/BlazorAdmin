@@ -76,6 +76,7 @@ namespace BlazorAdmin.Im.Components
                                 u.Avatar,
                             }).AsNoTracking().ToList();
 
+            var noReads = context.ChatMessageNoReads.Where(r => r.ReciverId == state.User.GetUserId()).ToList();
 
             foreach (var channel in channels)
             {
@@ -92,7 +93,8 @@ namespace BlazorAdmin.Im.Components
                     Type = channel.Type,
                     ChannelId = channel.Id,
                     ChannelName = channelName,
-                    Avatar = avatar
+                    Avatar = avatar,
+                    NoReadCount = noReads.Find(n => n.ChannelId == channel.Id)?.Count ?? 0,
                 });
             }
         }
@@ -138,6 +140,8 @@ namespace BlazorAdmin.Im.Components
             public string? ChannelName { get; set; }
 
             public string? Caption { get; set; }
+
+            public int NoReadCount { get; set; }
         }
 
         private record MessageModel

@@ -23,7 +23,7 @@
                                  @bind-SelectedItem="_selectedItem" Clickable DisablePadding>
                             <Virtualize Items="@Channels" Context="context">
                                 <MudListItem Value="@context" Dense="true">
-                                    <div class="d-flex">
+                                    <div class="d-flex align-center">
                                         @if (string.IsNullOrEmpty(context.Avatar))
                                         {
                                             <MudAvatar Size="Size.Medium" Color="Color.Primary">
@@ -42,6 +42,11 @@
                                             </MudText>
                                             <MudText Typo="Typo.caption">ces </MudText>
                                         </div>
+                                        <MudSpacer />
+                                        @if (context.NoReadCount > 0)
+                                        {
+                                            <MudChip Color="Color.Error" Size="Size.Small">@context.NoReadCount</MudChip>
+                                        }
                                     </div>
                                 </MudListItem>
                             </Virtualize>

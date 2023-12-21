@@ -1,11 +1,12 @@
 ﻿@implements IAsyncDisposable
 
 <MudTooltip Text="@_loc["ChatToolTipText"]" Color="Color.Primary">
-    @if (_haveMsg)
+    @if (_noReadCount > 0)
     {
-        <MudBadge Dot="true" Color="Color.Error" Overlap="true">
+        <MudBadge Content="@_noReadCount" Color="Color.Error" Overlap="true" BadgeClass="chat-message-badge">
             <MudIconButton Icon="@Icons.Material.Filled.Chat" Style="margin-right:12px;"
-                           Color="Color.Inherit" Edge="Edge.Start" OnClick="ViewIm" />
+                           Color="Color.Inherit" Edge="Edge.Start" OnClick="ViewIm">
+            </MudIconButton>
         </MudBadge>
     }
     else

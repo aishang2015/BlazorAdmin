@@ -1,5 +1,6 @@
 ﻿using BlazorAdmin.Core.Chat;
 using BlazorAdmin.Data.Constants;
+using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using MudBlazor;
@@ -15,11 +16,18 @@ namespace BlazorAdmin.Im.Components
     {
         private bool _haveMsg = false;
 
+        private int _noReadCount = 0;
+
         private HubConnection _hubConnection;
 
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
+
+            var state = await _stateProvider.GetAuthenticationStateAsync();
+            using var context = _dbFactory.CreateDbContext();
+            _noReadCount = context.ChatMessageNoReads.Where(n => n.ReciverId == state.User.GetUserId()).Sum(n => n.Count);
+
             _hubConnection = new HubConnectionBuilder()
                 .WithUrl(_navManager.BaseUri.TrimEnd('/') + ChatHub.ChatHubUrl,
                     options => options.AccessTokenProvider = async () =>
@@ -29,6 +37,8 @@ namespace BlazorAdmin.Im.Components
                     })
                 .Build();
             await _hubConnection.StartAsync();
+
+             StateHasChanged();
         }
 
         private async Task ViewIm()

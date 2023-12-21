@@ -44,7 +44,10 @@ namespace BlazorAdmin.Im.Backgrounds
                     var _dbFactory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<BlazorAdminDbContext>>();
                     using var mainContext = _dbFactory.CreateDbContext();
 
+                    using var trans = mainContext.Database.BeginTransaction();
+
                     BlazroAdminChatDbContext messageDbContext;
+                    int channelId;
 
                     // 特殊用户发送
                     if (message.ReceiverId != null)
@@ -58,25 +61,30 @@ namespace BlazorAdmin.Im.Backgrounds
 
                         if (systemChannel == null)
                         {
-                            using var trans = mainContext.Database.BeginTransaction();
 
-                            // 频道
+                            // 频道表
                             var channel = mainContext.ChatChannels.Add(new ChatChannel { Type = (int)ChatChannelType.系统对话 });
                             await mainContext.SaveChangesAsync();
 
-                            // 成员
+                            // 成员表
                             mainContext.ChatChannelMembers.AddRange([
                                 new ChatChannelMember { ChatChannelId = channel.Entity.Id, MemberId = message.ReceiverId.Value },
                                 new ChatChannelMember { ChatChannelId = channel.Entity.Id, MemberId = message.SenderId },
                             ]);
                             await mainContext.SaveChangesAsync();
-                            trans.Commit();
 
+                            // 未读记录表
+                            mainContext.ChatMessageNoReads.Add(
+                                new ChatMessageNoRead { ChannelId = channel.Entity.Id, ReciverId = message.ReceiverId.Value });
+                            await mainContext.SaveChangesAsync();
+
+                            channelId = channel.Entity.Id;
                             messageDbContext = _messageDbContextFactory.CreateDbContext(channel.Entity.Id);
                             messageDbContext.Database.EnsureCreated();
                         }
                         else
                         {
+                            channelId = systemChannel.Id;
                             messageDbContext = _messageDbContextFactory.CreateDbContext(systemChannel.Id);
                         }
                     }
@@ -84,6 +92,7 @@ namespace BlazorAdmin.Im.Backgrounds
                     {
                         if (message.ChannelId != null)
                         {
+                            channelId = message.ChannelId.Value;
                             messageDbContext = _messageDbContextFactory.CreateDbContext(message.ChannelId.Value);
                         }
                         else
@@ -91,6 +100,10 @@ namespace BlazorAdmin.Im.Backgrounds
                             throw new Exception();
                         }
                     }
+
+                    mainContext.ChatMessageNoReads.Where(m => m.ChannelId == channelId)
+                        .ExecuteUpdate(p => p.SetProperty(v => v.Count, v => v.Count + 1));
+                    trans.Commit();
 
                     messageDbContext.ChatMessages.Add(new ChatMessage
                     {

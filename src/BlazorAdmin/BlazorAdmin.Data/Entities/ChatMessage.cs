@@ -25,4 +25,9 @@ namespace BlazorAdmin.Data.Entities
         [Comment("发送内容")]
         public string? Content { get; set; }
     }
+
+    public enum MessageTypeEnum
+    {
+        普通消息 = 1
+    }
 }
