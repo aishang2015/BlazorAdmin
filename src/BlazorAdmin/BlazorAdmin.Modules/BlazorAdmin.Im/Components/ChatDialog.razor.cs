@@ -1,4 +1,6 @@
-﻿using BlazorAdmin.Data.Entities;
+﻿using BlazorAdmin.Core.Helper;
+using BlazorAdmin.Data.Entities;
+using BlazorAdmin.Im.Events;
 using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
@@ -104,6 +106,14 @@ namespace BlazorAdmin.Im.Components
             var selectedChannel = _selectedValue as ChannelModel;
             if (selectedChannel != null)
             {
+                var channel = Channels.First(c => c.ChannelId == selectedChannel.ChannelId);
+                _updateNoCountEventHandler.NotifyStateChanged(new UpdateNoCountEvent
+                {
+                    Type = UpdateNoCountEventType.Sub,
+                    Count = channel.NoReadCount
+                });
+                channel.NoReadCount = 0;
+
                 using var channelDbContext = _chatDbFactory.CreateDbContext(selectedChannel.ChannelId);
                 MessageModels = channelDbContext.ChatMessages.OrderBy(m => m.Id).Take(100).Select(c => new MessageModel
                 {
@@ -126,6 +136,12 @@ namespace BlazorAdmin.Im.Components
 
                 var state = await _stateProvider.GetAuthenticationStateAsync();
                 MessageModels.ForEach(m => m.IsCurrentUserSend = m.SenderId == state.User.GetUserId());
+
+                var noReadMsg = adminDbContext.ChatMessageNoReads.FirstOrDefault(mnr =>
+                    mnr.ChannelId == selectedChannel.ChannelId && mnr.ReciverId == state.User.GetUserId());
+                noReadMsg!.Count = 0;
+                adminDbContext.ChatMessageNoReads.Update(noReadMsg);
+                await adminDbContext.SaveChangesAsync();
             }
         }
 

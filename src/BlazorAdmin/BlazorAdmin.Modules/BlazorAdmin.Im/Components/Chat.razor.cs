@@ -1,5 +1,7 @@
 ﻿using BlazorAdmin.Core.Chat;
+using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Data.Constants;
+using BlazorAdmin.Im.Events;
 using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -38,7 +40,25 @@ namespace BlazorAdmin.Im.Components
                 .Build();
             await _hubConnection.StartAsync();
 
-             StateHasChanged();
+            _updateNoCountEventHandler.OnChange += Instance_OnChange;
+
+            StateHasChanged();
+        }
+
+        private async Task Instance_OnChange(UpdateNoCountEvent obj)
+        {
+            if (obj != null)
+            {
+                if (obj.Type == UpdateNoCountEventType.Add)
+                {
+                    _noReadCount += obj.Count;
+                }
+                else if (obj.Type == UpdateNoCountEventType.Sub)
+                {
+                    _noReadCount -= obj.Count;
+                }
+                await InvokeAsync(() => StateHasChanged());
+            }
         }
 
         private async Task ViewIm()
@@ -50,6 +70,7 @@ namespace BlazorAdmin.Im.Components
 
         public async ValueTask DisposeAsync()
         {
+            _updateNoCountEventHandler.OnChange -= Instance_OnChange;
             await _hubConnection.StopAsync();
             await _hubConnection.DisposeAsync();
         }

@@ -5,6 +5,7 @@
 @using BlazorAdmin.Data;
 @using BlazorAdmin.Core.Services;
 @using BlazorAdmin.Core.Data;
+@using BlazorAdmin.Im.Events
 @using BlazorAdmin.Im.Resources
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
@@ -35,5 +36,6 @@
 @inject IStringLocalizer<ImCulture> _loc;
 @inject BlazroAdminChatDbContextFactory _chatDbFactory;
 
+@inject EventHelper<UpdateNoCountEvent> _updateNoCountEventHandler;
 
 @attribute [Authorize]

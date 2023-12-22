@@ -5,6 +5,7 @@ using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Core.Services;
 using BlazorAdmin.Data;
 using BlazorAdmin.Im.Backgrounds;
+using BlazorAdmin.Im.Events;
 using BlazorAdmin.Web.Components;
 using BlazorAdmin.Web.Data;
 using BlazorAdmin.Web.Data.States;
@@ -79,6 +80,9 @@ builder.Services.AddScoped<IAccessService, AccessService>();
 
 // some state
 builder.Services.AddScoped<ThemeState>();
+
+// some event
+builder.Services.AddScoped<EventHelper<UpdateNoCountEvent>>();
 
 // locallization
 builder.Services.AddLocalization();
