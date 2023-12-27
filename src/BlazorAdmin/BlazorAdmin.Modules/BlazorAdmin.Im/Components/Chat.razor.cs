@@ -26,10 +26,6 @@ namespace BlazorAdmin.Im.Components
         {
             await base.OnInitializedAsync();
 
-            var state = await _stateProvider.GetAuthenticationStateAsync();
-            using var context = _dbFactory.CreateDbContext();
-            _noReadCount = context.ChatMessageNoReads.Where(n => n.ReciverId == state.User.GetUserId()).Sum(n => n.Count);
-
             _hubConnection = new HubConnectionBuilder()
                 .WithUrl(_navManager.BaseUri.TrimEnd('/') + ChatHub.ChatHubUrl,
                     options => options.AccessTokenProvider = async () =>
@@ -40,25 +36,17 @@ namespace BlazorAdmin.Im.Components
                 .Build();
             await _hubConnection.StartAsync();
 
-            _updateNoCountEventHandler.OnChange += Instance_OnChange;
+            _hubConnection.On<ChatMessageReceivedModel>("ReceiveMessage", async (model) =>
+            {
+                _noReadCount += 1;
+                await InvokeAsync(() => StateHasChanged());
+            });
+
+            var state = await _stateProvider.GetAuthenticationStateAsync();
+            using var context = _dbFactory.CreateDbContext();
+            _noReadCount = context.ChatMessageNoReads.Where(n => n.ReciverId == state.User.GetUserId()).Sum(n => n.Count);
 
             StateHasChanged();
-        }
-
-        private async Task Instance_OnChange(UpdateNoCountEvent obj)
-        {
-            if (obj != null)
-            {
-                if (obj.Type == UpdateNoCountEventType.Add)
-                {
-                    _noReadCount += obj.Count;
-                }
-                else if (obj.Type == UpdateNoCountEventType.Sub)
-                {
-                    _noReadCount -= obj.Count;
-                }
-                await InvokeAsync(() => StateHasChanged());
-            }
         }
 
         private async Task ViewIm()
@@ -70,7 +58,6 @@ namespace BlazorAdmin.Im.Components
 
         public async ValueTask DisposeAsync()
         {
-            _updateNoCountEventHandler.OnChange -= Instance_OnChange;
             await _hubConnection.StopAsync();
             await _hubConnection.DisposeAsync();
         }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BlazorAdmin.Core.Chat
 {
-    public class ChatHub : Hub
+    public class ChatHub : Hub<IChatClient>
     {
         private readonly JwtHelper _jwtHelper;
 

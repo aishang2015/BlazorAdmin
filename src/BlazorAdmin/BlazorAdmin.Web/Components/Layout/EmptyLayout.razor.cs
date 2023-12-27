@@ -5,7 +5,6 @@
 		protected override async Task OnInitializedAsync()
 		{
 			await base.OnInitializedAsync();
-			await _themeState.LoadTheme();
 		}
 
 		protected override async Task OnAfterRenderAsync(bool firstRender)

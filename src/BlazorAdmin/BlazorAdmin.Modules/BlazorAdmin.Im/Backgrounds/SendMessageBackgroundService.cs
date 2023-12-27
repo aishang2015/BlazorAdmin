@@ -1,7 +1,9 @@
-﻿using BlazorAdmin.Core.Data;
+﻿using BlazorAdmin.Core.Chat;
+using BlazorAdmin.Core.Data;
 using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Data;
 using BlazorAdmin.Data.Entities;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -38,7 +40,7 @@ namespace BlazorAdmin.Im.Backgrounds
             {
                 try
                 {
-                    var message = await ChannelHelper<ChatMessageModel>.Instance.Reader.ReadAsync(stoppingToken);
+                    var message = await ChannelHelper<ChatMessageSendModel>.Instance.Reader.ReadAsync(stoppingToken);
 
                     using var scope = _serviceProvider.CreateScope();
                     var _dbFactory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<BlazorAdminDbContext>>();
@@ -101,10 +103,18 @@ namespace BlazorAdmin.Im.Backgrounds
                         }
                     }
 
-                    mainContext.ChatMessageNoReads.Where(m => m.ChannelId == channelId)
-                        .ExecuteUpdate(p => p.SetProperty(v => v.Count, v => v.Count + 1));
+                    // 保存未读数量
+                    var msgNoReads = mainContext.ChatMessageNoReads
+                        .Where(m => m.ChannelId == channelId && m.ReciverId != message.SenderId)
+                        .ToList();
+                    foreach (var msgNoRead in msgNoReads)
+                    {
+                        msgNoRead.Count = msgNoRead.Count + 1;
+                    }
+                    await mainContext.SaveChangesAsync();
                     trans.Commit();
 
+                    // 保存聊天消息
                     messageDbContext.ChatMessages.Add(new ChatMessage
                     {
                         CreatedTime = DateTime.Now,
@@ -113,6 +123,18 @@ namespace BlazorAdmin.Im.Backgrounds
                         Type = 1
                     });
                     await messageDbContext.SaveChangesAsync();
+
+                    // 在线用户推送
+                    var hubContext = scope.ServiceProvider.GetRequiredService<IHubContext<ChatHub, IChatClient>>();
+                    var onlineClients = ChatHub.OnlineUsers
+                        .Where(kv => msgNoReads.Any(r => r.ReciverId == kv.Key))
+                        .Select(kv => kv.Value);
+                    await hubContext.Clients.Clients(onlineClients).ReceiveMessage(new ChatMessageReceivedModel
+                    {
+                        ChannelId = channelId,
+                        SenderId = message.SenderId,
+                        Content = message.Content,
+                    });
                     messageDbContext.Dispose();
                 }
                 catch (OperationCanceledException ex)

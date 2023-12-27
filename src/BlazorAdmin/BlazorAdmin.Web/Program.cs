@@ -66,6 +66,8 @@ builder.Services.AddSingleton<BlazroAdminChatDbContextFactory>();
 builder.Services.AddHostedService<DbContextInitialBackgroundService>();
 builder.Services.AddHostedService<SendMessageBackgroundService>();
 
+builder.Services.AddSingleton<MessageSender>();
+
 // jwt helper
 builder.Services.AddScoped<JwtHelper>();
 
@@ -80,9 +82,6 @@ builder.Services.AddScoped<IAccessService, AccessService>();
 
 // some state
 builder.Services.AddScoped<ThemeState>();
-
-// some event
-builder.Services.AddScoped<EventHelper<UpdateNoCountEvent>>();
 
 // locallization
 builder.Services.AddLocalization();

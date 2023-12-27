@@ -107,11 +107,11 @@ namespace BlazorAdmin.Im.Components
             if (selectedChannel != null)
             {
                 var channel = Channels.First(c => c.ChannelId == selectedChannel.ChannelId);
-                _updateNoCountEventHandler.NotifyStateChanged(new UpdateNoCountEvent
-                {
-                    Type = UpdateNoCountEventType.Sub,
-                    Count = channel.NoReadCount
-                });
+                //_updateNoCountEventHandler.NotifyStateChanged(new UpdateNoReadCountEvent
+                //{
+                //    Type = UpdateNoCountEventType.Sub,
+                //    Count = channel.NoReadCount
+                //});
                 channel.NoReadCount = 0;
 
                 using var channelDbContext = _chatDbFactory.CreateDbContext(selectedChannel.ChannelId);

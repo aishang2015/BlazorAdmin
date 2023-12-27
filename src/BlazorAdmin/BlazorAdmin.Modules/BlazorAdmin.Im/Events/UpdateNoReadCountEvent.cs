@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace BlazorAdmin.Im.Events
 {
-    public class UpdateNoCountEvent
+    public class UpdateNoReadCountEvent
     {
         public UpdateNoCountEventType Type { get; set; }
-
 
         public int Count { get; set; }
     }
@@ -17,6 +16,7 @@ namespace BlazorAdmin.Im.Events
     public enum UpdateNoCountEventType
     {
         Add,
-        Sub
+        Sub,
+        Refresh,
     }
 }

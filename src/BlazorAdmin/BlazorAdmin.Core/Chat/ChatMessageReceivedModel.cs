@@ -4,19 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorAdmin.Core.Data
+namespace BlazorAdmin.Core.Chat
 {
-    public record ChatMessageModel
+    public class ChatMessageReceivedModel
     {
         /// <summary>
         /// 频道（指定频道发送时）
         /// </summary>
-        public int? ChannelId { get; set; }
-
-        /// <summary>
-        /// 接收人（指定人发送时）
-        /// </summary>
-        public int? ReceiverId { get; set; }
+        public int ChannelId { get; set; }
 
         /// <summary>
         /// 发送人
@@ -27,6 +22,5 @@ namespace BlazorAdmin.Core.Data
         /// 发送内容
         /// </summary>
         public string? Content { get; set; }
-
     }
 }

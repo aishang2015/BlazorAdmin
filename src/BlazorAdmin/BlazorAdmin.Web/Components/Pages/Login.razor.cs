@@ -64,12 +64,7 @@ namespace BlazorAdmin.Web.Components.Pages
             await RecordLogin(_loginModel.UserName!, true, context);
             _navManager.NavigateTo("/");
 
-            await ChannelHelper<ChatMessageModel>.Instance.Writer.WriteAsync(new ChatMessageModel
-            {
-                SenderId = 1,
-                Content = "欢迎回来！",
-                ReceiverId = user.Id
-            });
+            await _messageSender.SendSystemMessage(user.Id, "欢迎回来！");
         }
 
         private async Task RecordLogin(string userName, bool isSucceed,
