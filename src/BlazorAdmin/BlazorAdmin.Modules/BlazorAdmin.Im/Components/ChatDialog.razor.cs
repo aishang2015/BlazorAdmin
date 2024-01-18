@@ -1,23 +1,23 @@
-﻿using BlazorAdmin.Core.Helper;
-using BlazorAdmin.Data.Entities;
+﻿using BlazorAdmin.Core.Chat;
+using BlazorAdmin.Core.Helper;
+using BlazorAdmin.Data.Entities.Chat;
 using BlazorAdmin.Im.Events;
 using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
 using MudBlazor;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Channels;
-using System.Threading.Tasks;
 
 namespace BlazorAdmin.Im.Components
 {
     public partial class ChatDialog
     {
         [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+
+        [Parameter] public HubConnection Connection { get; set; } = null!;
+
+        [Parameter] public EventCallback<int> NoReadCountChanged { get; set; }
 
         private string _textValue = string.Empty;
 
@@ -29,9 +29,9 @@ namespace BlazorAdmin.Im.Components
 
         private List<ChannelModel> Channels = new List<ChannelModel>();
 
-        private List<MessageModel> MessageModels = new List<MessageModel>();
+        private List<ChannelModel> AllChannels = new List<ChannelModel>();
 
-        private List<UserModel> UserModels = new List<UserModel>();
+        private List<MessageModel> MessageModels = new List<MessageModel>();
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -49,12 +49,37 @@ namespace BlazorAdmin.Im.Components
                 _selectedValue = Channels.First();
             }
             await InitialMessage();
+
+            await NoReadCountChanged.InvokeAsync(AllChannels.Sum(c => c.NoReadCount));
+
+            // signalR订阅
+            Connection.On<ChatMessageReceivedModel>("ReceiveMessage", async (model) =>
+            {
+                if (model.ChannelId == (_selectedValue as ChannelModel).ChannelId)
+                {
+                    var state = await _stateProvider.GetAuthenticationStateAsync();
+                    MessageModels.Add(new MessageModel
+                    {
+                        Content = model.Content,
+                        CreatedTime = DateTime.Now,
+                        SenderId = model.SenderId,
+                        IsCurrentUserSend = model.SenderId == state.User.GetUserId()
+                    });
+                }
+                else
+                {
+                    AllChannels.First(c => c.ChannelId == model.ChannelId).NoReadCount++;
+                    await NoReadCountChanged.InvokeAsync(AllChannels.Sum(c => c.NoReadCount));
+                }
+                await InvokeAsync(() => StateHasChanged());
+            });
         }
 
         private async Task SelectedChannelChanged(object selectedValue)
         {
             _selectedValue = selectedValue;
             await InitialMessage();
+            await NoReadCountChanged.InvokeAsync(AllChannels.Sum(c => c.NoReadCount));
         }
 
         private async Task InitialChannelList()
@@ -62,43 +87,49 @@ namespace BlazorAdmin.Im.Components
             var state = await _stateProvider.GetAuthenticationStateAsync();
 
             using var context = await _dbFactory.CreateDbContextAsync();
-            var channels = (from c in context.ChatChannels
-                            join cm in context.ChatChannelMembers on c.Id equals cm.ChatChannelId
-                            where cm.MemberId == state.User.GetUserId()
-                            select c).AsNoTracking().ToList();
 
-            var channelIds = channels.Where(c => c.Type != (int)ChatChannelType.普通群聊).Select(c => c.Id);
-            var userList = (from cm in context.ChatChannelMembers
-                            join u in context.Users on cm.MemberId equals u.Id
-                            where channelIds.Contains(cm.MemberId) && cm.MemberId != state.User.GetUserId()
-                            select new
-                            {
-                                cm.ChatChannelId,
-                                u.RealName,
-                                u.Avatar,
-                            }).AsNoTracking().ToList();
+            // 频道id列表
+            var channelIdList = context.ChatChannelMembers.Where(ccm => ccm.MemberId == state.User.GetUserId())
+                .Select(c => c.ChatChannelId).ToList();
 
-            var noReads = context.ChatMessageNoReads.Where(r => r.ReciverId == state.User.GetUserId()).ToList();
+            // 频道信息
+            var channelModelList = (from c in context.ChatChannels
+                                    where channelIdList.Contains(c.Id)
+                                    select new ChannelModel
+                                    {
+                                        ChannelId = c.Id,
+                                        Name = c.Name,
+                                        NoReadCount = context.ChatChannelMembers
+                                             .First(ccm => ccm.ChatChannelId == c.Id && ccm.MemberId == state.User.GetUserId())
+                                             .NotReadCount,
+                                        UserList = context.ChatChannelMembers
+                                             .Where(ccm => ccm.ChatChannelId == c.Id)
+                                             .Select(ccm => new UserModel
+                                             {
+                                                 UserId = ccm.MemberId
+                                             }).ToList()
+                                    }).ToList();
 
-            foreach (var channel in channels)
+            // 用户id
+            var userIdList = channelModelList.SelectMany(c => c.UserList).Select(c => c.UserId).Distinct().ToList();
+            var userList = context.Users.Where(u => userIdList.Contains(u.Id));
+            foreach (var channel in channelModelList)
             {
-                var channelName = channel.Name;
-                var avatar = string.Empty;
-                if (channel.Type != (int)ChatChannelType.普通群聊)
+                foreach (var user in channel.UserList)
                 {
-                    var findUser = userList.FirstOrDefault(u => u.ChatChannelId == channel.Id);
-                    channelName = findUser?.RealName;
-                    avatar = findUser?.Avatar;
+                    var findUser = userList.FirstOrDefault(u => u.Id == user.UserId);
+                    user.Avatar = findUser?.Avatar;
+                    user.RealName = findUser?.RealName;
                 }
-                Channels.Add(new ChannelModel
+
+                if (channel.UserList.Count == 2)
                 {
-                    Type = channel.Type,
-                    ChannelId = channel.Id,
-                    ChannelName = channelName,
-                    Avatar = avatar,
-                    NoReadCount = noReads.Find(n => n.ChannelId == channel.Id)?.Count ?? 0,
-                });
+                    channel.Avatar = channel.UserList.First(u => u.UserId != state.User.GetUserId()).Avatar;
+                    channel.Name = channel.UserList.First(u => u.UserId != state.User.GetUserId()).RealName;
+                }
             }
+            AllChannels = channelModelList;
+            Channels = channelModelList;
         }
 
         private async Task InitialMessage()
@@ -106,14 +137,11 @@ namespace BlazorAdmin.Im.Components
             var selectedChannel = _selectedValue as ChannelModel;
             if (selectedChannel != null)
             {
+                // 清理页面未读数
                 var channel = Channels.First(c => c.ChannelId == selectedChannel.ChannelId);
-                //_updateNoCountEventHandler.NotifyStateChanged(new UpdateNoReadCountEvent
-                //{
-                //    Type = UpdateNoCountEventType.Sub,
-                //    Count = channel.NoReadCount
-                //});
                 channel.NoReadCount = 0;
 
+                // 取聊天记录
                 using var channelDbContext = _chatDbFactory.CreateDbContext(selectedChannel.ChannelId);
                 MessageModels = channelDbContext.ChatMessages.OrderBy(m => m.Id).Take(100).Select(c => new MessageModel
                 {
@@ -123,41 +151,71 @@ namespace BlazorAdmin.Im.Components
                     Content = c.Content,
                 }).AsNoTracking().ToList();
 
-                using var adminDbContext = _dbFactory.CreateDbContext();
-                UserModels = (from cm in adminDbContext.ChatChannelMembers
-                              join u in adminDbContext.Users on cm.MemberId equals u.Id
-                              where cm.ChatChannelId == selectedChannel.ChannelId
-                              select new UserModel
-                              {
-                                  UserId = u.Id,
-                                  RealName = u.RealName,
-                                  Avatar = u.Avatar,
-                              }).AsNoTracking().ToList();
 
+                // 判断是发送者
                 var state = await _stateProvider.GetAuthenticationStateAsync();
                 MessageModels.ForEach(m => m.IsCurrentUserSend = m.SenderId == state.User.GetUserId());
 
-                var noReadMsg = adminDbContext.ChatMessageNoReads.FirstOrDefault(mnr =>
-                    mnr.ChannelId == selectedChannel.ChannelId && mnr.ReciverId == state.User.GetUserId());
-                noReadMsg!.Count = 0;
-                adminDbContext.ChatMessageNoReads.Update(noReadMsg);
+                // 更新未读数量
+                using var adminDbContext = _dbFactory.CreateDbContext();
+                var noReadMsg = adminDbContext.ChatChannelMembers.FirstOrDefault(mnr =>
+                    mnr.ChatChannelId == selectedChannel.ChannelId && mnr.MemberId == state.User.GetUserId());
+                noReadMsg!.NotReadCount = 0;
+                adminDbContext.ChatChannelMembers.Update(noReadMsg);
                 await adminDbContext.SaveChangesAsync();
             }
+        }
+
+        private async Task SelectUserToChat()
+        {
+            var parameters = new DialogParameters { };
+            var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
+            var result = await _dialogService.Show<UserPickerDialog>(null, parameters, options).Result;
+            if (!result.Canceled)
+            {
+                await InitialChannelList();
+            }
+        }
+
+        private async Task SearchedTextChanged(string value)
+        {
+            _textValue = value;
+            Channels = AllChannels.Where(c => c.Name.Contains(value)).ToList();
+        }
+
+        private async Task SendMessage()
+        {
+            var selectedChannel = _selectedValue as ChannelModel;
+            var state = await _stateProvider.GetAuthenticationStateAsync();
+            await _messageSender.SendChannelMessage(state.User.GetUserId(), selectedChannel.ChannelId, _messageValue);
+            _messageValue = null;
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            Connection.Remove("ReceiveMessage");
         }
 
         private record ChannelModel
         {
             public string? Avatar { get; set; }
 
-            public int Type { get; set; }
-
             public int ChannelId { get; set; }
 
-            public string? ChannelName { get; set; }
-
-            public string? Caption { get; set; }
+            public string? Name { get; set; }
 
             public int NoReadCount { get; set; }
+
+            public List<UserModel> UserList { get; set; } = new();
+        }
+
+        public record UserModel
+        {
+            public int UserId { get; set; }
+
+            public string RealName { get; set; } = null!;
+
+            public string? Avatar { get; set; }
         }
 
         private record MessageModel
@@ -171,15 +229,6 @@ namespace BlazorAdmin.Im.Components
             public string? Content { get; set; }
 
             public bool IsCurrentUserSend { get; set; }
-        }
-
-        public record UserModel
-        {
-            public int UserId { get; set; }
-
-            public string RealName { get; set; } = null!;
-
-            public string? Avatar { get; set; }
         }
     }
 }

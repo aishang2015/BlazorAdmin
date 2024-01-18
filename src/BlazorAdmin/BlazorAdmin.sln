@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAdmin.Web", "BlazorAd
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAdmin.Component", "BlazorAdmin.Component\BlazorAdmin.Component.csproj", "{DF20EF2E-5859-4CCF-A63C-CF5D1D1A417A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAdmin.Im", "BlazorAdmin.Modules\BlazorAdmin.Im\BlazorAdmin.Im.csproj", "{98E64FC9-2EB8-4B3E-A573-D8F8F5854EB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAdmin.Im", "BlazorAdmin.Modules\BlazorAdmin.Im\BlazorAdmin.Im.csproj", "{98E64FC9-2EB8-4B3E-A573-D8F8F5854EB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

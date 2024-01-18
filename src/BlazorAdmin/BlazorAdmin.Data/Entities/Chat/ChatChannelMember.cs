@@ -1,13 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BlazorAdmin.Data.Entities
+namespace BlazorAdmin.Data.Entities.Chat
 {
     [Comment("聊天成员")]
+    [Index(nameof(ChatChannelId))]
+    [Index(nameof(MemberId))]
     public class ChatChannelMember
     {
         [Comment("主键")]
@@ -18,5 +15,8 @@ namespace BlazorAdmin.Data.Entities
 
         [Comment("成员Id")]
         public int MemberId { get; set; }
+
+        [Comment("此成员未读消息数量")]
+        public int NotReadCount { get; set; }
     }
 }

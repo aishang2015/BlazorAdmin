@@ -1,5 +1,6 @@
 ﻿@using System.Net.Http
 @using BlazorAdmin.Core.Auth;
+@using BlazorAdmin.Core.Chat
 @using BlazorAdmin.Core.Helper;
 @using BlazorAdmin.Core.Resources;
 @using BlazorAdmin.Data;
@@ -35,5 +36,7 @@
 @inject NavigationManager _navManager;
 @inject IStringLocalizer<ImCulture> _loc;
 @inject BlazroAdminChatDbContextFactory _chatDbFactory;
+@inject EventHelper<UpdateNoReadCountEvent> _updateNoReadCountEventHelper;
+@inject MessageSender _messageSender;
 
 @attribute [Authorize]

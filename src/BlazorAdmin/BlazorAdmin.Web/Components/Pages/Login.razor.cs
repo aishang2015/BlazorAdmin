@@ -4,6 +4,7 @@ using BlazorAdmin.Core.Resources;
 using BlazorAdmin.Data;
 using BlazorAdmin.Data.Constants;
 using BlazorAdmin.Data.Entities;
+using BlazorAdmin.Data.Entities.Log;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;

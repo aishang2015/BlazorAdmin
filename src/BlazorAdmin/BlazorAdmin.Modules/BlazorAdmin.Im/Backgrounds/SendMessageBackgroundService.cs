@@ -3,6 +3,7 @@ using BlazorAdmin.Core.Data;
 using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Data;
 using BlazorAdmin.Data.Entities;
+using BlazorAdmin.Data.Entities.Chat;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -75,11 +76,6 @@ namespace BlazorAdmin.Im.Backgrounds
                             ]);
                             await mainContext.SaveChangesAsync();
 
-                            // 未读记录表
-                            mainContext.ChatMessageNoReads.Add(
-                                new ChatMessageNoRead { ChannelId = channel.Entity.Id, ReciverId = message.ReceiverId.Value });
-                            await mainContext.SaveChangesAsync();
-
                             channelId = channel.Entity.Id;
                             messageDbContext = _messageDbContextFactory.CreateDbContext(channel.Entity.Id);
                             messageDbContext.Database.EnsureCreated();
@@ -104,12 +100,12 @@ namespace BlazorAdmin.Im.Backgrounds
                     }
 
                     // 保存未读数量
-                    var msgNoReads = mainContext.ChatMessageNoReads
-                        .Where(m => m.ChannelId == channelId && m.ReciverId != message.SenderId)
+                    var msgNoReads = mainContext.ChatChannelMembers
+                        .Where(m => m.ChatChannelId == channelId)
                         .ToList();
                     foreach (var msgNoRead in msgNoReads)
                     {
-                        msgNoRead.Count = msgNoRead.Count + 1;
+                        msgNoRead.NotReadCount = msgNoRead.NotReadCount + 1;
                     }
                     await mainContext.SaveChangesAsync();
                     trans.Commit();
@@ -127,7 +123,7 @@ namespace BlazorAdmin.Im.Backgrounds
                     // 在线用户推送
                     var hubContext = scope.ServiceProvider.GetRequiredService<IHubContext<ChatHub, IChatClient>>();
                     var onlineClients = ChatHub.OnlineUsers
-                        .Where(kv => msgNoReads.Any(r => r.ReciverId == kv.Key))
+                        .Where(kv => msgNoReads.Any(r => r.MemberId == kv.Key))
                         .Select(kv => kv.Value);
                     await hubContext.Clients.Clients(onlineClients).ReceiveMessage(new ChatMessageReceivedModel
                     {

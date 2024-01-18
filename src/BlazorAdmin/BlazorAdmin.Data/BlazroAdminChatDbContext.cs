@@ -1,4 +1,4 @@
-﻿using BlazorAdmin.Data.Entities;
+﻿using BlazorAdmin.Data.Entities.Chat;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

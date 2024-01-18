@@ -63,13 +63,9 @@ builder.Services.AddDbContextFactory<BlazorAdminDbContext>(b =>
     b.UseSqlite(builder.Configuration.GetConnectionString("Rbac"));
 }, ServiceLifetime.Scoped);
 builder.Services.AddSingleton<BlazroAdminChatDbContextFactory>();
-builder.Services.AddHostedService<DbContextInitialBackgroundService>();
 builder.Services.AddHostedService<SendMessageBackgroundService>();
 
 builder.Services.AddSingleton<MessageSender>();
-
-// jwt helper
-builder.Services.AddScoped<JwtHelper>();
 
 // custom auth state provider
 builder.Services.AddCascadingAuthenticationState();
@@ -83,15 +79,28 @@ builder.Services.AddScoped<IAccessService, AccessService>();
 // some state
 builder.Services.AddScoped<ThemeState>();
 
+// event helper
+builder.Services.AddScoped<EventHelper<UpdateNoReadCountEvent>>();
+
 // locallization
 builder.Services.AddLocalization();
 
 // get ip and agent only for record login log 
 builder.Services.AddHttpContextAccessor();
 
+// jwt helper
+builder.Services.AddScoped<JwtHelper>();
+
 builder.Services.AddControllers();
 
+
 var app = builder.Build();
+
+// initial db
+using var scope = app.Services.CreateScope();
+var dbContextFactory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<BlazorAdminDbContext>>();
+using var context = dbContextFactory.CreateDbContext();
+context.InitialData();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
