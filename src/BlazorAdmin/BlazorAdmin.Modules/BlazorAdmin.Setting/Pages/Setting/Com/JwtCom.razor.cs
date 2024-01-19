@@ -21,11 +21,11 @@ namespace BlazorAdmin.Setting.Pages.Setting.Com
             using var dbContext = _dbFactory.CreateDbContext();
             JwtConfigModel = new JwtConfig
             {
-                Issuer = dbContext.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtIssue)!.Value,
-                Audience = dbContext.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtAudience)!.Value,
-                ExpireMinutes = int.Parse(dbContext.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtExpireMinute)!.Value),
-				RsaPrivateKey = dbContext.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtSigningRsaPrivateKey)!.Value,
-                RsaPublicKey = dbContext.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtSigningRsaPublicKey)!.Value,
+                Issuer = dbContext.Settings.GetSettingValue(JwtConstant.JwtIssue),
+                Audience = dbContext.Settings.GetSettingValue(JwtConstant.JwtAudience),
+                ExpireMinutes = int.Parse(dbContext.Settings.GetSettingValue(JwtConstant.JwtExpireMinute)!),
+                RsaPrivateKey = dbContext.Settings.GetSettingValue(JwtConstant.JwtSigningRsaPrivateKey),
+                RsaPublicKey = dbContext.Settings.GetSettingValue(JwtConstant.JwtSigningRsaPublicKey),
             };
             return Task.CompletedTask;
         }
@@ -45,16 +45,11 @@ namespace BlazorAdmin.Setting.Pages.Setting.Com
         private async Task JwtConfigSubmit()
         {
             using var dbContext = _dbFactory.CreateDbContext();
-            var issuer = dbContext.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtIssue);
-            issuer!.Value = JwtConfigModel.Issuer!;
-            var audience = dbContext.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtAudience);
-            audience!.Value = JwtConfigModel.Audience!;
-            var expireMinutes = dbContext.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtExpireMinute);
-            expireMinutes!.Value = JwtConfigModel.ExpireMinutes.ToString();
-            var rsaPrivateKey = dbContext.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtSigningRsaPrivateKey);
-            rsaPrivateKey!.Value = JwtConfigModel.RsaPrivateKey!;
-            var rsaPublicKey = dbContext.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtSigningRsaPublicKey);
-            rsaPublicKey!.Value = JwtConfigModel.RsaPublicKey!;
+            dbContext.Settings.SetSettingValue(JwtConstant.JwtIssue, JwtConfigModel.Issuer);
+            dbContext.Settings.SetSettingValue(JwtConstant.JwtAudience, JwtConfigModel.Audience);
+            dbContext.Settings.SetSettingValue(JwtConstant.JwtExpireMinute, JwtConfigModel.ExpireMinutes.ToString());
+            dbContext.Settings.SetSettingValue(JwtConstant.JwtSigningRsaPrivateKey, JwtConfigModel.RsaPrivateKey);
+            dbContext.Settings.SetSettingValue(JwtConstant.JwtSigningRsaPublicKey, JwtConfigModel.RsaPublicKey);
             await dbContext.AuditSaveChangesAsync();
 
             _snackbarService.Add("保存成功！", Severity.Success);

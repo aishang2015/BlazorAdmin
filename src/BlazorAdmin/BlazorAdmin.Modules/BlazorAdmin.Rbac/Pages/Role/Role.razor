@@ -1,5 +1,7 @@
 ﻿@page "/role"
 
+@attribute [StreamRendering]
+
 <PageHeader Title="@Loc["RolePage_Title"]">
     <div style="width:300px">
         <MudTextField T="string" @bind-Value="SearchText" Margin="Margin.Dense" Placeholder="@Loc["RolePage_SearchKeywordPlaceholder"]"></MudTextField>
