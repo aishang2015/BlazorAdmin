@@ -1,4 +1,5 @@
-﻿using BlazorAdmin.Core.Extension;
+﻿using BlazorAdmin.Component.Pages;
+using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Log.Pages.AuditLog.Dialogs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -9,6 +10,9 @@ namespace BlazorAdmin.Log.Pages.AuditLog
 {
     public partial class AuditLog
     {
+
+        private PageDataGrid<AuditLogModel> dataGrid = null!;
+
         private List<AuditLogModel> AuditLogs = new();
 
         private List<Operator> Operators = new();
@@ -84,6 +88,12 @@ namespace BlazorAdmin.Log.Pages.AuditLog
             }).ToList();
         }
 
+        private async Task<GridData<AuditLogModel>> GetTableData(GridState<AuditLogModel> gridState)
+        {
+            await InitialAsync();
+            return new GridData<AuditLogModel>() { TotalItems = AuditLogs.Count, Items = AuditLogs };
+        }
+
         private async Task ViewDetail(Guid id)
         {
             var parameters = new DialogParameters
@@ -97,7 +107,7 @@ namespace BlazorAdmin.Log.Pages.AuditLog
         private async void PageChangedClick(int page)
         {
             Page = page;
-            await InitialAsync();
+            dataGrid.ReloadServerData();
         }
 
         private class AuditLogModel

@@ -1,19 +1,26 @@
 ﻿@typeparam T
 
-<MudDataGrid Items="Items" Dense="true" Filterable="false" ColumnResizeMode="ResizeMode.Column"
+<MudDataGrid Dense="true" Filterable="false" ColumnResizeMode="ResizeMode.Column"
              SortMode="@SortMode.None" Groupable="false" Virtualize="true" FixedHeader="true"
-             Height="@(HasPagination ? "calc(100vh - 200px)" : "calc(100vh - 150px)")">
+             Height="@(HasPagination ? "calc(100vh - 200px)" : "calc(100vh - 150px)")"
+             ServerData="ServerData" @ref="dataGridRef">
     <Columns>
         @ChildContent
     </Columns>
 </MudDataGrid>
 
 @code {
-
-    [Parameter] public IEnumerable<T> Items { get; set; } = new List<T>();
+    private MudDataGrid<T> dataGridRef = null!;
 
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
     [Parameter] public bool HasPagination { get; set; } = true;
+
+    [Parameter] public Func<GridState<T>, Task<GridData<T>>> ServerData { get; set; }
+
+    public void ReloadServerData()
+    {
+        dataGridRef.ReloadServerData();
+    }
 
 }  

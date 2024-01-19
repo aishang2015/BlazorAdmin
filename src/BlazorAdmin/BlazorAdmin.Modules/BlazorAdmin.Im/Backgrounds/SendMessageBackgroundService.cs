@@ -64,7 +64,6 @@ namespace BlazorAdmin.Im.Backgrounds
 
                         if (systemChannel == null)
                         {
-
                             // 频道表
                             var channel = mainContext.ChatChannels.Add(new ChatChannel { Type = (int)ChatChannelType.系统对话 });
                             await mainContext.SaveChangesAsync();

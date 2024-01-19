@@ -3,11 +3,11 @@
 <PageHeader Title="@Loc["AuditLogPage_Title"]">
     <div style="width:140px" class="mr-2">
         <MudTextField Label="@Loc["AuditLogPage_TableH2"]" Clearable
-            @bind-Value="InputTransaction"></MudTextField>
-    </div>
-    <div style="width:140px" class="mr-2">
-        <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH3"]"
-                   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedUser" Clearable>
+                       @bind-Value="InputTransaction"></MudTextField>
+     </div>
+     <div style="width:140px" class="mr-2">
+         <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH3"]"
+                    AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedUser" Clearable>
             @foreach (var o in Operators)
             {
                 <MudSelectItem Value="@o.Id.ToString()">@o.UserName</MudSelectItem>
@@ -37,11 +37,11 @@
             </MudSelectItem>
         </MudSelect>
     </div>
-    <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="InitialAsync"
+    <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="@(()=>dataGrid.ReloadServerData())"
                    Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
 </PageHeader>
 
-<PageDataGrid Items="@AuditLogs">
+<PageDataGrid T="AuditLogModel" ServerData="GetTableData" @ref="dataGrid">
     <PropertyColumn T="AuditLogModel" TProperty="int" Property="x => x.Number" Title="@Loc["AuditLogPage_TableH1"]" StickyLeft="true"
                     HeaderStyle="white-space:nowrap" CellStyle="width:40px;text-align:center;" />
     <PropertyColumn T="AuditLogModel" TProperty="Guid" Property="x => x.TransactionId" Title="@Loc["AuditLogPage_TableH2"]" CellStyle="white-space:nowrap" />
