@@ -1,23 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<SatelliteResourceLanguages>none</SatelliteResourceLanguages>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
-    <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+		<PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
-    <ProjectReference Include="..\BlazorAdmin.Data\BlazorAdmin.Data.csproj" />
-    <ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Log\BlazorAdmin.Log.csproj" />
-    <ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Rbac\BlazorAdmin.Rbac.csproj" />
-    <ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Setting\BlazorAdmin.Setting.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
+		<ProjectReference Include="..\BlazorAdmin.Data\BlazorAdmin.Data.csproj" />
+		<ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Im\BlazorAdmin.Im.csproj" />
+		<ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Log\BlazorAdmin.Log.csproj" />
+		<ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Rbac\BlazorAdmin.Rbac.csproj" />
+		<ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Setting\BlazorAdmin.Setting.csproj" />
+	</ItemGroup>
 
 </Project>

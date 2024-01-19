@@ -1,6 +1,7 @@
 ﻿@using System.Net.Http
 @using System.Net.Http.Json
 @using BlazorAdmin.Core.Auth
+@using BlazorAdmin.Core.Chat
 @using BlazorAdmin.Core.Resources
 @using BlazorAdmin.Core.Services
 @using BlazorAdmin.Data
@@ -38,5 +39,6 @@
 @inject JwtHelper _jwtHelper;
 @inject ExternalAuthService _authService;
 @inject ThemeState _themeState;
+@inject MessageSender _messageSender;
 
 @attribute [Authorize]

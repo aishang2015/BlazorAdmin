@@ -1,5 +1,7 @@
 ﻿using BlazorAdmin.Data.Constants;
 using BlazorAdmin.Data.Entities;
+using BlazorAdmin.Data.Entities.Chat;
+using BlazorAdmin.Data.Entities.Log;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,6 +34,14 @@ namespace BlazorAdmin.Data
         public DbSet<AuditLogDetail> AuditLogDetails { get; set; }
 
         public DbSet<LoginLog> LoginLogs { get; set; }
+
+
+        public DbSet<ChatChannel> ChatChannels { get; set; }
+
+        public DbSet<ChatChannelMember> ChatChannelMembers { get; set; }
+
+        public DbSet<ChatMessage> ChatMessages { get; set; }
+
 
         public async Task AuditSaveChangesAsync()
         {

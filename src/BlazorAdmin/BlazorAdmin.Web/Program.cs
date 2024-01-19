@@ -1,11 +1,16 @@
 using BlazorAdmin.Core.Auth;
+using BlazorAdmin.Core.Chat;
+using BlazorAdmin.Core.Data;
 using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Core.Services;
 using BlazorAdmin.Data;
+using BlazorAdmin.Im.Backgrounds;
+using BlazorAdmin.Im.Events;
 using BlazorAdmin.Web.Components;
 using BlazorAdmin.Web.Data;
 using BlazorAdmin.Web.Data.States;
 using Cropper.Blazor.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -27,10 +32,10 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
-	.AddHubOptions(options =>
-	{
-		options.MaximumReceiveMessageSize = 320 * 1024;
-	});
+    .AddHubOptions(options =>
+    {
+        options.MaximumReceiveMessageSize = 320 * 1024;
+    });
 
 // mudblazor
 builder.Services.AddMudServices(config =>
@@ -46,15 +51,21 @@ builder.Services.AddCropper();
 
 builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, BlazorAuthorizationMiddlewareResultHandler>();
 
+var dbDirectory = Path.Combine(AppContext.BaseDirectory, "DB");
+if (!Directory.Exists(dbDirectory))
+{
+    Directory.CreateDirectory(dbDirectory);
+}
+
 // dbcontext
 builder.Services.AddDbContextFactory<BlazorAdminDbContext>(b =>
 {
     b.UseSqlite(builder.Configuration.GetConnectionString("Rbac"));
 }, ServiceLifetime.Scoped);
-builder.Services.AddHostedService<DbContextInitialBackgroundService>();
+builder.Services.AddSingleton<BlazroAdminChatDbContextFactory>();
+builder.Services.AddHostedService<SendMessageBackgroundService>();
 
-// jwt helper
-builder.Services.AddScoped<JwtHelper>();
+builder.Services.AddSingleton<MessageSender>();
 
 // custom auth state provider
 builder.Services.AddCascadingAuthenticationState();
@@ -68,15 +79,28 @@ builder.Services.AddScoped<IAccessService, AccessService>();
 // some state
 builder.Services.AddScoped<ThemeState>();
 
+// event helper
+builder.Services.AddScoped<EventHelper<UpdateNoReadCountEvent>>();
+
 // locallization
 builder.Services.AddLocalization();
 
 // get ip and agent only for record login log 
 builder.Services.AddHttpContextAccessor();
 
+// jwt helper
+builder.Services.AddScoped<JwtHelper>();
+
 builder.Services.AddControllers();
 
+
 var app = builder.Build();
+
+// initial db
+using var scope = app.Services.CreateScope();
+var dbContextFactory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<BlazorAdminDbContext>>();
+using var context = dbContextFactory.CreateDbContext();
+context.InitialData();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -103,11 +127,16 @@ app.UseStaticFiles(new StaticFileOptions
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddAdditionalAssemblies(Routes.AdditionalAssemblies.ToArray()); // rcl的page无法在浏览器上直接route https://github.com/dotnet/aspnetcore/issues/49313
+
+app.MapHub<ChatHub>(ChatHub.ChatHubUrl);
 
 app.Run();
 

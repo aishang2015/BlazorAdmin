@@ -1,0 +1,47 @@
+﻿<MudDialog>
+    <DialogContent>
+        <div style="width:300px;" class="pa-2">
+            <div class="d-flex align-center">
+                <MudText Typo="Typo.h5">选择用户</MudText>
+                <MudSpacer />
+                @if (_checkedUserSet.Count > 0)
+                {
+                    <MudText Typo="Typo.caption">已选择@(_checkedUserSet.Count)个用户</MudText>
+                }
+            </div>
+            <MudTextField T="string" Value="_userName" Placeholder="搜索用户" Immediate="true"
+                          ValueChanged="SearchedUserNameChanged" Variant="Variant.Outlined"
+                          Margin="Margin.Dense" Class="mb-2"></MudTextField>
+            <div style="overflow:auto;height:300px;">
+                <Virtualize Items="_userlist">
+                    <div class="d-flex align-center">
+                        <MudCheckBox T="bool" Checked="@_checkedUserSet.Contains(context.Id)"
+                                     CheckedChanged="v=>{CheckedChanged(context.Id, v);}" Color="Color.Primary"></MudCheckBox>
+                        @if (string.IsNullOrEmpty(context.Avatar))
+                        {
+                            <MudAvatar Size="Size.Medium" Color="Color.Primary">
+                                @context.RealName?.First()
+                            </MudAvatar>
+                        }
+                        else
+                        {
+                            <MudAvatar Size="Size.Medium">
+                                <MudImage Src="@("Avatars/" + context.Avatar)"></MudImage>
+                            </MudAvatar>
+                        }
+                        <MudText Typo="Typo.body2" Class="ml-2">
+                            @context.RealName
+                        </MudText>
+                    </div>
+                </Virtualize>
+            </div>
+            @if (_checkedUserSet.Count > 0)
+            {
+                <div class="mt-2 d-flex">
+                    <MudSpacer />
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CreateChannel">确定</MudButton>
+                </div>
+            }
+        </div>
+    </DialogContent>
+</MudDialog>

@@ -1,0 +1,25 @@
+﻿#chat-title{
+
+}
+
+#chat-area {
+    width: 80vw;
+    height: 80vh;
+}
+
+
+#channel-list {
+    width: 300px;
+    height: 100%;
+    padding: 0 10px;
+}
+
+#message-list {
+    flex: 1;
+    height: 100%;
+}
+
+
+#message-area {
+    overflow: auto;
+}

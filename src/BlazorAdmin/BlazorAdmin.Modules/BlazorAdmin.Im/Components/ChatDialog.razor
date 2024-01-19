@@ -1,0 +1,95 @@
+﻿@implements IAsyncDisposable
+@using BlazorAdmin.Im.Components.Messages
+<MudDialog DisableSidePadding>
+    <DialogContent>
+        <div id="chat-title" class="px-4">
+            <MudText Typo="Typo.h5">
+                @_loc["ChatTitle"]
+            </MudText>
+        </div>
+        <MudDivider Class="flex-none my-2"></MudDivider>
+        <div id="chat-area" class="d-flex">
+            <div id="channel-list" class="d-flex flex-column">
+                <div class="flex-none d-flex justify-center align-center px-6">
+                    <MudTextField T="string" Class="flex-none" Value="_textValue" Variant="Variant.Outlined" Margin="Margin.Dense"
+                                  Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" Label="搜索"
+                                  ValueChanged="SearchedTextChanged" Immediate="true"></MudTextField>
+                    <div class="flex-none ml-2">
+                        <MudIconButton Icon="@Icons.Material.Filled.Add" Variant="Variant.Outlined"
+                                       Size="Size.Medium" OnClick="SelectUserToChat"></MudIconButton>
+                    </div>
+                </div>
+                <MudDivider Class="flex-none my-2"></MudDivider>
+                <div class="flex-1" style="overflow:auto">
+                    <MudList SelectedValue="_selectedValue" SelectedValueChanged="SelectedChannelChanged"
+                             @bind-SelectedItem="_selectedItem" Clickable DisablePadding>
+                        <Virtualize Items="@Channels" Context="context">
+                            <MudListItem Value="@context" Dense="true">
+                                <div class="d-flex align-center">
+                                    @if (string.IsNullOrEmpty(context.Avatar))
+                                    {
+                                        <MudAvatar Size="Size.Medium" Color="Color.Primary">
+                                            @context.Name?.First()
+                                        </MudAvatar>
+                                    }
+                                    else
+                                    {
+                                        <MudAvatar Size="Size.Medium">
+                                            <MudImage Src="@("Avatars/" + context.Avatar)"></MudImage>
+                                        </MudAvatar>
+                                    }
+                                    <div class="ml-2">
+                                        <MudText Typo="Typo.body1">
+                                            @context.Name
+                                        </MudText>
+                                        @if (context.UserList.Count > 2)
+                                        {
+                                            <MudText Typo="Typo.caption">
+                                                @(context.UserList.First().RealName)等@(context.UserList.Count)个用户
+                                            </MudText>
+                                        }
+                                    </div>
+                                    <MudSpacer />
+                                    @if (context.NoReadCount > 0)
+                                    {
+                                        <MudChip Color="Color.Error" Size="Size.Small">@context.NoReadCount</MudChip>
+                                    }
+                                </div>
+                            </MudListItem>
+                        </Virtualize>
+                    </MudList>
+                </div>
+            </div>
+            <MudDivider Vertical="true" FlexItem="true" />
+            <div id="message-list" class="d-flex flex-column">
+                <div id="message-area" class="flex-1">
+                    <Virtualize Items="@MessageModels" Context="context">
+
+                        @if (context.IsCurrentUserSend)
+                        {
+                            <SelfMessage Avatar="@((_selectedValue as ChannelModel).UserList.First(u=>u.UserId == context.SenderId)?.Avatar)"
+                                         RealName="@((_selectedValue as ChannelModel).UserList.First(u=>u.UserId == context.SenderId)?.RealName)"
+                                         Message="@context.Content" SendTime="@context.CreatedTime"></SelfMessage>
+                        }
+                        else
+                        {
+                            <OtherMessage Avatar="@((_selectedValue as ChannelModel).UserList.First(u=>u.UserId == context.SenderId)?.Avatar)"
+                                          RealName="@((_selectedValue as ChannelModel).UserList.First(u=>u.UserId == context.SenderId)?.RealName)"
+                                          Message="@context.Content" SendTime="@context.CreatedTime"></OtherMessage>
+                        }
+
+                    </Virtualize>
+                </div>
+                <MudDivider Class="flex-none my-2"></MudDivider>
+                <div id="send-area" class="flex-none d-flex justify-center align-center px-2">
+                    <MudTextField Class="flex-1" @bind-Value="_messageValue" Variant="Variant.Outlined"
+                                  Label="@_loc["ChatMessageSendLabel"]" Margin="Margin.Dense"></MudTextField>
+                    <div class="flex-none ml-2">
+                        <MudIconButton Icon="@Icons.Material.Filled.Send" Variant="Variant.Outlined"
+                                       Size="Size.Medium" OnClick="SendMessage"></MudIconButton>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </DialogContent>
+</MudDialog>
