@@ -16,9 +16,16 @@ using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.Tokens;
 using MudBlazor;
 using MudBlazor.Services;
 using Serilog;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Cryptography;
+using System.Text;
+using Microsoft.Data.Sqlite;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using BlazorAdmin.Data.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,6 +78,40 @@ builder.Services.AddSingleton<MessageSender>();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthStateProvider>();
 builder.Services.AddScoped<ExternalAuthService>();
+
+// jwt authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    var connStr = builder.Configuration.GetConnectionString("Rbac");
+    using var context = new BlazorAdminDbContext(new DbContextOptionsBuilder<BlazorAdminDbContext>()
+        .UseSqlite(builder.Configuration.GetConnectionString("Rbac")).Options, default(ProtectedLocalStorage));
+
+    var issuer = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtIssue)!.Value;
+    var audience = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtAudience)!.Value;
+    var privateKey = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtSigningRsaPrivateKey)!.Value;
+    var publicKey = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtSigningRsaPublicKey)!.Value;
+
+    var rsa = RSA.Create();
+    rsa.ImportRSAPublicKey(Convert.FromBase64String(publicKey), out int publicReadBytes);
+    rsa.ImportRSAPrivateKey(Convert.FromBase64String(privateKey), out int privateReadBytes);
+    var securityKey = new RsaSecurityKey(rsa);
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidAudience = audience,
+        ValidateAudience = false,
+
+        ValidIssuer = issuer,
+        ValidateIssuer = false,
+
+        IssuerSigningKey = securityKey,
+
+        ValidateIssuerSigningKey = true,
+        ValidateLifetime = true
+    };
+});
 
 // some service
 builder.Services.AddMemoryCache();
