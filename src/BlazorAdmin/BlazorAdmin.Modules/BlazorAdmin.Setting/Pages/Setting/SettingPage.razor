@@ -1,18 +1,25 @@
 ﻿@page "/setting"
 
 <div class="d-flex" style="height:100%;">
-	<div class="flex-none" style="width:340px;overflow:auto;">
-		<MudText Typo="Typo.h5" Class="mb-4">系统配置</MudText>
-		<MudDivider Class="mb-2" />
-		<MudList Clickable="true" @bind-SelectedItem="SelectedItem" @bind-SelectedValue="SelectedValue">
-			@foreach (var group in SettingGroups)
-			{
-				<MudListItem Text="@group" Value="@group" />
-			}
-		</MudList>
-	</div>
-	<MudDivider Vertical="true" Class="mx-4" />
-	<div class="flex-1">
-		<DynamicComponent Type="@SettingComDic[SelectedValue.ToString()!]" />
-	</div>
+    <div class="flex-none" style="width:340px;overflow:auto;">
+        <MudText Typo="Typo.h5" Class="mb-4">系统配置</MudText>
+        <MudDivider Class="mb-2" />
+        <MudList Clickable="true" @bind-SelectedItem="SelectedItem" @bind-SelectedValue="SelectedValue">
+            @foreach (var group in SettingGroups)
+            {
+                <MudListItem Value="@group.Name">
+                    <div class="d-flex">
+                        <MudIcon Icon="@group.Icon" Class="mr-2"></MudIcon>
+                        <MudText>
+                            @group.Name
+                        </MudText>
+                    </div>
+                </MudListItem>
+            }
+        </MudList>
+    </div>
+    <MudDivider Vertical="true" Class="mx-4" />
+    <div class="flex-1">
+        <DynamicComponent Type="@SettingComDic[SelectedValue.ToString()!]" />
+    </div>
 </div>

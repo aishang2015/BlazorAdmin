@@ -5,10 +5,8 @@
 				  Placeholder="Issuer" For="@(() => JwtConfigModel.Issuer)" Label="Issuer"></MudTextField>
 	<MudTextField Class="mt-4" @bind-Value="JwtConfigModel.Audience" Variant="Variant.Outlined" Margin="Margin.Dense"
 				  Placeholder="Issuer" For="@(() => JwtConfigModel.Audience)" Label="Audience"></MudTextField>
-	<MudTextField Class="mt-4" @bind-Value="JwtConfigModel.RsaPrivateKey" Variant="Variant.Outlined" Margin="Margin.Dense"
-				  Placeholder="Issuer" For="@(() => JwtConfigModel.RsaPrivateKey)" Label="RsaPrivateKey" Lines="10"></MudTextField>
 	<MudTextField Class="mt-4" @bind-Value="JwtConfigModel.RsaPublicKey" Variant="Variant.Outlined" Margin="Margin.Dense"
-				  Placeholder="Issuer" For="@(() => JwtConfigModel.RsaPublicKey)" Label="RsaPublicKey" Lines="5"></MudTextField>
+				  Placeholder="Issuer" For="@(() => JwtConfigModel.RsaPublicKey)" Label="RsaPublicKey" Lines="5" ReadOnly="true"></MudTextField>
 	<MudNumericField Class="mt-4" @bind-Value="JwtConfigModel.ExpireMinutes" Label="过期时间（分钟）" Variant="Variant.Outlined" />
 	<div class="d-flex mt-4">
 		<MudSpacer />
