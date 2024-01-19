@@ -1,4 +1,4 @@
-﻿using BlazorAdmin.Data.Entities;
+﻿using BlazorAdmin.Data.Entities.Setting;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlazorAdmin.Core.Data

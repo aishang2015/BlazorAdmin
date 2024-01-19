@@ -1,8 +1,8 @@
 ﻿namespace BlazorAdmin.Web.Components.Pages
 {
-	public partial class Home
-	{
-		private string Value { get; } = """
+    public partial class Home
+    {
+        private string Value { get; } = """
             ### BlazorAdmin
 
             A simple management project template written using Blazor and MudBlazor.
@@ -47,5 +47,5 @@
             -   Entity Framework 7
             
             """;
-	}
+    }
 }

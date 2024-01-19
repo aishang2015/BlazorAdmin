@@ -1,6 +1,6 @@
 ﻿namespace BlazorAdmin.Component.Pages
 {
-	public partial class PageHeader
-	{
-	}
+    public partial class PageHeader
+    {
+    }
 }

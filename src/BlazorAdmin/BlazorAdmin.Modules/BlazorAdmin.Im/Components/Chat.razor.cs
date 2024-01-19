@@ -1,18 +1,9 @@
-﻿using BlazorAdmin.Component.Dialogs;
-using BlazorAdmin.Core.Chat;
-using BlazorAdmin.Core.Helper;
-using BlazorAdmin.Data;
+﻿using BlazorAdmin.Core.Chat;
 using BlazorAdmin.Data.Constants;
-using BlazorAdmin.Im.Events;
 using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using MudBlazor;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlazorAdmin.Im.Components
 {

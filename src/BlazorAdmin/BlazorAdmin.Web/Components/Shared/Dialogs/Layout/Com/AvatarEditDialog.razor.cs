@@ -9,110 +9,110 @@ using System.Text.RegularExpressions;
 
 namespace BlazorAdmin.Web.Components.Shared.Dialogs.Layout.Com
 {
-	public partial class AvatarEditDialog
-	{
-		[Parameter] public IBrowserFile? BrowserFile { get; set; }
-		[CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+    public partial class AvatarEditDialog
+    {
+        [Parameter] public IBrowserFile? BrowserFile { get; set; }
+        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
 
-		private string src = "";
+        private string src = "";
 
-		private Options _options = new Options
-		{
-			AspectRatio = 1,
-			ViewMode = ViewMode.Vm1,
-		};
-		private CropperComponent? cropperComponent;
-		private ElementReference ElementReference;
-
-
-		protected override async Task OnAfterRenderAsync(bool firstRender)
-		{
-			await base.OnAfterRenderAsync(firstRender);
-			if (firstRender)
-			{
-				_options.Preview = new ElementReference[]
-				{
-					ElementReference
-				};
-
-				if (BrowserFile != null && cropperComponent != null)
-				{
-					string oldSrc = src;
-
-					src = await cropperComponent.GetImageUsingStreamingAsync(BrowserFile, BrowserFile.Size);
+        private Options _options = new Options
+        {
+            AspectRatio = 1,
+            ViewMode = ViewMode.Vm1,
+        };
+        private CropperComponent? cropperComponent;
+        private ElementReference ElementReference;
 
 
-					cropperComponent?.Destroy();
-					cropperComponent?.RevokeObjectUrlAsync(oldSrc);
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+            if (firstRender)
+            {
+                _options.Preview = new ElementReference[]
+                {
+                    ElementReference
+                };
 
-					StateHasChanged();
-				}
-			}
-		}
+                if (BrowserFile != null && cropperComponent != null)
+                {
+                    string oldSrc = src;
 
-		public void OnErrorLoadImageEvent(Microsoft.AspNetCore.Components.Web.ErrorEventArgs errorEventArgs)
-		{
-			Destroy();
-			StateHasChanged();
-		}
+                    src = await cropperComponent.GetImageUsingStreamingAsync(BrowserFile, BrowserFile.Size);
 
-		private void Destroy()
-		{
-			cropperComponent?.Destroy();
-			cropperComponent?.RevokeObjectUrlAsync(src);
-		}
 
-		public async Task SaveAvatar()
-		{
-			GetCroppedCanvasOptions getCroppedCanvasOptions = new GetCroppedCanvasOptions
-			{
-				MaxHeight = 4096,
-				MaxWidth = 4096,
-				ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString()
-			};
+                    cropperComponent?.Destroy();
+                    cropperComponent?.RevokeObjectUrlAsync(oldSrc);
 
-			var croppedCanvasDataURL = await cropperComponent!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
-			var fileName = SaveDataUrlToFile(croppedCanvasDataURL, Path.Combine(AppContext.BaseDirectory, "Avatars"));
+                    StateHasChanged();
+                }
+            }
+        }
 
-			var userState = await _stateProvider.GetAuthenticationStateAsync();
-			using var context = await _dbFactory.CreateDbContextAsync();
-			var user = context.Users.Find(userState.User.GetUserId());
-			if (user != null)
-			{
-				var oldFileName = user.Avatar;
-				user.Avatar = fileName;
-				await context.SaveChangesAsync();
-				if (!string.IsNullOrEmpty(oldFileName))
-				{
-					File.Delete(Path.Combine(AppContext.BaseDirectory, "Avatars", oldFileName));
-				}
-				_snackbarService.Add("头像设置成功！", Severity.Success);
-			}
-			MudDialog?.Close(DialogResult.Ok(true));
-		}
+        public void OnErrorLoadImageEvent(Microsoft.AspNetCore.Components.Web.ErrorEventArgs errorEventArgs)
+        {
+            Destroy();
+            StateHasChanged();
+        }
 
-		private string SaveDataUrlToFile(string dataUrl, string savePath)
-		{
-			if (!Directory.Exists(savePath))
-			{
-				Directory.CreateDirectory(savePath);
-			}
+        private void Destroy()
+        {
+            cropperComponent?.Destroy();
+            cropperComponent?.RevokeObjectUrlAsync(src);
+        }
 
-			var matchGroups = Regex.Match(dataUrl, @"^data:((?<type>[\w\/]+))?;base64,(?<data>.+)$").Groups;
-			var base64Data = matchGroups["data"].Value;
-			var binData = Convert.FromBase64String(base64Data);
+        public async Task SaveAvatar()
+        {
+            GetCroppedCanvasOptions getCroppedCanvasOptions = new GetCroppedCanvasOptions
+            {
+                MaxHeight = 4096,
+                MaxWidth = 4096,
+                ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString()
+            };
 
-			var endfix = matchGroups["type"].Value switch
-			{
-				"image/png" => ".png",
-				"image/jpeg" => ".jpeg",
-				"image/gif" => ".gif",
-				_ => ".jpg"
-			};
+            var croppedCanvasDataURL = await cropperComponent!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
+            var fileName = SaveDataUrlToFile(croppedCanvasDataURL, Path.Combine(AppContext.BaseDirectory, "Avatars"));
 
-			var newFileName = Guid.NewGuid().ToString("N") + endfix;
-			File.WriteAllBytes(Path.Combine(savePath, newFileName), binData);
-			return newFileName;
-		}
-	}
+            var userState = await _stateProvider.GetAuthenticationStateAsync();
+            using var context = await _dbFactory.CreateDbContextAsync();
+            var user = context.Users.Find(userState.User.GetUserId());
+            if (user != null)
+            {
+                var oldFileName = user.Avatar;
+                user.Avatar = fileName;
+                await context.SaveChangesAsync();
+                if (!string.IsNullOrEmpty(oldFileName))
+                {
+                    File.Delete(Path.Combine(AppContext.BaseDirectory, "Avatars", oldFileName));
+                }
+                _snackbarService.Add("头像设置成功！", Severity.Success);
+            }
+            MudDialog?.Close(DialogResult.Ok(true));
+        }
+
+        private string SaveDataUrlToFile(string dataUrl, string savePath)
+        {
+            if (!Directory.Exists(savePath))
+            {
+                Directory.CreateDirectory(savePath);
+            }
+
+            var matchGroups = Regex.Match(dataUrl, @"^data:((?<type>[\w\/]+))?;base64,(?<data>.+)$").Groups;
+            var base64Data = matchGroups["data"].Value;
+            var binData = Convert.FromBase64String(base64Data);
+
+            var endfix = matchGroups["type"].Value switch
+            {
+                "image/png" => ".png",
+                "image/jpeg" => ".jpeg",
+                "image/gif" => ".gif",
+                _ => ".jpg"
+            };
+
+            var newFileName = Guid.NewGuid().ToString("N") + endfix;
+            File.WriteAllBytes(Path.Combine(savePath, newFileName), binData);
+            return newFileName;
+        }
+    }
 }

@@ -1,6 +1,6 @@
 ﻿namespace BlazorAdmin.Component.Dialogs
 {
-	public record CommonDialogEventArgs
-	{
-	}
+    public record CommonDialogEventArgs
+    {
+    }
 }

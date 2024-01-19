@@ -1,7 +1,8 @@
 ﻿using BlazorAdmin.Data.Constants;
-using BlazorAdmin.Data.Entities;
 using BlazorAdmin.Data.Entities.Chat;
 using BlazorAdmin.Data.Entities.Log;
+using BlazorAdmin.Data.Entities.Rbac;
+using BlazorAdmin.Data.Entities.Setting;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.EntityFrameworkCore;
 

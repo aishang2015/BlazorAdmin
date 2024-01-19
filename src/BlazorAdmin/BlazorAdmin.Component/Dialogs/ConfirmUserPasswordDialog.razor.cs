@@ -4,18 +4,13 @@ using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlazorAdmin.Component.Dialogs
 {
     public partial class ConfirmUserPasswordDialog
     {
-        private Dictionary<string, object> _inputAttributes  =
+        private Dictionary<string, object> _inputAttributes =
             new Dictionary<string, object>()
                 {
                    { "autocomplete", "new-password2" },

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace BlazorAdmin.Data.Entities
+namespace BlazorAdmin.Data.Entities.Rbac
 {
     [Comment("用户")]
     public class User

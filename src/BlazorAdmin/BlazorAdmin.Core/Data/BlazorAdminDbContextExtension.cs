@@ -1,14 +1,12 @@
 ﻿using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Data;
 using BlazorAdmin.Data.Constants;
-using BlazorAdmin.Data.Entities;
-using FluentCodeServer.Core;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.EntityFrameworkCore;
+using BlazorAdmin.Data.Entities.Rbac;
+using BlazorAdmin.Data.Entities.Setting;
 using MudBlazor;
 using System.Security.Cryptography;
-using Role = BlazorAdmin.Data.Entities.Role;
-using User = BlazorAdmin.Data.Entities.User;
+using Role = BlazorAdmin.Data.Entities.Rbac.Role;
+using User = BlazorAdmin.Data.Entities.Rbac.User;
 
 namespace BlazorAdmin.Core.Data
 {
