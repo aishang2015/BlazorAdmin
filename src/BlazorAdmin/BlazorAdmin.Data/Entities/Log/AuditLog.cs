@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BlazorAdmin.Data.Attributes;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorAdmin.Data.Entities.Log
 {
     [Comment("审计日志")]
+    [IgnoreAudit]
     [Index(nameof(TransactionId))]
     [Index(nameof(OperateTime))]
     public class AuditLog

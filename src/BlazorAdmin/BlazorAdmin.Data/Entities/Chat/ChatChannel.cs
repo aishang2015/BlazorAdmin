@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BlazorAdmin.Data.Attributes;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlazorAdmin.Data.Entities.Chat
 {
     [Comment("聊天频道")]
+    [IgnoreAudit]
     public class ChatChannel
     {
         [Comment("主键")]

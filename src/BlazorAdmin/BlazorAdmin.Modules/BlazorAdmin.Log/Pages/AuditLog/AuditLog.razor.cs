@@ -1,10 +1,12 @@
 ﻿using BlazorAdmin.Component.Pages;
 using BlazorAdmin.Core.Extension;
+using BlazorAdmin.Data.Attributes;
 using BlazorAdmin.Log.Pages.AuditLog.Dialogs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using MudBlazor;
+using System.Reflection;
 
 namespace BlazorAdmin.Log.Pages.AuditLog
 {
@@ -81,11 +83,13 @@ namespace BlazorAdmin.Log.Pages.AuditLog
                 UserName = u.RealName,
             }).ToList();
 
-            OperateTargets = model.GetEntityTypes().Select(t => new OperateTarget
-            {
-                DisplayName = t.GetComment() ?? "",
-                EntityName = t.Name
-            }).ToList();
+            OperateTargets = model.GetEntityTypes()
+                .Where(t => t.ClrType.GetCustomAttribute<IgnoreAuditAttribute>() == null)
+                .Select(t => new OperateTarget
+                {
+                    DisplayName = t.GetComment() ?? "",
+                    EntityName = t.Name
+                }).ToList();
         }
 
         private async Task<GridData<AuditLogModel>> GetTableData(GridState<AuditLogModel> gridState)
