@@ -50,6 +50,12 @@ h1:focus {
     border-color: #929292;
 }
 
-.chat-message-badge  {
-    inset: auto auto calc(100% - 24px) calc(100% - 32px)!important;
+.chat-message-badge {
+    inset: auto auto calc(100% - 24px) calc(100% - 32px) !important;
+}
+
+.mud-tabs-toolbar-inner {
+}
+
+.mud-tab{
 }

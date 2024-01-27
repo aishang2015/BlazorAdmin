@@ -6,6 +6,17 @@ namespace BlazorAdmin.Rbac.Components
     {
         [Parameter] public HashSet<NavMenuItem> NavMenuItems { get; set; } = new();
 
+        [Parameter] public EventCallback<NavMenuItem> NavTo { get; set; }
+
+        private bool _shouldRender = false;
+
+        protected override bool ShouldRender() => _shouldRender;
+
+        private async Task NavClick(NavMenuItem item)
+        {
+            await NavTo.InvokeAsync(item);
+        }
+
         public record NavMenuItem
         {
             public string? MenuIcon { get; set; }

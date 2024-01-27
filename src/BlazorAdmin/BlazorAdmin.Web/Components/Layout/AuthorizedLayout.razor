@@ -1,5 +1,7 @@
 ﻿@using BlazorAdmin.Web.Components.Shared
 @using MudBlazor.Utilities
+
+
 <MudAppBar Elevation="1" Dense="true">
     <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
     <MudText Typo="Typo.h5" Class="ml-3">BlazorAdmin</MudText>
@@ -37,8 +39,8 @@
                 }
                 @foreach (var color in colors)
                 {
-                    <div class="mud-picker-color-dot ma-2" 
-                        @onclick="()=>{_themeState.PrimaryColor = new MudColor(color);}"
+                    <div class="mud-picker-color-dot ma-2"
+                         @onclick="()=>{_themeState.PrimaryColor = new MudColor(color);}"
                          style="background-color:@(color);max-width:38px;@(_themeState.PrimaryColor.ToString(MudColorOutputFormats.Hex) == color ?"border-radius:50%":"" )"></div>
                 }
 
@@ -80,10 +82,21 @@
 
 </MudAppBar>
 <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
-    <NavMenu />
+    <NavMenu NavTo="NavigateTo" @ref="_navMenuRef" />
 </MudDrawer>
 <MudMainContent Style="height:100vh;">
-    <div class="pa-4" style="height:100%;overflow:auto;">
-        @Child
+    <div class="pa-4 d-flex flex-column" style="height:100%;overflow:auto;">
+        <MudDynamicTabs MinimumTabWidth="120px" AddIconStyle="display:none;"
+                        @bind-ActivePanelIndex="_selectedTabIndex"
+                        CloseTab="OnTabClose">
+            @foreach (var tab in _userTabs)
+            {
+                <MudTabPanel ID="@tab.Id" Text="@tab.Label" ShowCloseIcon="@tab.ShowCloseIcon"
+                             OnClick="()=>TabClick(tab)" Style="border-right:1px solid var(--mud-palette-lines-default)" />
+            }
+        </MudDynamicTabs>
+        <MudPaper Class="flex-1 pa-4 border-t border-solid mud-border-lines-default" Style="overflow:auto;border-start-start-radius:0;border-start-end-radius:0;">
+            @Child
+        </MudPaper>
     </div>
 </MudMainContent>

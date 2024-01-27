@@ -1,13 +1,16 @@
 ﻿using BlazorAdmin.Data.Entities.Rbac;
+using Microsoft.AspNetCore.Components;
 using static BlazorAdmin.Rbac.Components.NavItemMenu;
 
 namespace BlazorAdmin.Web.Components.Shared
 {
     public partial class NavMenu
     {
+        [Parameter] public EventCallback<NavMenuItem> NavTo { get; set; }
+
         private List<Menu> MenuList = new();
 
-        private HashSet<NavMenuItem> NavMenuItems = new();
+        public HashSet<NavMenuItem> NavMenuItems { get; set; } = new();
 
         protected override async Task OnInitializedAsync()
         {
