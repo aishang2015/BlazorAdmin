@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using MudBlazor;
 using MudBlazor.Utilities;
+using System.Drawing;
+using static MudBlazor.Colors;
 
 namespace BlazorAdmin.Web.Data.States
 {
@@ -23,21 +25,45 @@ namespace BlazorAdmin.Web.Data.States
 
         public async Task LoadTheme()
         {
+            _theme = new MudTheme()
+            {
+                PaletteDark = new PaletteDark()
+                {
+                    Primary = "#007fff",
+                    Tertiary = "#594AE2",
+                    Black = "#27272f",
+                    Background = "#121212",                 // 整体背景色
+                    BackgroundGrey = "#202020",
+                    Surface = "#1f1f1f",                    // 表格等控件背景色
+                    DrawerBackground = "#181818",
+                    DrawerText = "rgba(255,255,255, 0.50)",
+                    DrawerIcon = "rgba(255,255,255, 0.50)",
+                    AppbarBackground = "rgb(24,24,24)",
+                    AppbarText = "rgba(255,255,255, 0.70)",
+                    TextPrimary = "rgba(255,255,255, 0.70)",
+                    TextSecondary = "rgba(255,255,255, 0.50)",
+                    ActionDefault = "rgb(173, 173, 177)",
+                    //ActionDisabled = "rgba(0, 127, 255, 0.40)",
+                    //ActionDisabledBackground = "rgba(0, 127, 255, 0.26)",
+                    //Divider = "rgba(0, 127, 255, 0.12)",
+                    //DividerLight = "rgba(20, 127, 255, 0.06)",
+                    TableLines = "rgba(255, 255, 255, 0.12)",
+                    //LinesDefault = "rgba(0, 127, 255, 0.12)",
+                    //LinesInputs = "rgba(0, 127, 255, 0.3)",
+                    TextDisabled = "rgba(0, 127, 255, 0.2)"
+                },
+                LayoutProperties = new LayoutProperties()
+                {
+                    DefaultBorderRadius = "4px",
+                }
+            };
+
             try
             {
                 var localData = await _protectedLocalStorage.GetAsync<bool>("IsDark");
                 if (localData.Success)
                 {
-                    IsDark = localData.Value;
-                    if (IsDark)
-                    {
-                        _theme.PaletteDark.AppbarBackground = "#001529";
-                        _theme.PaletteDark.DrawerBackground = "#001529";
-
-                        _theme.PaletteDark.Background = "#1a1a27";
-                        _theme.PaletteDark.Surface = "#1a1a27";
-                        _theme.PaletteDark.HoverOpacity = .2;
-                    }
+                    _isDark = localData.Value;
                 }
 
                 var primaryColor = await _protectedLocalStorage.GetAsync<string>("PrimaryColor");
@@ -45,13 +71,17 @@ namespace BlazorAdmin.Web.Data.States
                 {
                     var color = new MudColor(primaryColor.Value);
                     _theme.Palette.Primary = color;
-                    _theme.Palette.AppbarBackground = color;
-                    _theme.PaletteDark.Primary = color;
-
                     _theme.Palette.PrimaryDarken = color.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
                     _theme.Palette.PrimaryLighten = color.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
+                    _theme.Palette.AppbarBackground = color;
+
+                    _theme.PaletteDark.Primary = color;
                     _theme.PaletteDark.PrimaryDarken = color.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
                     _theme.PaletteDark.PrimaryLighten = color.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
+                    _theme.PaletteDark.LinesInputs = color.ColorDarken(0.3);
+                    //_theme.PaletteDark.LinesDefault = color.ColorDarken(0.12);
+                    //_theme.PaletteDark.Divider = color.ColorDarken(0.4);
+                    //_theme.PaletteDark.DividerLight = color.ColorLighten(0.4);
                 }
             }
             catch (Exception)
@@ -91,14 +121,20 @@ namespace BlazorAdmin.Web.Data.States
             set
             {
                 _protectedLocalStorage.SetAsync("PrimaryColor", value.Value);
-                _theme.Palette.Primary = value;
-                _theme.Palette.AppbarBackground = value;
-                _theme.PaletteDark.Primary = value;
 
+                _theme.Palette.Primary = value;
                 _theme.Palette.PrimaryDarken = value.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
                 _theme.Palette.PrimaryLighten = value.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
+                _theme.Palette.AppbarBackground = value;
+
+                _theme.PaletteDark.Primary = value;
                 _theme.PaletteDark.PrimaryDarken = value.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
                 _theme.PaletteDark.PrimaryLighten = value.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
+                _theme.PaletteDark.LinesInputs = value.ColorDarken(0.3);
+                //_theme.PaletteDark.LinesDefault = value.ColorDarken(0.12);
+                //_theme.PaletteDark.Divider = value.ColorDarken(0.4);
+                //_theme.PaletteDark.DividerLight = value.ColorLighten(0.4);
+
                 ThemeStateChanged();
             }
         }
