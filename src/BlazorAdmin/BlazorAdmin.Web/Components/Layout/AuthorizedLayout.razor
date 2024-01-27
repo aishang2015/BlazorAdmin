@@ -1,4 +1,5 @@
 ﻿@using BlazorAdmin.Web.Components.Shared
+@using MudBlazor.Utilities
 <MudAppBar Elevation="1" Dense="true">
     <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
     <MudText Typo="Typo.h5" Class="ml-3">BlazorAdmin</MudText>
@@ -30,7 +31,18 @@
             </MudText>
         </TitleContent>
         <DialogContent>
-            <MudColorPicker DisableToolbar="false" PickerVariant="PickerVariant.Static" @bind-Value="@_themeState.PrimaryColor" />
+            <div style="width:216px;" class="d-flex flex-wrap ">
+                @{
+                    string[] colors = ["#d84a1b", "#d87a16", "#d89614", "#8bbb11", "#13a8a8", "#1668dc", "#642ab5", "#262626"];
+                }
+                @foreach (var color in colors)
+                {
+                    <div class="mud-picker-color-dot ma-2" 
+                        @onclick="()=>{_themeState.PrimaryColor = new MudColor(color);}"
+                         style="background-color:@(color);max-width:38px;@(_themeState.PrimaryColor.ToString(MudColorOutputFormats.Hex) == color ?"border-radius:50%":"" )"></div>
+                }
+
+            </div>
         </DialogContent>
     </MudDialog>
 

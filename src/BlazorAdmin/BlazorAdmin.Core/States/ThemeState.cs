@@ -78,10 +78,6 @@ namespace BlazorAdmin.Web.Data.States
                     _theme.PaletteDark.Primary = color;
                     _theme.PaletteDark.PrimaryDarken = color.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
                     _theme.PaletteDark.PrimaryLighten = color.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
-                    _theme.PaletteDark.LinesInputs = color.ColorDarken(0.3);
-                    //_theme.PaletteDark.LinesDefault = color.ColorDarken(0.12);
-                    //_theme.PaletteDark.Divider = color.ColorDarken(0.4);
-                    //_theme.PaletteDark.DividerLight = color.ColorLighten(0.4);
                 }
             }
             catch (Exception)
@@ -130,10 +126,6 @@ namespace BlazorAdmin.Web.Data.States
                 _theme.PaletteDark.Primary = value;
                 _theme.PaletteDark.PrimaryDarken = value.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
                 _theme.PaletteDark.PrimaryLighten = value.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
-                _theme.PaletteDark.LinesInputs = value.ColorDarken(0.3);
-                //_theme.PaletteDark.LinesDefault = value.ColorDarken(0.12);
-                //_theme.PaletteDark.Divider = value.ColorDarken(0.4);
-                //_theme.PaletteDark.DividerLight = value.ColorLighten(0.4);
 
                 ThemeStateChanged();
             }
