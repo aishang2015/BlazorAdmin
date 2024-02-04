@@ -1,4 +1,6 @@
-﻿using Microsoft.JSInterop;
+﻿using BlazorAdmin.Component.Dialogs;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.JSInterop;
 using MudBlazor;
 using System;
 using System.Collections.Generic;
@@ -145,6 +147,42 @@ namespace BlazorAdmin.Rbac.Pages.Organization
 
                 EditVisible = true;
             }
+        }
+
+        private async Task DeleteOrganizationClick()
+        {
+            if (SelectedOrganizationItem == null)
+            {
+                return;
+            }
+
+            await _dialogService.ShowDeleteDialog(null, null,
+                async (CommonDialogEventArgs e) =>
+                {
+                    using var db = await _dbFactory.CreateDbContextAsync();
+
+                    var organizations = db.Organizations.ToList();
+                    var subtreeIdList = FindAllSubTreeIds(SelectedOrganizationItem.Id, organizations);
+                    subtreeIdList.Add(SelectedOrganizationItem.Id);
+
+                    using var tran = db.Database.BeginTransaction();
+
+                    await db.Organizations.Where(m => subtreeIdList.Contains(m.Id)).ExecuteDeleteAsync();
+                    await db.OrganizationUsers.Where(ou => subtreeIdList.Contains(ou.OrganizationId)).ExecuteDeleteAsync();
+                    await tran.CommitAsync();
+
+                    _snackbarService.Add("删除成功！", Severity.Success);
+                    await InitialOrganizationTree();
+                    SelectedOrganizationItem = null;
+                    StateHasChanged();
+                });
+        }
+
+        private List<int> FindAllSubTreeIds(int parentId, List<Data.Entities.Rbac.Organization> organizations)
+        {
+            return organizations.Where(m => m.ParentId == parentId).Select(m => m.Id).ToList()
+                .Concat(organizations.Where(m => m.ParentId == parentId).SelectMany(m => FindAllSubTreeIds(m.Id, organizations)))
+                .ToList();
         }
 
         private record OrganizationItem

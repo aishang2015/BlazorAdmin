@@ -12,7 +12,8 @@
         @if (_accessService.CheckHasElementRights("OrganizationDeleteBtn").Result)
         {
             <MudIconButton Class=" mr-2" Color="Color.Primary" Icon="@Icons.Material.Filled.Remove" Variant="Variant.Text"
-                           Size="Size.Medium"></MudIconButton>
+                           Size="Size.Medium" Disabled="SelectedOrganizationItem == null"
+                           OnClick="DeleteOrganizationClick"></MudIconButton>
         }
     </PageHeader>
     <MudDivider Class="flex-none" />

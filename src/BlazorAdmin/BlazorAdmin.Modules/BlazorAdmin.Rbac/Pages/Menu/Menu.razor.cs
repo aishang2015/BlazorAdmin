@@ -154,19 +154,14 @@ namespace BlazorAdmin.Rbac.Pages.Menu
 
                             using var tran = db.Database.BeginTransaction();
 
-                            var count = await db.Menus.Where(m => subtreeIdList.Contains(m.Id)).ExecuteDeleteAsync();
+                            await db.Menus.Where(m => subtreeIdList.Contains(m.Id)).ExecuteDeleteAsync();
                             await db.RoleMenus.Where(rm => subtreeIdList.Contains(rm.MenuId)).ExecuteDeleteAsync();
                             await tran.CommitAsync();
 
-                            if (count > 0)
-                            {
-                                _snackbarService.Add("删除成功！", Severity.Success);
-                                await InitialMenuTree();
-                            }
-                            else
-                            {
-                                _snackbarService.Add("菜单不存在！", Severity.Error);
-                            }
+                            _snackbarService.Add("删除成功！", Severity.Success);
+                            await InitialMenuTree();
+
+                            SelectedMenuItem = null;
                             StateHasChanged();
                         }
                 );
