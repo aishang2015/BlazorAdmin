@@ -59,6 +59,7 @@ namespace BlazorAdmin.Core.Data
                 var userManageEnty = dbContext.Menus.Add(new Menu { ParentId = entry2.Entity.Id, Name = "用户", Type = 1, Route = "/user", Order = 1, Icon = Icons.Material.Filled.Person });
                 var roleManageEntry = dbContext.Menus.Add(new Menu { ParentId = entry2.Entity.Id, Name = "角色", Type = 1, Route = "/role", Order = 2, Icon = Icons.Material.Filled.LockPerson });
                 var menuManageEntry = dbContext.Menus.Add(new Menu { ParentId = entry2.Entity.Id, Name = "菜单", Type = 1, Route = "/menu", Order = 3, Icon = Icons.Material.Filled.Menu });
+                var organizationManageEntry = dbContext.Menus.Add(new Menu { ParentId = entry2.Entity.Id, Name = "组织", Type = 1, Route = "/organization", Order = 4, Icon = Icons.Material.Filled.AccountTree });
                 dbContext.SaveChanges();
 
                 dbContext.Menus.Add(new Menu { ParentId = entry3.Entity.Id, Name = "配置", Type = 1, Route = "/setting", Order = 1, Icon = Icons.Material.Filled.Settings });
@@ -82,6 +83,10 @@ namespace BlazorAdmin.Core.Data
                 dbContext.Menus.Add(new Menu { ParentId = menuManageEntry.Entity.Id, Name = "删除按钮", Type = 2, Order = 3, Identify = "MenuDeleteBtn" });
                 dbContext.Menus.Add(new Menu { ParentId = menuManageEntry.Entity.Id, Name = "排序按钮", Type = 2, Order = 4, Identify = "MenuOrderBtn" });
 
+                dbContext.Menus.Add(new Menu { ParentId = organizationManageEntry.Entity.Id, Name = "添加按钮", Type = 2, Order = 1, Identify = "OrganizationAddBtn" });
+                dbContext.Menus.Add(new Menu { ParentId = organizationManageEntry.Entity.Id, Name = "修改按钮", Type = 2, Order = 2, Identify = "OrganizationUpdateBtn" });
+                dbContext.Menus.Add(new Menu { ParentId = organizationManageEntry.Entity.Id, Name = "删除按钮", Type = 2, Order = 3, Identify = "OrganizationDeleteBtn" });
+                dbContext.Menus.Add(new Menu { ParentId = organizationManageEntry.Entity.Id, Name = "排序按钮", Type = 2, Order = 4, Identify = "OrganizationOrderBtn" });
 
                 var roleEntry = dbContext.Roles.Add(new Role { IsEnabled = true, Name = "Admin" });
                 dbContext.SaveChanges();

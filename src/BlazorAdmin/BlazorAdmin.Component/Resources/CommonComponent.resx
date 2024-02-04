@@ -132,6 +132,15 @@
   <data name="NotFindUser" xml:space="preserve">
     <value>未找到当前登录用户信息！</value>
   </data>
+  <data name="OrganizationTreeSelect_ClearBtnText" xml:space="preserve">
+    <value>清理选中</value>
+  </data>
+  <data name="OrganizationTreeSelect_Title" xml:space="preserve">
+    <value>所属组织选择</value>
+  </data>
+  <data name="OrganizationTreeSelect_TitleText" xml:space="preserve">
+    <value>请选择</value>
+  </data>
   <data name="PasswordHelpText" xml:space="preserve">
     <value>请输入您的密码</value>
   </data>

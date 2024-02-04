@@ -28,11 +28,11 @@
                                 <MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="context.Childs.Count > 0" />
                                 @if (context.MenuType == 1)
                                 {
-                                    <MudIcon Icon="@context.Icon"></MudIcon>
+                                    <MudIcon Icon="@context.Icon" Class="mr-2"></MudIcon>
                                 }
                                 else
                                 {
-                                    <MudIcon Icon="@Icons.Material.Outlined.Square"></MudIcon>
+                                    <MudIcon Icon="@Icons.Material.Outlined.Square" Class="mr-2"></MudIcon>
 
                                 }
                                 <MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.MenuName</MudText>

@@ -132,6 +132,15 @@
   <data name="NotFindUser" xml:space="preserve">
     <value>Currently logged-in user information was not found!</value>
   </data>
+  <data name="OrganizationTreeSelect_ClearBtnText" xml:space="preserve">
+    <value>Clear Selected</value>
+  </data>
+  <data name="OrganizationTreeSelect_Title" xml:space="preserve">
+    <value>Please Select Parent Organization</value>
+  </data>
+  <data name="OrganizationTreeSelect_TitleText" xml:space="preserve">
+    <value>Please Select</value>
+  </data>
   <data name="PasswordHelpText" xml:space="preserve">
     <value>Please Enter Your Password</value>
   </data>

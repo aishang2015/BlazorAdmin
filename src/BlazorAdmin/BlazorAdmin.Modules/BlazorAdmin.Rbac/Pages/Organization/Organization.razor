@@ -1,0 +1,75 @@
+﻿@page "/organization"
+
+@attribute [StreamRendering]
+
+<div class="d-flex flex-column" style="height:100%;">
+    <PageHeader Title="@Loc["OrganizationPage_Title"]">
+        @if (_accessService.CheckHasElementRights("OrganizationAddBtn").Result)
+        {
+            <MudIconButton Class=" mr-2" Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Variant="Variant.Text"
+                           Size="Size.Medium" OnClick="AddOrganizationClick"></MudIconButton>
+        }
+        @if (_accessService.CheckHasElementRights("OrganizationDeleteBtn").Result)
+        {
+            <MudIconButton Class=" mr-2" Color="Color.Primary" Icon="@Icons.Material.Filled.Remove" Variant="Variant.Text"
+                           Size="Size.Medium"></MudIconButton>
+        }
+    </PageHeader>
+    <MudDivider Class="flex-none" />
+
+    <div class="flex-1 d-flex" style="overflow:auto;">
+
+        <div class="flex-0 pt-2" style="width:340px;overflow:auto;">
+            <MudTreeView Items="@OrganizationItems" Hover="true" T="OrganizationItem"
+                         @bind-SelectedValue="SelectedOrganizationItem">
+                <ItemTemplate>
+                    <MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.Childs" Value="context">
+                        <Content>
+                            <MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="context.Childs.Count > 0" />
+                            <MudIcon Icon="@Icons.Material.Outlined.AccountTree" Class="mr-2"></MudIcon>
+                            <MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.Name</MudText>
+                                <div class="identify" style="display:none;">@context.Id</div>
+                            <MudSpacer />
+                            @if (_accessService.CheckHasElementRights("OrganizationUpdateBtn").Result)
+                            {
+                                <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Edit"
+                                               Color="Color.Inherit" OnClick="() => EditMenuClick(context.Id)"></MudIconButton>
+                            }
+                            @if (_accessService.CheckHasElementRights("OrganizationOrderBtn").Result)
+                            {
+                                <MudIcon Icon="@Icons.Material.Filled.DragHandle" Class="draghandle cursor-grabbing" />
+                            }
+                        </Content>
+                    </MudTreeViewItem>
+                </ItemTemplate>
+            </MudTreeView>
+        </div>
+
+        <MudDivider Vertical="true" Class="mx-4" />
+
+        <div class="flex-1">
+            @if (EditVisible)
+            {
+                <div class="pa-4">
+                    <EditForm Model="EditModel" OnValidSubmit="EditSubmit" style="width:100%;">
+                        <DataAnnotationsValidator />
+                        <OrganizationTreeSelect @bind-SelectedValue="EditModel.ParentId" />
+                        <MudTextField Class="mt-4" @bind-Value="EditModel.Name" Variant="Variant.Outlined" Margin="Margin.Dense"
+                                      Placeholder="@Loc["MenuPage_MenuNamePlaceHolder"]" For="@(() => EditModel.Name)"
+                                      Label="@Loc["MenuPage_MenuNameLablel"]"></MudTextField>
+
+
+                        <div class="d-flex mt-4">
+                            <MudSpacer />
+                            <MudButton Variant="Variant.Filled" Color="Color.Default" Class="mr-4"
+                                       ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Cancel" OnClick="CancelClick">@Loc["MenuPage_CancelButtonText"]</MudButton>
+                                <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                                           ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Upload">@Loc["MenuPage_SubmitButtonText"]</MudButton>
+                            </div>
+                        </EditForm>
+                    </div>
+            }
+        </div>
+
+    </div>
+</div>

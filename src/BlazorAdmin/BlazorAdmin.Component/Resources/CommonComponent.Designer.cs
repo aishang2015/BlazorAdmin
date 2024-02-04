@@ -106,6 +106,33 @@ namespace BlazorAdmin.Component.Resources {
         }
         
         /// <summary>
+        ///   查找类似 清理选中 的本地化字符串。
+        /// </summary>
+        public static string OrganizationTreeSelect_ClearBtnText {
+            get {
+                return ResourceManager.GetString("OrganizationTreeSelect_ClearBtnText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 所属组织选择 的本地化字符串。
+        /// </summary>
+        public static string OrganizationTreeSelect_Title {
+            get {
+                return ResourceManager.GetString("OrganizationTreeSelect_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请选择 的本地化字符串。
+        /// </summary>
+        public static string OrganizationTreeSelect_TitleText {
+            get {
+                return ResourceManager.GetString("OrganizationTreeSelect_TitleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 请输入您的密码 的本地化字符串。
         /// </summary>
         public static string PasswordHelpText {

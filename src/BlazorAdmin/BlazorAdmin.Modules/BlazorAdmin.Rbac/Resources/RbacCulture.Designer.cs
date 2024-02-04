@@ -232,6 +232,15 @@ namespace BlazorAdmin.Rbac.Resources {
         }
         
         /// <summary>
+        ///   查找类似 组织 的本地化字符串。
+        /// </summary>
+        public static string OrganizationPage_Title {
+            get {
+                return ResourceManager.GetString("OrganizationPage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 确认删除 的本地化字符串。
         /// </summary>
         public static string RolePage_ComfirmDeleteText {
