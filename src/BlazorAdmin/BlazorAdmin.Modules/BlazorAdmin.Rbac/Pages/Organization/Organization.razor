@@ -34,7 +34,7 @@
                             @if (_accessService.CheckHasElementRights("OrganizationUpdateBtn").Result)
                             {
                                 <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Edit"
-                                               Color="Color.Inherit" OnClick="() => EditMenuClick(context.Id)"></MudIconButton>
+                                               Color="Color.Inherit" OnClick="() => EditOrganizationClick(context.Id)"></MudIconButton>
                             }
                             @if (_accessService.CheckHasElementRights("OrganizationOrderBtn").Result)
                             {

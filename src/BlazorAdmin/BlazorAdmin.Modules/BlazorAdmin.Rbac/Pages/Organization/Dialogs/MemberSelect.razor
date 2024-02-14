@@ -1,0 +1,41 @@
+﻿<MudDialog>
+    <DialogContent>
+        <div style="width:400px" class="pb-4">
+            <MudTextField @bind-Value="_searchText" Label="用户姓名" Variant="Variant.Text" DebounceInterval="300"
+                          OnDebounceIntervalElapsed="SearchTextChanged"></MudTextField>
+            <MudPopover RelativeWidth="true" Open="@_isPopoverOpen" AnchorOrigin="Origin.BottomCenter"
+                        TransformOrigin="Origin.TopCenter">
+                <MudList Clickable="true">
+                    @foreach (var user in _users)
+                    {
+                        <MudListItem>
+                            <div class="d-flex align-center" @onclick="@(()=>SetMemberUser(user))">
+                                @if (string.IsNullOrEmpty(user.Avatar))
+                                {
+                                    <MudAvatar Size="Size.Medium" Color="Color.Primary">
+                                        @user.RealName.First()
+                                    </MudAvatar>
+                                }
+                                else
+                                {
+                                    <MudAvatar Size="Size.Medium">
+                                        <MudImage Src="@("Avatars/" + user.Avatar)"></MudImage>
+                                    </MudAvatar>
+                                }
+                                <MudText Class="ml-4" Typo="Typo.body2">
+                                    @user.RealName
+                                </MudText>
+                                <MudSpacer />
+                                @if (user.IsInOrg)
+                                {
+                                    <MudText>用户已在组织中</MudText>
+                                }
+                            </div>
+                        </MudListItem>
+                    }
+                </MudList>
+            </MudPopover>
+        </div>
+
+    </DialogContent>
+</MudDialog>

@@ -1,6 +1,4 @@
 ﻿using BlazorAdmin.Component.Dialogs;
-using BlazorAdmin.Data;
-using BlazorAdmin.Rbac.Pages.Organization.Dialogs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
 using MudBlazor;
@@ -25,10 +23,6 @@ namespace BlazorAdmin.Rbac.Pages.Organization
 
         private OrganizationModel EditModel = new();
 
-        private bool MemberVisible;
-
-        private List<Member> OrganizationMembers = new();
-
         protected override async Task OnInitializedAsync()
         {
             _organizationPageRef = DotNetObjectReference.Create(this);
@@ -37,7 +31,7 @@ namespace BlazorAdmin.Rbac.Pages.Organization
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            var sortModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/BlazorAdmin.Rbac/js/sort.js");
+            var sortModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/sort.js");
             await sortModule.InvokeVoidAsync("setSortable", _organizationPageRef);
         }
 
@@ -138,7 +132,7 @@ namespace BlazorAdmin.Rbac.Pages.Organization
             EditVisible = false;
         }
 
-        private async Task EditOrganizationClick(int organizationId)
+        private async Task EditMenuClick(int organizationId)
         {
             using var context = await _dbFactory.CreateDbContextAsync();
             var organization = context.Organizations.Find(organizationId);
@@ -152,10 +146,8 @@ namespace BlazorAdmin.Rbac.Pages.Organization
                 };
 
                 EditVisible = true;
-                MemberVisible = false;
             }
         }
-
 
         private async Task DeleteOrganizationClick()
         {
@@ -193,99 +185,6 @@ namespace BlazorAdmin.Rbac.Pages.Organization
                 .ToList();
         }
 
-        #region Member edit 
-
-        private async Task EditMemberClick(int organizationId)
-        {
-            using var context = await _dbFactory.CreateDbContextAsync();
-            var organization = context.Organizations.Find(organizationId);
-            if (organization != null)
-            {
-                EditModel = new OrganizationModel
-                {
-                    Id = organizationId,
-                    Name = organization.Name,
-                    ParentId = organization.ParentId,
-                };
-
-                IntialOrganizationMembers(context);
-
-                EditVisible = false;
-                MemberVisible = true;
-            }
-        }
-
-        private void IntialOrganizationMembers(BlazorAdminDbContext context)
-        {
-            OrganizationMembers = (from user in context.Users
-                                   join ou in context.OrganizationUsers on user.Id equals ou.UserId
-                                   select new Member
-                                   {
-                                       MemberId = user.Id,
-                                       MemberAvatar = user.Avatar,
-                                       MemberName = user.RealName,
-                                       IsLeader = ou.IsLeader
-                                   }).ToList();
-        }
-
-        private async Task RemoveMember(int userId)
-        {
-            using var context = await _dbFactory.CreateDbContextAsync();
-            await context.OrganizationUsers.Where(ou =>
-                ou.OrganizationId == EditModel.Id && ou.UserId == userId)
-                .ExecuteDeleteAsync();
-            IntialOrganizationMembers(context);
-        }
-
-        private async Task AddNewMember()
-        {
-            var parameters = new DialogParameters
-            {
-                { "OrganizationId", EditModel.Id }
-            };
-
-            var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-            var result = await _dialogService.Show<MemberSelect>
-                ("添加新成员", parameters, options).Result;
-            if (!result.Canceled)
-            {
-                using var context = await _dbFactory.CreateDbContextAsync();
-                IntialOrganizationMembers(context);
-            }
-        }
-
-        private async Task MakeLeader(int userId)
-        {
-            using var db = await _dbFactory.CreateDbContextAsync();
-            var ou = db.OrganizationUsers.FirstOrDefault(ou => ou.OrganizationId == EditModel.Id &&
-                ou.UserId == userId);
-            if (ou != null)
-            {
-                ou.IsLeader = true;
-                db.OrganizationUsers.Update(ou);
-                await db.SaveChangesAsync();
-                IntialOrganizationMembers(db);
-                _snackbarService.Add("设置成功！", Severity.Success);
-            }
-        }
-
-        private async Task MakeNormal(int userId)
-        {
-            using var db = await _dbFactory.CreateDbContextAsync();
-            var ou = db.OrganizationUsers.FirstOrDefault(ou => ou.OrganizationId == EditModel.Id &&
-                ou.UserId == userId);
-            if (ou != null)
-            {
-                ou.IsLeader = false;
-                db.OrganizationUsers.Update(ou);
-                await db.SaveChangesAsync();
-                IntialOrganizationMembers(db);
-                _snackbarService.Add("设置成功！", Severity.Success);
-            }
-        }
-
-        #endregion
-
         private record OrganizationItem
         {
             public int Id { get; set; }
@@ -306,18 +205,6 @@ namespace BlazorAdmin.Rbac.Pages.Organization
             [Required(ErrorMessage = "请输入组织名")]
             [MaxLength(200, ErrorMessage = "组织名过长")]
             public string? Name { get; set; }
-        }
-
-
-        private record Member
-        {
-            public int MemberId { get; set; }
-
-            public string MemberName { get; set; } = null!;
-
-            public string? MemberAvatar { get; set; }
-
-            public bool IsLeader { get; set; }
         }
     }
 }

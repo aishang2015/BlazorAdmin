@@ -1,140 +1,146 @@
-﻿using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Http;
+using Microsoft.JSInterop;
 using MudBlazor;
 using MudBlazor.Utilities;
-using System.Drawing;
-using static MudBlazor.Colors;
 
 namespace BlazorAdmin.Web.Data.States
 {
-	public class ThemeState
-	{
-		private ProtectedLocalStorage _protectedLocalStorage;
+    public class ThemeState
+    {
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-		public ThemeState(ProtectedLocalStorage protectedLocalStorage)
-		{
-			_protectedLocalStorage = protectedLocalStorage;
-		}
+        private readonly NavigationManager _navigationManager;
 
-		private bool _isDark;
+        private readonly IJSRuntime _jsRuntime;
 
-		private MudTheme _theme = new();
+        public ThemeState(IHttpContextAccessor httpContextAccessor,
+            NavigationManager navigationManager,
+            IJSRuntime jSRuntime)
+        {
+            _httpContextAccessor = httpContextAccessor;
+            _navigationManager = navigationManager;
+            _jsRuntime = jSRuntime;
 
-		public event Action? ThemeChangeEvent;
+            var value = _httpContextAccessor.HttpContext?.Request.Cookies.Where(c => c.Key == "IsDark")
+                .FirstOrDefault().Value;
+            _isDark = string.IsNullOrEmpty(value) ? false : bool.Parse(value);
 
-		public event Action? IsDarkChangeEvent;
+            var primaryColor = _httpContextAccessor.HttpContext?.Request.Cookies.Where(c => c.Key == "PrimaryColor")
+                .FirstOrDefault().Value;
 
-		public async Task LoadTheme()
-		{
-			_theme = new MudTheme()
-			{
-				PaletteDark = new PaletteDark()
-				{
-					Primary = "#007fff",
-					Tertiary = "#594AE2",
-					Black = "#27272f",
-					Background = "#121212",                 // 整体背景色
-					BackgroundGrey = "#202020",
-					Surface = "#1f1f1f",                    // 表格等控件背景色
-					DrawerBackground = "#181818",
-					DrawerText = "rgba(255,255,255, 0.50)",
-					DrawerIcon = "rgba(255,255,255, 0.50)",
-					AppbarBackground = "rgb(24,24,24)",
-					AppbarText = "rgba(255,255,255, 0.70)",
-					TextPrimary = "rgba(255,255,255, 0.70)",
-					TextSecondary = "rgba(255,255,255, 0.50)",
-					ActionDefault = "rgb(173, 173, 177)",
-					//ActionDisabled = "rgba(0, 127, 255, 0.40)",
-					//ActionDisabledBackground = "rgba(0, 127, 255, 0.26)",
-					//Divider = "rgba(0, 127, 255, 0.12)",
-					//DividerLight = "rgba(20, 127, 255, 0.06)",
-					TableLines = "rgba(255, 255, 255, 0.12)",
-					//LinesDefault = "rgba(0, 127, 255, 0.12)",
-					//LinesInputs = "rgba(0, 127, 255, 0.3)",
-					TextDisabled = "rgba(0, 127, 255, 0.2)"
-				},
-				LayoutProperties = new LayoutProperties()
-				{
-					DefaultBorderRadius = "4px",
-				}
-			};
+            _theme = new MudTheme()
+            {
+                PaletteDark = new PaletteDark()
+                {
+                    Primary = "#007fff",
+                    Tertiary = "#594AE2",
+                    Black = "#27272f",
+                    Background = "#121212",                 // 整体背景色
+                    BackgroundGrey = "#202020",
+                    Surface = "#1f1f1f",                    // 表格等控件背景色
+                    DrawerBackground = "#181818",
+                    DrawerText = "rgba(255,255,255, 0.50)",
+                    DrawerIcon = "rgba(255,255,255, 0.50)",
+                    AppbarBackground = "rgb(24,24,24)",
+                    AppbarText = "rgba(255,255,255, 0.70)",
+                    TextPrimary = "rgba(255,255,255, 0.70)",
+                    TextSecondary = "rgba(255,255,255, 0.50)",
+                    ActionDefault = "rgb(173, 173, 177)",
+                    //ActionDisabled = "rgba(0, 127, 255, 0.40)",
+                    //ActionDisabledBackground = "rgba(0, 127, 255, 0.26)",
+                    //Divider = "rgba(0, 127, 255, 0.12)",
+                    //DividerLight = "rgba(20, 127, 255, 0.06)",
+                    TableLines = "rgba(255, 255, 255, 0.12)",
+                    //LinesDefault = "rgba(0, 127, 255, 0.12)",
+                    //LinesInputs = "rgba(0, 127, 255, 0.3)",
+                    TextDisabled = "rgba(0, 127, 255, 0.2)"
+                },
+                LayoutProperties = new LayoutProperties()
+                {
+                    DefaultBorderRadius = "4px",
+                }
+            };
 
-			try
-			{
-				var localData = await _protectedLocalStorage.GetAsync<bool>("IsDark");
-				if (localData.Success)
-				{
-					_isDark = localData.Value;
-				}
+            if (string.IsNullOrEmpty(primaryColor))
+            {
+                primaryColor = "#1668dc";
+            }
 
-				var primaryColor = await _protectedLocalStorage.GetAsync<string>("PrimaryColor");
-				if (primaryColor.Success)
-				{
-					var color = new MudColor(primaryColor.Value);
-					_theme.Palette.Primary = color;
-					_theme.Palette.PrimaryDarken = color.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
-					_theme.Palette.PrimaryLighten = color.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
-					_theme.Palette.AppbarBackground = color;
+            var color = new MudColor(primaryColor);
+            UpdatePaletteColor(color);
+        }
 
-					_theme.PaletteDark.Primary = color;
-					_theme.PaletteDark.PrimaryDarken = color.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
-					_theme.PaletteDark.PrimaryLighten = color.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
-				}
-				IsDarkStateChanged();
-				ThemeStateChanged();
-			}
-			catch (Exception)
-			{
-				IsDark = true;
-			}
-		}
+        private void UpdatePaletteColor(MudColor color)
+        {
+            _theme.Palette.Primary = color;
+            _theme.Palette.PrimaryDarken = color.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
+            _theme.Palette.PrimaryLighten = color.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
+            _theme.Palette.AppbarBackground = color;
 
-		public bool IsDark
-		{
-			get
-			{
-				return _isDark;
-			}
-			set
-			{
-				_isDark = value;
-				_protectedLocalStorage.SetAsync("IsDark", value);
-				IsDarkStateChanged();
-			}
-		}
+            _theme.PaletteDark.Primary = color;
+            _theme.PaletteDark.PrimaryDarken = color.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
+            _theme.PaletteDark.PrimaryLighten = color.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
+        }
 
-		public MudTheme MudTheme
-		{
-			get
-			{
-				return _theme;
-			}
-		}
+        private bool _isDark;
 
-		public MudColor PrimaryColor
-		{
-			get
-			{
-				return _theme.Palette.Primary;
-			}
-			set
-			{
-				_protectedLocalStorage.SetAsync("PrimaryColor", value.Value);
+        private MudTheme _theme = new();
 
-				_theme.Palette.Primary = value;
-				_theme.Palette.PrimaryDarken = value.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
-				_theme.Palette.PrimaryLighten = value.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
-				_theme.Palette.AppbarBackground = value;
+        public event Action? ThemeChangeEvent;
 
-				_theme.PaletteDark.Primary = value;
-				_theme.PaletteDark.PrimaryDarken = value.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
-				_theme.PaletteDark.PrimaryLighten = value.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
+        public event Action? IsDarkChangeEvent;
 
-				ThemeStateChanged();
-			}
-		}
+        public async Task LoadTheme()
+        {
+            IsDarkStateChanged();
+            ThemeStateChanged();
+        }
 
+        public bool IsDark
+        {
+            get
+            {
+                return _isDark;
+            }
+            set
+            {
+                _isDark = value;
+                SetCookie("IsDark", value.ToString());
+            }
+        }
 
-		private void ThemeStateChanged() => ThemeChangeEvent?.Invoke();
-		private void IsDarkStateChanged() => IsDarkChangeEvent?.Invoke();
-	}
+        public MudColor PrimaryColor
+        {
+            get
+            {
+                return _theme.Palette.Primary;
+            }
+            set
+            {
+                UpdatePaletteColor(value);
+                SetCookie("PrimaryColor", value.Value);
+            }
+        }
+
+        private async Task SetCookie(string key, string value)
+        {
+            var cookieUtil = await _jsRuntime.InvokeAsync<IJSObjectReference>
+                    ("import", "./js/cookieUtil.js");
+            await cookieUtil.InvokeVoidAsync("setCookie", key, value);
+            IsDarkStateChanged();
+            ThemeStateChanged();
+        }
+
+        public MudTheme MudTheme
+        {
+            get
+            {
+                return _theme;
+            }
+        }
+
+        private void ThemeStateChanged() => ThemeChangeEvent?.Invoke();
+        private void IsDarkStateChanged() => IsDarkChangeEvent?.Invoke();
+    }
 }
