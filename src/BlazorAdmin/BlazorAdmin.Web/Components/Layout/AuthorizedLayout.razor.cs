@@ -100,7 +100,7 @@ namespace BlazorAdmin.Web.Components.Layout
         {
             await _localStorage.DeleteAsync(CommonConstant.UserId);
             await _localStorage.DeleteAsync(CommonConstant.UserToken);
-            await _localStorage.DeleteAsync("tabs");
+            await _localStorage.DeleteAsync(CommonConstant.Tabs);
             await _authService.SetCurrentUser();
 
             _navManager.NavigateTo("/login", true);
@@ -111,7 +111,7 @@ namespace BlazorAdmin.Web.Components.Layout
             await base.OnAfterRenderAsync(firstRender);
             if (firstRender)
             {
-                var result = await _localStorage.GetAsync<string>("tabs");
+                var result = await _localStorage.GetAsync<string>(CommonConstant.Tabs);
                 if (result.Success)
                 {
                     _userTabs = JsonSerializer.Deserialize<List<TabView>>(result.Value);
@@ -147,7 +147,7 @@ namespace BlazorAdmin.Web.Components.Layout
             }
             var index = _userTabs.FindIndex(t => t.Route == route.Route);
             _selectedTabIndex = index;
-            await _localStorage.SetAsync("tabs", JsonSerializer.Serialize(_userTabs));
+            await _localStorage.SetAsync(CommonConstant.Tabs, JsonSerializer.Serialize(_userTabs));
         }
 
         private async Task TabClick(TabView tab)
@@ -182,7 +182,7 @@ namespace BlazorAdmin.Web.Components.Layout
                     _navManager.NavigateTo("/");
                 }
             }
-            await _localStorage.SetAsync("tabs", JsonSerializer.Serialize(_userTabs));
+            await _localStorage.SetAsync(CommonConstant.Tabs, JsonSerializer.Serialize(_userTabs));
         }
 
         public class TabView

@@ -5,5 +5,7 @@
         public const string UserId = "UserId";
 
         public const string UserToken = "AccessToken";
+
+        public const string Tabs = "Tabs";
     }
 }

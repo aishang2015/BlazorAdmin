@@ -62,7 +62,8 @@ namespace BlazorAdmin.Web.Components.Pages
 
 			await _localStorage.SetAsync(CommonConstant.UserId, user.Id);
 			await _localStorage.SetAsync(CommonConstant.UserToken, token);
-			await _authService.SetCurrentUser();
+            await _localStorage.DeleteAsync(CommonConstant.Tabs);
+            await _authService.SetCurrentUser();
 			await RecordLogin(_loginModel.UserName!, true, context);
 			_navManager.NavigateTo("/");
 
