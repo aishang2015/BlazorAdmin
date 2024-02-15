@@ -13,7 +13,7 @@
             if (firstRender)
             {
                 await _themeState.LoadTheme();
-                await _authService.SetCurrentUser();
+                //await _authService.SetCurrentUser();
                 var state = await _stateProvider.GetAuthenticationStateAsync();
                 if (state.User.Identity == null || !state.User.Identity.IsAuthenticated)
                 {

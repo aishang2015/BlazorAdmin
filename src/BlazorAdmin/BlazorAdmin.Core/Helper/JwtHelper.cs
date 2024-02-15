@@ -66,10 +66,14 @@ namespace BlazorAdmin.Core.Helper
             return token;
         }
 
-        public ClaimsPrincipal ValidToken(string token)
+        public ClaimsPrincipal? ValidToken(string token)
         {
             try
             {
+                if (string.IsNullOrEmpty(token))
+                {
+                    return null;
+                }
                 return new JwtSecurityTokenHandler().ValidateToken(token, _validationParameters,
                     out var securityToken);
             }

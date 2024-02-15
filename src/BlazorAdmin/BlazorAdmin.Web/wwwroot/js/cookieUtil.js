@@ -15,3 +15,17 @@
         document.cookie = [key, encodeURIComponent(value)].join('=');
     }
 }
+
+export function getCookie(key) {
+    var cookies = document.cookie.split('; ');
+    var value = '';
+    for (var i = 0; i < cookies.length; i++) {
+        var parts = cookies[i].split('=');
+        if (parts[0] === key) {
+            value = decodeURIComponent(parts[1]);
+            break;
+        }
+    }
+
+    return value;
+}

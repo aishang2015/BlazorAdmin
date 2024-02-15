@@ -3,6 +3,7 @@ using BlazorAdmin.Web.Components.Shared.Dialogs.Layout;
 using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.JSInterop;
 using MudBlazor;
 using System.Globalization;
 using System.Text.Json;
@@ -98,10 +99,11 @@ namespace BlazorAdmin.Web.Components.Layout
 
         private async Task LogoutClick()
         {
-            await _localStorage.DeleteAsync(CommonConstant.UserId);
-            await _localStorage.DeleteAsync(CommonConstant.UserToken);
+            var cookieUtil = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/cookieUtil.js");
+            await cookieUtil.InvokeVoidAsync("setCookie", CommonConstant.UserId, string.Empty);
+            await cookieUtil.InvokeVoidAsync("setCookie", CommonConstant.UserToken, string.Empty);
             await _localStorage.DeleteAsync(CommonConstant.Tabs);
-            await _authService.SetCurrentUser();
+            //await _authService.SetCurrentUser();
 
             _navManager.NavigateTo("/login", true);
         }

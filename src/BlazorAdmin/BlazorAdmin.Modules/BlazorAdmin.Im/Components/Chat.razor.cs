@@ -3,7 +3,10 @@ using BlazorAdmin.Data.Constants;
 using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.JSInterop;
 using MudBlazor;
+using static MudBlazor.Colors;
 
 namespace BlazorAdmin.Im.Components
 {
@@ -13,27 +16,40 @@ namespace BlazorAdmin.Im.Components
 
         private int _noReadCount = 0;
 
-        private HubConnection _hubConnection;
+        private HubConnection? _hubConnection;
 
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
+        }
 
-            _hubConnection = new HubConnectionBuilder()
-                .WithUrl(_navManager.BaseUri.TrimEnd('/') + ChatHub.ChatHubUrl,
-                    options => options.AccessTokenProvider = async () =>
-                    {
-                        var result = await _localStorage.GetAsync<string>(CommonConstant.UserToken);
-                        return result.Value;
-                    })
-                .Build();
-            await _hubConnection.StartAsync();
+        protected override void OnAfterRender(bool firstRender)
+        {
+            base.OnAfterRender(firstRender);
+        }
 
-            RegistSignalrMethod();
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                _hubConnection = new HubConnectionBuilder()
+                    .WithUrl(_navManager.BaseUri.TrimEnd('/') + ChatHub.ChatHubUrl,
+                        options => options.AccessTokenProvider = async () =>
+                        {
+                            var cookieUtil = await _jsRuntime.InvokeAsync<IJSObjectReference>
+                                ("import", "./js/cookieUtil.js");
+                            var token = await cookieUtil.InvokeAsync<string>("getCookie", CommonConstant.UserToken);
+                            return token;
+                        })
+                    .Build();
+                await _hubConnection.StartAsync();
 
-            await RefreshNoReadCountAsync();
+                RegistSignalrMethod();
 
-            StateHasChanged();
+                await RefreshNoReadCountAsync();
+
+                StateHasChanged();
+            }
         }
 
         private async Task RefreshNoReadCountAsync()
@@ -85,8 +101,8 @@ namespace BlazorAdmin.Im.Components
 
         public async ValueTask DisposeAsync()
         {
-            await _hubConnection.StopAsync();
-            await _hubConnection.DisposeAsync();
+            //await _hubConnection?.StopAsync();
+            //await _hubConnection?.DisposeAsync();
         }
     }
 }
