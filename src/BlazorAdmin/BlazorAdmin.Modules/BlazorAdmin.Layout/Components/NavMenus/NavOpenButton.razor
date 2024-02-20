@@ -1,0 +1,15 @@
+﻿@rendermode InteractiveServer
+
+<MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+
+@code {
+
+    async Task DrawerToggle()
+    {
+        _layoutState.NavIsOpen = !_layoutState.NavIsOpen;
+
+        var drawerModule = await _jsRuntime.InvokeAsync<IJSObjectReference>
+            ("import", "./_content/BlazorAdmin.Layout/js/drawer.js");
+        await drawerModule.InvokeVoidAsync("handleDrawerToggled", _layoutState.NavIsOpen);
+    }
+}

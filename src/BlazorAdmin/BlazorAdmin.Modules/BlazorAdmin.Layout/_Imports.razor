@@ -1,0 +1,44 @@
+﻿@using System.Net.Http
+@using System.Net.Http.Json
+@using FluentCodeServer.Core
+@using BlazorAdmin.Core.Auth
+@using BlazorAdmin.Core.Chat
+@using BlazorAdmin.Core.Resources
+@using BlazorAdmin.Core.Services
+@using BlazorAdmin.Data
+@using BlazorAdmin.Web.Data.States
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using Microsoft.AspNetCore.Components.Web
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.Extensions.Localization
+@using Microsoft.JSInterop
+@using BlazorAdmin.Data.Constants
+@using BlazorAdmin.Core.Helper
+@using BlazorAdmin.Layout.States
+
+@using MudBlazor
+
+@inject IJSRuntime _jsRuntime;
+@inject IDbContextFactory<BlazorAdminDbContext> _dbFactory;
+@inject IDialogService _dialogService;
+@inject ISnackbar _snackbarService;
+@inject IAccessService _accessService;
+
+@inject ProtectedLocalStorage _localStorage;
+@inject NavigationManager _navManager;
+@inject AuthenticationStateProvider _stateProvider;
+@inject IStringLocalizer<CusCulture> Loc;
+
+@inject JwtHelper _jwtHelper;
+@inject ExternalAuthService _authService;
+@inject ThemeState _themeState;
+@inject MessageSender _messageSender;
+@inject LayoutState _layoutState;
+
+@attribute [Authorize]

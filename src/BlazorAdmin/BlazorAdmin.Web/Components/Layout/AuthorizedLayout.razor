@@ -1,100 +1,33 @@
-﻿@using BlazorAdmin.Web.Components.Shared
+﻿@using BlazorAdmin.Layout.Components.Culture
+@using BlazorAdmin.Layout.Components.Themes
+@using BlazorAdmin.Layout.Components.NavMenus
+@using BlazorAdmin.Layout.Components.NavTabs
+@using BlazorAdmin.Layout.Components.UserAvatar
+@using BlazorAdmin.Im.Components;
+@using BlazorAdmin.Web.Components.Shared
 @using MudBlazor.Utilities
 
 
 <MudAppBar Elevation="1" Dense="true">
-    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+
+    <NavOpenButton />
     <MudText Typo="Typo.h5" Class="ml-3">BlazorAdmin</MudText>
     <MudSpacer />
 
     <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.Start" Href="https://github.com/aishang2015/BlazorAdmin" />
 
-    <MudMenu Icon="@Icons.Material.Filled.Language" Color="Color.Inherit" Dense="true"
-             AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight">
-        <MudMenuItem OnClick="@(()=>CultureChanged("en-US"))">
-            @Loc["AuthorizedLayout_Language_enus"]
-        </MudMenuItem>
-        <MudMenuItem OnClick="@(()=>CultureChanged("zh-CN"))">
-            @Loc["AuthorizedLayout_Language_zhcn"]
-        </MudMenuItem>
-    </MudMenu>
-
-    <MudToggleIconButton @bind-Toggled="_themeState.IsDark" Style="margin-right:12px;"
-                         Icon="@Icons.Material.Filled.DarkMode" Color="@Color.Inherit" Title="Off"
-                         ToggledIcon="@Icons.Material.Filled.LightMode" ToggledColor="@Color.Inherit" ToggledTitle="On" />
-
-    <MudIconButton Style="margin-right:12px;" Icon="@Icons.Material.Filled.FormatColorFill" Color="Color.Inherit"
-                   Edge="Edge.Start" OnClick="()=>{visible=true;}" />
-
-    <MudDialog @bind-IsVisible="visible" DisableSidePadding="true" Options="dialogOptions">
-        <TitleContent>
-            <MudText>
-                @Loc["AuthorizedLayout_ColorPickerTitle"]
-            </MudText>
-        </TitleContent>
-        <DialogContent>
-            <div style="width:216px;" class="d-flex flex-wrap ">
-                @{
-                    string[] colors = ["#d84a1b", "#d87a16", "#d89614", "#8bbb11", "#13a8a8", "#1668dc", "#642ab5", "#262626"];
-                }
-                @foreach (var color in colors)
-                {
-                    <div class="mud-picker-color-dot ma-2"
-                         @onclick="()=>{_themeState.PrimaryColor = new MudColor(color);}"
-                         style="background-color:@(color);max-width:38px;@(_themeState.PrimaryColor.ToString(MudColorOutputFormats.Hex) == color ?"border-radius:50%":"" )"></div>
-                }
-
-            </div>
-        </DialogContent>
-    </MudDialog>
-
-    <BlazorAdmin.Im.Components.Chat></BlazorAdmin.Im.Components.Chat>
-
-    <MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Dense="true"
-             AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight">
-        <ActivatorContent>
-            @if (string.IsNullOrEmpty(_avatar))
-            {
-                <MudAvatar Size="Size.Small" Color="_themeState.IsDark ? Color.Primary : Color.Dark">
-                    @_userName.First()
-                </MudAvatar>
-            }
-            else
-            {
-                <MudAvatar Size="Size.Small">
-                    <MudImage Src="@("Avatars/" + _avatar)"></MudImage>
-                </MudAvatar>
-            }
-        </ActivatorContent>
-        <ChildContent>
-            <MudContainer Class="d-flex flex-column" Style="width:200px;">
-                <MudContainer Class="d-flex flex-column align-center justify-center">
-                    <MudText Typo="Typo.subtitle1" Style="max-width:160px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">@_userName</MudText>
-                    </MudContainer>
-                    <MudDivider Class="my-2" />
-                    <MudMenuItem Icon="@Icons.Material.Filled.Settings" OnClick="ShowUserSettings">账号设置</MudMenuItem>
-                    <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="LogoutClick">
-                        @Loc["AuthorizedLayout_Logout"]
-                </MudMenuItem>
-            </MudContainer>
-        </ChildContent>
-    </MudMenu>
-
+    <CultureIcon />
+    <DarkToggleButton />
+    <PrimaryChangeButton />
+    <Chat></Chat>
+    <UserMenuAvatar />
 </MudAppBar>
-<MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
-    <NavMenu NavTo="NavigateTo" @ref="_navMenuRef" />
-</MudDrawer>
+
+<NavMenu></NavMenu>
+
 <MudMainContent Style="height:100vh;">
     <div class="pa-4 d-flex flex-column" style="height:100%;overflow:auto;">
-        <MudDynamicTabs MinimumTabWidth="120px" AddIconStyle="display:none;"
-                        @bind-ActivePanelIndex="_selectedTabIndex"
-                        CloseTab="OnTabClose">
-            @foreach (var tab in _userTabs)
-            {
-                <MudTabPanel ID="@tab.Id" Text="@tab.Label" ShowCloseIcon="_userTabs.Count > 1"
-                             OnClick="()=>TabClick(tab)" Style="border-right:1px solid var(--mud-palette-lines-default)" />
-            }
-        </MudDynamicTabs>
+        <NavTab></NavTab>
         <MudPaper Class="flex-1 pa-4 border-t border-solid mud-border-lines-default" Style="overflow:auto;border-start-start-radius:0;border-start-end-radius:0;">
             @Child
         </MudPaper>

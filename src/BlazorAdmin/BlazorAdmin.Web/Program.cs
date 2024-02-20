@@ -7,6 +7,7 @@ using BlazorAdmin.Data;
 using BlazorAdmin.Data.Constants;
 using BlazorAdmin.Im.Backgrounds;
 using BlazorAdmin.Im.Events;
+using BlazorAdmin.Layout.States;
 using BlazorAdmin.Web.Components;
 using BlazorAdmin.Web.Data.States;
 using Cropper.Blazor.Extensions;
@@ -115,6 +116,7 @@ builder.Services.AddScoped<IAccessService, AccessService>();
 
 // some state
 builder.Services.AddScoped<ThemeState>();
+builder.Services.AddScoped<LayoutState>();
 
 // event helper
 builder.Services.AddScoped<EventHelper<UpdateNoReadCountEvent>>();

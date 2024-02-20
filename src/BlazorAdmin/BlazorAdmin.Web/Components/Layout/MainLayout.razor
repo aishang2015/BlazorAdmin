@@ -1,9 +1,8 @@
 ﻿@using BlazorAdmin.Web.Components.Shared
+@using BlazorAdmin.Layout.Components.Themes
 @inherits LayoutComponentBase
 
-<MudThemeProvider IsDarkMode="@_themeState.IsDark" Theme="@_themeState.MudTheme" />
-<MudDialogProvider />
-<MudSnackbarProvider />
+<ProvidersAggregate></ProvidersAggregate>
 
 <PageTitle>BlazorAdmin</PageTitle>
 

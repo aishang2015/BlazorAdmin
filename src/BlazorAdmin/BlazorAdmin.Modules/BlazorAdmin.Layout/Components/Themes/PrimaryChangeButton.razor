@@ -1,0 +1,35 @@
+﻿@rendermode InteractiveServer
+
+@using MudBlazor.Utilities
+
+<MudIconButton Style="margin-right:12px;" Icon="@Icons.Material.Filled.FormatColorFill" Color="Color.Inherit"
+               Edge="Edge.Start" OnClick="()=>{visible=true;}" />
+
+<MudDialog @bind-IsVisible="visible" DisableSidePadding="true" Options="dialogOptions">
+    <TitleContent>
+        <MudText>
+            @Loc["AuthorizedLayout_ColorPickerTitle"]
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <div style="width:216px;" class="d-flex flex-wrap ">
+            @{
+                string[] colors = ["#d84a1b", "#d87a16", "#d89614", "#8bbb11", "#13a8a8", "#1668dc", "#642ab5", "#262626"];
+            }
+            @foreach (var color in colors)
+            {
+                <div class="mud-picker-color-dot ma-2"
+                     @onclick="()=>{_themeState.PrimaryColor = new MudColor(color);}"
+                     style="background-color:@(color);max-width:38px;@(_themeState.PrimaryColor.ToString(MudColorOutputFormats.Hex) == color ?"border-radius:50%":"" )"></div>
+            }
+
+        </div>
+    </DialogContent>
+</MudDialog>
+
+@code {
+
+    bool visible;
+
+    DialogOptions dialogOptions = new() { NoHeader = true };
+}

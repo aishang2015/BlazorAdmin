@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
 
-namespace BlazorAdmin.Web.Components.Shared.Dialogs.Layout.Com
+namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
 {
     public partial class ChangePasswordDialog
     {

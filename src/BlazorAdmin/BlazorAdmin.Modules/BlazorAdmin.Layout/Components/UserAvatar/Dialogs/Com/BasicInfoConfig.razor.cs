@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
 using User = BlazorAdmin.Data.Entities.Rbac.User;
 
-namespace BlazorAdmin.Web.Components.Shared.Dialogs.Layout.Com
+namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
 {
     public partial class BasicInfoConfig
     {

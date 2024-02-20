@@ -1,0 +1,89 @@
+﻿@using BlazorAdmin.Layout.Components.UserAvatar.Dialogs
+
+@rendermode InteractiveServer
+
+<MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Dense="true"
+         AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight">
+    <ActivatorContent>
+        @if (string.IsNullOrEmpty(_avatar))
+        {
+            <MudAvatar Size="Size.Small" Color="_themeState.IsDark ? Color.Primary : Color.Dark">
+                @_userName.First()
+            </MudAvatar>
+        }
+        else
+        {
+            <MudAvatar Size="Size.Small">
+                <MudImage Src="@("Avatars/" + _avatar)"></MudImage>
+            </MudAvatar>
+        }
+    </ActivatorContent>
+    <ChildContent>
+        <MudContainer Class="d-flex flex-column" Style="width:200px;">
+            <MudContainer Class="d-flex flex-column align-center justify-center">
+                <MudText Typo="Typo.subtitle1" Style="max-width:160px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">@_userName</MudText>
+                </MudContainer>
+                <MudDivider Class="my-2" />
+                <MudMenuItem Icon="@Icons.Material.Filled.Settings" OnClick="ShowUserSettings">账号设置</MudMenuItem>
+                <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="LogoutClick">
+                    @Loc["AuthorizedLayout_Logout"]
+            </MudMenuItem>
+        </MudContainer>
+    </ChildContent>
+</MudMenu>
+
+@code {
+
+
+    string _userName = string.Empty;
+
+    string? _avatar = string.Empty;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var currentUri = _navManager.Uri.Substring(_navManager.BaseUri.Length - 1);
+        if (currentUri.Contains('?'))
+        {
+            currentUri = currentUri.Substring(0, currentUri.IndexOf('?'));
+        }
+
+        var couldAccess = await _accessService.CheckUriCanAccess(currentUri);
+        if (!couldAccess)
+        {
+            _navManager.NavigateTo("/noauthorized");
+        }
+        else
+        {
+            var user = await _stateProvider.GetAuthenticationStateAsync();
+            using var context = await _dbFactory.CreateDbContextAsync();
+            var userInfo = context.Users.Find(user.User.GetUserId());
+            _userName = userInfo.RealName;
+            _avatar = userInfo.Avatar;
+        }
+    }
+
+    private async Task ShowUserSettings()
+    {
+        var parameters = new DialogParameters { };
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
+        await _dialogService.Show<ProfileSetting>(string.Empty, parameters, options).Result;
+
+        using var context = await _dbFactory.CreateDbContextAsync();
+        var user = await _stateProvider.GetAuthenticationStateAsync();
+        var userInfo = context.Users.Find(user.User.GetUserId());
+        _userName = userInfo.RealName;
+        _avatar = userInfo.Avatar;
+        StateHasChanged();
+    }
+
+    private async Task LogoutClick()
+    {
+        var cookieUtil = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/cookieUtil.js");
+        await cookieUtil.InvokeVoidAsync("setCookie", CommonConstant.UserId, string.Empty);
+        await cookieUtil.InvokeVoidAsync("setCookie", CommonConstant.UserToken, string.Empty);
+        await _localStorage.DeleteAsync(CommonConstant.Tabs);
+
+        _navManager.NavigateTo("/login", true);
+    }
+}
