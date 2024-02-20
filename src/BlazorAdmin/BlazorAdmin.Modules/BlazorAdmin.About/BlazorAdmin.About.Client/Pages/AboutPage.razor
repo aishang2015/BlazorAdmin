@@ -1,0 +1,40 @@
+﻿@page "/about"
+@using System.Net.Http.Headers
+@rendermode InteractiveAuto
+
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<h1>About</h1>
+
+<MudButton Color="Color.Primary" Variant="Variant.Filled"
+           Disabled="_isLoading"
+           @onclick="GetCount">Get A Number From Server</MudButton>
+
+@code {
+
+    private bool _isLoading = false;
+
+    private int currentCount = 0;
+
+    private async Task GetCount()
+    {
+        _isLoading = true;
+        using (var httpClient = new HttpClient())
+        {
+            var cookieUtil = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/cookieUtil.js");
+            var token = await cookieUtil.InvokeAsync<string>("getCookie", "AccessToken");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var url = _navManager.BaseUri + "api/about/GetRandomNumber";
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync(url,new { });
+
+            response.EnsureSuccessStatusCode();
+
+            // 读取并返回响应内容
+            string responseBody = await response.Content.ReadAsStringAsync();
+            _snackbarService.Add("The Number Is " + responseBody, Severity.Success);
+        }
+        _isLoading = false;
+    }
+}

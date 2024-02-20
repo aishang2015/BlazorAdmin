@@ -9,6 +9,7 @@ using BlazorAdmin.Im.Backgrounds;
 using BlazorAdmin.Im.Events;
 using BlazorAdmin.Layout.States;
 using BlazorAdmin.Web.Components;
+using BlazorAdmin.Web.Controllers;
 using BlazorAdmin.Web.Data.States;
 using Cropper.Blazor.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -39,7 +40,8 @@ builder.Services.AddRazorComponents()
     .AddHubOptions(options =>
     {
         options.MaximumReceiveMessageSize = 320 * 1024;
-    });
+    })
+    .AddInteractiveWebAssemblyComponents();
 
 // mudblazor
 builder.Services.AddMudServices(config =>
@@ -173,6 +175,7 @@ app.MapControllers();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
+    .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(Routes.AdditionalAssemblies.ToArray()); // rcl的page无法在浏览器上直接route https://github.com/dotnet/aspnetcore/issues/49313
 
 app.MapHub<ChatHub>(ChatHub.ChatHubUrl);

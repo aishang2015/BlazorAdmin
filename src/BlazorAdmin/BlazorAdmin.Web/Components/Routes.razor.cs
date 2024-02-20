@@ -1,4 +1,6 @@
-﻿using BlazorAdmin.Im.Components;
+﻿
+using BlazorAdmin.About.Client.Pages;
+using BlazorAdmin.Im.Components;
 using BlazorAdmin.Log.Pages.AuditLog;
 using BlazorAdmin.Rbac.Pages.User;
 using BlazorAdmin.Setting.Pages.Setting;
@@ -13,7 +15,8 @@ namespace BlazorAdmin.Web.Components
             typeof(User).Assembly,
             typeof(AuditLog).Assembly,
             typeof(SettingPage).Assembly,
-            typeof(Chat).Assembly
+            typeof(Chat).Assembly,
+            typeof(AboutPage).Assembly,
         };
     }
 }

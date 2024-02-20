@@ -15,24 +15,9 @@ namespace BlazorAdmin.Web.Components.Layout
     {
         [Parameter] public RenderFragment? Child { get; set; }
 
-        bool _drawerOpen = true;
-
-        bool visible;
-
-        DialogOptions dialogOptions = new() { NoHeader = true };
-
-        string _userName = string.Empty;
-
-        string? _avatar = string.Empty;
-
-        CultureInfo _culture;
-
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-
-            _culture = CultureInfo.CurrentCulture;
-
 
         }
 
