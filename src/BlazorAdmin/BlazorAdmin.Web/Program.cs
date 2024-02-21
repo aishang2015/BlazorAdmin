@@ -86,7 +86,7 @@ builder.Services.AddAuthentication(options =>
 {
     var connStr = builder.Configuration.GetConnectionString("Rbac");
     using var context = new BlazorAdminDbContext(new DbContextOptionsBuilder<BlazorAdminDbContext>()
-        .UseSqlite(builder.Configuration.GetConnectionString("Rbac")).Options, default(ProtectedLocalStorage));
+        .UseSqlite(builder.Configuration.GetConnectionString("Rbac")).Options, default, default);
 
     var issuer = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtIssue)!.Value;
     var audience = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtAudience)!.Value;

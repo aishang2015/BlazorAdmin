@@ -44,16 +44,12 @@ namespace BlazorAdmin.Core.Auth
 
     public class ExternalAuthService
     {
-        private ProtectedLocalStorage _localStorage;
         public event Action<ClaimsPrincipal>? UserChanged;
-        private ClaimsPrincipal? currentUser;
 
         private JwtHelper _jwtHelper;
 
-        public ExternalAuthService(ProtectedLocalStorage localStorage,
-            JwtHelper jwtHelper)
+        public ExternalAuthService(JwtHelper jwtHelper)
         {
-            _localStorage = localStorage;
             _jwtHelper = jwtHelper;
         }
 
