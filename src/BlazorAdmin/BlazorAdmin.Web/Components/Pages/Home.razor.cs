@@ -7,7 +7,7 @@
 
             A simple management project template written using Blazor and MudBlazor.
 
-            * * *
+            ---
 
             #### Credentials:
 
@@ -15,36 +15,38 @@
 
             Password:BlazorAdmin
 
-            * * *
+            ---
 
             #### Features:
 
-            -   Implemented RBAC
+            - Support Interactive Auto Render Mode
 
-            -   JWT Authentication
+            - Implemented RBAC
 
-            -   Built on Mudblazor
+            - JWT Authentication
 
-            -   Theme light/dark switch
+            - Built on Mudblazor
 
-            -   Localization
+            - Theme light/dark switch
 
-            -   Audit/Login Log
+            - Localization
 
-            -   Modularization
+            - Audit/Login Log
 
+            - Modularization
 
-            * * *
+            ---
 
             #### Technology stack:
 
-            -   .NET 7
+            - .NET 8
 
-            -   Blazor Server
+            - Blazor
 
-            -   MudBlazor
+            - MudBlazor
 
-            -   Entity Framework 7
+            - Entity Framework 8
+            
             
             """;
     }

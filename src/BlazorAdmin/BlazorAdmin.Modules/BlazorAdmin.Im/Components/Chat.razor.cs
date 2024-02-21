@@ -1,12 +1,10 @@
 ﻿using BlazorAdmin.Core.Chat;
+using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Data.Constants;
-using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.JSInterop;
 using MudBlazor;
-using static MudBlazor.Colors;
 
 namespace BlazorAdmin.Im.Components
 {
@@ -63,7 +61,7 @@ namespace BlazorAdmin.Im.Components
 
         private void RegistSignalrMethod()
         {
-            _hubConnection.On<ChatMessageReceivedModel>("ReceiveMessage", async (model) =>
+            _hubConnection?.On<ChatMessageReceivedModel>("ReceiveMessage", async (model) =>
             {
                 _noReadCount += 1;
                 await InvokeAsync(() => StateHasChanged());
@@ -72,7 +70,7 @@ namespace BlazorAdmin.Im.Components
 
         private void UnRegistSignalrMethod()
         {
-            _hubConnection.Remove("ReceiveMessage");
+            _hubConnection?.Remove("ReceiveMessage");
         }
 
         private async Task ViewIm()

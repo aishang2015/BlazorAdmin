@@ -1,4 +1,4 @@
-﻿namespace FluentCodeServer.Core
+﻿namespace BlazorAdmin.Core.Helper
 {
     public static class RandomHelper
     {

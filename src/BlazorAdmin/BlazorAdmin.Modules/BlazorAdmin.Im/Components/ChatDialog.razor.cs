@@ -1,5 +1,5 @@
 ﻿using BlazorAdmin.Core.Chat;
-using FluentCodeServer.Core;
+using BlazorAdmin.Core.Extension;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.EntityFrameworkCore;

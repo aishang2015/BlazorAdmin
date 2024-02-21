@@ -7,6 +7,7 @@ using BlazorAdmin.Data;
 using BlazorAdmin.Data.Constants;
 using BlazorAdmin.Im.Backgrounds;
 using BlazorAdmin.Im.Events;
+using BlazorAdmin.Layout.States;
 using BlazorAdmin.Web.Components;
 using BlazorAdmin.Web.Data.States;
 using Cropper.Blazor.Extensions;
@@ -14,7 +15,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
@@ -38,7 +38,8 @@ builder.Services.AddRazorComponents()
     .AddHubOptions(options =>
     {
         options.MaximumReceiveMessageSize = 320 * 1024;
-    });
+    })
+    .AddInteractiveWebAssemblyComponents();
 
 // mudblazor
 builder.Services.AddMudServices(config =>
@@ -83,7 +84,7 @@ builder.Services.AddAuthentication(options =>
 {
     var connStr = builder.Configuration.GetConnectionString("Rbac");
     using var context = new BlazorAdminDbContext(new DbContextOptionsBuilder<BlazorAdminDbContext>()
-        .UseSqlite(builder.Configuration.GetConnectionString("Rbac")).Options, default(ProtectedLocalStorage));
+        .UseSqlite(builder.Configuration.GetConnectionString("Rbac")).Options, default, default);
 
     var issuer = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtIssue)!.Value;
     var audience = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtAudience)!.Value;
@@ -115,6 +116,7 @@ builder.Services.AddScoped<IAccessService, AccessService>();
 
 // some state
 builder.Services.AddScoped<ThemeState>();
+builder.Services.AddScoped<LayoutState>();
 
 // event helper
 builder.Services.AddScoped<EventHelper<UpdateNoReadCountEvent>>();
@@ -171,6 +173,7 @@ app.MapControllers();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
+    .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(Routes.AdditionalAssemblies.ToArray()); // rcl的page无法在浏览器上直接route https://github.com/dotnet/aspnetcore/issues/49313
 
 app.MapHub<ChatHub>(ChatHub.ChatHubUrl);

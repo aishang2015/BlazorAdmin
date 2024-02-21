@@ -1,8 +1,8 @@
-﻿@inherits LayoutComponentBase
+﻿@using BlazorAdmin.Layout.Components.Themes
+@inherits LayoutComponentBase
 
-<MudThemeProvider IsDarkMode="@_themeState.IsDark" Theme="@_themeState.MudTheme" />
-<MudDialogProvider />
-<MudSnackbarProvider />
+
+<ProvidersAggregate></ProvidersAggregate>
 
 <MudLayout>
 	@Body

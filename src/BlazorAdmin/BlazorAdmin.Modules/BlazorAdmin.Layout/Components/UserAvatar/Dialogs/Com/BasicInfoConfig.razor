@@ -10,7 +10,7 @@
 				<div class="d-flex align-center">
 					<MudText>头像</MudText>
 					<MudSpacer />
-					<MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles" Accept=".png, .jpg">
+					<MudFileUpload Class="flex-none" T="IBrowserFile" FilesChanged="UploadFiles" Accept=".png, .jpg">
 						<ButtonTemplate>
 							<MudIconButton for="@context.Id" HtmlTag="label">
 								@if (string.IsNullOrEmpty(_user.Avatar))

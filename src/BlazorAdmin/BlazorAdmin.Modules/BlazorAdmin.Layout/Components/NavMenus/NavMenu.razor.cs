@@ -1,12 +1,10 @@
 ﻿using BlazorAdmin.Data.Entities.Rbac;
-using Microsoft.AspNetCore.Components;
-using static BlazorAdmin.Rbac.Components.NavItemMenu;
+using static BlazorAdmin.Layout.Components.NavMenus.NavItemMenu;
 
-namespace BlazorAdmin.Web.Components.Shared
+namespace BlazorAdmin.Layout.Components.NavMenus
 {
     public partial class NavMenu
     {
-        [Parameter] public EventCallback<NavMenuItem> NavTo { get; set; }
 
         private List<Menu> MenuList = new();
 
@@ -33,6 +31,11 @@ namespace BlazorAdmin.Web.Components.Shared
                     Route = m.Route,
                     Childs = AppendMenuItems(m.Id, menus)
                 }).ToHashSet();
+        }
+
+        private void NavTo(NavMenuItem item)
+        {
+            _layoutState.NavTo(item);
         }
     }
 }

@@ -1,0 +1,17 @@
+﻿@rendermode InteractiveServer
+
+<MudDrawer @bind-Open="_layoutState.NavIsOpen" Class="mud-drawer-fixed" ClipMode="DrawerClipMode.Always" Elevation="2">
+    <MudNavMenu Margin="Margin.Dense" Color="Color.Primary" Rounded="true" Class="pa-2">
+        <NavItemMenu NavMenuItems="NavMenuItems" NavTo="NavTo" />
+    </MudNavMenu>
+</MudDrawer>
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _layoutState.NavIsOpenEvent += () => StateHasChanged();
+    }
+
+}

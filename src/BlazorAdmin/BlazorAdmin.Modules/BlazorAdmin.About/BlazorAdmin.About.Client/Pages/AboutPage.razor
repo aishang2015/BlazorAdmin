@@ -1,0 +1,42 @@
+﻿@page "/about"
+@using System.Net.Http.Headers
+@using Flurl
+@using Flurl.Http
+
+@rendermode InteractiveAuto
+
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<h1>About</h1>
+
+<MudButton Color="Color.Primary" Variant="Variant.Filled"
+           Disabled="_isLoading"
+           @onclick="GetCount">Get A Number From Server</MudButton>
+
+@code {
+
+    private string _colorValue;
+
+    private bool _isLoading = false;
+
+    private int currentCount = 0;
+
+    private async Task GetCount()
+    {
+        _isLoading = true;
+
+        var cookieUtil = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/cookieUtil.js");
+        var token = await cookieUtil.InvokeAsync<string>("getCookie", "AccessToken");
+
+        var result = await _navManager.BaseUri
+            .AppendPathSegment("api/about/GetRandomNumber")
+            .WithOAuthBearerToken(token)
+            .PostJsonAsync(new { })
+            .ReceiveString();
+
+        _snackbarService.Add("The Number Is " + result, Severity.Success);
+
+        _isLoading = false;
+    }
+}

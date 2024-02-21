@@ -1,5 +1,7 @@
 ﻿@page "/loginLog"
 
+@rendermode RenderMode.InteractiveServer
+
 <PageHeader Title="@Loc["LoginLogPage_Title"]">
 	<div style="width:200px" class="mr-2">
 		<MudTextField @bind-Value="SearchedLoginName" Label="@Loc["LoginLogPage_TableH2"]" Clearable="true"></MudTextField>

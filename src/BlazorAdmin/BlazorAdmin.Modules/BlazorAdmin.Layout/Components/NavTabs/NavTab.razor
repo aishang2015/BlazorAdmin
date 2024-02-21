@@ -1,0 +1,12 @@
+﻿@rendermode InteractiveServer
+
+<MudDynamicTabs MinimumTabWidth="120px" AddIconStyle="display:none;"
+                @bind-ActivePanelIndex="_selectedTabIndex"
+                Class="mud-elevation-1"
+                CloseTab="OnTabClose">
+    @foreach (var tab in _userTabs)
+    {
+        <MudTabPanel ID="@tab.Id" Text="@tab.Label" ShowCloseIcon="_userTabs.Count > 1"
+                     OnClick="()=>TabClick(tab)" Style="border-right:1px solid var(--mud-palette-lines-default)" />
+    }
+</MudDynamicTabs>

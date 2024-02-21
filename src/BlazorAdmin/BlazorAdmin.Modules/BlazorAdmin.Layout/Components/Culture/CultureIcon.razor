@@ -1,0 +1,30 @@
+﻿@rendermode InteractiveServer
+
+<MudMenu Icon="@Icons.Material.Filled.Language" Color="Color.Inherit" Dense="true"
+         AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight">
+    <MudMenuItem OnClick="@(()=>CultureChanged("en-US"))">
+        @Loc["AuthorizedLayout_Language_enus"]
+    </MudMenuItem>
+    <MudMenuItem OnClick="@(()=>CultureChanged("zh-CN"))">
+        @Loc["AuthorizedLayout_Language_zhcn"]
+    </MudMenuItem>
+</MudMenu>
+
+@code {
+
+    private void CultureChanged(string culture)
+    {
+        if (!string.IsNullOrEmpty(culture))
+        {
+            var uri = new Uri(_navManager.Uri)
+                    .GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+            var cultureEscaped = Uri.EscapeDataString(culture);
+            //var uriEscaped = Uri.EscapeDataString(uri);
+
+            _navManager.NavigateTo(
+                $"api/Culture/Set?culture={cultureEscaped}&redirectUri={uri}",
+                forceLoad: true);
+        }
+    }
+
+}

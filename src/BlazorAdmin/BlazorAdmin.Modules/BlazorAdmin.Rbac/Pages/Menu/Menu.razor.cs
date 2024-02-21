@@ -48,7 +48,7 @@ namespace BlazorAdmin.Rbac.Pages.Menu
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-        	var authModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/BlazorAdmin.Rbac/js/sort.js");
+            var authModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/BlazorAdmin.Rbac/js/sort.js");
             await authModule.InvokeVoidAsync("setSortable", _menuPageRef);
         }
 

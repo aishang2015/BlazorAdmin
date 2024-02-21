@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace BlazorAdmin.Rbac.Components
+namespace BlazorAdmin.Layout.Components.NavMenus
 {
     public partial class NavItemMenu
     {

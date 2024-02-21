@@ -1,7 +1,7 @@
 ﻿using BlazorAdmin.Data.Constants;
 using System.Security.Claims;
 
-namespace FluentCodeServer.Core
+namespace BlazorAdmin.Core.Extension
 {
     public static class ClaimsPrincipalExtensions
     {
