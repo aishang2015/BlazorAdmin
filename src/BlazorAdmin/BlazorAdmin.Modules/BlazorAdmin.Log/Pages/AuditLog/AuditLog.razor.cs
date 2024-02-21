@@ -77,7 +77,7 @@ namespace BlazorAdmin.Log.Pages.AuditLog
                 }).ToList();
             Total = query.Count();
 
-            Operators = context.Users.Select(u => new Operator
+            Operators = context.Users.Where(u => !u.IsSpecial).Select(u => new Operator
             {
                 Id = u.Id,
                 UserName = u.RealName,

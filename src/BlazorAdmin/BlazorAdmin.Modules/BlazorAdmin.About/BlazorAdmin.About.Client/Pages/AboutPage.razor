@@ -1,6 +1,10 @@
 ﻿@page "/about"
 @using System.Net.Http.Headers
-@rendermode InteractiveAuto
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@rendermode InteractiveWebAssembly
+
 
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -11,7 +15,11 @@
            Disabled="_isLoading"
            @onclick="GetCount">Get A Number From Server</MudButton>
 
+<MudColorPicker Label="Basic Color Picker" @bind-Text="_colorValue" Style="@($"color: {_colorValue};")" Placeholder="Select Color" />
+
 @code {
+
+    private string _colorValue;
 
     private bool _isLoading = false;
 

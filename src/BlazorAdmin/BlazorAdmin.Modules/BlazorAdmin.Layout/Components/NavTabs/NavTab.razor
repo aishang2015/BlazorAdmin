@@ -2,6 +2,7 @@
 
 <MudDynamicTabs MinimumTabWidth="120px" AddIconStyle="display:none;"
                 @bind-ActivePanelIndex="_selectedTabIndex"
+                Class="mud-elevation-1"
                 CloseTab="OnTabClose">
     @foreach (var tab in _userTabs)
     {
