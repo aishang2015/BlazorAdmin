@@ -14,6 +14,8 @@ Password:BlazorAdmin
 
 #### Features:
 
+- Support Interactive Auto Render Mode
+
 - Implemented RBAC
 
 - JWT Authentication
@@ -34,7 +36,7 @@ Password:BlazorAdmin
 
 - .NET 8
 
-- Blazor Server
+- Blazor
 
 - MudBlazor
 

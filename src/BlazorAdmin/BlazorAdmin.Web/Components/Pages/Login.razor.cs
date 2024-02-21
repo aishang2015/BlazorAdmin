@@ -3,12 +3,10 @@ using BlazorAdmin.Core.Resources;
 using BlazorAdmin.Data;
 using BlazorAdmin.Data.Constants;
 using BlazorAdmin.Data.Entities.Log;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.JSInterop;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
-using static MudBlazor.Colors;
 
 namespace BlazorAdmin.Web.Components.Pages
 {

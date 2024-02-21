@@ -1,4 +1,3 @@
-using BlazorAdmin.About.Client;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor;
 using MudBlazor.Services;

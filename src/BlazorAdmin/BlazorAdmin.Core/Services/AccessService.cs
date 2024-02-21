@@ -1,5 +1,5 @@
-﻿using BlazorAdmin.Data;
-using FluentCodeServer.Core;
+﻿using BlazorAdmin.Core.Extension;
+using BlazorAdmin.Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;

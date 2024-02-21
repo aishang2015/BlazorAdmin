@@ -1,12 +1,10 @@
 ﻿using BlazorAdmin.Core.Chat;
+using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Data.Constants;
-using FluentCodeServer.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.JSInterop;
 using MudBlazor;
-using static MudBlazor.Colors;
 
 namespace BlazorAdmin.Im.Components
 {

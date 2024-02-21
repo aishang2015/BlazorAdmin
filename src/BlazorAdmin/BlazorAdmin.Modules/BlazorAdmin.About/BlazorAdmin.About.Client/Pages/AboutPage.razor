@@ -1,10 +1,9 @@
 ﻿@page "/about"
 @using System.Net.Http.Headers
+@using Flurl
+@using Flurl.Http
 
-@using Microsoft.AspNetCore.Authorization
-@attribute [Authorize]
-@rendermode InteractiveWebAssembly
-
+@rendermode InteractiveAuto
 
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -14,8 +13,6 @@
 <MudButton Color="Color.Primary" Variant="Variant.Filled"
            Disabled="_isLoading"
            @onclick="GetCount">Get A Number From Server</MudButton>
-
-<MudColorPicker Label="Basic Color Picker" @bind-Text="_colorValue" Style="@($"color: {_colorValue};")" Placeholder="Select Color" />
 
 @code {
 
@@ -28,21 +25,18 @@
     private async Task GetCount()
     {
         _isLoading = true;
-        using (var httpClient = new HttpClient())
-        {
-            var cookieUtil = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/cookieUtil.js");
-            var token = await cookieUtil.InvokeAsync<string>("getCookie", "AccessToken");
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var url = _navManager.BaseUri + "api/about/GetRandomNumber";
-            HttpResponseMessage response = await httpClient.PostAsJsonAsync(url,new { });
+        var cookieUtil = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/cookieUtil.js");
+        var token = await cookieUtil.InvokeAsync<string>("getCookie", "AccessToken");
 
-            response.EnsureSuccessStatusCode();
+        var result = await _navManager.BaseUri
+            .AppendPathSegment("api/about/GetRandomNumber")
+            .WithOAuthBearerToken(token)
+            .PostJsonAsync(new { })
+            .ReceiveString();
 
-            // 读取并返回响应内容
-            string responseBody = await response.Content.ReadAsStringAsync();
-            _snackbarService.Add("The Number Is " + responseBody, Severity.Success);
-        }
+        _snackbarService.Add("The Number Is " + result, Severity.Success);
+
         _isLoading = false;
     }
 }

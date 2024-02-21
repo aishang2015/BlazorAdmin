@@ -58,7 +58,7 @@ namespace BlazorAdmin.Data
             var pppp = _provider.GetRequiredService<AuthenticationStateProvider>();
             var user = await pppp.GetAuthenticationStateAsync();
 
-            if (user.User.Identity!= null && user.User.Identity.IsAuthenticated)
+            if (user.User.Identity != null && user.User.Identity.IsAuthenticated)
             {
                 var userId = int.Parse(user.User.Claims.FirstOrDefault(c => c.Type == ClaimConstant.UserId)!.Value);
                 var entries = ChangeTracker.Entries()
