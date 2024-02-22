@@ -6,8 +6,7 @@
 <div class="d-flex flex-column" style="height:100%;">
     <PageHeader Title="系统配置">
     </PageHeader>
-    <MudDivider Class="flex-none" />
-    <div class="flex-1 d-flex">
+    <div class="flex-1 d-flex border rounded" style="overflow:auto;border-color:var(--mud-palette-lines-default)">
 
         <div class="flex-none" style="width:340px;overflow:auto;">
             <MudList Clickable="true" @bind-SelectedItem="SelectedItem" @bind-SelectedValue="SelectedValue">
@@ -24,8 +23,8 @@
                 }
             </MudList>
         </div>
-        <MudDivider Vertical="true" Class="mx-4 flex-none" />
-        <div class="flex-1">
+        <MudDivider Vertical="true" Class="flex-none" />
+        <div class="flex-1 mx-2">
             <DynamicComponent Type="@SettingComDic[SelectedValue.ToString()!]" />
         </div>
     </div>

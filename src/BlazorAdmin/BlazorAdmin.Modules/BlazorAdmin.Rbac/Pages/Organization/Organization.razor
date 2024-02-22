@@ -17,9 +17,8 @@
                            OnClick="DeleteOrganizationClick"></MudIconButton>
         }
     </PageHeader>
-    <MudDivider Class="flex-none" />
 
-    <div class="flex-1 d-flex" style="overflow:auto;">
+    <div class="flex-1 d-flex border rounded" style="overflow:auto;border-color:var(--mud-palette-lines-default)">
 
         <div class="flex-0 pt-2" style="width:340px;overflow:auto;">
             <MudTreeView Items="@OrganizationItems" Hover="true" T="OrganizationItem"
@@ -47,9 +46,9 @@
             </MudTreeView>
         </div>
 
-        <MudDivider Vertical="true" Class="mx-4" />
+        <MudDivider Vertical="true" Class="" />
 
-        <div class="flex-1">
+        <div class="flex-1 mx-2">
             @if (EditVisible)
             {
                 <div class="pa-4">

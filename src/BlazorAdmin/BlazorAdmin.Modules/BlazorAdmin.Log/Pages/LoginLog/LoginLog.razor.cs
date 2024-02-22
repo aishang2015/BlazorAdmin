@@ -1,9 +1,13 @@
-﻿using BlazorAdmin.Core.Extension;
+﻿using BlazorAdmin.Component.Pages;
+using BlazorAdmin.Core.Extension;
+using MudBlazor;
 
 namespace BlazorAdmin.Log.Pages.LoginLog
 {
     public partial class LoginLog
     {
+        private PageDataGrid<LoginLogModel> dataGrid = null!;
+
         private List<LoginLogModel> LoginLogs = new();
 
         private int Page = 1;
@@ -44,7 +48,13 @@ namespace BlazorAdmin.Log.Pages.LoginLog
         private async void PageChangedClick(int page)
         {
             Page = page;
+            dataGrid.ReloadServerData();
+        }
+
+        private async Task<GridData<LoginLogModel>> GetTableData(GridState<LoginLogModel> gridState)
+        {
             await InitialAsync();
+            return new GridData<LoginLogModel>() { TotalItems = Total, Items = LoginLogs };
         }
 
         private class LoginLogModel

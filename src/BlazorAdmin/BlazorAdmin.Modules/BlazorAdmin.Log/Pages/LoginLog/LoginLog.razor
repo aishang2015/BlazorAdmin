@@ -3,49 +3,36 @@
 @rendermode RenderMode.InteractiveServer
 
 <PageHeader Title="@Loc["LoginLogPage_Title"]">
-	<div style="width:200px" class="mr-2">
-		<MudTextField @bind-Value="SearchedLoginName" Label="@Loc["LoginLogPage_TableH2"]" Clearable="true"></MudTextField>
-	</div>
-	<MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="InitialAsync"
-				   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+    <div style="width:200px" class="mr-2">
+        <MudTextField @bind-Value="SearchedLoginName" Label="@Loc["LoginLogPage_TableH2"]" Clearable="true"></MudTextField>
+    </div>
+    <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="InitialAsync"
+                   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
 </PageHeader>
 
-<MudTable Class="mb-4" Items="@LoginLogs" Hover="true" Breakpoint="Breakpoint.Sm"
-		  LoadingProgressColor="Color.Info" Dense="true" FixedHeader="true" Virtualize="true" Height="calc(100vh - 280px)">
-	<ColGroup>
-		<col style="min-width:100px;width:100px;max-width:100px;" />
-		<col style="min-width:150px;" />
-		<col style="min-width:200px;" />
-		<col style="min-width:150px;" />
-		<col style="min-width:150px;" />
-		<col style="max-width:150px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" />
-	</ColGroup>
-	<HeaderContent>
-		<MudTh>@Loc["LoginLogPage_TableH1"]</MudTh>
-			<MudTh>@Loc["LoginLogPage_TableH2"]</MudTh>
-			<MudTh>@Loc["LoginLogPage_TableH3"]</MudTh>
-			<MudTh>@Loc["LoginLogPage_TableH4"]</MudTh>
-			<MudTh>@Loc["LoginLogPage_TableH5"]</MudTh>
-			<MudTh>@Loc["LoginLogPage_TableH6"]</MudTh>
-		</HeaderContent>
-		<RowTemplate>
-			<MudTd DataLabel="@Loc["LoginLogPage_TableH1"]">@context.Number</MudTd>
-			<MudTd DataLabel="@Loc["LoginLogPage_TableH2"]">@context.UserName</MudTd>
-			<MudTd DataLabel="@Loc["LoginLogPage_TableH3"]">@context.Time</MudTd>
-			<MudTd DataLabel="@Loc["LoginLogPage_TableH4"]">@context.Ip</MudTd>
-			<MudTd DataLabel="@Loc["LoginLogPage_TableH5"]">
-				@if (context.IsSuccessd)
-			{
-				<MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["LoginLogPage_LoginSuccess"]</MudChip>
-			}
-			else
-			{
-				<MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Error">@Loc["LoginLogPage_LoginFail"]</MudChip>
-			}
-		</MudTd>
-		<MudTd DataLabel="@Loc["LoginLogPage_TableH6"]">@context.Agent</MudTd>
+<PageDataGrid T="LoginLogModel" ServerData="GetTableData" @ref="dataGrid">
+    <PropertyColumn T="LoginLogModel" TProperty="int" Property="x => x.Number" Title="@Loc["LoginLogPage_TableH1"]" StickyLeft="true"
+                    HeaderStyle="white-space:nowrap" CellStyle="width:40px;text-align:center;" />
+    <PropertyColumn T="LoginLogModel" TProperty="string" Property="x => x.UserName" Title="@Loc["LoginLogPage_TableH2"]"
+                    HeaderStyle="white-space:nowrap" CellStyle="min-width:150px;" />
+    <PropertyColumn T="LoginLogModel" TProperty="DateTime" Property="x => x.Time" Title="@Loc["LoginLogPage_TableH3"]"
+                    HeaderStyle="white-space:nowrap" CellStyle="min-width:200px;" />
+    <PropertyColumn T="LoginLogModel" TProperty="string" Property="x => x.Ip" Title="@Loc["LoginLogPage_TableH4"]"
+                    HeaderStyle="white-space:nowrap" CellStyle="min-width:200px;" />
+    <TemplateColumn T="LoginLogModel" Title="@Loc["LoginLogPage_TableH5"]" HeaderStyle="white-space:nowrap">
+        <CellTemplate>
+            @if (context.Item.IsSuccessd)
+            {
+                <MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["LoginLogPage_LoginSuccess"]</MudChip>
+            }
+            else
+            {
+                <MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Error">@Loc["LoginLogPage_LoginFail"]</MudChip>
+            }
+        </CellTemplate>
+    </TemplateColumn>
+    <PropertyColumn T="LoginLogModel" TProperty="string" Property="x => x.Agent" Title="@Loc["LoginLogPage_TableH6"]"
+                    HeaderStyle="white-space:nowrap" CellStyle="max-width:150px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" />
+</PageDataGrid>
 
-		</RowTemplate>
-	</MudTable>
-
-	<PagePagination Page="@Page" Size="@Size" Total="@Total" PageChangedClick="PageChangedClick"></PagePagination>
+<PagePagination Page="@Page" Size="@Size" Total="@Total" PageChangedClick="PageChangedClick"></PagePagination>
