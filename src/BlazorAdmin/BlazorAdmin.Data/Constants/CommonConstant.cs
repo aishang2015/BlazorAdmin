@@ -6,6 +6,6 @@
 
         public const string UserToken = "AccessToken";
 
-        public const string Tabs = "Tabs";
+        public const string UserTabs = "UserTabs";
     }
 }

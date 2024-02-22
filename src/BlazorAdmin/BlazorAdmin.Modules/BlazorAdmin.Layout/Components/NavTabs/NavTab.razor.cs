@@ -1,4 +1,5 @@
-﻿using BlazorAdmin.Data.Constants;
+﻿using BlazorAdmin.Core.Extension;
+using BlazorAdmin.Data.Constants;
 using MudBlazor;
 using System.Text.Json;
 using static BlazorAdmin.Layout.Components.NavMenus.NavItemMenu;
@@ -11,36 +12,32 @@ namespace BlazorAdmin.Layout.Components.NavTabs
 
         private int _selectedTabIndex = 0;
 
-        protected override void OnInitialized()
+        protected override async void OnInitialized()
         {
             base.OnInitialized();
             _layoutState.NavToEvent += async (i) => await NavigateTo(i);
-        }
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            await base.OnAfterRenderAsync(firstRender);
-            if (firstRender)
+            var state = await _stateProvider.GetAuthenticationStateAsync();
+            using var context = await _dbFactory.CreateDbContextAsync();
+            var userTabs = context.UserSettings
+                .FirstOrDefault(s => s.UserId == state.User.GetUserId() && s.Key == CommonConstant.UserTabs)
+                ?.Value;
+            if (userTabs != null)
             {
-                var result = await _localStorage.GetAsync<string>(CommonConstant.Tabs);
-                if (result.Success)
-                {
-                    _userTabs = JsonSerializer.Deserialize<List<TabView>>(result.Value);
-                    var index = _userTabs.FindIndex(t => _navManager.Uri.EndsWith(t.Route));
-                    if (index == -1)
-                    {
-                        await NavToDefault();
-                    }
-                    else
-                    {
-                        _selectedTabIndex = index;
-                    }
-                    StateHasChanged();
-                }
-                else
+                _userTabs = JsonSerializer.Deserialize<List<TabView>>(userTabs);
+                var index = _userTabs.FindIndex(t => _navManager.Uri.EndsWith(t.Route));
+                if (index == -1)
                 {
                     await NavToDefault();
                 }
+                else
+                {
+                    _selectedTabIndex = index;
+                }
+            }
+            else
+            {
+                await NavToDefault();
             }
         }
 
@@ -75,7 +72,7 @@ namespace BlazorAdmin.Layout.Components.NavTabs
             }
             var index = _userTabs.FindIndex(t => t.Route == route.Route);
             _selectedTabIndex = index;
-            await _localStorage.SetAsync(CommonConstant.Tabs, JsonSerializer.Serialize(_userTabs));
+            await SaveUserTabsAsync();
             StateHasChanged();
         }
 
@@ -105,14 +102,35 @@ namespace BlazorAdmin.Layout.Components.NavTabs
                         _selectedTabIndex = index;
                     }
                 }
-                else if (!_userTabs.Any())
-                {
-                    // await NavigateTo(_navMenuRef.NavMenuItems.First());
-                    _navManager.NavigateTo("/");
-                }
             }
-            await _localStorage.SetAsync(CommonConstant.Tabs, JsonSerializer.Serialize(_userTabs));
+            await SaveUserTabsAsync();
         }
+
+        private async Task SaveUserTabsAsync()
+        {
+            var state = await _stateProvider.GetAuthenticationStateAsync();
+            using var context = await _dbFactory.CreateDbContextAsync();
+            var userTabSetting = context.UserSettings
+                .FirstOrDefault(s => s.UserId == state.User.GetUserId() && s.Key == CommonConstant.UserTabs);
+            if (userTabSetting == null)
+            {
+                context.UserSettings.Add(new Data.Entities.Setting.UserSetting
+                {
+                    UserId = state.User.GetUserId(),
+                    Key = CommonConstant.UserTabs,
+                    Value = JsonSerializer.Serialize(_userTabs)
+                });
+            }
+            else
+            {
+                userTabSetting.Value = JsonSerializer.Serialize(_userTabs);
+                context.UserSettings.Update(userTabSetting);
+            }
+            await context.SaveChangesAsync();
+        }
+
+
+
         public class TabView
         {
             public string Label { get; set; } = null!;

@@ -84,9 +84,7 @@
     private async Task LogoutClick()
     {
         var cookieUtil = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/cookieUtil.js");
-        await cookieUtil.InvokeVoidAsync("setCookie", CommonConstant.UserId, string.Empty);
         await cookieUtil.InvokeVoidAsync("setCookie", CommonConstant.UserToken, string.Empty);
-        await _localStorage.DeleteAsync(CommonConstant.Tabs);
 
         _navManager.NavigateTo("/login", true);
     }

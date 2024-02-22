@@ -30,11 +30,10 @@ namespace BlazorAdmin.Core.Auth
             if (!string.IsNullOrEmpty(tokenCookie))
             {
                 var user = _jwtHelper.ValidToken(tokenCookie);
-                currentUser = new AuthenticationState(user);
-            }
-            else
-            {
-                currentUser = new AuthenticationState(new ClaimsPrincipal());
+                if (user != null)
+                {
+                    currentUser = new AuthenticationState(user);
+                }
             }
         }
 

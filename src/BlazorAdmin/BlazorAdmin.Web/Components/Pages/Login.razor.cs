@@ -63,9 +63,7 @@ namespace BlazorAdmin.Web.Components.Pages
             });
             var cookieUtil = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/cookieUtil.js");
             await cookieUtil.InvokeVoidAsync("setCookie", CommonConstant.UserToken, token);
-            await cookieUtil.InvokeVoidAsync("setCookie", CommonConstant.UserId, user.Id);
 
-            await _localStorage.DeleteAsync(CommonConstant.Tabs);
             _authService.SetCurrentUser(token);
             await RecordLogin(_loginModel.UserName!, true, context);
             _navManager.NavigateTo("/");
