@@ -29,7 +29,7 @@ namespace BlazorAdmin.Layout.Components.NavTabs
                     var index = _userTabs.FindIndex(t => _navManager.Uri.EndsWith(t.Route));
                     if (index == -1)
                     {
-                        //await NavigateTo(_navMenuRef.NavMenuItems.First());
+                        await NavToDefault();
                     }
                     else
                     {
@@ -39,8 +39,25 @@ namespace BlazorAdmin.Layout.Components.NavTabs
                 }
                 else
                 {
-                    //await NavigateTo(_navMenuRef.NavMenuItems.First());
+                    await NavToDefault();
                 }
+            }
+        }
+
+        private async Task NavToDefault()
+        {
+            using var context = await _dbFactory.CreateDbContextAsync();
+            var menuList = context.Menus.Where(m => m.Type == 1).ToList();
+
+            var canAccessedMenus = await _accessService.GetCanAccessedMenus();
+            var defaultMenu = menuList.Where(m => canAccessedMenus.Contains(m.Id)).Select(m => new NavMenuItem
+            {
+                MenuName = m.Name,
+                Route = m.Route,
+            }).FirstOrDefault();
+            if (defaultMenu != null)
+            {
+                await NavigateTo(defaultMenu);
             }
         }
 

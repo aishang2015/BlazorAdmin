@@ -6,6 +6,7 @@
 @using BlazorAdmin.Core.Resources
 @using BlazorAdmin.Core.Services
 @using BlazorAdmin.Data
+@using BlazorAdmin.Layout.Resources
 @using BlazorAdmin.Web.Data.States
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
@@ -40,5 +41,6 @@
 @inject ThemeState _themeState;
 @inject MessageSender _messageSender;
 @inject LayoutState _layoutState;
+@inject IStringLocalizer<LayoutCulture> _loc;
 
 @attribute [Authorize]

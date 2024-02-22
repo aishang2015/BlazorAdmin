@@ -21,12 +21,16 @@
     <ChildContent>
         <MudContainer Class="d-flex flex-column" Style="width:200px;">
             <MudContainer Class="d-flex flex-column align-center justify-center">
-                <MudText Typo="Typo.subtitle1" Style="max-width:160px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">@_userName</MudText>
-                </MudContainer>
-                <MudDivider Class="my-2" />
-                <MudMenuItem Icon="@Icons.Material.Filled.Settings" OnClick="ShowUserSettings">账号设置</MudMenuItem>
-                <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="LogoutClick">
-                    @Loc["AuthorizedLayout_Logout"]
+                <MudText Typo="Typo.subtitle1" Style="max-width:160px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                    @_userName
+                </MudText>
+            </MudContainer>
+            <MudDivider Class="my-2" />
+            <MudMenuItem Icon="@Icons.Material.Filled.Settings" OnClick="ShowUserSettings">
+                @Loc["AuthorizedLayout_Setting"]
+            </MudMenuItem>
+            <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="LogoutClick">
+                @Loc["AuthorizedLayout_Logout"]
             </MudMenuItem>
         </MudContainer>
     </ChildContent>

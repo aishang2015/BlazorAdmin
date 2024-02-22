@@ -117,118 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AuditLogDetailDialog_TableH1" xml:space="preserve">
-    <value>序号</value>
+  <data name="关于" xml:space="preserve">
+    <value>About</value>
   </data>
-  <data name="AuditLogDetailDialog_TableH2" xml:space="preserve">
-    <value>属性名</value>
+  <data name="审计" xml:space="preserve">
+    <value>Audit</value>
   </data>
-  <data name="AuditLogDetailDialog_TableH3" xml:space="preserve">
-    <value>旧值</value>
+  <data name="日志" xml:space="preserve">
+    <value>Log</value>
   </data>
-  <data name="AuditLogDetailDialog_TableH4" xml:space="preserve">
-    <value>新值</value>
+  <data name="权限" xml:space="preserve">
+    <value>Right</value>
   </data>
-  <data name="AuditLogPage_OperationCreate" xml:space="preserve">
-    <value>添加</value>
+  <data name="用户" xml:space="preserve">
+    <value>User</value>
   </data>
-  <data name="AuditLogPage_OperationDelete" xml:space="preserve">
-    <value>删除</value>
+  <data name="登录" xml:space="preserve">
+    <value>Login</value>
   </data>
-  <data name="AuditLogPage_OperationModify" xml:space="preserve">
-    <value>修改</value>
+  <data name="系统" xml:space="preserve">
+    <value>System</value>
   </data>
-  <data name="AuditLogPage_TableH1" xml:space="preserve">
-    <value>序号</value>
+  <data name="组织" xml:space="preserve">
+    <value>Organization</value>
   </data>
-  <data name="AuditLogPage_TableH2" xml:space="preserve">
-    <value>事务id</value>
+  <data name="菜单" xml:space="preserve">
+    <value>Menu</value>
   </data>
-  <data name="AuditLogPage_TableH3" xml:space="preserve">
-    <value>操作人</value>
+  <data name="角色" xml:space="preserve">
+    <value>Role</value>
   </data>
-  <data name="AuditLogPage_TableH4" xml:space="preserve">
-    <value>操作对象</value>
+  <data name="配置" xml:space="preserve">
+    <value>Config</value>
   </data>
-  <data name="AuditLogPage_TableH5" xml:space="preserve">
-    <value>操作类型</value>
-  </data>
-  <data name="AuditLogPage_TableH6" xml:space="preserve">
-    <value>操作时间</value>
-  </data>
-  <data name="AuditLogPage_TableH7" xml:space="preserve">
-    <value>值记录</value>
-  </data>
-  <data name="AuditLogPage_Title" xml:space="preserve">
-    <value>审计日志</value>
-  </data>
-  <data name="AuthorizedLayout_ColorPickerTitle" xml:space="preserve">
-    <value>主颜色选择</value>
-  </data>
-  <data name="AuthorizedLayout_Language" xml:space="preserve">
-    <value>语言</value>
-  </data>
-  <data name="AuthorizedLayout_Language_enus" xml:space="preserve">
-    <value>English(United State)</value>
-  </data>
-  <data name="AuthorizedLayout_Language_zhcn" xml:space="preserve">
-    <value>简体中文</value>
-  </data>
-  <data name="AuthorizedLayout_Logout" xml:space="preserve">
-    <value>注销</value>
-  </data>
-  <data name="AuthorizedLayout_Setting" xml:space="preserve">
-    <value>账号信息</value>
-  </data>
-  <data name="BackToHome_Text" xml:space="preserve">
-    <value>返回首页</value>
-  </data>
-  <data name="Error_Text" xml:space="preserve">
-    <value>发生了一个系统错误！</value>
-  </data>
-  <data name="LoginLogPage_LoginFail" xml:space="preserve">
-    <value>失败</value>
-  </data>
-  <data name="LoginLogPage_LoginSuccess" xml:space="preserve">
-    <value>成功</value>
-  </data>
-  <data name="LoginLogPage_TableH1" xml:space="preserve">
-    <value>序号</value>
-  </data>
-  <data name="LoginLogPage_TableH2" xml:space="preserve">
-    <value>登录名</value>
-  </data>
-  <data name="LoginLogPage_TableH3" xml:space="preserve">
-    <value>登录时间</value>
-  </data>
-  <data name="LoginLogPage_TableH4" xml:space="preserve">
-    <value>登录IP</value>
-  </data>
-  <data name="LoginLogPage_TableH5" xml:space="preserve">
-    <value>是否成功</value>
-  </data>
-  <data name="LoginLogPage_TableH6" xml:space="preserve">
-    <value>登录客户端</value>
-  </data>
-  <data name="LoginLogPage_Title" xml:space="preserve">
-    <value>登录日志</value>
-  </data>
-  <data name="Login_LoginText" xml:space="preserve">
-    <value>登录</value>
-  </data>
-  <data name="Login_PasswordHelpText" xml:space="preserve">
-    <value>请输入密码</value>
-  </data>
-  <data name="Login_UserNameHelpText" xml:space="preserve">
-    <value>请输入用户名</value>
-  </data>
-  <data name="NoAuhtorized_ChangeUserText" xml:space="preserve">
-    <value>切换其他用户</value>
-  </data>
-  <data name="NoAuhtorized_Text" xml:space="preserve">
-    <value>您没有访问该页面的权限...</value>
-  </data>
-  <data name="NotFound_Text" xml:space="preserve">
-    <value>对不起，没有找到这个地址</value>
+  <data name="首页" xml:space="preserve">
+    <value>Home</value>
   </data>
 </root>

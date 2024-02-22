@@ -3,11 +3,11 @@
     if (m.Childs.Count == 0)
     {
         <MudNavLink Href="@m.Route" Icon="@m.MenuIcon" Match="NavLinkMatch.All"
-                    @onmouseup="()=>NavClick(m)">@m.MenuName</MudNavLink>
+                    @onmouseup="()=>NavClick(m)">@_loc[m.MenuName]</MudNavLink>
     }
     else
     {
-        <MudNavGroup Title="@m.MenuName" Expanded="@m.Childs.Any(c=>_navManager.Uri.EndsWith(c.Route ?? ""))" Icon="@m.MenuIcon">
+        <MudNavGroup Title="@_loc[m.MenuName]" Expanded="@m.Childs.Any(c=>_navManager.Uri.EndsWith(c.Route ?? ""))" Icon="@m.MenuIcon">
             <NavItemMenu NavMenuItems="@m.Childs" NavTo="NavTo" />
         </MudNavGroup>
     }

@@ -177,6 +177,9 @@
   <data name="AuthorizedLayout_Logout" xml:space="preserve">
     <value>Logout</value>
   </data>
+  <data name="AuthorizedLayout_Setting" xml:space="preserve">
+    <value>Account</value>
+  </data>
   <data name="BackToHome_Text" xml:space="preserve">
     <value>Back To Home Page</value>
   </data>

@@ -241,6 +241,15 @@ namespace BlazorAdmin.Core.Resources {
         }
         
         /// <summary>
+        ///   查找类似 账号信息 的本地化字符串。
+        /// </summary>
+        public static string AuthorizedLayout_Setting {
+            get {
+                return ResourceManager.GetString("AuthorizedLayout_Setting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 返回首页 的本地化字符串。
         /// </summary>
         public static string BackToHome_Text {
