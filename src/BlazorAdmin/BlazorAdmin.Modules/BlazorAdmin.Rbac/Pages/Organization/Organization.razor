@@ -31,6 +31,8 @@
                             <MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.Name</MudText>
                                 <div class="identify" style="display:none;">@context.Id</div>
                             <MudSpacer />
+                            <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Groups3"
+                                           Color="Color.Inherit" OnClick="()=>EditMemberClick(context.Id)"></MudIconButton>
                             @if (_accessService.CheckHasElementRights("OrganizationUpdateBtn").Result)
                             {
                                 <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Edit"
@@ -69,6 +71,107 @@
                             </div>
                         </EditForm>
                     </div>
+            }
+
+            @if (MemberVisible)
+            {
+                <div class="pa-4">
+                    <MudText Typo="Typo.h6" Class="mb-1">
+                        @(EditModel.Name)的成员管理
+                    </MudText>
+                    <MudTable Class="mb-4" Items="@OrganizationMembers" Hover="true"
+                              Breakpoint="Breakpoint.Sm" Outlined="true" Elevation="0"
+                              LoadingProgressColor="Color.Info" Dense="true" FixedHeader="true" Virtualize="true"
+                              Height="calc(100vh - 350px)">
+                        <ColGroup>
+                            <col style="min-width:100px;width:100px;max-width:100px;" />
+                            <col style="min-width:100px;width:100px;max-width:100px;" />
+                            <col style="min-width:150px;" />
+                            <col style="min-width:110px;width:110px;max-width:110px;" />
+                        </ColGroup>
+                        <HeaderContent>
+                            <MudTh>
+                                @Loc["UserPage_TableH1"]
+                            </MudTh>
+                            <MudTh>
+                                @Loc["UserPage_TableH2"]
+                            </MudTh>
+                            <MudTh>
+                                @Loc["UserPage_TableH3"]
+                            </MudTh>
+                            <MudTh>
+                                @Loc["UserPage_TableH5"]
+                            </MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="@Loc["UserPage_TableH1"]">
+                                @(OrganizationMembers.IndexOf(context) + 1)
+                            </MudTd>
+                            <MudTd DataLabel="@Loc["UserPage_TableH2"]">
+                                @if (context.IsLeader)
+                                {
+                                    <MudBadge Icon="@Icons.Material.Filled.ManageAccounts"
+                                              Color="Color.Primary" Overlap="true" Bordered="true">
+                                        @if (string.IsNullOrEmpty(context.MemberAvatar))
+                                        {
+                                            <MudAvatar Color="Color.Primary">
+                                                @context.MemberName?.First()
+                                            </MudAvatar>
+                                        }
+                                        else
+                                        {
+                                            <MudAvatar>
+                                                <MudImage Src="@("Avatars/" + context.MemberAvatar)">
+                                                </MudImage>
+                                            </MudAvatar>
+                                        }
+                                    </MudBadge>
+                                }
+                                else
+                                {
+                                    @if (string.IsNullOrEmpty(context.MemberAvatar))
+                                    {
+                                        <MudAvatar Color="Color.Primary">
+                                            @context.MemberName?.First()
+                                        </MudAvatar>
+                                    }
+                                    else
+                                    {
+                                        <MudAvatar>
+                                            <MudImage Src="@("Avatars/" + context.MemberAvatar)">
+                                            </MudImage>
+                                        </MudAvatar>
+                                    }
+                                }
+                            </MudTd>
+                            <MudTd DataLabel="@Loc["UserPage_TableH3"]">
+                                @context.MemberName
+                            </MudTd>
+                            <MudTd DataLabel="@Loc["UserPage_TableH5"]">
+                                <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Delete" Color="Color.Primary"
+                                               OnClick="() => RemoveMember(context.MemberId)" Class="mr-2" />
+
+                                @if (context.IsLeader)
+                                {
+                                    <MudTooltip Text="设为普通成员" Color="Color.Primary">
+                                        <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Person" Color="Color.Primary"
+                                                       OnClick="()=>MakeNormal(context.MemberId)"></MudIconButton>
+                                    </MudTooltip>
+                                }
+                                else
+                                {
+                                    <MudTooltip Text="设为负责人" Color="Color.Primary">
+                                        <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.ManageAccounts" Color="Color.Primary"
+                                                       OnClick="()=>MakeLeader(context.MemberId)"></MudIconButton>
+                                    </MudTooltip>
+                                }
+                            </MudTd>
+                        </RowTemplate>
+                    </MudTable>
+                    <MudButton FullWidth Variant="Variant.Outlined" OnClick="AddNewMember">
+                         <MudIcon Icon="@Icons.Material.Filled.Add"></MudIcon>
+                     </MudButton>
+                 </div>
             }
         </div>
 

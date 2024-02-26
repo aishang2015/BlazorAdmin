@@ -4,7 +4,8 @@
 
 <PageHeader Title="@Loc["LoginLogPage_Title"]">
     <div style="width:200px" class="mr-2">
-        <MudTextField @bind-Value="SearchedLoginName" Label="@Loc["LoginLogPage_TableH2"]" Clearable="true"></MudTextField>
+        <MudTextField @bind-Value="SearchedLoginName" Label="@Loc["LoginLogPage_TableH2"]" Clearable="true"
+                      Margin="Margin.Dense" Variant="Variant.Text"></MudTextField>
     </div>
     <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="InitialAsync"
                    Variant="Variant.Text" Color="Color.Primary"></MudIconButton>

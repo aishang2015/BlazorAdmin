@@ -220,7 +220,9 @@ namespace BlazorAdmin.Rbac.Pages.Organization
                                        MemberAvatar = user.Avatar,
                                        MemberName = user.RealName,
                                        IsLeader = ou.IsLeader
-                                   }).ToList();
+                                   })
+                                   .OrderByDescending(m => m.IsLeader)
+                                   .ToList();
         }
 
         private async Task RemoveMember(int userId)
@@ -306,6 +308,8 @@ namespace BlazorAdmin.Rbac.Pages.Organization
 
         private record Member
         {
+            public int Number { get; set; }
+
             public int MemberId { get; set; }
 
             public string MemberName { get; set; } = null!;

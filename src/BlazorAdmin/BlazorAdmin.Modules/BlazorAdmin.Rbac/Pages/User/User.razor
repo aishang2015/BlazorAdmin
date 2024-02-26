@@ -55,8 +55,8 @@
         <MudTd DataLabel="@Loc["UserPage_TableH3"]">@context.Name</MudTd>
             <MudTd DataLabel="@Loc["UserPage_TableH6"]">@context.RealName</MudTd>
             <MudTd DataLabel="@Loc["UserPage_TableH4"]">
-                <MudSwitch Checked="@context.IsEnabled" Disabled="@(!_accessService.CheckHasElementRights("UserActiveBtn").Result)" T="bool"
-                           CheckedChanged="v => ChangeUserActive(context.Id, v)" Color="Color.Primary">
+                <MudSwitch Value="@context.IsEnabled" Disabled="@(!_accessService.CheckHasElementRights("UserActiveBtn").Result)" T="bool"
+                           ValueChanged="v => ChangeUserActive(context.Id, v)" Color="Color.Primary">
                 </MudSwitch>
             </MudTd>
             <MudTd DataLabel="@Loc["UserPage_TableH5"]">

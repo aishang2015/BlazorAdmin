@@ -1,13 +1,14 @@
 ﻿<div class="d-flex flex-column">
 	<MudTextField Value="SelectedMenuName" Placeholder="@Loc["MenuPage_UpMenuSelectTitle"]" Variant="Variant.Outlined"
-				  Margin="Margin.Dense" @onfocus="ElementFocused" @onblur="MouseBlur" Label="@Loc["MenuPage_UpMenuSelectTitle"]" />
+				  Margin="Margin.Dense" @onfocus="ElementFocused" @onblur="MouseBlur" Label="@Loc["MenuPage_UpMenuSelectTitle"]"
+				  Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Clear"
+				  OnAdornmentClick="CleanSelected" IconSize="Size.Small" />
 	<MudPopover Open="@_popoverOpen" Fixed="true" Class="pa-4" tabindex="-1"
 				RelativeWidth="true" @onmouseenter="MouseEnterPopover" @onmouseleave="MouseLeavePopover" @onblur="MouseBlur">
 		<div class="d-flex align-center">
 
 			<MudText Typo="Typo.subtitle1">@Loc["MenuPage_UpMenuTitleText"]</MudText>
 			<MudSpacer />
-			<MudButton StartIcon="@Icons.Material.Filled.CleanHands" OnClick="CleanSelected">@Loc["MenuPage_ClearBtnText"]</MudButton>
 		</div>
 		<MudDivider />
 		<div style="max-height:400px;overflow:auto;">

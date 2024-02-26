@@ -5,11 +5,11 @@
 
 <PageHeader Title="@Loc["AuditLogPage_Title"]">
     <div style="width:140px" class="mr-2">
-        <MudTextField Label="@Loc["AuditLogPage_TableH2"]" Clearable
+        <MudTextField Label="@Loc["AuditLogPage_TableH2"]" Clearable Margin="Margin.Dense"
                        @bind-Value="InputTransaction"></MudTextField>
      </div>
      <div style="width:140px" class="mr-2">
-         <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH3"]"
+         <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH3"]" Margin="Margin.Dense"
                     AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedUser" Clearable>
             @foreach (var o in Operators)
             {
@@ -18,7 +18,7 @@
         </MudSelect>
     </div>
     <div style="width:140px" class="mr-2">
-        <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH4"]"
+        <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH4"]" Margin="Margin.Dense"
                    AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedOperateTarget" Clearable>
             @foreach (var o in OperateTargets)
             {
@@ -27,7 +27,7 @@
         </MudSelect>
     </div>
     <div style="width:140px" class="mr-2">
-        <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH5"]"
+        <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH5"]" Margin="Margin.Dense"
                    AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedOperation" Clearable>
             <MudSelectItem Value="@("2")">
                 @Loc["AuditLogPage_OperationDelete"]

@@ -1,29 +1,32 @@
 ﻿<div class="d-flex flex-column">
-	<MudTextField Value="SelectedMenuName" Placeholder="@_loc["OrganizationTreeSelect_Title"]" Variant="Variant.Outlined"
-				  Margin="Margin.Dense" @onfocus="ElementFocused" @onblur="MouseBlur" Label="@_loc["OrganizationTreeSelect_Title"]" />
-	<MudPopover Open="@_popoverOpen" Fixed="true" Class="pa-4" tabindex="-1"
-				RelativeWidth="true" @onmouseenter="MouseEnterPopover" @onmouseleave="MouseLeavePopover" @onblur="MouseBlur">
-		<div class="d-flex align-center">
+    <MudTextField Value="SelectedMenuName" Placeholder="@_loc["OrganizationTreeSelect_Title"]" Variant="Variant.Outlined"
+                  Margin="Margin.Dense" @onfocus="ElementFocused" @onblur="MouseBlur" Label="@_loc["OrganizationTreeSelect_Title"]"
+                  Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Clear"
+                  OnAdornmentClick="CleanSelected" IconSize="Size.Small" />
+    <MudPopover Open="@_popoverOpen" Fixed="true" Class="pa-4" tabindex="-1"
+                RelativeWidth="true" @onmouseenter="MouseEnterPopover" @onmouseleave="MouseLeavePopover" @onblur="MouseBlur">
+        <div class="d-flex align-center">
 
-			<MudText Typo="Typo.subtitle1">@_loc["OrganizationTreeSelect_TitleText"]</MudText>
-				<MudSpacer />
-				<MudButton StartIcon="@Icons.Material.Filled.CleanHands" OnClick="CleanSelected">@_loc["OrganizationTreeSelect_ClearBtnText"]</MudButton>
-			</div>
-			<MudDivider />
-			<div style="max-height:400px;overflow:auto;">
-				<MudTreeView T="OrganizationItem" Items="@OrganizationItems" Hover="true" 
-						SelectedValueChanged="SelectedTreeItemChanged">
-					<ItemTemplate>
-						<MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.Childs" Value="context">
-							<Content>
-								<MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="context.Childs.Count > 0" />
-								<MudIcon Icon="@Icons.Material.Outlined.AccountTree" Class="mr-2"></MudIcon>
-								<MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.Name</MudText>
-								<MudSpacer />
-							</Content>
-						</MudTreeViewItem>
-					</ItemTemplate>
-				</MudTreeView>
-			</div>
-		</MudPopover>
-	</div>
+            <MudText Typo="Typo.subtitle1">
+                @_loc["OrganizationTreeSelect_TitleText"]
+            </MudText>
+            <MudSpacer />
+        </div>
+        <MudDivider />
+        <div style="max-height:400px;overflow:auto;">
+            <MudTreeView T="OrganizationItem" Items="@OrganizationItems" Hover="true"
+                         SelectedValueChanged="SelectedTreeItemChanged">
+                <ItemTemplate>
+                    <MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.Childs" Value="context">
+                        <Content>
+                            <MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="context.Childs.Count > 0" />
+                            <MudIcon Icon="@Icons.Material.Outlined.AccountTree" Class="mr-2"></MudIcon>
+                            <MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.Name</MudText>
+                                <MudSpacer />
+                            </Content>
+                        </MudTreeViewItem>
+                    </ItemTemplate>
+                </MudTreeView>
+            </div>
+        </MudPopover>
+    </div>
