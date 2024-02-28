@@ -1,10 +1,4 @@
-﻿
-using BlazorAdmin.About.Client.Pages;
-using BlazorAdmin.Im.Components;
-using BlazorAdmin.Log.Pages.AuditLog;
-using BlazorAdmin.Rbac.Pages.User;
-using BlazorAdmin.Setting.Pages.Setting;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace BlazorAdmin.Web.Components
 {
@@ -12,11 +6,11 @@ namespace BlazorAdmin.Web.Components
     {
         public static List<Assembly> AdditionalAssemblies = new List<Assembly>()
         {
-            typeof(User).Assembly,
-            typeof(AuditLog).Assembly,
-            typeof(SettingPage).Assembly,
-            typeof(Chat).Assembly,
-            typeof(AboutPage).Assembly,
+            typeof(Rbac._Imports).Assembly,
+            typeof(Log._Imports).Assembly,
+            typeof(Setting._Imports).Assembly,
+            typeof(Im._Imports).Assembly,
+            typeof(About.Client._Imports).Assembly,
         };
     }
 }

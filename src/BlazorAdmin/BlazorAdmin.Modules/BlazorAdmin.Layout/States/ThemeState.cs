@@ -4,7 +4,7 @@ using Microsoft.JSInterop;
 using MudBlazor;
 using MudBlazor.Utilities;
 
-namespace BlazorAdmin.Web.Data.States
+namespace BlazorAdmin.Layout.States
 {
     public class ThemeState
     {

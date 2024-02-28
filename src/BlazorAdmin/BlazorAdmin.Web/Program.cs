@@ -9,7 +9,6 @@ using BlazorAdmin.Im.Backgrounds;
 using BlazorAdmin.Im.Events;
 using BlazorAdmin.Layout.States;
 using BlazorAdmin.Web.Components;
-using BlazorAdmin.Web.Data.States;
 using Cropper.Blazor.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
