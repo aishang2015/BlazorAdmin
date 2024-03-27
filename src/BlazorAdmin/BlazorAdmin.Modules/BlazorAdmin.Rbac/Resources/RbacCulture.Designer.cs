@@ -277,7 +277,7 @@ namespace BlazorAdmin.Rbac.Resources {
         }
         
         /// <summary>
-        ///   查找类似 输入关键字进行搜素 的本地化字符串。
+        ///   查找类似 输入关键字进行搜索 的本地化字符串。
         /// </summary>
         public static string RolePage_SearchKeywordPlaceholder {
             get {
@@ -489,6 +489,15 @@ namespace BlazorAdmin.Rbac.Resources {
         public static string UserPage_TableH6 {
             get {
                 return ResourceManager.GetString("UserPage_TableH6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色 的本地化字符串。
+        /// </summary>
+        public static string UserPage_TableH7 {
+            get {
+                return ResourceManager.GetString("UserPage_TableH7", resourceCulture);
             }
         }
         

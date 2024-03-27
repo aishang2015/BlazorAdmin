@@ -261,6 +261,9 @@
   <data name="UserPage_TableH6" xml:space="preserve">
     <value>RealName</value>
   </data>
+  <data name="UserPage_TableH7" xml:space="preserve">
+    <value>Role</value>
+  </data>
   <data name="UserPage_Title" xml:space="preserve">
     <value>User</value>
   </data>

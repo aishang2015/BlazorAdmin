@@ -17,73 +17,67 @@
         </MudIconButton>
     }
 </PageHeader>
-<MudTable Class="mb-4" Items="@Users" Hover="true" Breakpoint="Breakpoint.Sm" Outlined="true" Elevation="0"
-          LoadingProgressColor="Color.Info" Dense="true" FixedHeader="true" Virtualize="true" Height="calc(100vh - 280px)">
-    <ColGroup>
-        <col style="min-width:100px;width:100px;max-width:100px;" />
-        <col style="min-width:100px;width:100px;max-width:100px;" />
-        <col style="min-width:150px;" />
-        <col style="min-width:150px;" />
-        <col style="min-width:150px;" />
-        <col style="min-width:100px;width:100px;max-width:100px;" />
-    </ColGroup>
-    <HeaderContent>
-        <MudTh>@Loc["UserPage_TableH1"]</MudTh>
-            <MudTh>@Loc["UserPage_TableH2"]</MudTh>
-            <MudTh>@Loc["UserPage_TableH3"]</MudTh>
-            <MudTh>@Loc["UserPage_TableH6"]</MudTh>
-            <MudTh>@Loc["UserPage_TableH4"]</MudTh>
-            <MudTh>@Loc["UserPage_TableH5"]</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd DataLabel="@Loc["UserPage_TableH1"]">@context.Number</MudTd>
-            <MudTd DataLabel="@Loc["UserPage_TableH2"]">
-                @if (string.IsNullOrEmpty(context.Avatar))
+<PageDataGrid T="UserModel" ServerData="GetTableData" @ref="dataGrid">
+    <PropertyColumn T="UserModel" TProperty="int" Property="x => x.Number" Title="@Loc["UserPage_TableH1"]" StickyLeft="true"
+                    HeaderStyle="white-space:nowrap" CellStyle="width:40px;text-align:center;" />
+    <TemplateColumn T="UserModel" Title="@Loc["UserPage_TableH2"]" HeaderStyle="white-space:nowrap;min-width:80px;width:80px;">
+        <CellTemplate>
+            @if (string.IsNullOrEmpty(context.Item.Avatar))
             {
                 <MudAvatar Color="Color.Primary">
-                    @context.RealName?.First()
+                    @context.Item.RealName?.First()
                 </MudAvatar>
             }
             else
             {
                 <MudAvatar>
-                    <MudImage Src="@("Avatars/" + context.Avatar)">
+                    <MudImage Src="@("Avatars/" + context.Item.Avatar)">
                     </MudImage>
                 </MudAvatar>
             }
-        </MudTd>
-        <MudTd DataLabel="@Loc["UserPage_TableH3"]">@context.Name</MudTd>
-            <MudTd DataLabel="@Loc["UserPage_TableH6"]">@context.RealName</MudTd>
-            <MudTd DataLabel="@Loc["UserPage_TableH4"]">
-                <MudSwitch Value="@context.IsEnabled" Disabled="@(!_accessService.CheckHasElementRights("UserActiveBtn").Result)" T="bool"
-                           ValueChanged="v => ChangeUserActive(context.Id, v)" Color="Color.Primary">
-                </MudSwitch>
-            </MudTd>
-            <MudTd DataLabel="@Loc["UserPage_TableH5"]">
-                <MudStack Row>
-                @if (_accessService.CheckHasElementRights("UserUpdateBtn").Result)
-                {
-                    <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary"
-                                   OnClick="() => EditUserClick(context.Id)" />
-                }
-                @if (_accessService.CheckHasElementRights("UserPwdChangeBtn").Result)
-                {
-                    <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Key" Color="Color.Secondary"
-                                   OnClick="() => ChangePasswordClick(context.Id)" />
-                }
-                @if (_accessService.CheckHasElementRights("UserRoleSettingBtn").Result)
-                {
-                    <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.LockPerson" Color="Color.Tertiary"
-                                   OnClick="() => SetUserRoleClick(context.Id)" />
-                }
-                @if (_accessService.CheckHasElementRights("UserDeleteBtn").Result)
-                {
-                    <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Delete" Color="Color.Error"
-                                   OnClick="() => DeleteUserClick(context.Id)" />
-                }
-            </MudStack>
-        </MudTd>
-    </RowTemplate>
-</MudTable>
+        </CellTemplate>
+    </TemplateColumn>
+    <PropertyColumn T="UserModel" TProperty="string" Property="x => x.Name" Title="@Loc["UserPage_TableH3"]" HeaderStyle="white-space:nowrap" />
+    <PropertyColumn T="UserModel" TProperty="string" Property="x => x.RealName" Title="@Loc["UserPage_TableH6"]" HeaderStyle="white-space:nowrap" />
+    <TemplateColumn T="UserModel" Title="@Loc["UserPage_TableH7"]" HeaderStyle="white-space:nowrap">
+        <CellTemplate>
+            @foreach (var role in context.Item.Roles)
+            {
+                <MudChip Size="MudBlazor.Size.Medium" Color="Color.Primary" Variant="Variant.Outlined">@role</MudChip>
+            }
+        </CellTemplate>
+    </TemplateColumn>
+    <TemplateColumn T="UserModel" Title="@Loc["UserPage_TableH4"]" HeaderStyle="white-space:nowrap;min-width:80px;width:80px;">
+        <CellTemplate>
+            <MudSwitch Value="@context.Item.IsEnabled" Disabled="@(!_accessService.CheckHasElementRights("UserActiveBtn").Result)" T="bool"
+                       ValueChanged="v => ChangeUserActive(context.Item.Id, v)" Color="Color.Primary">
+            </MudSwitch>
+        </CellTemplate>
+    </TemplateColumn>
+    <TemplateColumn T="UserModel" Title="@Loc["UserPage_TableH5"]" HeaderStyle="white-space:nowrap;min-width:140px;width:140px;" StickyRight="true">
+        <CellTemplate>
+            @if (_accessService.CheckHasElementRights("UserUpdateBtn").Result)
+            {
+                <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary"
+                               OnClick="() => EditUserClick(context.Item.Id)" />
+            }
+            @if (_accessService.CheckHasElementRights("UserPwdChangeBtn").Result)
+            {
+                <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Key" Color="Color.Secondary"
+                               OnClick="() => ChangePasswordClick(context.Item.Id)" />
+            }
+            @if (_accessService.CheckHasElementRights("UserRoleSettingBtn").Result)
+            {
+                <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.LockPerson" Color="Color.Tertiary"
+                               OnClick="() => SetUserRoleClick(context.Item.Id)" />
+            }
+            @if (_accessService.CheckHasElementRights("UserDeleteBtn").Result)
+            {
+                <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Delete" Color="Color.Error"
+                               OnClick="() => DeleteUserClick(context.Item.Id)" />
+            }
+        </CellTemplate>
+    </TemplateColumn>
+</PageDataGrid>
 
 <PagePagination Page="@Page" Size="@Size" Total="@Total" PageChangedClick="PageChangedClick"></PagePagination>

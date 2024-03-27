@@ -1,5 +1,7 @@
 ﻿using BlazorAdmin.Component.Dialogs;
+using BlazorAdmin.Component.Pages;
 using BlazorAdmin.Rbac.Pages.User.Dialogs;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 
@@ -17,10 +19,19 @@ namespace BlazorAdmin.Rbac.Pages.User
 
         private string? SearchText;
 
+        private PageDataGrid<UserModel> dataGrid = null!;
+
         protected override async Task OnInitializedAsync()
         {
             await InitialData();
         }
+
+        private async Task<GridData<UserModel>> GetTableData(GridState<UserModel> gridState)
+        {
+            await InitialData();
+            return new GridData<UserModel>() { TotalItems = Users.Count, Items = Users };
+        }
+
 
         private async Task InitialData()
         {
@@ -39,13 +50,18 @@ namespace BlazorAdmin.Rbac.Pages.User
                     Avatar = p.Avatar,
                     Name = p.Name,
                     RealName = p.RealName,
-                    IsEnabled = p.IsEnabled
+                    IsEnabled = p.IsEnabled,
                 }).ToListAsync();
             Total = await query.CountAsync();
+
+            var roles = (from r in context.Roles
+                         join ur in context.UserRoles on r.Id equals ur.RoleId
+                         select new { r.Name, ur.UserId }).ToList();
 
             foreach (var user in Users)
             {
                 user.Number = (Page - 1) * Size + Users.IndexOf(user) + 1;
+                user.Roles = roles.Where(r => r.UserId == user.Id).Select(r => r.Name).ToList();
             }
         }
 
@@ -154,6 +170,8 @@ namespace BlazorAdmin.Rbac.Pages.User
             public string? RealName { get; set; }
 
             public bool IsEnabled { get; set; }
+
+            public List<string> Roles { get; set; } = new();
         }
     }
 }

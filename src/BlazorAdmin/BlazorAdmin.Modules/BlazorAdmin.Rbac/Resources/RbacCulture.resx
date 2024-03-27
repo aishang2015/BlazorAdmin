@@ -190,7 +190,7 @@
     <value>编辑该角色</value>
   </data>
   <data name="RolePage_SearchKeywordPlaceholder" xml:space="preserve">
-    <value>输入关键字进行搜素</value>
+    <value>输入关键字进行搜索</value>
   </data>
   <data name="RolePage_SetRoleMenuTitle" xml:space="preserve">
     <value>设置角色菜单</value>
@@ -260,6 +260,9 @@
   </data>
   <data name="UserPage_TableH6" xml:space="preserve">
     <value>姓名</value>
+  </data>
+  <data name="UserPage_TableH7" xml:space="preserve">
+    <value>角色</value>
   </data>
   <data name="UserPage_Title" xml:space="preserve">
     <value>用户</value>
