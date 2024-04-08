@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
 
-namespace BlazorAdmin.Core.Chat
+namespace BlazorAdmin.Im.Core
 {
     public class ChatHub : Hub<IChatClient>
     {

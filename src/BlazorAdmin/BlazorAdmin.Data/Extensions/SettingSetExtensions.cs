@@ -1,7 +1,7 @@
 ﻿using BlazorAdmin.Data.Entities.Setting;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlazorAdmin.Core.Data
+namespace BlazorAdmin.Data.Extensions
 {
     public static class SettingSetExtensions
     {

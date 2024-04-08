@@ -6,6 +6,7 @@ namespace BlazorAdmin.Web.Components
     {
         public static List<Assembly> AdditionalAssemblies = new List<Assembly>()
         {
+            typeof(BlazorAdmin.Layout._Imports).Assembly,
             typeof(Rbac._Imports).Assembly,
             typeof(Log._Imports).Assembly,
             typeof(Setting._Imports).Assembly,

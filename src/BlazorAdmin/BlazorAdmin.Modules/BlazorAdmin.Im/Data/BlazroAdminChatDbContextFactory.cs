@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace BlazorAdmin.Core.Data
+namespace BlazorAdmin.Im.Data
 {
     public class BlazroAdminChatDbContextFactory
     {

@@ -1,4 +1,6 @@
-﻿namespace BlazorAdmin.Core.Chat
+﻿using BlazorAdmin.Core.Chat;
+
+namespace BlazorAdmin.Im.Core
 {
     public interface IChatClient
     {

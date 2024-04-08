@@ -1,6 +1,7 @@
 ﻿using BlazorAdmin.Core.Chat;
 using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Data.Constants;
+using BlazorAdmin.Im.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;

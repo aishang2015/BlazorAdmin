@@ -1,12 +1,12 @@
 using BlazorAdmin.Core.Auth;
 using BlazorAdmin.Core.Chat;
-using BlazorAdmin.Core.Data;
 using BlazorAdmin.Core.Helper;
+using BlazorAdmin.Core.Modules;
 using BlazorAdmin.Core.Services;
 using BlazorAdmin.Data;
 using BlazorAdmin.Data.Constants;
-using BlazorAdmin.Im.Backgrounds;
-using BlazorAdmin.Im.Events;
+using BlazorAdmin.Data.Extensions;
+using BlazorAdmin.Im.Core;
 using BlazorAdmin.Layout.States;
 using BlazorAdmin.Web.Components;
 using Cropper.Blazor.Extensions;
@@ -31,6 +31,18 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
     .ReadFrom.Services(services)
     .WriteTo.Console());
 
+// 从AdditionalAssemblies中取得IModule接口的实现类
+var types = Routes.AdditionalAssemblies.SelectMany(a => a.GetTypes()).Where(t => t.IsClass && t.GetInterface(nameof(IModule)) != null).ToList();
+var moduleList = new List<IModule>();
+foreach (var type in types)
+{
+    var module = Activator.CreateInstance(type) as IModule;
+    if (module is not null)
+    {
+        moduleList.Add(module);
+    }
+}
+
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
@@ -52,8 +64,6 @@ builder.Services.AddMudServices(config =>
 builder.Services.AddMudMarkdownServices();
 builder.Services.AddCropper();
 
-builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, BlazorAuthorizationMiddlewareResultHandler>();
-
 var dbDirectory = Path.Combine(AppContext.BaseDirectory, "DB");
 if (!Directory.Exists(dbDirectory))
 {
@@ -65,12 +75,10 @@ builder.Services.AddDbContextFactory<BlazorAdminDbContext>(b =>
 {
     b.UseSqlite(builder.Configuration.GetConnectionString("Rbac"));
 }, ServiceLifetime.Scoped);
-builder.Services.AddSingleton<BlazroAdminChatDbContextFactory>();
-builder.Services.AddHostedService<SendMessageBackgroundService>();
 
-builder.Services.AddSingleton<MessageSender>();
 
 // custom auth state provider
+builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, BlazorAuthorizationMiddlewareResultHandler>();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthStateProvider>();
 builder.Services.AddScoped<ExternalAuthService>();
@@ -113,13 +121,6 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<IAccessService, AccessService>();
 
-// some state
-builder.Services.AddScoped<ThemeState>();
-builder.Services.AddScoped<LayoutState>();
-
-// event helper
-builder.Services.AddScoped<EventHelper<UpdateNoReadCountEvent>>();
-
 // locallization
 builder.Services.AddLocalization();
 
@@ -131,6 +132,7 @@ builder.Services.AddScoped<JwtHelper>();
 
 builder.Services.AddControllers();
 
+moduleList.ForEach(m => m.Add(builder.Services));
 
 var app = builder.Build();
 
@@ -175,7 +177,7 @@ app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(Routes.AdditionalAssemblies.ToArray()); // rcl的page无法在浏览器上直接route https://github.com/dotnet/aspnetcore/issues/49313
 
-app.MapHub<ChatHub>(ChatHub.ChatHubUrl);
+moduleList.ForEach(m => m.Use(app));
 
 app.Run();
 

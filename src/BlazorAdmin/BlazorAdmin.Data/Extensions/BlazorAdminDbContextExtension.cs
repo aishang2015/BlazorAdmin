@@ -1,14 +1,13 @@
-﻿using BlazorAdmin.Core.Helper;
-using BlazorAdmin.Data;
-using BlazorAdmin.Data.Constants;
+﻿using BlazorAdmin.Data.Constants;
 using BlazorAdmin.Data.Entities.Rbac;
 using BlazorAdmin.Data.Entities.Setting;
 using MudBlazor;
 using System.Security.Cryptography;
+using System.Text;
 using Role = BlazorAdmin.Data.Entities.Rbac.Role;
 using User = BlazorAdmin.Data.Entities.Rbac.User;
 
-namespace BlazorAdmin.Core.Data
+namespace BlazorAdmin.Data.Extensions
 {
     public static class BlazorAdminDbContextExtension
     {
@@ -95,7 +94,7 @@ namespace BlazorAdmin.Core.Data
                 {
                     Name = "SystemNotification",
                     IsEnabled = true,
-                    PasswordHash = HashHelper.HashPassword("SystemNotification"),
+                    PasswordHash = HashPassword("SystemNotification"),
                     RealName = "系统通知",
                     IsSpecial = true
                 });
@@ -104,7 +103,7 @@ namespace BlazorAdmin.Core.Data
                 {
                     Name = "BlazorAdmin",
                     IsEnabled = true,
-                    PasswordHash = HashHelper.HashPassword("BlazorAdmin"),
+                    PasswordHash = HashPassword("BlazorAdmin"),
                     RealName = "BlazorAdmin"
                 });
                 dbContext.SaveChanges();
@@ -126,7 +125,15 @@ namespace BlazorAdmin.Core.Data
                 tran.Commit();
             }
         }
-
+        public static string HashPassword(string password)
+        {
+            var salt = new byte[16];
+            RandomNumberGenerator.Create().GetBytes(salt);
+            using var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000, HashAlgorithmName.SHA256);
+            var saltString = Convert.ToBase64String(salt);
+            var hashString = Convert.ToBase64String(pbkdf2.GetBytes(32));
+            return $"{saltString}:{hashString}";
+        }
 
     }
 }

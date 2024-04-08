@@ -1,5 +1,5 @@
-﻿using BlazorAdmin.Core.Data;
-using BlazorAdmin.Data.Constants;
+﻿using BlazorAdmin.Data.Constants;
+using BlazorAdmin.Data.Extensions;
 using BlazorAdmin.Setting.Pages.Setting.Dialogs;
 using MudBlazor;
 using System.Security.Cryptography;
