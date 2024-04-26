@@ -126,7 +126,7 @@ namespace BlazorAdmin.Layout.Components.NavTabs
                 userTabSetting.Value = JsonSerializer.Serialize(_userTabs);
                 context.UserSettings.Update(userTabSetting);
             }
-            await context.SaveChangesAsync();
+            context.SaveChanges();
         }
 
 

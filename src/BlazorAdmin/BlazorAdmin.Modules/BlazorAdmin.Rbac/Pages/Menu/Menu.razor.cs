@@ -86,7 +86,7 @@ namespace BlazorAdmin.Rbac.Pages.Menu
                 menu.Type = MenuEditModel.Type;
             }
 
-            await context.AuditSaveChangesAsync();
+            await context.SaveChangesAsync();
             await InitialMenuTree();
             _snackbarService.Add("保存成功！", Severity.Success);
             EditVisible = false;
@@ -210,7 +210,7 @@ namespace BlazorAdmin.Rbac.Pages.Menu
                     }
                 }
                 menu.Order = newIndex + 1;
-                await context.AuditSaveChangesAsync();
+                await context.SaveChangesAsync();
             }
         }
 

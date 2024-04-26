@@ -62,7 +62,7 @@ namespace BlazorAdmin.Rbac.Pages.Role.Dialogs
                     MenuId = id
                 });
             context.RoleMenus.AddRange(addMenuIds);
-            await context.AuditSaveChangesAsync();
+            await context.SaveChangesAsync();
 
             _snackbarService.Add("提交成功！", Severity.Success);
             MudDialog?.Close(DialogResult.Ok(true));

@@ -19,7 +19,7 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
             if (user != null)
             {
                 user.PasswordHash = HashHelper.HashPassword(PasswordModel.Password!);
-                await context.AuditSaveChangesAsync();
+                await context.SaveChangesAsync();
                 _snackbarService.Add("密码修改成功！", Severity.Success);
                 MudDialog?.Close(DialogResult.Ok(true));
             }

@@ -30,7 +30,7 @@ namespace BlazorAdmin.Rbac.Pages.Role.Dialogs
                 Name = RoleModel.RoleName,
                 IsEnabled = true
             });
-            await context.AuditSaveChangesAsync();
+            await context.SaveChangesAsync();
             _snackbarService.Add("创建成功！", Severity.Success);
             MudDialog?.Close(DialogResult.Ok(true));
         }

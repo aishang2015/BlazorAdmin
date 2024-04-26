@@ -6,11 +6,11 @@
 <PageHeader Title="@Loc["AuditLogPage_Title"]">
     <div style="width:140px" class="mr-2">
         <MudTextField Label="@Loc["AuditLogPage_TableH2"]" Clearable Margin="Margin.Dense"
-                       @bind-Value="InputTransaction"></MudTextField>
-     </div>
-     <div style="width:140px" class="mr-2">
-         <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH3"]" Margin="Margin.Dense"
-                    AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedUser" Clearable>
+                      @bind-Value="InputTransaction"></MudTextField>
+    </div>
+    <div style="width:140px" class="mr-2">
+        <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH3"]" Margin="Margin.Dense"
+                   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedUser" Clearable>
             @foreach (var o in Operators)
             {
                 <MudSelectItem Value="@o.Id.ToString()">@o.UserName</MudSelectItem>
@@ -47,18 +47,19 @@
 <PageDataGrid T="AuditLogModel" ServerData="GetTableData" @ref="dataGrid">
     <PropertyColumn T="AuditLogModel" TProperty="int" Property="x => x.Number" Title="@Loc["AuditLogPage_TableH1"]" StickyLeft="true"
                     HeaderStyle="white-space:nowrap" CellStyle="width:40px;text-align:center;" />
-    <PropertyColumn T="AuditLogModel" TProperty="Guid" Property="x => x.TransactionId" Title="@Loc["AuditLogPage_TableH2"]" CellStyle="white-space:nowrap" />
+    <PropertyColumn T="AuditLogModel" TProperty="Guid" Property="x => x.TransactionId" Title="@Loc["AuditLogPage_TableH2"]"
+                    CellStyle="white-space:nowrap" HeaderStyle="max-width:310px;min-width:310px;" />
     <PropertyColumn T="AuditLogModel" TProperty="string" Property="x => x.UserName" Title="@Loc["AuditLogPage_TableH3"]" CellStyle="white-space:nowrap" />
     <PropertyColumn T="AuditLogModel" TProperty="string" Property="x => x.EntityName" Title="@Loc["AuditLogPage_TableH4"]" HeaderStyle="white-space:nowrap" />
     <TemplateColumn T="AuditLogModel" Title="@Loc["AuditLogPage_TableH5"]" HeaderStyle="white-space:nowrap">
         <CellTemplate>
             @if (context.Item.Operation == 2)
             {
-                <MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["AuditLogPage_OperationDelete"]</MudChip>
+                <MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Error">@Loc["AuditLogPage_OperationDelete"]</MudChip>
             }
             else if (context.Item.Operation == 3)
             {
-                <MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["AuditLogPage_OperationModify"]</MudChip>
+                <MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Warning">@Loc["AuditLogPage_OperationModify"]</MudChip>
             }
             else if (context.Item.Operation == 4)
             {

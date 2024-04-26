@@ -50,7 +50,7 @@ namespace BlazorAdmin.Setting.Pages.Setting.Com
             dbContext.Settings.SetSettingValue(JwtConstant.JwtExpireMinute, JwtConfigModel.ExpireMinutes.ToString());
             dbContext.Settings.SetSettingValue(JwtConstant.JwtSigningRsaPrivateKey, JwtConfigModel.RsaPrivateKey);
             dbContext.Settings.SetSettingValue(JwtConstant.JwtSigningRsaPublicKey, JwtConfigModel.RsaPublicKey);
-            await dbContext.AuditSaveChangesAsync();
+            await dbContext.SaveChangesAsync();
 
             _snackbarService.Add("保存成功！", Severity.Success);
         }

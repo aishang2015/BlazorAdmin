@@ -55,7 +55,7 @@ namespace BlazorAdmin.Data
 
         public DbSet<ChatMessage> ChatMessages { get; set; }
 
-        public async Task AuditSaveChangesAsync()
+        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             var pppp = _provider.GetRequiredService<AuthenticationStateProvider>();
             var user = await pppp.GetAuthenticationStateAsync();
@@ -76,7 +76,7 @@ namespace BlazorAdmin.Data
                     {
                         Id = logId,
                         TransactionId = transactionId,
-                        OperateTime = DateTime.UtcNow,
+                        OperateTime = DateTime.Now,
                         EntityName = entry.Metadata.Name,
                         Operation = (int)entry.State,
                         UserId = userId
@@ -130,7 +130,7 @@ namespace BlazorAdmin.Data
                     }
                 }
             }
-            await SaveChangesAsync();
+            return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
     }
 }

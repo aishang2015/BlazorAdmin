@@ -74,7 +74,7 @@ namespace BlazorAdmin.Rbac.Pages.Organization
                     }
                 }
                 organization.Order = newIndex + 1;
-                await context.AuditSaveChangesAsync();
+                await context.SaveChangesAsync();
             }
         }
 
@@ -127,7 +127,7 @@ namespace BlazorAdmin.Rbac.Pages.Organization
                 organization.ParentId = EditModel.ParentId;
             }
 
-            await context.AuditSaveChangesAsync();
+            await context.SaveChangesAsync();
             await InitialOrganizationTree();
             _snackbarService.Add("保存成功！", Severity.Success);
             EditVisible = false;

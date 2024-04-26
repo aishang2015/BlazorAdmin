@@ -97,7 +97,7 @@ namespace BlazorAdmin.Rbac.Pages.User
                     var urs = context.UserRoles.Where(ur => ur.UserId == userId);
                     context.UserRoles.RemoveRange(urs);
 
-                    await context.AuditSaveChangesAsync();
+                    await context.SaveChangesAsync();
 
                     _snackbarService.Add("删除成功！", Severity.Success);
                 }
@@ -151,7 +151,7 @@ namespace BlazorAdmin.Rbac.Pages.User
             if (user != null)
             {
                 user.IsEnabled = isEnabled;
-                await context.AuditSaveChangesAsync();
+                await context.SaveChangesAsync();
                 _snackbarService.Add(Loc["UserPage_StatusChangedMessage"], Severity.Success);
                 Users.FirstOrDefault(u => u.Id == userId)!.IsEnabled = isEnabled;
             }

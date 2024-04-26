@@ -232,7 +232,7 @@
     <value>修改用户密码</value>
   </data>
   <data name="UserPage_SearchKeywordPlaceholder" xml:space="preserve">
-    <value>输入关键字进行搜素</value>
+    <value>输入关键字进行搜索</value>
   </data>
   <data name="UserPage_SetUserRoleTitle" xml:space="preserve">
     <value>设置用户角色</value>
