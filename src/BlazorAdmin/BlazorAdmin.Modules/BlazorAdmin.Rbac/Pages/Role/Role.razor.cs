@@ -1,4 +1,5 @@
 ﻿using BlazorAdmin.Component.Dialogs;
+using BlazorAdmin.Component.Pages;
 using BlazorAdmin.Rbac.Pages.Role.Dialogs;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
@@ -15,12 +16,11 @@ namespace BlazorAdmin.Rbac.Pages.Role
 
         private string? SearchText;
 
+        private MudDataGrid<RoleModel> dataGridRef = null!;
+
         private List<RoleModel> Roles = new();
 
-        protected override async Task OnInitializedAsync()
-        {
-            await InitialData();
-        }
+        private PageDataGridOne PageDataGridOne = new();
 
         private async Task InitialData()
         {
@@ -43,6 +43,12 @@ namespace BlazorAdmin.Rbac.Pages.Role
             {
                 role.Number = (Page - 1) * Size + Roles.IndexOf(role) + 1;
             }
+        }
+
+        private async Task<GridData<RoleModel>> GetTableData(GridState<RoleModel> gridState)
+        {
+            await InitialData();
+            return new GridData<RoleModel>() { TotalItems = Total, Items = Roles };
         }
 
         private async Task ChangeRoleActive(int roleId, bool isEnabled)
@@ -133,10 +139,10 @@ namespace BlazorAdmin.Rbac.Pages.Role
             }
         }
 
-        private async void PageChangedClick(int page)
+        private async Task PageChangedClick(int page)
         {
             Page = page;
-            await InitialData();
+            await dataGridRef.ReloadServerData();
         }
 
         private class RoleModel

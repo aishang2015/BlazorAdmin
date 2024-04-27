@@ -16,49 +16,42 @@
     }
 </PageHeader>
 
-<MudTable Class="mb-4" Items="@Roles" Hover="true" Breakpoint="Breakpoint.Sm" Outlined="true" Elevation="0"
-          LoadingProgressColor="Color.Info" Dense="true" FixedHeader="true" Virtualize="true" Height="calc(100vh - 280px)">
-    <ColGroup>
-        <col style="min-width:100px;width:100px;max-width:100px;" />
-        <col style="min-width:150px;" />
-        <col style="min-width:150px;" />
-        <col style="min-width:100px;width:100px;max-width:100px;" />
-    </ColGroup>
-    <HeaderContent>
-        <MudTh>@Loc["RolePage_TableH1"]</MudTh>
-            <MudTh>@Loc["RolePage_TableH2"]</MudTh>
-            <MudTh>@Loc["RolePage_TableH3"]</MudTh>
-            <MudTh>@Loc["RolePage_TableH4"]</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd DataLabel="@Loc["RolePage_TableH1"]">@context.Number</MudTd>
-            <MudTd DataLabel="@Loc["RolePage_TableH2"]">@context.Name</MudTd>
-            <MudTd DataLabel="@Loc["RolePage_TableH3"]">
-                <MudSwitch Checked="@context.IsEnabled" T="bool" Disabled="@(!_accessService.CheckHasElementRights("RoleActiveBtn").Result)"
-                           CheckedChanged="v=>ChangeRoleActive(context.Id,v)" Color="Color.Primary">
+<MudDataGrid Dense=PageDataGridOne.Dense Filterable=PageDataGridOne.Filterable ColumnResizeMode=PageDataGridOne.ColumnResizeMode
+             SortMode=PageDataGridOne.SortMode Groupable=PageDataGridOne.Groupable Virtualize=PageDataGridOne.Virtualize
+             FixedHeader=PageDataGridOne.FixedHeader Elevation=PageDataGridOne.Elevation Outlined=PageDataGridOne.Outlined
+             Height=PageDataGridOne.Height ServerData="GetTableData" @ref="dataGridRef" T="RoleModel">
+    <Columns>
+        <PropertyColumn Title="@Loc["RolePage_TableH1"]" Property="x=>x.Number" HeaderStyle="white-space:nowrap;width:40px;" StickyLeft="true" Resizable="false" />
+        <PropertyColumn Title="@Loc["RolePage_TableH2"]" Property="x=>x.Name" HeaderStyle="white-space:nowrap;" />
+        <TemplateColumn Title="@Loc["RolePage_TableH3"]" HeaderStyle="white-space:nowrap">
+            <CellTemplate>
+                <MudSwitch Value="@context.Item.IsEnabled" T="bool" Disabled="@(!_accessService.CheckHasElementRights("RoleActiveBtn").Result)"
+                           ValueChanged="v=>ChangeRoleActive(context.Item.Id,v)" Color="Color.Primary">
                 </MudSwitch>
-            </MudTd>
-            <MudTd DataLabel="@Loc["RolePage_TableH4"]">
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn Title="@Loc["RolePage_TableH4"]" HeaderStyle="white-space:nowrap;width:150px;" StickyRight="true" Resizable="false">
+            <CellTemplate>
                 <MudStack Row>
-                @if (_accessService.CheckHasElementRights("RoleDeleteBtn").Result)
-                {
-                    <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Delete" Color="Color.Error"
-                                   OnClick="()=>DeleteRoleClick(context.Id)" />
-                }
-                @if (_accessService.CheckHasElementRights("RoleUpdateBtn").Result)
-                {
-                    <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary"
-                                   OnClick="()=>EditRoleClick(context.Id)" />
-                }
-                @if (_accessService.CheckHasElementRights("RoleMenuBtn").Result)
-                {
-                    <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Menu" Color="Color.Tertiary"
-                                   OnClick="()=>SetRoleMenuClick(context.Id)" />
-                }
-            </MudStack>
-        </MudTd>
-    </RowTemplate>
-</MudTable>
-
+                    @if (_accessService.CheckHasElementRights("RoleDeleteBtn").Result)
+                    {
+                        <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Delete" Color="Color.Error"
+                                       OnClick="()=>DeleteRoleClick(context.Item.Id)" />
+                    }
+                    @if (_accessService.CheckHasElementRights("RoleUpdateBtn").Result)
+                    {
+                        <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary"
+                                       OnClick="()=>EditRoleClick(context.Item.Id)" />
+                    }
+                    @if (_accessService.CheckHasElementRights("RoleMenuBtn").Result)
+                    {
+                        <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Menu" Color="Color.Tertiary"
+                                       OnClick="()=>SetRoleMenuClick(context.Item.Id)" />
+                    }
+                </MudStack>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
 
 <PagePagination Page="@Page" Size="@Size" Total="@Total" PageChangedClick="PageChangedClick"></PagePagination>

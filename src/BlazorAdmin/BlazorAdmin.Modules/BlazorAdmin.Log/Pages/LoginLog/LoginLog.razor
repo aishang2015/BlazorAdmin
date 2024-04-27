@@ -13,13 +13,13 @@
 
 <PageDataGrid T="LoginLogModel" ServerData="GetTableData" @ref="dataGrid">
     <PropertyColumn T="LoginLogModel" TProperty="int" Property="x => x.Number" Title="@Loc["LoginLogPage_TableH1"]" StickyLeft="true"
-                    HeaderStyle="white-space:nowrap" CellStyle="width:40px;text-align:center;" />
+                    HeaderStyle="white-space:nowrap;width:40px;"  Resizable="false" />
     <PropertyColumn T="LoginLogModel" TProperty="string" Property="x => x.UserName" Title="@Loc["LoginLogPage_TableH2"]"
-                    HeaderStyle="white-space:nowrap" CellStyle="min-width:150px;" />
+                    HeaderStyle="white-space:nowrap" />
     <PropertyColumn T="LoginLogModel" TProperty="DateTime" Property="x => x.Time" Title="@Loc["LoginLogPage_TableH3"]"
-                    HeaderStyle="white-space:nowrap" CellStyle="min-width:200px;" />
+                    HeaderStyle="white-space:nowrap" CellStyle="white-space:nowrap"  />
     <PropertyColumn T="LoginLogModel" TProperty="string" Property="x => x.Ip" Title="@Loc["LoginLogPage_TableH4"]"
-                    HeaderStyle="white-space:nowrap" CellStyle="min-width:200px;" />
+                    HeaderStyle="white-space:nowrap"  />
     <TemplateColumn T="LoginLogModel" Title="@Loc["LoginLogPage_TableH5"]" HeaderStyle="white-space:nowrap">
         <CellTemplate>
             @if (context.Item.IsSuccessd)
@@ -32,8 +32,8 @@
             }
         </CellTemplate>
     </TemplateColumn>
-    <PropertyColumn T="LoginLogModel" TProperty="string" Property="x => x.Agent" Title="@Loc["LoginLogPage_TableH6"]"
-                    HeaderStyle="white-space:nowrap" CellStyle="max-width:150px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" />
+    <PropertyColumn T="LoginLogModel" TProperty="string" Property="x => x.Agent" Title="@Loc["LoginLogPage_TableH6"]" Resizable="false"
+                    HeaderStyle="white-space:nowrap;width:250px;" CellStyle="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" />
 </PageDataGrid>
 
 <PagePagination Page="@Page" Size="@Size" Total="@Total" PageChangedClick="PageChangedClick"></PagePagination>

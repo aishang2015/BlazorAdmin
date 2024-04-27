@@ -19,12 +19,10 @@ namespace BlazorAdmin.Rbac.Pages.User
 
         private string? SearchText;
 
-        private PageDataGrid<UserModel> dataGrid = null!;
+        private MudDataGrid<UserModel> dataGrid = null!;
 
-        protected override async Task OnInitializedAsync()
-        {
-            await InitialData();
-        }
+        private PageDataGridOne PageDataGridOne = new();
+
 
         private async Task<GridData<UserModel>> GetTableData(GridState<UserModel> gridState)
         {
@@ -65,7 +63,7 @@ namespace BlazorAdmin.Rbac.Pages.User
             }
         }
 
-        private async void PageChangedClick(int page)
+        private async Task PageChangedClick(int page)
         {
             Page = page;
             await InitialData();

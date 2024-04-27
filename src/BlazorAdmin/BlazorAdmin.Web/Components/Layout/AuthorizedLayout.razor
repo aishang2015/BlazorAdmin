@@ -14,12 +14,14 @@
     <MudText Typo="Typo.h5" Class="ml-3">BlazorAdmin</MudText>
     <MudSpacer />
 
-    <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.Start" Href="https://github.com/aishang2015/BlazorAdmin" />
+    <div class="d-none d-md-flex">
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.Start" Href="https://github.com/aishang2015/BlazorAdmin" />
+        <CultureIcon />
+        <DarkToggleButton />
+        <PrimaryChangeButton />
+        <Chat></Chat>
+    </div>
 
-    <CultureIcon />
-    <DarkToggleButton />
-    <PrimaryChangeButton />
-    <Chat></Chat>
     <UserMenuAvatar />
 </MudAppBar>
 
@@ -33,3 +35,5 @@
         </MudPaper>
     </div>
 </MudMainContent>
+
+
