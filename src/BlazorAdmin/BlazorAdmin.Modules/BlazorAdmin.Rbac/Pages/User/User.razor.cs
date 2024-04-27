@@ -155,6 +155,14 @@ namespace BlazorAdmin.Rbac.Pages.User
             }
         }
 
+
+        private void SearchReset()
+        {
+            SearchText = "";
+            Page = 1;
+            dataGrid.ReloadServerData();
+        }
+
         private class UserModel
         {
             public int Id { get; set; }

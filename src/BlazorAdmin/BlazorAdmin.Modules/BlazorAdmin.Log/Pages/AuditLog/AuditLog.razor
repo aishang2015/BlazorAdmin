@@ -43,6 +43,10 @@
     </div>
     <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="@(()=>dataGrid.ReloadServerData())"
                    Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+    <MudTooltip Text="重置搜索">
+        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.SearchOff" OnClick="SearchReset"
+                       Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+    </MudTooltip>
 </PageHeader>
 
 <PageDataGrid T="AuditLogModel" ServerData="GetTableData" @ref="dataGrid">
@@ -50,7 +54,7 @@
                     HeaderStyle="white-space:nowrap;width:50px;" />
     <PropertyColumn T="AuditLogModel" TProperty="Guid" Property="x => x.TransactionId" Title="@Loc["AuditLogPage_TableH2"]"
                     HeaderStyle="white-space:nowrap;" />
-    <PropertyColumn T="AuditLogModel" TProperty="string" Property="x => x.UserName" Title="@Loc["AuditLogPage_TableH3"]"/>
+    <PropertyColumn T="AuditLogModel" TProperty="string" Property="x => x.UserName" Title="@Loc["AuditLogPage_TableH3"]" />
     <PropertyColumn T="AuditLogModel" TProperty="string" Property="x => x.EntityName" Title="@Loc["AuditLogPage_TableH4"]" HeaderStyle="white-space:nowrap" />
     <TemplateColumn T="AuditLogModel" Title="@Loc["AuditLogPage_TableH5"]" HeaderStyle="white-space:nowrap">
         <CellTemplate>
@@ -68,7 +72,7 @@
             }
         </CellTemplate>
     </TemplateColumn>
-    <PropertyColumn T="AuditLogModel" TProperty="DateTime" Property="x => x.OperateTime" Title="@Loc["AuditLogPage_TableH6"]"  />
+    <PropertyColumn T="AuditLogModel" TProperty="DateTime" Property="x => x.OperateTime" Title="@Loc["AuditLogPage_TableH6"]" />
     <TemplateColumn T="AuditLogModel" Title="@Loc["AuditLogPage_TableH7"]" StickyRight="true" CellStyle="text-align:center;" HeaderStyle="white-space:nowrap;width:50px;" Resizable="false">
         <CellTemplate>
             <MudIconButton Size="@MudBlazor.Size.Small" Icon="@IconsConstant.Database" Color="Color.Primary"

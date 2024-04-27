@@ -108,9 +108,19 @@ namespace BlazorAdmin.Log.Pages.AuditLog
             await _dialogService.Show<AuditLogDetailDialog>(string.Empty, parameters, options).Result;
         }
 
-        private async void PageChangedClick(int page)
+        private void PageChangedClick(int page)
         {
             Page = page;
+            dataGrid.ReloadServerData();
+        }
+
+        private void SearchReset()
+        {
+            InputTransaction = null;
+            SelectedUser = null;
+            SelectedOperateTarget = null;
+            SelectedOperation = null;
+            Page = 1;
             dataGrid.ReloadServerData();
         }
 

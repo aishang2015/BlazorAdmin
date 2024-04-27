@@ -7,8 +7,12 @@
     <div style="width:300px">
         <MudTextField T="string" @bind-Value="SearchText" Margin="Margin.Dense" Placeholder="@Loc["RolePage_SearchKeywordPlaceholder"]"></MudTextField>
     </div>
-    <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="InitialData"
+    <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="()=>dataGridRef.ReloadServerData()"
                    Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+    <MudTooltip Text="重置搜索">
+        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.SearchOff" OnClick="SearchReset"
+                       Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+    </MudTooltip>
     @if (_accessService.CheckHasElementRights("RoleAddBtn").Result)
     {
         <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" OnClick="AddRoleClick"

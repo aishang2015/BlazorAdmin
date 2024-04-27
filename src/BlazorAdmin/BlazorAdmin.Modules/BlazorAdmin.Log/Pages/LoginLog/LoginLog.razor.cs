@@ -57,6 +57,13 @@ namespace BlazorAdmin.Log.Pages.LoginLog
             return new GridData<LoginLogModel>() { TotalItems = Total, Items = LoginLogs };
         }
 
+        private void SearchReset()
+        {
+            SearchedLoginName = null;
+            Page = 1;
+            dataGrid.ReloadServerData();
+        }
+
         private class LoginLogModel
         {
             public int Id { get; set; }

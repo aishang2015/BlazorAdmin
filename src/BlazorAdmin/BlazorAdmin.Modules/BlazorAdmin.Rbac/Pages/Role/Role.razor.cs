@@ -145,6 +145,13 @@ namespace BlazorAdmin.Rbac.Pages.Role
             await dataGridRef.ReloadServerData();
         }
 
+        private void SearchReset()
+        {
+            SearchText = null;
+            Page = 1;
+            dataGridRef.ReloadServerData();
+        }
+
         private class RoleModel
         {
             public int Id { get; set; }
