@@ -4,8 +4,19 @@
 @attribute [StreamRendering]
 
 <PageHeader Title="@Loc["UserPage_Title"]">
-    <div style="width:300px">
-        <MudTextField T="string" @bind-Value="SearchText" Margin="Margin.Dense" Placeholder="@Loc["UserPage_SearchKeywordPlaceholder"]"></MudTextField>
+    <div style="width:140px" class="mr-2">
+        <MudTextField T="string" @bind-Value="SearchText" Margin="Margin.Dense" Placeholder="@Loc["UserPage_SearchName"]"></MudTextField>
+    </div>
+    <div style="width:140px" class="mr-2">
+        <MudTextField T="string" @bind-Value="SearchRealName" Margin="Margin.Dense" Placeholder="@Loc["UserPage_SearchRealName"]"></MudTextField>
+    </div>
+    <div style="width:140px" class="mr-2">
+        <MudSelect T="string" @bind-Value="SearchRole" Margin="Margin.Dense" Placeholder="@Loc["UserPage_SearchRole"]">
+            @foreach (var r in RoleList)
+            {
+                <MudSelectItem Value="@r.Id.ToString()">@r.Name</MudSelectItem>
+            }
+        </MudSelect>
     </div>
     <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="()=>{ dataGrid.ReloadServerData(); }"
                    Variant="Variant.Text" Color="Color.Primary">

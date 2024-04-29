@@ -234,6 +234,15 @@
   <data name="UserPage_SearchKeywordPlaceholder" xml:space="preserve">
     <value>输入关键字进行搜索</value>
   </data>
+  <data name="UserPage_SearchName" xml:space="preserve">
+    <value>请输入用户名</value>
+  </data>
+  <data name="UserPage_SearchRealName" xml:space="preserve">
+    <value>请输入姓名</value>
+  </data>
+  <data name="UserPage_SearchRole" xml:space="preserve">
+    <value>请选择角色</value>
+  </data>
   <data name="UserPage_SetUserRoleTitle" xml:space="preserve">
     <value>设置用户角色</value>
   </data>

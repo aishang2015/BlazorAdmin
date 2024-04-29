@@ -234,6 +234,15 @@
   <data name="UserPage_SearchKeywordPlaceholder" xml:space="preserve">
     <value>Enter keywords to search</value>
   </data>
+  <data name="UserPage_SearchName" xml:space="preserve">
+    <value>Input user name</value>
+  </data>
+  <data name="UserPage_SearchRealName" xml:space="preserve">
+    <value>Input real name</value>
+  </data>
+  <data name="UserPage_SearchRole" xml:space="preserve">
+    <value>Select user role</value>
+  </data>
   <data name="UserPage_SetUserRoleTitle" xml:space="preserve">
     <value>Set role</value>
   </data>

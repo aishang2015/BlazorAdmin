@@ -412,6 +412,33 @@ namespace BlazorAdmin.Rbac.Resources {
         }
         
         /// <summary>
+        ///   查找类似 请输入用户名 的本地化字符串。
+        /// </summary>
+        public static string UserPage_SearchName {
+            get {
+                return ResourceManager.GetString("UserPage_SearchName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入姓名 的本地化字符串。
+        /// </summary>
+        public static string UserPage_SearchRealName {
+            get {
+                return ResourceManager.GetString("UserPage_SearchRealName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请选择角色 的本地化字符串。
+        /// </summary>
+        public static string UserPage_SearchRole {
+            get {
+                return ResourceManager.GetString("UserPage_SearchRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 设置用户角色 的本地化字符串。
         /// </summary>
         public static string UserPage_SetUserRoleTitle {

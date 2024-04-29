@@ -19,9 +19,22 @@ namespace BlazorAdmin.Rbac.Pages.User
 
         private string? SearchText;
 
+        private string? SearchRealName;
+
+        private string? SearchRole;
+
         private MudDataGrid<UserModel> dataGrid = null!;
 
         private PageDataGridOne PageDataGridOne = new();
+
+        private List<Data.Entities.Rbac.Role> RoleList = new();
+
+        protected override async Task OnInitializedAsync()
+        {
+            await base.OnInitializedAsync();
+            using var context = await _dbFactory.CreateDbContextAsync();
+            RoleList = context.Roles.AsNoTracking().ToList();
+        }
 
 
         private async Task<GridData<UserModel>> GetTableData(GridState<UserModel> gridState)
@@ -35,10 +48,26 @@ namespace BlazorAdmin.Rbac.Pages.User
         {
             using var context = await _dbFactory.CreateDbContextAsync();
 
+            var searchedUserIdList = new List<int>();
+            if (!string.IsNullOrEmpty(SearchRole))
+            {
+                var role = int.Parse(SearchRole);
+                searchedUserIdList = context.UserRoles.Where(ur => ur.RoleId == role)
+                    .Select(ur => ur.UserId).Distinct().ToList();
+            }
+
             IQueryable<Data.Entities.Rbac.User> query = context.Users.Where(u => !u.IsDeleted && !u.IsSpecial);
             if (!string.IsNullOrEmpty(SearchText))
             {
                 query = query.Where(u => u.Name.Contains(SearchText));
+            }
+            if (!string.IsNullOrEmpty(SearchRealName))
+            {
+                query = query.Where(u => u.RealName.Contains(SearchRealName));
+            }
+            if (searchedUserIdList.Count > 0)
+            {
+                query = query.Where(u => searchedUserIdList.Contains(u.Id));
             }
 
             Users = await query.Skip((Page - 1) * Size).Take(Size)
@@ -159,6 +188,8 @@ namespace BlazorAdmin.Rbac.Pages.User
         private void SearchReset()
         {
             SearchText = "";
+            SearchRole = "";
+            SearchRealName = "";
             Page = 1;
             dataGrid.ReloadServerData();
         }
