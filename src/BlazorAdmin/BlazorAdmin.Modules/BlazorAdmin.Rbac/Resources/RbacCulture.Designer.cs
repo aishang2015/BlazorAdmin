@@ -277,7 +277,7 @@ namespace BlazorAdmin.Rbac.Resources {
         }
         
         /// <summary>
-        ///   查找类似 输入关键字进行搜索 的本地化字符串。
+        ///   查找类似 请输入名称 的本地化字符串。
         /// </summary>
         public static string RolePage_SearchKeywordPlaceholder {
             get {

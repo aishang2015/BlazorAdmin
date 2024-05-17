@@ -160,7 +160,7 @@
     <value>PageElement</value>
   </data>
   <data name="MenuPage_SearchIconPlaceholder" xml:space="preserve">
-    <value>Please enter the keyword</value>
+    <value>Input the name</value>
   </data>
   <data name="MenuPage_SubmitButtonText" xml:space="preserve">
     <value>Submit</value>

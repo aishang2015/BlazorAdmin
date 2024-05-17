@@ -4,7 +4,7 @@
 @attribute [StreamRendering]
 
 <PageHeader Title="@Loc["RolePage_Title"]">
-    <div style="width:300px">
+    <div style="width:140px">
         <MudTextField T="string" @bind-Value="SearchText" Margin="Margin.Dense" Placeholder="@Loc["RolePage_SearchKeywordPlaceholder"]"></MudTextField>
     </div>
     <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="()=>dataGridRef.ReloadServerData()"
