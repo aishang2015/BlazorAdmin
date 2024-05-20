@@ -1,6 +1,6 @@
 ﻿@implements IAsyncDisposable
 @using BlazorAdmin.Im.Components.Messages
-<MudDialog DisableSidePadding>
+<MudDialog >
     <DialogContent>
         <div id="chat-title" class="px-4">
             <MudText Typo="Typo.h5">
@@ -22,7 +22,7 @@
                 <MudDivider Class="flex-none my-2"></MudDivider>
                 <div class="flex-1" style="overflow:auto">
                     <MudList SelectedValue="_selectedValue" SelectedValueChanged="SelectedChannelChanged"
-                             @bind-SelectedItem="_selectedItem" Clickable DisablePadding>
+                             T="ChannelModel" @bind-Value="_selectedItem" ReadOnly="false" Padding="false">
                         <Virtualize Items="@Channels" Context="context">
                             <MudListItem Value="@context" Dense="true">
                                 <div class="d-flex align-center">

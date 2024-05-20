@@ -5,7 +5,7 @@
 <MudIconButton Style="margin-right:12px;" Icon="@Icons.Material.Filled.FormatColorFill" Color="Color.Inherit"
                Edge="Edge.Start" OnClick="()=>{visible=true;}" />
 
-<MudDialog @bind-IsVisible="visible" DisableSidePadding="true" Options="dialogOptions">
+<MudDialog @bind-Visible="visible" Gutters="false" Options="dialogOptions">
     <TitleContent>
         <MudText>
             @Loc["AuthorizedLayout_ColorPickerTitle"]

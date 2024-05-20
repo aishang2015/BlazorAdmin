@@ -60,15 +60,15 @@
         <CellTemplate>
             @if (context.Item.Operation == 2)
             {
-                <MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Error">@Loc["AuditLogPage_OperationDelete"]</MudChip>
+                <MudChip T="string" Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Error">@Loc["AuditLogPage_OperationDelete"]</MudChip>
             }
             else if (context.Item.Operation == 3)
             {
-                <MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Warning">@Loc["AuditLogPage_OperationModify"]</MudChip>
+                <MudChip T="string" Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Warning">@Loc["AuditLogPage_OperationModify"]</MudChip>
             }
             else if (context.Item.Operation == 4)
             {
-                <MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["AuditLogPage_OperationCreate"]</MudChip>
+                <MudChip T="string" Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["AuditLogPage_OperationCreate"]</MudChip>
             }
         </CellTemplate>
     </TemplateColumn>

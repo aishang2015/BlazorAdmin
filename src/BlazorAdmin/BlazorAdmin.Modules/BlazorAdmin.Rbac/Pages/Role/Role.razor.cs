@@ -71,7 +71,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
             var result = await _dialogService.Show<CreateRoleDialog>(Loc["RolePage_CreateNewTitle"], parameters, options).Result;
             if (!result.Canceled)
             {
-                await InitialData();
+                await dataGridRef.ReloadServerData();
             }
         }
 
@@ -107,7 +107,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
                         _snackbarService.Add("角色信息不存在！", Severity.Error);
                     }
 
-                    await InitialData();
+                    await dataGridRef.ReloadServerData();
                 });
         }
 
@@ -121,7 +121,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
             var result = await _dialogService.Show<UpdateRoleDialog>(Loc["RolePage_EditTitle"], parameters, options).Result;
             if (!result.Canceled)
             {
-                await InitialData();
+                await dataGridRef.ReloadServerData();
             }
         }
 
@@ -135,7 +135,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
             var result = await _dialogService.Show<RoleMenuDialog>(Loc["RolePage_SetRoleMenuTitle"], parameters, options).Result;
             if (!result.Canceled)
             {
-                await InitialData();
+                await dataGridRef.ReloadServerData();
             }
         }
 

@@ -90,6 +90,7 @@ namespace BlazorAdmin.Rbac.Pages.User
                 user.Number = (Page - 1) * Size + Users.IndexOf(user) + 1;
                 user.Roles = roles.Where(r => r.UserId == user.Id).Select(r => r.Name).ToList();
             }
+
         }
 
         private async Task PageChangedClick(int page)
@@ -105,7 +106,7 @@ namespace BlazorAdmin.Rbac.Pages.User
             var result = await _dialogService.Show<CreateUserDialog>(Loc["UserPage_CreateNewTitle"], parameters, options).Result;
             if (!result.Canceled)
             {
-                await InitialData();
+                await dataGrid.ReloadServerData();
             }
         }
 
@@ -132,7 +133,7 @@ namespace BlazorAdmin.Rbac.Pages.User
                 {
                     _snackbarService.Add("用户信息不存在！", Severity.Error);
                 }
-                await InitialData();
+                await dataGrid.ReloadServerData();
             });
         }
 
@@ -147,7 +148,7 @@ namespace BlazorAdmin.Rbac.Pages.User
             var result = await _dialogService.Show<UpdateUserDialog>(Loc["UserPage_EditTitle"], parameters, options).Result;
             if (!result.Canceled)
             {
-                await InitialData();
+                await dataGrid.ReloadServerData();
             }
         }
 
@@ -168,7 +169,11 @@ namespace BlazorAdmin.Rbac.Pages.User
                 {"UserId",userId }
             };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-            await _dialogService.Show<UserRoleDialog>(Loc["UserPage_SetUserRoleTitle"], parameters, options).Result;
+            var result = await _dialogService.Show<UserRoleDialog>(Loc["UserPage_SetUserRoleTitle"], parameters, options).Result;
+            if (!result.Canceled)
+            {
+                await dataGrid.ReloadServerData();
+            }
         }
 
         private async Task ChangeUserActive(int userId, bool isEnabled)

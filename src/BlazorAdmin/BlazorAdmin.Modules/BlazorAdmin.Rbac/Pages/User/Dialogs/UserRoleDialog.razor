@@ -4,7 +4,7 @@
 			<div class="d-flex flex-column" style="max-height:300px;overflow:auto;">
 				@foreach (var role in RoleList)
 				{
-					<MudCheckBox T="bool" @bind-Checked="CheckedDic[role.Id]" Color="Color.Primary">@role.Name</MudCheckBox>
+					<MudCheckBox T="bool" @bind-Value="CheckedDic[role.Id]" Color="Color.Primary">@role.Name</MudCheckBox>
 				}
 			</div>
 			<div class="mt-4 d-flex align-center">

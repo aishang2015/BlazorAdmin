@@ -8,12 +8,12 @@
         @if (_accessService.CheckHasElementRights("MenuAddBtn").Result)
         {
             <MudIconButton Class=" mr-2" Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Variant="Variant.Text"
-                       OnClick="AddMenuClick" Size="Size.Medium"></MudIconButton>
+                           OnClick="AddMenuClick" Size="Size.Medium"></MudIconButton>
         }
         @if (_accessService.CheckHasElementRights("MenuDeleteBtn").Result)
         {
             <MudIconButton Class=" mr-2" Color="Color.Primary" Icon="@Icons.Material.Filled.Remove" Variant="Variant.Text"
-                       OnClick="DeleteMenuClick" Size="Size.Medium" Disabled="SelectedMenuItem == null"></MudIconButton>
+                           OnClick="DeleteMenuClick" Size="Size.Medium" Disabled="SelectedMenuItem == null"></MudIconButton>
         }
     </PageHeader>
     <div class="flex-1 d-flex border rounded" style="overflow:auto;border-color:var(--mud-palette-lines-default)">
@@ -36,7 +36,7 @@
 
                                 }
                                 <MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.MenuName</MudText>
-                                    <div class="identify" style="display:none;">@context.Id</div>
+                                <div class="identify" style="display:none;">@context.Id</div>
                                 <MudSpacer />
                                 @if (_accessService.CheckHasElementRights("MenuUpdateBtn").Result)
                                 {
@@ -71,11 +71,11 @@
                         <MudTextField Class="mt-4" @bind-Value="MenuEditModel.Name" Variant="Variant.Outlined" Margin="Margin.Dense"
                                       Placeholder="@Loc["MenuPage_MenuNamePlaceHolder"]" For="@(() => MenuEditModel.Name)"
                                       UserAttributes="InputAttributes" Label="@Loc["MenuPage_MenuNameLablel"]"></MudTextField>
-                        <MudRadioGroup @bind-SelectedOption="MenuEditModel.Type">
-                            <MudRadio Option="1" Color="Color.Primary" Size="Size.Small">@Loc["MenuPage_MenuTypeRadioText1"]</MudRadio>
-                                <MudRadio Option="2" Color="Color.Primary" Size="Size.Small">@Loc["MenuPage_MenuTypeRadioText2"]</MudRadio>
-                            </MudRadioGroup>
-                            @if (MenuEditModel.Type == 1)
+                        <MudRadioGroup @bind-Value="MenuEditModel.Type" T="int">
+                            <MudRadio T="int" Value="1" Color="Color.Primary" Size="Size.Small">@Loc["MenuPage_MenuTypeRadioText1"]</MudRadio>
+                            <MudRadio T="int" Value="2" Color="Color.Primary" Size="Size.Small">@Loc["MenuPage_MenuTypeRadioText2"]</MudRadio>
+                        </MudRadioGroup>
+                        @if (MenuEditModel.Type == 1)
                         {
                             <MudTextField Class="mt-4" @bind-Value="MenuEditModel.Route" Variant="Variant.Outlined" Margin="Margin.Dense"
                                           Placeholder="@Loc["MenuPage_MenuRoutePlaceHolder"]" For="@(() => MenuEditModel.Route)" Label="@Loc["MenuPage_MenuRouteLabel"]"
@@ -92,11 +92,11 @@
                             <MudSpacer />
                             <MudButton Variant="Variant.Filled" Color="Color.Default" Class="mr-4"
                                        ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Cancel" OnClick="CancelClick">@Loc["MenuPage_CancelButtonText"]</MudButton>
-                                <MudButton Variant="Variant.Filled" Color="Color.Primary"
-                                           ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Upload">@Loc["MenuPage_SubmitButtonText"]</MudButton>
-                            </div>
-                        </EditForm>
-                    </div>
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                                       ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Upload">@Loc["MenuPage_SubmitButtonText"]</MudButton>
+                        </div>
+                    </EditForm>
+                </div>
             }
         </div>
     </div>

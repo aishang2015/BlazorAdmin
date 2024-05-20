@@ -76,7 +76,7 @@ namespace BlazorAdmin.Layout.Components.NavTabs
             StateHasChanged();
         }
 
-        private async Task TabClick(TabView tab)
+        private void TabClick(TabView tab)
         {
             _navManager.NavigateTo(tab.Route);
         }

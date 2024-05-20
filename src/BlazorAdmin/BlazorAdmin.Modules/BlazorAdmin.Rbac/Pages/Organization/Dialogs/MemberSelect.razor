@@ -5,7 +5,7 @@
                           OnDebounceIntervalElapsed="SearchTextChanged"></MudTextField>
             <MudPopover RelativeWidth="true" Open="@_isPopoverOpen" AnchorOrigin="Origin.BottomCenter"
                         TransformOrigin="Origin.TopCenter">
-                <MudList Clickable="true">
+                <MudList T="UserModel" Clickable="true">
                     @foreach (var user in _users)
                     {
                         <MudListItem>

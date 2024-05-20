@@ -5,19 +5,19 @@
                 <ItemTemplate>
                     <MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.Childs" Value="context">
                         <Content>
-                            <MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="context.Childs.Count > 0"/>
-                            <MudCheckBox Checked="@context.IsChecked" Dense="true" T="bool"
-                                         CheckedChanged="@((v) => CheckedChanged(v, context))">
+                            <MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="context.Childs.Count > 0" />
+                            <MudCheckBox Value="@context.IsChecked" Dense="true" T="bool"
+                                         ValueChanged="@((v) => CheckedChanged(v, context))">
                             </MudCheckBox>
                             <MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.MenuName</MudText>
-                            <MudSpacer/>
+                            <MudSpacer />
                         </Content>
                     </MudTreeViewItem>
                 </ItemTemplate>
             </MudTreeView>
 
             <div class=" d-flex">
-                <MudSpacer/>
+                <MudSpacer />
                 <MudButton Class="mt-2" StartIcon="@Icons.Material.Filled.Upload" FullWidth="false" Variant="Variant.Text" Color="Color.Primary"
                            OnClick="SubmitRoleMenu">
                     @Loc["RolePage_SubmitText"]

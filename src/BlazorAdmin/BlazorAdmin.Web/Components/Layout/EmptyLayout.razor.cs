@@ -14,7 +14,7 @@
             {
                 _themeState.IsDarkChangeEvent += StateHasChanged;
                 _themeState.ThemeChangeEvent += StateHasChanged;
-                await _themeState.LoadTheme();
+                _themeState.LoadTheme();
             }
         }
     }

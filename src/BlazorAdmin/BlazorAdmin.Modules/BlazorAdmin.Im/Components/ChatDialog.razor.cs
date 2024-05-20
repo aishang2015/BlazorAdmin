@@ -20,9 +20,9 @@ namespace BlazorAdmin.Im.Components
 
         private string _messageValue = string.Empty;
 
-        private object? _selectedValue;
+        private ChannelModel? _selectedValue;
 
-        private MudListItem? _selectedItem;
+        private MudListItem<ChannelModel>? _selectedItem;
 
         private List<ChannelModel> Channels = new List<ChannelModel>();
 
@@ -72,7 +72,7 @@ namespace BlazorAdmin.Im.Components
             });
         }
 
-        private async Task SelectedChannelChanged(object selectedValue)
+        private async Task SelectedChannelChanged(ChannelModel selectedValue)
         {
             _selectedValue = selectedValue;
             await InitialMessage();

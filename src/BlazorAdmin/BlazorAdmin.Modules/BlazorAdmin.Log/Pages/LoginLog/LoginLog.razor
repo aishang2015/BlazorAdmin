@@ -28,11 +28,11 @@
         <CellTemplate>
             @if (context.Item.IsSuccessd)
             {
-                <MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["LoginLogPage_LoginSuccess"]</MudChip>
+                <MudChip T="string" Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["LoginLogPage_LoginSuccess"]</MudChip>
             }
             else
             {
-                <MudChip Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Error">@Loc["LoginLogPage_LoginFail"]</MudChip>
+                <MudChip T="string" Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Error">@Loc["LoginLogPage_LoginFail"]</MudChip>
             }
         </CellTemplate>
     </TemplateColumn>

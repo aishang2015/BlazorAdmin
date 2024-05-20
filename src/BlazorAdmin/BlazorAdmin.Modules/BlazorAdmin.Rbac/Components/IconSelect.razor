@@ -20,7 +20,7 @@
 				</MudSelect>
 			</div>
 		</div>
-		<MudChipSet SelectedChip="SelectedType" SelectedChipChanged="SelectedTypeChanged" Filter="true"
+		<MudChipSet T="Type" SelectedValue="SelectedType" SelectedValueChanged="SelectedTypeChanged" Filter="true"
 					Mandatory="true" @onblur="MouseBlur">
 			@if (SelectIconGroup == "Material")
 			{

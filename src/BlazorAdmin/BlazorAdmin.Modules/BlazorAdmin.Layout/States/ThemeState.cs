@@ -37,7 +37,7 @@ namespace BlazorAdmin.Layout.States
                     Tertiary = "#594AE2",
                     Black = "#27272f",
                     Background = "#121212",                 // 整体背景色
-                    BackgroundGrey = "#202020",
+                    BackgroundGray = "#202020",
                     Surface = "#1f1f1f",                    // 表格等控件背景色
                     DrawerBackground = "#181818",
                     DrawerText = "rgba(255,255,255, 0.50)",
@@ -73,10 +73,10 @@ namespace BlazorAdmin.Layout.States
 
         private void UpdatePaletteColor(MudColor color)
         {
-            _theme.Palette.Primary = color;
-            _theme.Palette.PrimaryDarken = color.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
-            _theme.Palette.PrimaryLighten = color.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
-            _theme.Palette.AppbarBackground = color;
+            _theme.PaletteLight.Primary = color;
+            _theme.PaletteLight.PrimaryDarken = color.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
+            _theme.PaletteLight.PrimaryLighten = color.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
+            _theme.PaletteLight.AppbarBackground = color;
 
             _theme.PaletteDark.Primary = color;
             _theme.PaletteDark.PrimaryDarken = color.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
@@ -91,7 +91,7 @@ namespace BlazorAdmin.Layout.States
 
         public event Action? IsDarkChangeEvent;
 
-        public async Task LoadTheme()
+        public void LoadTheme()
         {
             IsDarkStateChanged();
             ThemeStateChanged();
@@ -114,7 +114,7 @@ namespace BlazorAdmin.Layout.States
         {
             get
             {
-                return _theme.Palette.Primary;
+                return _theme.PaletteLight.Primary;
             }
             set
             {
