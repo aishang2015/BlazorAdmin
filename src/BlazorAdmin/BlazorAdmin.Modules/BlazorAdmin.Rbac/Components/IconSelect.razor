@@ -20,8 +20,8 @@
 				</MudSelect>
 			</div>
 		</div>
-		<MudChipSet T="Type" SelectedValue="SelectedType" SelectedValueChanged="SelectedTypeChanged" Filter="true"
-					Mandatory="true" @onblur="MouseBlur">
+		<MudChipSet T="Type" SelectedValue="SelectedType" SelectedValueChanged="SelectedTypeChanged" CheckMark="true"
+					SelectionMode="SelectionMode.SingleSelection" @onblur="MouseBlur">
 			@if (SelectIconGroup == "Material")
 			{
 				@foreach (var type in MaterialIconTypes)

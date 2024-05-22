@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.Reflection;
+using static MudBlazor.CategoryTypes;
 
 namespace BlazorAdmin.Rbac.Components
 {
@@ -18,7 +19,7 @@ namespace BlazorAdmin.Rbac.Components
 
 		private List<VirtualizedIcon> FilterIconList = new();
 
-		public Type? SelectedType;
+		public Type? SelectedType = typeof(Icons.Material.Filled);
 
 		private string? SearchKeyWord;
 
@@ -40,6 +41,11 @@ namespace BlazorAdmin.Rbac.Components
 			typeof(Icons.Custom.Uncategorized),
 		};
 
+		protected override void OnInitialized()
+		{
+			base.OnInitialized();
+			GetIcons(SelectedType!);
+		}
 
 
 		protected override void OnParametersSet()
@@ -53,6 +59,15 @@ namespace BlazorAdmin.Rbac.Components
 		private void SelectIconGroupChanged(string group)
 		{
 			SelectIconGroup = group;
+			if (group == "Material")
+			{
+				SelectedType = MaterialIconTypes.FirstOrDefault();
+			}
+			else if (group == "Custom")
+			{
+				SelectedType = CustomIconTypes.FirstOrDefault();
+			}
+			GetIcons(SelectedType!);
 		}
 
 		private void SelectedTypeChanged(Type chip)
