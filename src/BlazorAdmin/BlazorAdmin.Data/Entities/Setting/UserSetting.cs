@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BlazorAdmin.Data.Entities.Setting
 {
+    [Table("SYSTEM_USER_SETTING")]
     [Comment("用户设置")]
     public class UserSetting
     {

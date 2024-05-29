@@ -1,5 +1,6 @@
 ﻿using BlazorAdmin.Data.Attributes;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorAdmin.Data.Entities.Chat
 {

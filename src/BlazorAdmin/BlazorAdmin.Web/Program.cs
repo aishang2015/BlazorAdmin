@@ -1,5 +1,6 @@
 using BlazorAdmin.Core.Auth;
 using BlazorAdmin.Core.Chat;
+using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Core.Modules;
 using BlazorAdmin.Core.Services;
@@ -71,11 +72,14 @@ if (!Directory.Exists(dbDirectory))
 }
 
 // dbcontext
+var dbConnectionString = builder.Configuration.GetConnectionString("Rbac")!;
 builder.Services.AddDbContextFactory<BlazorAdminDbContext>(b =>
 {
-    b.UseSqlite(builder.Configuration.GetConnectionString("Rbac"));
+    b.UseSqlite(dbConnectionString);
 }, ServiceLifetime.Scoped);
 
+// quartz
+builder.Services.AddQuartzService(dbConnectionString);
 
 // custom auth state provider
 builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, BlazorAuthorizationMiddlewareResultHandler>();
@@ -141,6 +145,7 @@ using var scope = app.Services.CreateScope();
 var dbContextFactory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<BlazorAdminDbContext>>();
 using var context = dbContextFactory.CreateDbContext();
 context.InitialData();
+QuartzExtension.InitialSqliteQuartzTable(dbConnectionString);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

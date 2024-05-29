@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorAdmin.Data.Entities.Rbac
 {
+    [Table("RBAC_ROLE_MENU")]
     [Comment("角色的菜单")]
     public class RoleMenu
     {

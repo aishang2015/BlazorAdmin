@@ -1,8 +1,10 @@
 ﻿using BlazorAdmin.Data.Attributes;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorAdmin.Data.Entities.Log
 {
+    [Table("LOG_AUDIT_DETAIL")]
     [Comment("审计日志详情")]
     [IgnoreAudit]
     [Index(nameof(AuditLogId))]

@@ -1,8 +1,10 @@
 ﻿using BlazorAdmin.Data.Attributes;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorAdmin.Data.Entities.Log
 {
+    [Table("LOG_LOGIN")]
     [Comment("登录日志")]
     [IgnoreAudit]
     public class LoginLog

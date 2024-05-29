@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorAdmin.Data.Entities.Log
 {
+    [Table("LOG_AUDIT")]
     [Comment("审计日志")]
     [IgnoreAudit]
     [Index(nameof(TransactionId))]

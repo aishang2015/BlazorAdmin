@@ -1,8 +1,10 @@
 ﻿using BlazorAdmin.Data.Attributes;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorAdmin.Data.Entities.Chat
 {
+    [Table("CHAT_CHANNEL_MEMBER")]
     [Comment("聊天成员")]
     [IgnoreAudit]
     [Index(nameof(ChatChannelId))]

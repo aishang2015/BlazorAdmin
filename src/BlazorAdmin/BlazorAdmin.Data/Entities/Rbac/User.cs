@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorAdmin.Data.Entities.Rbac
 {
+    [Table("RBAC_USER")]
     [Comment("用户")]
     public class User
     {

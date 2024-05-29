@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorAdmin.Data.Entities.Rbac
 {
+    [Table("RBAC_MENU")]
     [Comment("菜单")]
     public class Menu
     {
