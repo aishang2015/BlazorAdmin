@@ -1,4 +1,5 @@
-﻿using BlazorAdmin.Core.Extension;
+﻿using BlazorAdmin.Core.Auth;
+using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Data.Constants;
 using MudBlazor;
 using System.Text.Json;
@@ -17,10 +18,10 @@ namespace BlazorAdmin.Layout.Components.NavTabs
             base.OnInitialized();
             _layoutState.NavToEvent += async (i) => await NavigateTo(i);
 
-            var state = await _stateProvider.GetAuthenticationStateAsync();
+            var userId = await _stateProvider.GetUserIdAsync();
             using var context = await _dbFactory.CreateDbContextAsync();
             var userTabs = context.UserSettings
-                .FirstOrDefault(s => s.UserId == state.User.GetUserId() && s.Key == CommonConstant.UserTabs)
+                .FirstOrDefault(s => s.UserId == userId && s.Key == CommonConstant.UserTabs)
                 ?.Value;
             if (userTabs != null)
             {
@@ -108,15 +109,15 @@ namespace BlazorAdmin.Layout.Components.NavTabs
 
         private async Task SaveUserTabsAsync()
         {
-            var state = await _stateProvider.GetAuthenticationStateAsync();
+            var userId = await _stateProvider.GetUserIdAsync();
             using var context = await _dbFactory.CreateDbContextAsync();
             var userTabSetting = context.UserSettings
-                .FirstOrDefault(s => s.UserId == state.User.GetUserId() && s.Key == CommonConstant.UserTabs);
+                .FirstOrDefault(s => s.UserId == userId && s.Key == CommonConstant.UserTabs);
             if (userTabSetting == null)
             {
                 context.UserSettings.Add(new Data.Entities.Setting.UserSetting
                 {
-                    UserId = state.User.GetUserId(),
+                    UserId = userId,
                     Key = CommonConstant.UserTabs,
                     Value = JsonSerializer.Serialize(_userTabs)
                 });

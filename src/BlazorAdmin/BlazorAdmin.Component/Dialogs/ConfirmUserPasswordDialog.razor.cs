@@ -1,4 +1,5 @@
-﻿using BlazorAdmin.Core.Extension;
+﻿using BlazorAdmin.Core.Auth;
+using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Core.Resources;
 using Microsoft.AspNetCore.Components;
@@ -31,8 +32,8 @@ namespace BlazorAdmin.Component.Dialogs
             _isLoading = true;
             using var context = await _dbFactory.CreateDbContextAsync();
 
-            var userState = await AuthStateProvider!.GetAuthenticationStateAsync();
-            var user = context.Users.Find(userState.User.GetUserId());
+            var userId = await AuthStateProvider!.GetUserIdAsync();
+            var user = context.Users.Find(userId);
             if (user == null)
             {
                 _snackbarService.Add(_loc["NotFindUser"], Severity.Error);

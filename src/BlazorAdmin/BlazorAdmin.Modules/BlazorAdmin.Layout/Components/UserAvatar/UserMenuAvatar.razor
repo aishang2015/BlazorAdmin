@@ -18,7 +18,7 @@
             </MudAvatar>
         }
     </ActivatorContent>
-    <ChildContent >
+    <ChildContent>
         <MudContainer Class="d-flex flex-column pa-1" Style="width:180px;">
             <MudContainer Class="d-flex flex-column align-center justify-center my-3">
                 <MudText Typo="Typo.subtitle1" Style="max-width:160px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
@@ -59,9 +59,9 @@
         }
         else
         {
-            var user = await _stateProvider.GetAuthenticationStateAsync();
+            var userId = await _stateProvider.GetUserIdAsync();
             using var context = await _dbFactory.CreateDbContextAsync();
-            var userInfo = context.Users.Find(user.User.GetUserId());
+            var userInfo = context.Users.Find(userId);
             _userName = userInfo.RealName;
             _avatar = userInfo.Avatar;
         }
@@ -74,8 +74,8 @@
         await _dialogService.Show<ProfileSetting>(string.Empty, parameters, options).Result;
 
         using var context = await _dbFactory.CreateDbContextAsync();
-        var user = await _stateProvider.GetAuthenticationStateAsync();
-        var userInfo = context.Users.Find(user.User.GetUserId());
+        var userId = await _stateProvider.GetUserIdAsync();
+        var userInfo = context.Users.Find(userId);
         _userName = userInfo.RealName;
         _avatar = userInfo.Avatar;
         StateHasChanged();

@@ -1,4 +1,5 @@
-﻿using BlazorAdmin.Core.Extension;
+﻿using BlazorAdmin.Core.Auth;
+using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Data.Entities.Chat;
 using BlazorAdmin.Data.Entities.Rbac;
 using Microsoft.AspNetCore.Components;
@@ -32,11 +33,11 @@ namespace BlazorAdmin.Im.Components
 
         private async Task InitUserList()
         {
-            var state = await _stateProvider.GetAuthenticationStateAsync();
+            var userId = await _stateProvider.GetUserIdAsync();
             _userlist = _allUserList
                 .AndIf(!string.IsNullOrEmpty(_userName),
                 u => u.RealName.Contains(_userName))
-                .Where(u => u.Id != state.User.GetUserId()).ToList();
+                .Where(u => u.Id != userId).ToList();
         }
 
 
@@ -60,9 +61,8 @@ namespace BlazorAdmin.Im.Components
 
         private async Task CreateChannel()
         {
-            var state = await _stateProvider.GetAuthenticationStateAsync();
+            var userId = await _stateProvider.GetUserIdAsync();
             using var mainContext = await _dbFactory.CreateDbContextAsync();
-            var userId = state.User.GetUserId();
 
             if (_checkedUserSet.Count == 1)
             {
@@ -71,7 +71,7 @@ namespace BlazorAdmin.Im.Components
                 (m.ReceiverId == _checkedUserSet.First() && m.SenderId == userId)))
                 {
                     await _messageSender.SendChannelMessage(
-                        state.User.GetUserId(),
+                        userId,
                         null,
                         _checkedUserSet.First(),
                         string.Empty, 0);

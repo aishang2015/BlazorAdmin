@@ -1,4 +1,5 @@
-﻿using BlazorAdmin.Core.Chat;
+﻿using BlazorAdmin.Core.Auth;
+using BlazorAdmin.Core.Chat;
 using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Data.Constants;
 using BlazorAdmin.Im.Core;
@@ -51,11 +52,11 @@ namespace BlazorAdmin.Im.Components
 
         private async Task RefreshNoReadCountAsync()
         {
-            var state = await _stateProvider.GetAuthenticationStateAsync();
+            var userId = await _stateProvider.GetUserIdAsync();
             using var context = _dbFactory.CreateDbContext();
 
             _noReadCount = context.NotReadedMessages
-                .Where(m => m.UserId == state.User.GetUserId())
+                .Where(m => m.UserId == userId)
                 .Count();
         }
 

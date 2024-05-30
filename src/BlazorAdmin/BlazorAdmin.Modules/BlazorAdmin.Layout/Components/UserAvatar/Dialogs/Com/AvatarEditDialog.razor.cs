@@ -1,4 +1,5 @@
-﻿using BlazorAdmin.Core.Extension;
+﻿using BlazorAdmin.Core.Auth;
+using BlazorAdmin.Core.Extension;
 using Cropper.Blazor.Components;
 using Cropper.Blazor.Extensions;
 using Cropper.Blazor.Models;
@@ -74,9 +75,9 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
             var croppedCanvasDataURL = await cropperComponent!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
             var fileName = SaveDataUrlToFile(croppedCanvasDataURL, Path.Combine(AppContext.BaseDirectory, "Avatars"));
 
-            var userState = await _stateProvider.GetAuthenticationStateAsync();
+            var userId = await _stateProvider.GetUserIdAsync();
             using var context = await _dbFactory.CreateDbContextAsync();
-            var user = context.Users.Find(userState.User.GetUserId());
+            var user = context.Users.Find(userId);
             if (user != null)
             {
                 var oldFileName = user.Avatar;

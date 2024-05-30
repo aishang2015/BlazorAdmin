@@ -1,4 +1,5 @@
-﻿using BlazorAdmin.Core.Chat;
+﻿using BlazorAdmin.Core.Auth;
+using BlazorAdmin.Core.Chat;
 using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Data;
 using Microsoft.AspNetCore.Components;
@@ -43,8 +44,7 @@ namespace BlazorAdmin.Im.Components
             // signalR订阅
             Connection.On<ChatMessageReceivedModel>("ReceiveMessage", async (model) =>
             {
-                var state = await _stateProvider.GetAuthenticationStateAsync();
-                var userId = state.User.GetUserId();
+                var userId = await _stateProvider.GetUserIdAsync();
                 if (SelectedItem != null)
                 {
                     if (SelectedItem.IsPrivate)
@@ -80,8 +80,7 @@ namespace BlazorAdmin.Im.Components
 
         private async Task InitialChatItemList()
         {
-            var state = await _stateProvider.GetAuthenticationStateAsync();
-            var userId = state.User.GetUserId();
+            var userId = await _stateProvider.GetUserIdAsync();
 
             using var context = await _dbFactory.CreateDbContextAsync();
 
@@ -93,7 +92,7 @@ namespace BlazorAdmin.Im.Components
             }).ToList();
 
             var noReadInfoList = context.NotReadedMessages
-                .Where(m => m.UserId == state.User.GetUserId())
+                .Where(m => m.UserId == userId)
                 .AsNoTracking().ToList();
 
             var privateList = context.PrivateMessages
@@ -153,8 +152,7 @@ namespace BlazorAdmin.Im.Components
             }
 
             using var context = await _dbFactory.CreateDbContextAsync();
-            var state = await _stateProvider.GetAuthenticationStateAsync();
-            var userId = state.User.GetUserId();
+            var userId = await _stateProvider.GetUserIdAsync();
 
             MessageModels.Clear();
             if (SelectedItem.IsPrivate)
@@ -194,13 +192,13 @@ namespace BlazorAdmin.Im.Components
             if (SelectedItem.IsPrivate)
             {
                 context.NotReadedMessages
-                    .Where(n => n.UserId == state.User.GetUserId() && n.SendUserId == SelectedItem.Id)
+                    .Where(n => n.UserId == userId && n.SendUserId == SelectedItem.Id)
                     .ExecuteDelete();
             }
             else
             {
                 context.NotReadedMessages
-                    .Where(n => n.UserId == state.User.GetUserId() && n.GroupId == SelectedItem.Id)
+                    .Where(n => n.UserId == userId && n.GroupId == SelectedItem.Id)
                     .ExecuteDelete();
             }
             SelectedItem.NotReadedCount = 0;
@@ -226,9 +224,9 @@ namespace BlazorAdmin.Im.Components
 
         private async Task SendMessage()
         {
-            var state = await _stateProvider.GetAuthenticationStateAsync();
+            var userId = await _stateProvider.GetUserIdAsync();
             await _messageSender.SendChannelMessage(
-                state.User.GetUserId(),
+                userId,
                 SelectedItem!.IsPrivate ? null : SelectedItem.Id,
                 !SelectedItem!.IsPrivate ? null : SelectedItem.Id,
                 _messageValue);

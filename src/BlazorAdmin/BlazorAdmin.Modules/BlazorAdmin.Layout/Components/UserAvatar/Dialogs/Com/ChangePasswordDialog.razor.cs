@@ -1,4 +1,5 @@
-﻿using BlazorAdmin.Core.Extension;
+﻿using BlazorAdmin.Core.Auth;
+using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Core.Helper;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -15,8 +16,8 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
         private async Task Submit()
         {
             using var context = _dbFactory.CreateDbContext();
-            var userState = await _stateProvider.GetAuthenticationStateAsync();
-            var user = context.Users.Find(userState.User.GetUserId());
+            var userId = await _stateProvider.GetUserIdAsync();
+            var user = context.Users.Find(userId);
             if (user != null)
             {
                 user.PasswordHash = HashHelper.HashPassword(PasswordModel.Password!);

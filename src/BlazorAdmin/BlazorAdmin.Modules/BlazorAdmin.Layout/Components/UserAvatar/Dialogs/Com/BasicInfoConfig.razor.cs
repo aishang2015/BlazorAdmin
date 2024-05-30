@@ -1,4 +1,5 @@
-﻿using BlazorAdmin.Core.Extension;
+﻿using BlazorAdmin.Core.Auth;
+using BlazorAdmin.Core.Extension;
 using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
 using User = BlazorAdmin.Data.Entities.Rbac.User;
@@ -23,8 +24,8 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
             await base.OnInitializedAsync();
 
             using var context = await _dbFactory.CreateDbContextAsync();
-            var user = await _stateProvider.GetAuthenticationStateAsync();
-            _user = context.Users.Find(user.User.GetUserId());
+            var userId = await _stateProvider.GetUserIdAsync();
+            _user = context.Users.Find(userId);
         }
 
         private async Task ChangePwd()
@@ -63,8 +64,8 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
                 }
                 else
                 {
-                    var user = await _stateProvider.GetAuthenticationStateAsync();
-                    var findUser = context.Users.Find(user.User.GetUserId());
+                    var userid = await _stateProvider.GetUserIdAsync();
+                    var findUser = context.Users.Find(userid);
                     findUser.Name = _editUserName;
                     await context.SaveChangesAsync();
                     _user.Name = _editUserName;
@@ -96,8 +97,8 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
             else
             {
                 using var context = await _dbFactory.CreateDbContextAsync();
-                var user = await _stateProvider.GetAuthenticationStateAsync();
-                var findUser = context.Users.Find(user.User.GetUserId());
+                var userId = await _stateProvider.GetUserIdAsync();
+                var findUser = context.Users.Find(userId);
                 findUser.RealName = _editRealName;
                 await context.SaveChangesAsync();
                 _user.RealName = _editRealName;
@@ -117,8 +118,8 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
             if (!result.Canceled)
             {
                 using var context = await _dbFactory.CreateDbContextAsync();
-                var user = await _stateProvider.GetAuthenticationStateAsync();
-                _user = context.Users.Find(user.User.GetUserId());
+                var userId = await _stateProvider.GetUserIdAsync();
+                _user = context.Users.Find(userId);
                 StateHasChanged();
             }
         }
