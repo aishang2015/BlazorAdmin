@@ -29,18 +29,22 @@ namespace BlazorAdmin.Core.Chat
             {
                 SenderId = senderId.Value,
                 Content = content,
-                ReceiverId = targetUserId
+                ReceiverId = targetUserId,
+                MessageType = 1
             });
             return true;
         }
 
-        public async Task<bool> SendChannelMessage(int senderId, int targetChannel, string content)
+        public async Task<bool> SendChannelMessage(int senderId, int? targetChannel,
+            int? targetUserId, string? content, int type = 1)
         {
             await ChannelHelper<ChatMessageSendModel>.Instance.Writer.WriteAsync(new ChatMessageSendModel
             {
                 SenderId = senderId,
                 Content = content,
-                ChannelId = targetChannel
+                ChannelId = targetChannel,
+                ReceiverId = targetUserId,
+                MessageType = type
             });
             return true;
         }

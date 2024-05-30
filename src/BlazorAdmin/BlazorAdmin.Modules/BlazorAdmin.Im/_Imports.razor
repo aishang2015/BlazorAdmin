@@ -5,7 +5,6 @@
 @using BlazorAdmin.Core.Resources;
 @using BlazorAdmin.Data;
 @using BlazorAdmin.Core.Services;
-@using BlazorAdmin.Im.Data
 @using BlazorAdmin.Im.Events
 @using BlazorAdmin.Im.Resources
 @using Microsoft.AspNetCore.Authorization
@@ -36,7 +35,6 @@
 @inject ProtectedLocalStorage _localStorage;
 @inject NavigationManager _navManager;
 @inject IStringLocalizer<ImCulture> _loc;
-@inject BlazroAdminChatDbContextFactory _chatDbFactory;
 @inject EventHelper<UpdateNoReadCountEvent> _updateNoReadCountEventHelper;
 @inject MessageSender _messageSender;
 

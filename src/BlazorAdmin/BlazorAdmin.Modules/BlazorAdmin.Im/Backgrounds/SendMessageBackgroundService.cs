@@ -3,7 +3,6 @@ using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Data;
 using BlazorAdmin.Data.Entities.Chat;
 using BlazorAdmin.Im.Core;
-using BlazorAdmin.Im.Data;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,14 +17,11 @@ namespace BlazorAdmin.Im.Backgrounds
 
         private readonly IServiceProvider _serviceProvider;
 
-        private readonly BlazroAdminChatDbContextFactory _messageDbContextFactory;
-
         public SendMessageBackgroundService(ILogger<SendMessageBackgroundService> logger,
-            IServiceProvider serviceProvider, BlazroAdminChatDbContextFactory dbContextFactory)
+            IServiceProvider serviceProvider)
         {
             _logger = logger;
             _serviceProvider = serviceProvider;
-            _messageDbContextFactory = dbContextFactory;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -41,90 +37,77 @@ namespace BlazorAdmin.Im.Backgrounds
                     var _dbFactory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<BlazorAdminDbContext>>();
                     using var mainContext = _dbFactory.CreateDbContext();
 
-                    using var trans = mainContext.Database.BeginTransaction();
+                    using var trans = await mainContext.Database.BeginTransactionAsync(stoppingToken);
 
-                    BlazroAdminChatDbContext messageDbContext;
-                    int channelId;
-
-                    // 特殊用户发送
-                    if (message.ReceiverId != null)
+                    var memberList = new List<int>();
+                    if (message.ChannelId != null)
                     {
-                        var systemChannel = (from channel in mainContext.ChatChannels
-                                             join cm1 in mainContext.ChatChannelMembers on channel.Id equals cm1.ChatChannelId
-                                             join cm2 in mainContext.ChatChannelMembers on channel.Id equals cm2.ChatChannelId
-                                             where cm1.MemberId == message.SenderId &&
-                                                 cm2.MemberId == message.ReceiverId
-                                             select channel).FirstOrDefault();
-
-                        if (systemChannel == null)
+                        var entry = mainContext.GroupMessages.Add(new GroupMessage
                         {
-                            // 频道表
-                            var channel = mainContext.ChatChannels.Add(new ChatChannel { Type = (int)ChatChannelType.系统对话 });
-                            await mainContext.SaveChangesAsync();
+                            GroupId = message.ChannelId.Value,
+                            Content = message.Content,
+                            MessageType = message.MessageType,
+                            SenderId = message.SenderId,
+                            SendTime = DateTime.Now
+                        });
+                        memberList = mainContext.GroupMembers
+                            .Where(gm => gm.GroupId == message.ChannelId.Value && gm.MemberId != message.SenderId)
+                            .AsNoTracking().Select(m => m.MemberId).ToList();
+                        mainContext.SaveChanges();
 
-                            // 成员表
-                            mainContext.ChatChannelMembers.AddRange([
-                                new ChatChannelMember { ChatChannelId = channel.Entity.Id, MemberId = message.ReceiverId.Value },
-                                new ChatChannelMember { ChatChannelId = channel.Entity.Id, MemberId = message.SenderId },
-                            ]);
-                            await mainContext.SaveChangesAsync();
-
-                            channelId = channel.Entity.Id;
-                            messageDbContext = _messageDbContextFactory.CreateDbContext(channel.Entity.Id);
-                            messageDbContext.Database.EnsureCreated();
-                        }
-                        else
+                        if (message.MessageType != 0)
                         {
-                            channelId = systemChannel.Id;
-                            messageDbContext = _messageDbContextFactory.CreateDbContext(systemChannel.Id);
+                            foreach (var memberId in memberList)
+                            {
+                                mainContext.NotReadedMessages.Add(new NotReadedMessage
+                                {
+                                    UserId = memberId,
+                                    GroupId = message.ChannelId.Value,
+                                    MessageId = entry.Entity.Id,
+                                });
+                            }
                         }
                     }
                     else
                     {
-                        if (message.ChannelId != null)
+                        var entry = mainContext.PrivateMessages.Add(new PrivateMessage
                         {
-                            channelId = message.ChannelId.Value;
-                            messageDbContext = _messageDbContextFactory.CreateDbContext(message.ChannelId.Value);
-                        }
-                        else
+                            Content = message.Content,
+                            MessageType = message.MessageType,
+                            SenderId = message.SenderId,
+                            ReceiverId = message.ReceiverId!.Value,
+                            SendTime = DateTime.Now
+                        });
+                        memberList = new List<int> { message.ReceiverId!.Value, message.SenderId };
+                        mainContext.SaveChanges();
+
+                        if (message.MessageType != 0)
                         {
-                            throw new Exception();
+                            mainContext.NotReadedMessages.Add(new NotReadedMessage
+                            {
+                                UserId = message.ReceiverId.Value,
+                                MessageId = entry.Entity.Id,
+                                SendUserId = message.SenderId
+                            });
                         }
                     }
 
-                    // 保存未读数量
-                    var msgNoReads = mainContext.ChatChannelMembers
-                        .Where(m => m.ChatChannelId == channelId)
-                        .ToList();
-                    foreach (var msgNoRead in msgNoReads)
-                    {
-                        msgNoRead.NotReadCount = msgNoRead.NotReadCount + 1;
-                    }
-                    await mainContext.SaveChangesAsync();
+                    mainContext.SaveChanges();
                     trans.Commit();
-
-                    // 保存聊天消息
-                    messageDbContext.ChatMessages.Add(new ChatMessage
-                    {
-                        CreatedTime = DateTime.Now,
-                        Content = message.Content,
-                        SenderId = message.SenderId,
-                        Type = 1
-                    });
-                    await messageDbContext.SaveChangesAsync();
 
                     // 在线用户推送
                     var hubContext = scope.ServiceProvider.GetRequiredService<IHubContext<ChatHub, IChatClient>>();
                     var onlineClients = ChatHub.OnlineUsers
-                        .Where(kv => msgNoReads.Any(r => r.MemberId == kv.Key))
+                        .Where(kv => memberList.Contains(kv.Key))
                         .Select(kv => kv.Value);
                     await hubContext.Clients.Clients(onlineClients).ReceiveMessage(new ChatMessageReceivedModel
                     {
-                        ChannelId = channelId,
+                        ReceiverId = message.ReceiverId,
+                        ChannelId = message.ChannelId,
                         SenderId = message.SenderId,
                         Content = message.Content,
                     });
-                    messageDbContext.Dispose();
+
                 }
                 catch (OperationCanceledException ex)
                 {

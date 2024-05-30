@@ -4,6 +4,7 @@ using BlazorAdmin.Data.Entities.Rbac;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
+using System.Linq;
 
 namespace BlazorAdmin.Im.Components
 {
@@ -61,45 +62,46 @@ namespace BlazorAdmin.Im.Components
         {
             var state = await _stateProvider.GetAuthenticationStateAsync();
             using var mainContext = await _dbFactory.CreateDbContextAsync();
-            using var trans = mainContext.Database.BeginTransaction();
+            var userId = state.User.GetUserId();
 
-            ChatChannelType type;
             if (_checkedUserSet.Count == 1)
             {
-                var systemChannel = (from channel in mainContext.ChatChannels
-                                     join cm1 in mainContext.ChatChannelMembers on channel.Id equals cm1.ChatChannelId
-                                     join cm2 in mainContext.ChatChannelMembers on channel.Id equals cm2.ChatChannelId
-                                     where cm1.MemberId == _checkedUserSet.First() &&
-                                         cm2.MemberId == state.User.GetUserId()
-                                     select channel).FirstOrDefault();
-                if (systemChannel != null)
+                if (!mainContext.PrivateMessages.Any(m =>
+                (m.SenderId == _checkedUserSet.First() && m.ReceiverId == userId) ||
+                (m.ReceiverId == _checkedUserSet.First() && m.SenderId == userId)))
                 {
-                    return;
+                    await _messageSender.SendChannelMessage(
+                        state.User.GetUserId(),
+                        null,
+                        _checkedUserSet.First(),
+                        string.Empty, 0);
                 }
-                type = ChatChannelType.普通对话;
             }
-            else
+            else if (_checkedUserSet.Count > 1)
             {
-                type = ChatChannelType.普通群聊;
+                using var trans = mainContext.Database.BeginTransaction();
+                var group = mainContext.Groups.Add(new Group
+                {
+                    Name = "群聊",
+                });
+                mainContext.SaveChanges();
+
+                mainContext.GroupMembers.Add(new GroupMember
+                {
+                    GroupId = group.Entity.Id,
+                    MemberId = userId
+                });
+                foreach (var user in _checkedUserSet)
+                {
+                    mainContext.GroupMembers.Add(new GroupMember
+                    {
+                        GroupId = group.Entity.Id,
+                        MemberId = user
+                    });
+                }
+                mainContext.SaveChanges();
+                trans.Commit();
             }
-
-            // 创建频道
-            var entry = mainContext.ChatChannels.Add(new ChatChannel { Name = "群聊", Type = (int)type });
-            await mainContext.SaveChangesAsync();
-
-            // 创建成员
-            mainContext.ChatChannelMembers.Add(new ChatChannelMember { ChatChannelId = entry.Entity.Id, MemberId = state.User.GetUserId() });
-            foreach (var userId in _checkedUserSet)
-            {
-                mainContext.ChatChannelMembers.Add(new ChatChannelMember { ChatChannelId = entry.Entity.Id, MemberId = userId });
-            }
-
-            await mainContext.SaveChangesAsync();
-            trans.Commit();
-
-            // 创建聊天信息分库
-            using var channelDbContext = _chatDbFactory.CreateDbContext(entry.Entity.Id);
-            channelDbContext.Database.EnsureCreated();
 
             MudDialog?.Close(DialogResult.Ok(true));
         }

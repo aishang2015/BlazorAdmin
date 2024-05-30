@@ -3,9 +3,14 @@
     public class ChatMessageReceivedModel
     {
         /// <summary>
+        /// 接收人
+        /// </summary>
+        public int? ReceiverId { get; set; }
+
+        /// <summary>
         /// 频道（指定频道发送时）
         /// </summary>
-        public int ChannelId { get; set; }
+        public int? ChannelId { get; set; }
 
         /// <summary>
         /// 发送人

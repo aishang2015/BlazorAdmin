@@ -22,5 +22,10 @@
         /// </summary>
         public string? Content { get; set; }
 
+        /// <summary>
+        /// 消息类型
+        /// </summary>
+        public int MessageType { get; set; }
+
     }
 }

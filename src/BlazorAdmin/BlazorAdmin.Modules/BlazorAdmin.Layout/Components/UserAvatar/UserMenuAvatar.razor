@@ -18,14 +18,14 @@
             </MudAvatar>
         }
     </ActivatorContent>
-    <ChildContent>
-        <MudContainer Class="d-flex flex-column py-4" Style="width:200px;">
-            <MudContainer Class="d-flex flex-column align-center justify-center">
+    <ChildContent >
+        <MudContainer Class="d-flex flex-column pa-1" Style="width:180px;">
+            <MudContainer Class="d-flex flex-column align-center justify-center my-3">
                 <MudText Typo="Typo.subtitle1" Style="max-width:160px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                     @_userName
                 </MudText>
             </MudContainer>
-            <MudDivider Class="my-2" />
+            <MudDivider Class="mb-2" />
             <MudMenuItem Icon="@Icons.Material.Filled.Settings" OnClick="ShowUserSettings">
                 @Loc["AuthorizedLayout_Setting"]
             </MudMenuItem>

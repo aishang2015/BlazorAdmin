@@ -1,6 +1,6 @@
 ﻿@implements IAsyncDisposable
 @using BlazorAdmin.Im.Components.Messages
-<MudDialog >
+<MudDialog>
     <DialogContent>
         <div id="chat-title" class="px-4">
             <MudText Typo="Typo.h5">
@@ -21,10 +21,10 @@
                 </div>
                 <MudDivider Class="flex-none my-2"></MudDivider>
                 <div class="flex-1" style="overflow:auto">
-                    <MudList SelectedValue="_selectedValue" SelectedValueChanged="SelectedChannelChanged"
-                             T="ChannelModel" @bind-Value="_selectedItem" ReadOnly="false" Padding="false">
-                        <Virtualize Items="@Channels" Context="context">
-                            <MudListItem Value="@context" Dense="true">
+                    <MudList SelectedValue="SelectedItem" SelectedValueChanged="SelectedItemChanged"
+                             T="ItemModel" ReadOnly="false" Padding="false">
+                        <Virtualize Items="@ItemModelList" Context="context">
+                            <MudListItem Value="@context" Dense="true" @key="@("" + context.Id + context.IsPrivate)">
                                 <div class="d-flex align-center">
                                     @if (string.IsNullOrEmpty(context.Avatar))
                                     {
@@ -38,21 +38,21 @@
                                             <MudImage Src="@("Avatars/" + context.Avatar)"></MudImage>
                                         </MudAvatar>
                                     }
-                                    <div class="ml-2">
+                                    <div class="mx-2">
                                         <MudText Typo="Typo.body1">
                                             @context.Name
                                         </MudText>
-                                        @if (context.UserList.Count > 2)
+                                        @*                                         @if (context.UserList.Count > 2)
                                         {
-                                            <MudText Typo="Typo.caption">
-                                                @(context.UserList.First().RealName)等@(context.UserList.Count)个用户
-                                            </MudText>
-                                        }
+                                        <MudText Typo="Typo.caption">
+                                        @(context.UserList.First().RealName)等@(context.UserList.Count)个用户
+                                        </MudText>
+                                        } *@
                                     </div>
                                     <MudSpacer />
-                                    @if (context.NoReadCount > 0)
+                                    @if (context.NotReadedCount > 0)
                                     {
-                                        <MudChip Color="Color.Error" Size="Size.Small">@context.NoReadCount</MudChip>
+                                        <MudChip Color="Color.Error" Size="Size.Small">@context.NotReadedCount</MudChip>
                                     }
                                 </div>
                             </MudListItem>
@@ -64,20 +64,21 @@
             <div id="message-list" class="d-flex flex-column">
                 <div id="message-area" class="flex-1">
                     <Virtualize Items="@MessageModels" Context="context">
+                        <div @key="context.MessageId">
+                            @if (context.IsCurrentUserSend)
+                            {
+                                <SelfMessage Avatar="@(SelectedChatUsers.First(u=>u.UserId == context.SenderId)?.Avatar)"
+                                             RealName="@(SelectedChatUsers.First(u=>u.UserId == context.SenderId)?.RealName)"
+                                             Message="@context.Content" SendTime="@context.CreatedTime"></SelfMessage>
+                            }
+                            else
+                            {
+                                <OtherMessage Avatar="@(SelectedChatUsers.First(u=>u.UserId == context.SenderId)?.Avatar)"
+                                              RealName="@(SelectedChatUsers.First(u=>u.UserId == context.SenderId)?.RealName)"
+                                              Message="@context.Content" SendTime="@context.CreatedTime"></OtherMessage>
+                            }
 
-                        @if (context.IsCurrentUserSend)
-                        {
-                            <SelfMessage Avatar="@((_selectedValue as ChannelModel).UserList.First(u=>u.UserId == context.SenderId)?.Avatar)"
-                                         RealName="@((_selectedValue as ChannelModel).UserList.First(u=>u.UserId == context.SenderId)?.RealName)"
-                                         Message="@context.Content" SendTime="@context.CreatedTime"></SelfMessage>
-                        }
-                        else
-                        {
-                            <OtherMessage Avatar="@((_selectedValue as ChannelModel).UserList.First(u=>u.UserId == context.SenderId)?.Avatar)"
-                                          RealName="@((_selectedValue as ChannelModel).UserList.First(u=>u.UserId == context.SenderId)?.RealName)"
-                                          Message="@context.Content" SendTime="@context.CreatedTime"></OtherMessage>
-                        }
-
+                        </div>
                     </Virtualize>
                 </div>
                 <MudDivider Class="flex-none my-2"></MudDivider>

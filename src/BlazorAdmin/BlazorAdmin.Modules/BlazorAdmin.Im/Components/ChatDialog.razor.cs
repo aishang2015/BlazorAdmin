@@ -1,6 +1,8 @@
 ﻿using BlazorAdmin.Core.Chat;
 using BlazorAdmin.Core.Extension;
+using BlazorAdmin.Data;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
@@ -18,16 +20,12 @@ namespace BlazorAdmin.Im.Components
 
         private string _textValue = string.Empty;
 
-        private string _messageValue = string.Empty;
+        private string? _messageValue = string.Empty;
 
-        private ChannelModel? _selectedValue;
 
-        private MudListItem<ChannelModel>? _selectedItem;
-
-        private List<ChannelModel> Channels = new List<ChannelModel>();
-
-        private List<ChannelModel> AllChannels = new List<ChannelModel>();
-
+        private ItemModel? SelectedItem;
+        private List<UserModel> SelectedChatUsers = new();
+        private List<ItemModel> ItemModelList = new();
         private List<MessageModel> MessageModels = new List<MessageModel>();
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -39,128 +37,174 @@ namespace BlazorAdmin.Im.Components
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            await InitialChannelList();
-
-            if (Channels.Count > 0)
-            {
-                _selectedValue = Channels.First();
-            }
-            await InitialMessage();
-
-            await NoReadCountChanged.InvokeAsync(AllChannels.Sum(c => c.NoReadCount));
+            await InitialChatItemList();
+            await InitialChatItemMessages();
 
             // signalR订阅
             Connection.On<ChatMessageReceivedModel>("ReceiveMessage", async (model) =>
             {
-                if (model.ChannelId == (_selectedValue as ChannelModel).ChannelId)
+                var state = await _stateProvider.GetAuthenticationStateAsync();
+                var userId = state.User.GetUserId();
+                if (SelectedItem != null)
                 {
-                    var state = await _stateProvider.GetAuthenticationStateAsync();
-                    MessageModels.Add(new MessageModel
+                    if (SelectedItem.IsPrivate)
                     {
-                        Content = model.Content,
-                        CreatedTime = DateTime.Now,
-                        SenderId = model.SenderId,
-                        IsCurrentUserSend = model.SenderId == state.User.GetUserId()
-                    });
+                        if (SelectedItem.Id == model.SenderId
+                            || SelectedItem.Id == model.ReceiverId)
+                        {
+                            await InitialChatItemMessages();
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if (SelectedItem.Id == model.ChannelId)
+                        {
+                            await InitialChatItemMessages();
+                            return;
+                        }
+                    }
+
+                    await InitialChatItemList();
                 }
-                else
-                {
-                    AllChannels.First(c => c.ChannelId == model.ChannelId).NoReadCount++;
-                    await NoReadCountChanged.InvokeAsync(AllChannels.Sum(c => c.NoReadCount));
-                }
+
                 await InvokeAsync(() => StateHasChanged());
             });
         }
 
-        private async Task SelectedChannelChanged(ChannelModel selectedValue)
+        private async Task SelectedItemChanged(ItemModel selectedValue)
         {
-            _selectedValue = selectedValue;
-            await InitialMessage();
-            await NoReadCountChanged.InvokeAsync(AllChannels.Sum(c => c.NoReadCount));
+            SelectedItem = selectedValue;
+            await InitialChatItemMessages();
         }
 
-        private async Task InitialChannelList()
+        private async Task InitialChatItemList()
         {
             var state = await _stateProvider.GetAuthenticationStateAsync();
+            var userId = state.User.GetUserId();
 
             using var context = await _dbFactory.CreateDbContextAsync();
 
-            // 频道id列表
-            var channelIdList = context.ChatChannelMembers.Where(ccm => ccm.MemberId == state.User.GetUserId())
-                .Select(c => c.ChatChannelId).ToList();
-
-            // 频道信息
-            var channelModelList = (from c in context.ChatChannels
-                                    where channelIdList.Contains(c.Id)
-                                    select new ChannelModel
-                                    {
-                                        ChannelId = c.Id,
-                                        Name = c.Name,
-                                        NoReadCount = context.ChatChannelMembers
-                                             .First(ccm => ccm.ChatChannelId == c.Id && ccm.MemberId == state.User.GetUserId())
-                                             .NotReadCount,
-                                        UserList = context.ChatChannelMembers
-                                             .Where(ccm => ccm.ChatChannelId == c.Id)
-                                             .Select(ccm => new UserModel
-                                             {
-                                                 UserId = ccm.MemberId
-                                             }).ToList()
-                                    }).ToList();
-
-            // 用户id
-            var userIdList = channelModelList.SelectMany(c => c.UserList).Select(c => c.UserId).Distinct().ToList();
-            var userList = context.Users.Where(u => userIdList.Contains(u.Id));
-            foreach (var channel in channelModelList)
+            SelectedChatUsers = context.Users.Select(u => new UserModel
             {
-                foreach (var user in channel.UserList)
-                {
-                    var findUser = userList.FirstOrDefault(u => u.Id == user.UserId);
-                    user.Avatar = findUser?.Avatar;
-                    user.RealName = findUser?.RealName;
-                }
+                Avatar = u.Avatar,
+                RealName = u.RealName,
+                UserId = u.Id
+            }).ToList();
 
-                if (channel.UserList.Count == 2)
+            var noReadInfoList = context.NotReadedMessages
+                .Where(m => m.UserId == state.User.GetUserId())
+                .AsNoTracking().ToList();
+
+            var privateList = context.PrivateMessages
+                .Where(m => m.ReceiverId == userId || m.SenderId == userId)
+                .Select(m => new { m.SenderId, m.ReceiverId })
+                .Distinct().ToList();
+
+            var privateUserList = privateList.Select(l => l.SenderId)
+                .Concat(privateList.Select(l => l.ReceiverId))
+                .Distinct().ToList();
+
+            var privates = context.Users
+                .Where(u => privateUserList.Contains(u.Id) && u.Id != userId)
+                .Select(u => new ItemModel
                 {
-                    channel.Avatar = channel.UserList.First(u => u.UserId != state.User.GetUserId()).Avatar;
-                    channel.Name = channel.UserList.First(u => u.UserId != state.User.GetUserId()).RealName;
-                }
+                    Avatar = u.Avatar,
+                    Name = u.RealName,
+                    IsPrivate = true,
+                    Id = u.Id
+                }).ToList();
+
+            foreach (var privateUser in privates)
+            {
+                privateUser.NotReadedCount = noReadInfoList.Count(l => l.SendUserId == privateUser.Id);
             }
-            AllChannels = channelModelList;
-            Channels = channelModelList;
+
+            var channelList = context.GroupMembers.Where(m => m.MemberId == userId)
+                .Select(m => m.GroupId).Distinct().ToList();
+            var groups = context.Groups.Where(g=>channelList.Contains(g.Id)).Select(g => new ItemModel
+            {
+                Avatar = null,
+                Name = g.Name,
+                IsPrivate = false,
+                Id = g.Id
+            }).ToList();
+
+            foreach (var group in groups)
+            {
+                group.NotReadedCount = noReadInfoList.Count(l => l.GroupId == group.Id);
+            }
+
+            ItemModelList.Clear();
+            ItemModelList.AddRange(privates);
+            ItemModelList.AddRange(groups);
+
+            if (SelectedItem == null && ItemModelList.Count > 0)
+            {
+                SelectedItem = ItemModelList.First();
+            }
         }
 
-        private async Task InitialMessage()
+        private async Task InitialChatItemMessages()
         {
-            var selectedChannel = _selectedValue as ChannelModel;
-            if (selectedChannel != null)
+            if (SelectedItem == null)
             {
-                // 清理页面未读数
-                var channel = Channels.First(c => c.ChannelId == selectedChannel.ChannelId);
-                channel.NoReadCount = 0;
-
-                // 取聊天记录
-                using var channelDbContext = _chatDbFactory.CreateDbContext(selectedChannel.ChannelId);
-                MessageModels = channelDbContext.ChatMessages.OrderBy(m => m.Id).Take(100).Select(c => new MessageModel
-                {
-                    MessageId = c.Id,
-                    SenderId = c.SenderId,
-                    CreatedTime = c.CreatedTime,
-                    Content = c.Content,
-                }).AsNoTracking().ToList();
-
-
-                // 判断是发送者
-                var state = await _stateProvider.GetAuthenticationStateAsync();
-                MessageModels.ForEach(m => m.IsCurrentUserSend = m.SenderId == state.User.GetUserId());
-
-                // 更新未读数量
-                using var adminDbContext = _dbFactory.CreateDbContext();
-                var noReadMsg = adminDbContext.ChatChannelMembers.FirstOrDefault(mnr =>
-                    mnr.ChatChannelId == selectedChannel.ChannelId && mnr.MemberId == state.User.GetUserId());
-                noReadMsg!.NotReadCount = 0;
-                adminDbContext.ChatChannelMembers.Update(noReadMsg);
-                await adminDbContext.SaveChangesAsync();
+                return;
             }
+
+            using var context = await _dbFactory.CreateDbContextAsync();
+            var state = await _stateProvider.GetAuthenticationStateAsync();
+            var userId = state.User.GetUserId();
+
+            MessageModels.Clear();
+            if (SelectedItem.IsPrivate)
+            {
+                MessageModels = context.PrivateMessages
+                    .OrderBy(m => m.Id)
+                    .Where(m => m.MessageType != 0)
+                    .Where(m =>
+                           (m.ReceiverId == SelectedItem.Id && m.SenderId == userId)
+                        || (m.ReceiverId == userId && m.SenderId == SelectedItem.Id))
+                    .Select(m => new MessageModel
+                    {
+                        MessageId = m.Id,
+                        SenderId = m.SenderId,
+                        Content = m.Content,
+                        CreatedTime = m.SendTime,
+                        IsCurrentUserSend = m.SenderId == userId
+                    }).ToList();
+            }
+            else
+            {
+                MessageModels = context.GroupMessages
+                    .OrderBy(m => m.Id)
+                    .Where(m => m.MessageType != 0)
+                    .Where(m => m.GroupId == SelectedItem.Id)
+                    .Select(m => new MessageModel
+                    {
+                        MessageId = m.Id,
+                        SenderId = m.SenderId,
+                        Content = m.Content,
+                        CreatedTime = m.SendTime,
+                        IsCurrentUserSend = m.SenderId == userId
+
+                    }).ToList();
+            }
+
+            if (SelectedItem.IsPrivate)
+            {
+                context.NotReadedMessages
+                    .Where(n => n.UserId == state.User.GetUserId() && n.SendUserId == SelectedItem.Id)
+                    .ExecuteDelete();
+            }
+            else
+            {
+                context.NotReadedMessages
+                    .Where(n => n.UserId == state.User.GetUserId() && n.GroupId == SelectedItem.Id)
+                    .ExecuteDelete();
+            }
+            SelectedItem.NotReadedCount = 0;
+            await InvokeAsync(StateHasChanged);
         }
 
         private async Task SelectUserToChat()
@@ -170,21 +214,24 @@ namespace BlazorAdmin.Im.Components
             var result = await _dialogService.Show<UserPickerDialog>(null, parameters, options).Result;
             if (!result.Canceled)
             {
-                await InitialChannelList();
+                await InitialChatItemList();
             }
         }
 
         private async Task SearchedTextChanged(string value)
         {
             _textValue = value;
-            Channels = AllChannels.Where(c => c.Name.Contains(value)).ToList();
+            //Channels = AllChannels.Where(c => c.Name.Contains(value)).ToList();
         }
 
         private async Task SendMessage()
         {
-            var selectedChannel = _selectedValue as ChannelModel;
             var state = await _stateProvider.GetAuthenticationStateAsync();
-            await _messageSender.SendChannelMessage(state.User.GetUserId(), selectedChannel.ChannelId, _messageValue);
+            await _messageSender.SendChannelMessage(
+                state.User.GetUserId(),
+                SelectedItem!.IsPrivate ? null : SelectedItem.Id,
+                !SelectedItem!.IsPrivate ? null : SelectedItem.Id,
+                _messageValue);
             _messageValue = null;
         }
 
@@ -193,17 +240,17 @@ namespace BlazorAdmin.Im.Components
             Connection.Remove("ReceiveMessage");
         }
 
-        private record ChannelModel
+        private record ItemModel
         {
             public string? Avatar { get; set; }
 
-            public int ChannelId { get; set; }
-
             public string? Name { get; set; }
 
-            public int NoReadCount { get; set; }
+            public int Id { get; set; }
 
-            public List<UserModel> UserList { get; set; } = new();
+            public bool IsPrivate { get; set; }
+
+            public int NotReadedCount { get; set; }
         }
 
         public record UserModel

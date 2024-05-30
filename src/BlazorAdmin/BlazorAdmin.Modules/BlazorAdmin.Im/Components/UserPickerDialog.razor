@@ -15,8 +15,8 @@
             <div style="overflow:auto;height:300px;">
                 <Virtualize Items="_userlist">
                     <div class="d-flex align-center">
-                        <MudCheckBox T="bool" Checked="@_checkedUserSet.Contains(context.Id)"
-                                     CheckedChanged="v=>{CheckedChanged(context.Id, v);}" Color="Color.Primary"></MudCheckBox>
+                        <MudCheckBox T="bool" Value="@_checkedUserSet.Contains(context.Id)"
+                                     ValueChanged="v=>{CheckedChanged(context.Id, v);}" Color="Color.Primary"></MudCheckBox>
                         @if (string.IsNullOrEmpty(context.Avatar))
                         {
                             <MudAvatar Size="Size.Medium" Color="Color.Primary">

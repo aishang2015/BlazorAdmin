@@ -11,6 +11,8 @@ namespace BlazorAdmin.Im.Components
 {
     public partial class Chat
     {
+        private bool _isDialogOpen = false;
+
         private bool _haveMsg = false;
 
         private int _noReadCount = 0;
@@ -20,17 +22,15 @@ namespace BlazorAdmin.Im.Components
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
+            await RefreshNoReadCountAsync();
         }
 
-        protected override void OnAfterRender(bool firstRender)
-        {
-            base.OnAfterRender(firstRender);
-        }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
+
                 _hubConnection = new HubConnectionBuilder()
                     .WithUrl(_navManager.BaseUri.TrimEnd('/') + ChatHub.ChatHubUrl,
                         options => options.AccessTokenProvider = async () =>
@@ -45,8 +45,6 @@ namespace BlazorAdmin.Im.Components
 
                 RegistSignalrMethod();
 
-                await RefreshNoReadCountAsync();
-
                 StateHasChanged();
             }
         }
@@ -55,9 +53,10 @@ namespace BlazorAdmin.Im.Components
         {
             var state = await _stateProvider.GetAuthenticationStateAsync();
             using var context = _dbFactory.CreateDbContext();
-            _noReadCount = context.ChatChannelMembers
-                .Where(n => n.MemberId == state.User.GetUserId())
-                .Sum(n => n.NotReadCount);
+
+            _noReadCount = context.NotReadedMessages
+                .Where(m => m.UserId == state.User.GetUserId())
+                .Count();
         }
 
         private void RegistSignalrMethod()
@@ -77,6 +76,7 @@ namespace BlazorAdmin.Im.Components
         private async Task ViewIm()
         {
             UnRegistSignalrMethod();
+            _isDialogOpen = true;
             var countChangedCallback = new EventCallback<int>(null,
                  (int number) =>
                  {
@@ -89,6 +89,7 @@ namespace BlazorAdmin.Im.Components
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
             var result = await _dialogService.Show<ChatDialog>(null, parameters, options).Result;
             await RefreshNoReadCountAsync();
+            _isDialogOpen = false;
             RegistSignalrMethod();
         }
 
