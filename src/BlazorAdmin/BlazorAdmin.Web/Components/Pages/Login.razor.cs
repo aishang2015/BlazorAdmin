@@ -52,7 +52,7 @@ namespace BlazorAdmin.Web.Components.Pages
             if (user == null || !HashHelper.VerifyPassword(user.PasswordHash, _loginModel!.Password!))
             {
                 _snackbarService.Add("用户名或密码错误！", Severity.Error);
-                await RecordLogin(_loginModel.UserName!, false, context);
+                RecordLogin(_loginModel.UserName!, false, context);
                 IsLoading = false;
                 return;
             }
@@ -65,13 +65,13 @@ namespace BlazorAdmin.Web.Components.Pages
             await cookieUtil.InvokeVoidAsync("setCookie", CommonConstant.UserToken, token);
 
             _authService.SetCurrentUser(token);
-            await RecordLogin(_loginModel.UserName!, true, context);
+            RecordLogin(_loginModel.UserName!, true, context);
             _navManager.NavigateTo("/");
 
             await _messageSender.SendSystemMessage(user.Id, "欢迎回来！");
         }
 
-        private async Task RecordLogin(string userName, bool isSucceed,
+        private void RecordLogin(string userName, bool isSucceed,
             BlazorAdminDbContext context)
         {
             context.LoginLogs.Add(new LoginLog
@@ -82,7 +82,7 @@ namespace BlazorAdmin.Web.Components.Pages
                 Ip = _httpAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString(),
                 Agent = _httpAccessor.HttpContext?.Request.Headers["User-Agent"]
             });
-            await context.SaveChangesAsync();
+            context.SaveChanges();
         }
 
         private record LoginModel

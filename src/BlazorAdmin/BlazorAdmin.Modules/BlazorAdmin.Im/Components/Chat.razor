@@ -4,7 +4,8 @@
 <MudTooltip Text="@_loc["ChatToolTipText"]" Color="Color.Primary">
     @if (_noReadCount > 0 && !_isDialogOpen)
     {
-        <MudBadge Content="@_noReadCount" Color="Color.Error" Overlap="true" BadgeClass="chat-message-badge">
+        <MudBadge Content="@_noReadCount" Color="Color.Error" Overlap="true"
+                  Origin="Origin.TopRight" BadgeClass="chat-message-badge">
             <MudIconButton Icon="@Icons.Material.Filled.Chat" Style="margin-right:12px;"
                            Color="Color.Inherit" Edge="Edge.Start" OnClick="ViewIm">
             </MudIconButton>

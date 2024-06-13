@@ -12,7 +12,7 @@
                     <MudSpacer />
                     <MudFileUpload Class="flex-none" T="IBrowserFile" FilesChanged="UploadFiles" Accept=".png, .jpg">
                         <ActivatorContent>
-                            <MudIconButton HtmlTag="label">
+                            <MudIconButton>
                                 @if (string.IsNullOrEmpty(_user.Avatar))
                                 {
                                     <MudAvatar Color="Color.Primary">
