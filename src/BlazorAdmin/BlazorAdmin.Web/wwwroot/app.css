@@ -61,11 +61,11 @@ h1:focus {
 }
 
 .mud-table-sticky-header * .mud-table-root .mud-table-head * .mud-table-cell.sticky-left, .mud-table-sticky-header * .mud-table-root .mud-table-head * .mud-table-cell.sticky-right {
-    z-index: 3;
-    background-color: var(--mud-palette-background-grey);
+    z-index: 30;
+    background-color: var(--mud-palette-background-gray);
 }
 
 .mud-table-sticky-footer * .mud-table-root .mud-table-foot * .mud-table-cell.sticky-left, .mud-table-sticky-footer * .mud-table-root .mud-table-foot * .mud-table-cell.sticky-right {
     z-index: 3;
-    background-color: var(--mud-palette-background-grey);
+    background-color: var(--mud-palette-background-gray);
 }

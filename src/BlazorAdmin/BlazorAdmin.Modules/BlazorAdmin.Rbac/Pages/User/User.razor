@@ -37,7 +37,7 @@
 <MudDataGrid Dense=PageDataGridOne.Dense Filterable=PageDataGridOne.Filterable ColumnResizeMode=PageDataGridOne.ColumnResizeMode
              SortMode=PageDataGridOne.SortMode Groupable=PageDataGridOne.Groupable Virtualize=PageDataGridOne.Virtualize
              FixedHeader=PageDataGridOne.FixedHeader Elevation=PageDataGridOne.Elevation Outlined=PageDataGridOne.Outlined
-             Height=PageDataGridOne.Height ServerData="GetTableData" @ref="dataGrid" T="UserModel">
+             Height=@PageDataGridOne.Height ServerData="GetTableData" @ref="dataGrid" T="UserModel">
     <Columns>
         <PropertyColumn Property="x => x.Number" Title="@Loc["UserPage_TableH1"]" StickyLeft="true" Resizable="false" HeaderStyle="white-space:nowrap;width:60px;" />
         <TemplateColumn Title="@Loc["UserPage_TableH2"]" HeaderStyle="white-space:nowrap;">
@@ -74,7 +74,7 @@
                 </MudSwitch>
             </CellTemplate>
         </TemplateColumn>
-        <TemplateColumn Title="@Loc["UserPage_TableH5"]" HeaderStyle="white-space:nowrap;width:140px;" StickyRight="true" Resizable="false">
+        <TemplateColumn Title="@Loc["UserPage_TableH5"]" HeaderStyle="white-space:nowrap;width:140px;min-width:140px;" StickyRight="true" Resizable="false">
             <CellTemplate>
                 @if (_accessService.CheckHasElementRights("UserUpdateBtn").Result)
                 {

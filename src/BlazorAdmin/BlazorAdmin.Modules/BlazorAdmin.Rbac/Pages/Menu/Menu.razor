@@ -21,7 +21,8 @@
         <div class="flex-0 pt-2" style="width:340px;overflow:auto;">
             @if (ReRenderFlg)
             {
-                <MudTreeView Items="@MenuItems" Hover="true" T="MenuItem" @bind-SelectedValue="SelectedMenuItem">
+                <MudTreeView Items="@MenuItems" Hover="true" T="MenuItem" SelectedValue="SelectedMenuItem"
+                    SelectedValueChanged="SelectedMenuChanged">
                     <ItemTemplate>
                         <MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.Childs" Value="context">
                             <Content>
@@ -38,11 +39,6 @@
                                 <MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.MenuName</MudText>
                                 <div class="identify" style="display:none;">@context.Id</div>
                                 <MudSpacer />
-                                @if (_accessService.CheckHasElementRights("MenuUpdateBtn").Result)
-                                {
-                                    <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Edit" OnClick="()=>EditMenuClick(context.Id)"
-                                                   Color="Color.Inherit"></MudIconButton>
-                                }
                                 @if (_accessService.CheckHasElementRights("MenuOrderBtn").Result)
                                 {
                                     <MudIcon Icon="@Icons.Material.Filled.DragHandle" Class="draghandle cursor-grabbing" />

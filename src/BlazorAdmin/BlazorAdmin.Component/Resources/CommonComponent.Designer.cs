@@ -115,7 +115,7 @@ namespace BlazorAdmin.Component.Resources {
         }
         
         /// <summary>
-        ///   查找类似 所属组织选择 的本地化字符串。
+        ///   查找类似 上级组织选择 的本地化字符串。
         /// </summary>
         public static string OrganizationTreeSelect_Title {
             get {

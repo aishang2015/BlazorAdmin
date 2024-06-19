@@ -12,7 +12,10 @@
             </MudText>
             <MudSpacer />
         </div>
-        <MudDivider />
+        @if (OrganizationItems.Count > 0)
+        {
+            <MudDivider />
+        }
         <div style="max-height:400px;overflow:auto;">
             <MudTreeView T="OrganizationItem" Items="@OrganizationItems" Hover="true"
                          SelectedValueChanged="SelectedTreeItemChanged">
@@ -22,11 +25,11 @@
                             <MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="context.Childs.Count > 0" />
                             <MudIcon Icon="@Icons.Material.Outlined.AccountTree" Class="mr-2"></MudIcon>
                             <MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.Name</MudText>
-                                <MudSpacer />
-                            </Content>
-                        </MudTreeViewItem>
-                    </ItemTemplate>
-                </MudTreeView>
-            </div>
-        </MudPopover>
-    </div>
+                            <MudSpacer />
+                        </Content>
+                    </MudTreeViewItem>
+                </ItemTemplate>
+            </MudTreeView>
+        </div>
+    </MudPopover>
+</div>

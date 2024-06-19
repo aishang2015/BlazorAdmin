@@ -3,6 +3,7 @@ using BlazorAdmin.Component.Pages;
 using BlazorAdmin.Rbac.Pages.Role.Dialogs;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
+using static MudBlazor.CategoryTypes;
 
 namespace BlazorAdmin.Rbac.Pages.Role
 {
@@ -17,6 +18,8 @@ namespace BlazorAdmin.Rbac.Pages.Role
         private string? SearchText;
 
         private MudDataGrid<RoleModel> dataGridRef = null!;
+
+        private HashSet<RoleModel> selectedItems = new();
 
         private List<RoleModel> Roles = new();
 
@@ -47,6 +50,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
 
         private async Task<GridData<RoleModel>> GetTableData(GridState<RoleModel> gridState)
         {
+            selectedItems.Clear();
             await InitialData();
             return new GridData<RoleModel>() { TotalItems = Total, Items = Roles };
         }

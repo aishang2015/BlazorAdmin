@@ -115,12 +115,27 @@ namespace BlazorAdmin.Rbac.Pages.Menu
             };
         }
 
+        private async Task SelectedMenuChanged(MenuItem item)
+        {
+            if (SelectedMenuItem != item)
+            {
+                SelectedMenuItem = item;
+                await EditMenuClick(item.Id);
+            }
+        }
+
         private async Task EditMenuClick(int menuId)
         {
+            if (!await _accessService.CheckHasElementRights("MenuUpdateBtn"))
+            {
+                return;
+            }
+
             using var context = await _dbFactory.CreateDbContextAsync();
             var menu = context.Menus.Find(menuId);
             if (menu != null)
             {
+
                 MenuEditModel = new MenuModel
                 {
                     Id = menuId,

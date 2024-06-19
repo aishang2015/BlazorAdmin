@@ -5,27 +5,30 @@
 
 <PageHeader Title="@Loc["RolePage_Title"]">
     <div style="width:140px">
-        <MudTextField T="string" @bind-Value="SearchText" Margin="Margin.Dense" Placeholder="@Loc["RolePage_SearchKeywordPlaceholder"]"></MudTextField>
+        <MudTextField T="string" @bind-Value="SearchText" Margin="Margin.Dense" 
+                Label="@Loc["RolePage_SearchKeywordPlaceholder"]"></MudTextField>
     </div>
     <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="()=>dataGridRef.ReloadServerData()"
-                   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+                   Variant="Variant.Text"  Color="Color.Primary" Class=""></MudIconButton>
     <MudTooltip Text="重置搜索">
         <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.SearchOff" OnClick="SearchReset"
-                       Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+                       Variant="Variant.Text" Color="Color.Primary" Class=""></MudIconButton>
     </MudTooltip>
     @if (_accessService.CheckHasElementRights("RoleAddBtn").Result)
     {
         <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" OnClick="AddRoleClick"
-                       Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+                       Variant="Variant.Text" Color="Color.Primary" Class=""></MudIconButton>
     }
 </PageHeader>
 
 <MudDataGrid Dense=PageDataGridOne.Dense Filterable=PageDataGridOne.Filterable ColumnResizeMode=PageDataGridOne.ColumnResizeMode
              SortMode=PageDataGridOne.SortMode Groupable=PageDataGridOne.Groupable Virtualize=PageDataGridOne.Virtualize
              FixedHeader=PageDataGridOne.FixedHeader Elevation=PageDataGridOne.Elevation Outlined=PageDataGridOne.Outlined
-             Height=PageDataGridOne.Height ServerData="GetTableData" @ref="dataGridRef" T="RoleModel">
+             SelectedItems="selectedItems"
+             Height=@PageDataGridOne.Height ServerData="GetTableData" @ref="dataGridRef" T="RoleModel">
     <Columns>
-        <PropertyColumn Title="@Loc["RolePage_TableH1"]" Property="x=>x.Number" HeaderStyle="white-space:nowrap;width:40px;" StickyLeft="true" Resizable="false" />
+        <SelectColumn T="RoleModel" ShowInFooter="false"/>
+        <PropertyColumn Title="@Loc["RolePage_TableH1"]" Property="x=>x.Number" HeaderStyle="white-space:nowrap;width:40px;" Resizable="false" />
         <PropertyColumn Title="@Loc["RolePage_TableH2"]" Property="x=>x.Name" HeaderStyle="white-space:nowrap;" />
         <TemplateColumn Title="@Loc["RolePage_TableH3"]" HeaderStyle="white-space:nowrap">
             <CellTemplate>
@@ -36,20 +39,20 @@
         </TemplateColumn>
         <TemplateColumn Title="@Loc["RolePage_TableH4"]" HeaderStyle="white-space:nowrap;width:150px;" StickyRight="true" Resizable="false">
             <CellTemplate>
-                <MudStack Row>
+                <MudStack Row Spacing="1">
                     @if (_accessService.CheckHasElementRights("RoleDeleteBtn").Result)
                     {
-                        <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Delete" Color="Color.Error"
+                        <MudIconButton Size="@MudBlazor.Size.Small" Class="pa-2" Icon="@Icons.Material.Outlined.Delete" Color="Color.Error"
                                        OnClick="()=>DeleteRoleClick(context.Item.Id)" />
                     }
                     @if (_accessService.CheckHasElementRights("RoleUpdateBtn").Result)
                     {
-                        <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary"
+                        <MudIconButton Size="@MudBlazor.Size.Small" Class="pa-2" Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary"
                                        OnClick="()=>EditRoleClick(context.Item.Id)" />
                     }
                     @if (_accessService.CheckHasElementRights("RoleMenuBtn").Result)
                     {
-                        <MudIconButton Size="@MudBlazor.Size.Small" Icon="@Icons.Material.Outlined.Menu" Color="Color.Tertiary"
+                        <MudIconButton Size="@MudBlazor.Size.Small" Class="pa-2" Icon="@Icons.Material.Outlined.Menu" Color="Color.Tertiary"
                                        OnClick="()=>SetRoleMenuClick(context.Item.Id)" />
                     }
                 </MudStack>
