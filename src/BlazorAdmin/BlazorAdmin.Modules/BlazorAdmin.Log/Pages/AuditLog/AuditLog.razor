@@ -7,11 +7,11 @@
 <PageHeader Title="@Loc["AuditLogPage_Title"]">
     <div style="width:140px" class="mr-2">
         <MudTextField Label="@Loc["AuditLogPage_TableH2"]" Clearable Margin="Margin.Dense"
-                      @bind-Value="InputTransaction"></MudTextField>
+                      @bind-Value="InputTransaction" Variant="Variant.Outlined"></MudTextField>
     </div>
     <div style="width:140px" class="mr-2">
         <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH3"]" Margin="Margin.Dense"
-                   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedUser" Clearable>
+                   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedUser" Clearable Variant="Variant.Outlined">
             @foreach (var o in Operators)
             {
                 <MudSelectItem Value="@o.Id.ToString()">@o.UserName</MudSelectItem>
@@ -20,7 +20,7 @@
     </div>
     <div style="width:140px" class="mr-2">
         <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH4"]" Margin="Margin.Dense"
-                   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedOperateTarget" Clearable>
+                   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedOperateTarget" Clearable Variant="Variant.Outlined">
             @foreach (var o in OperateTargets)
             {
                 <MudSelectItem Value="@o.EntityName">@o.DisplayName</MudSelectItem>
@@ -29,7 +29,7 @@
     </div>
     <div style="width:140px" class="mr-2">
         <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH5"]" Margin="Margin.Dense"
-                   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedOperation" Clearable>
+                   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedOperation" Clearable Variant="Variant.Outlined">
             <MudSelectItem Value="@("2")">
                 @Loc["AuditLogPage_OperationDelete"]
             </MudSelectItem>
@@ -42,10 +42,10 @@
         </MudSelect>
     </div>
     <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="@(()=>dataGrid.ReloadServerData())"
-                   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
-    <MudTooltip Text="重置搜索">
+                   Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2"></MudIconButton>
+    <MudTooltip Text="重置搜索" Color="Color.Primary">
         <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.SearchOff" OnClick="SearchReset"
-                       Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+                       Variant="Variant.Outlined" Color="Color.Primary"></MudIconButton>
     </MudTooltip>
 </PageHeader>
 

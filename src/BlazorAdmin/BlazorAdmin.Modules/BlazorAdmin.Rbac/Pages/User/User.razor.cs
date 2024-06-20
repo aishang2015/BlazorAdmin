@@ -1,5 +1,6 @@
 ﻿using BlazorAdmin.Component.Dialogs;
 using BlazorAdmin.Component.Pages;
+using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Rbac.Pages.User.Dialogs;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
@@ -56,19 +57,10 @@ namespace BlazorAdmin.Rbac.Pages.User
                     .Select(ur => ur.UserId).Distinct().ToList();
             }
 
-            IQueryable<Data.Entities.Rbac.User> query = context.Users.Where(u => !u.IsDeleted && !u.IsSpecial);
-            if (!string.IsNullOrEmpty(SearchText))
-            {
-                query = query.Where(u => u.Name.Contains(SearchText));
-            }
-            if (!string.IsNullOrEmpty(SearchRealName))
-            {
-                query = query.Where(u => u.RealName.Contains(SearchRealName));
-            }
-            if (searchedUserIdList.Count > 0)
-            {
-                query = query.Where(u => searchedUserIdList.Contains(u.Id));
-            }
+            var query = context.Users.Where(u => !u.IsDeleted && !u.IsSpecial)
+                .AndIfExist(SearchText, u => u.Name.Contains(SearchText))
+                .AndIfExist(SearchRealName, u => u.RealName.Contains(SearchRealName))
+                .AndIf(!string.IsNullOrEmpty(SearchRole), u => searchedUserIdList.Contains(u.Id));
 
             Users = await query.Skip((Page - 1) * Size).Take(Size)
                 .Select(p => new UserModel

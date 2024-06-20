@@ -5,13 +5,16 @@
 
 <PageHeader Title="@Loc["UserPage_Title"]">
     <div style="width:140px" class="mr-2">
-        <MudTextField T="string" @bind-Value="SearchText" Margin="Margin.Dense" Placeholder="@Loc["UserPage_SearchName"]"></MudTextField>
+        <MudTextField T="string" @bind-Value="SearchText" Margin="Margin.Dense" Label="@Loc["UserPage_SearchName"]"
+                      Variant="Variant.Outlined" Clearable></MudTextField>
     </div>
     <div style="width:140px" class="mr-2">
-        <MudTextField T="string" @bind-Value="SearchRealName" Margin="Margin.Dense" Placeholder="@Loc["UserPage_SearchRealName"]"></MudTextField>
+        <MudTextField T="string" @bind-Value="SearchRealName" Margin="Margin.Dense" Label="@Loc["UserPage_SearchRealName"]"
+                      Variant="Variant.Outlined" Clearable></MudTextField>
     </div>
     <div style="width:140px" class="mr-2">
-        <MudSelect T="string" @bind-Value="SearchRole" Margin="Margin.Dense" Placeholder="@Loc["UserPage_SearchRole"]">
+        <MudSelect T="string" @bind-Value="SearchRole" Margin="Margin.Dense" Label="@Loc["UserPage_SearchRole"]"
+                   Variant="Variant.Outlined" Clearable>
             @foreach (var r in RoleList)
             {
                 <MudSelectItem Value="@r.Id.ToString()">@r.Name</MudSelectItem>
@@ -19,16 +22,16 @@
         </MudSelect>
     </div>
     <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="()=>{ dataGrid.ReloadServerData(); }"
-                   Variant="Variant.Text" Color="Color.Primary">
+                   Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2">
     </MudIconButton>
-    <MudTooltip Text="重置搜索">
+    <MudTooltip Text="重置搜索" Color="Color.Primary">
         <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.SearchOff" OnClick="SearchReset"
-                       Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+                       Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2"></MudIconButton>
     </MudTooltip>
     @if (_accessService.CheckHasElementRights("UserAddBtn").Result)
     {
         <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" OnClick="AddUserClick"
-                       Variant="Variant.Text" Color="Color.Primary">
+                       Variant="Variant.Outlined" Color="Color.Primary">
         </MudIconButton>
     }
 </PageHeader>

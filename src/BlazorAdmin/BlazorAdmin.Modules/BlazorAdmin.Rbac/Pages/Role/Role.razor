@@ -4,20 +4,20 @@
 @attribute [StreamRendering]
 
 <PageHeader Title="@Loc["RolePage_Title"]">
-    <div style="width:140px">
-        <MudTextField T="string" @bind-Value="SearchText" Margin="Margin.Dense" 
-                Label="@Loc["RolePage_SearchKeywordPlaceholder"]"></MudTextField>
+    <div style="width:140px" class="mr-2">
+        <MudTextField T="string" @bind-Value="SearchText" Margin="Margin.Dense"
+                      Label="@Loc["RolePage_SearchKeywordPlaceholder"]" Variant="Variant.Outlined"></MudTextField>
     </div>
     <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="()=>dataGridRef.ReloadServerData()"
-                   Variant="Variant.Text"  Color="Color.Primary" Class=""></MudIconButton>
-    <MudTooltip Text="重置搜索">
+                   Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2"></MudIconButton>
+    <MudTooltip Text="重置搜索" Color="Color.Primary">
         <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.SearchOff" OnClick="SearchReset"
-                       Variant="Variant.Text" Color="Color.Primary" Class=""></MudIconButton>
+                       Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2"></MudIconButton>
     </MudTooltip>
     @if (_accessService.CheckHasElementRights("RoleAddBtn").Result)
     {
         <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" OnClick="AddRoleClick"
-                       Variant="Variant.Text" Color="Color.Primary" Class=""></MudIconButton>
+                       Variant="Variant.Outlined" Color="Color.Primary" Class=""></MudIconButton>
     }
 </PageHeader>
 
@@ -27,7 +27,7 @@
              SelectedItems="selectedItems"
              Height=@PageDataGridOne.Height ServerData="GetTableData" @ref="dataGridRef" T="RoleModel">
     <Columns>
-        <SelectColumn T="RoleModel" ShowInFooter="false"/>
+        <SelectColumn T="RoleModel" ShowInFooter="false" />
         <PropertyColumn Title="@Loc["RolePage_TableH1"]" Property="x=>x.Number" HeaderStyle="white-space:nowrap;width:40px;" Resizable="false" />
         <PropertyColumn Title="@Loc["RolePage_TableH2"]" Property="x=>x.Name" HeaderStyle="white-space:nowrap;" />
         <TemplateColumn Title="@Loc["RolePage_TableH3"]" HeaderStyle="white-space:nowrap">

@@ -5,13 +5,13 @@
 <PageHeader Title="@Loc["LoginLogPage_Title"]">
     <div style="width:140px" class="mr-2">
         <MudTextField @bind-Value="SearchedLoginName" Label="@Loc["LoginLogPage_TableH2"]" Clearable="true"
-                      Margin="Margin.Dense" Variant="Variant.Text"></MudTextField>
+                      Margin="Margin.Dense" Variant="Variant.Outlined"></MudTextField>
     </div>
     <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="()=>dataGrid.ReloadServerData()"
-                   Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
-    <MudTooltip Text="重置搜索">
+                   Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2"></MudIconButton>
+    <MudTooltip Text="重置搜索" Color="Color.Primary">
         <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.SearchOff" OnClick="SearchReset"
-                       Variant="Variant.Text" Color="Color.Primary"></MudIconButton>
+                       Variant="Variant.Outlined" Color="Color.Primary"></MudIconButton>
     </MudTooltip>
 </PageHeader>
 
