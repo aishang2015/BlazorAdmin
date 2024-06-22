@@ -57,7 +57,7 @@ h1:focus {
 .mud-tabs-toolbar-inner {
 }
 
-.mud-tab{
+.mud-tab {
 }
 
 .mud-table-sticky-header * .mud-table-root .mud-table-head * .mud-table-cell.sticky-left, .mud-table-sticky-header * .mud-table-root .mud-table-head * .mud-table-cell.sticky-right {
@@ -68,4 +68,13 @@ h1:focus {
 .mud-table-sticky-footer * .mud-table-root .mud-table-foot * .mud-table-cell.sticky-left, .mud-table-sticky-footer * .mud-table-root .mud-table-foot * .mud-table-cell.sticky-right {
     z-index: 3;
     background-color: var(--mud-palette-background-gray);
+}
+
+
+.search-com .mud-input > input.mud-input-root-outlined.mud-input-root-margin-dense, div.mud-input-slot.mud-input-root-outlined.mud-input-root-margin-dense {
+    padding: 8px !important;
+}
+
+.search-com .mud-input-control-input-container > .mud-input-label-outlined.mud-input-label-inputcontrol {
+    line-height: 14px !important;
 }

@@ -7,12 +7,12 @@
     <PageHeader Title="@Loc["MenuPage_Title"]">
         @if (_accessService.CheckHasElementRights("MenuAddBtn").Result)
         {
-            <MudIconButton Class=" mr-2" Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Variant="Variant.Text"
+            <MudIconButton Class=" mr-2" Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Variant="Variant.Outlined"
                            OnClick="AddMenuClick" Size="Size.Medium"></MudIconButton>
         }
         @if (_accessService.CheckHasElementRights("MenuDeleteBtn").Result)
         {
-            <MudIconButton Class=" mr-2" Color="Color.Primary" Icon="@Icons.Material.Filled.Remove" Variant="Variant.Text"
+            <MudIconButton Class=" mr-2" Color="Color.Primary" Icon="@Icons.Material.Filled.Remove" Variant="Variant.Outlined"
                            OnClick="DeleteMenuClick" Size="Size.Medium" Disabled="SelectedMenuItem == null"></MudIconButton>
         }
     </PageHeader>

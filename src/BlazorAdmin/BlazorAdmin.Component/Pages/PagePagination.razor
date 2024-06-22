@@ -1,17 +1,23 @@
 ﻿<div class="d-flex justify-between align-center mt-4">
     <MudSpacer />
-    <MudPagination Color="Color.Primary" Count="@((Total - 1)/Size + 1)" Selected="@Page" SelectedChanged="PageChangedClick" />
+    <MudPagination Color="Color.Primary" Count="@((PageInfo.Total - 1)/PageInfo.Size + 1)" Selected="@PageInfo.Page" 
+            SelectedChanged="PageChangedClick"/>
 </div>
 
 
 
 @code {
-
-    [Parameter] public int Page { get; set; }
-
-    [Parameter] public int Size { get; set; }
-
-    [Parameter] public int Total { get; set; }
+    [Parameter] public PaginationModel PageInfo { get; set; } = null!;
 
     [Parameter] public EventCallback<int> PageChangedClick { get; set; }
+
+
+    public record PaginationModel
+    {
+        public int Page { get; set; } = 1;
+
+        public int Size { get; set; } = 10;
+
+        public int Total { get; set; } = 0;
+    }
 }

@@ -7,12 +7,12 @@
     <PageHeader Title="@Loc["OrganizationPage_Title"]">
         @if (_accessService.CheckHasElementRights("OrganizationAddBtn").Result)
         {
-            <MudIconButton Class=" mr-2" Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Variant="Variant.Text"
+            <MudIconButton Class=" mr-2" Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Variant="Variant.Outlined"
                            Size="Size.Medium" OnClick="AddOrganizationClick"></MudIconButton>
         }
         @if (_accessService.CheckHasElementRights("OrganizationDeleteBtn").Result)
         {
-            <MudIconButton Class=" mr-2" Color="Color.Primary" Icon="@Icons.Material.Filled.Remove" Variant="Variant.Text"
+            <MudIconButton Class=" mr-2" Color="Color.Primary" Icon="@Icons.Material.Filled.Remove" Variant="Variant.Outlined"
                            Size="Size.Medium" Disabled="SelectedOrganizationItem == null"
                            OnClick="DeleteOrganizationClick"></MudIconButton>
         }

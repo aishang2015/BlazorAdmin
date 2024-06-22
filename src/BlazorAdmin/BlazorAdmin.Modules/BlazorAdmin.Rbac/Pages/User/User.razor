@@ -5,16 +5,16 @@
 
 <PageHeader Title="@Loc["UserPage_Title"]">
     <div style="width:140px" class="mr-2">
-        <MudTextField T="string" @bind-Value="SearchText" Margin="Margin.Dense" Label="@Loc["UserPage_SearchName"]"
-                      Variant="Variant.Outlined" Clearable></MudTextField>
+        <MudTextField T="string" @bind-Value="searchObject.SearchText" Margin="Margin.Dense" Label="@Loc["UserPage_SearchName"]"
+                      Variant="Variant.Outlined" Clearable Class="search-com"></MudTextField>
     </div>
     <div style="width:140px" class="mr-2">
-        <MudTextField T="string" @bind-Value="SearchRealName" Margin="Margin.Dense" Label="@Loc["UserPage_SearchRealName"]"
-                      Variant="Variant.Outlined" Clearable></MudTextField>
+        <MudTextField T="string" @bind-Value="searchObject.SearchRealName" Margin="Margin.Dense" Label="@Loc["UserPage_SearchRealName"]"
+                      Variant="Variant.Outlined" Clearable Class="search-com"></MudTextField>
     </div>
     <div style="width:140px" class="mr-2">
-        <MudSelect T="string" @bind-Value="SearchRole" Margin="Margin.Dense" Label="@Loc["UserPage_SearchRole"]"
-                   Variant="Variant.Outlined" Clearable>
+        <MudSelect T="string" @bind-Value="searchObject.SearchRole" Margin="Margin.Dense" Label="@Loc["UserPage_SearchRole"]"
+                   Variant="Variant.Outlined" Clearable Class="search-com">
             @foreach (var r in RoleList)
             {
                 <MudSelectItem Value="@r.Id.ToString()">@r.Name</MudSelectItem>
@@ -104,4 +104,4 @@
     </Columns>
 </MudDataGrid>
 
-<PagePagination Page="@Page" Size="@Size" Total="@Total" PageChangedClick="PageChangedClick"></PagePagination>
+<PagePagination PageInfo="searchObject" PageChangedClick="PageChangedClick"></PagePagination>

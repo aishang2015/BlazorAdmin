@@ -7,11 +7,12 @@
 <PageHeader Title="@Loc["AuditLogPage_Title"]">
     <div style="width:140px" class="mr-2">
         <MudTextField Label="@Loc["AuditLogPage_TableH2"]" Clearable Margin="Margin.Dense"
-                      @bind-Value="InputTransaction" Variant="Variant.Outlined"></MudTextField>
+                      @bind-Value="searchObject.InputTransaction" Variant="Variant.Outlined" Class="search-com"></MudTextField>
     </div>
     <div style="width:140px" class="mr-2">
         <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH3"]" Margin="Margin.Dense"
-                   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedUser" Clearable Variant="Variant.Outlined">
+                   AnchorOrigin="Origin.BottomCenter" @bind-Value="searchObject.SelectedUser" Clearable Variant="Variant.Outlined"
+                   Class="search-com">
             @foreach (var o in Operators)
             {
                 <MudSelectItem Value="@o.Id.ToString()">@o.UserName</MudSelectItem>
@@ -20,7 +21,8 @@
     </div>
     <div style="width:140px" class="mr-2">
         <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH4"]" Margin="Margin.Dense"
-                   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedOperateTarget" Clearable Variant="Variant.Outlined">
+                   AnchorOrigin="Origin.BottomCenter" @bind-Value="searchObject.SelectedOperateTarget" Clearable Variant="Variant.Outlined"
+                   Class="search-com">
             @foreach (var o in OperateTargets)
             {
                 <MudSelectItem Value="@o.EntityName">@o.DisplayName</MudSelectItem>
@@ -29,7 +31,8 @@
     </div>
     <div style="width:140px" class="mr-2">
         <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH5"]" Margin="Margin.Dense"
-                   AnchorOrigin="Origin.BottomCenter" @bind-Value="SelectedOperation" Clearable Variant="Variant.Outlined">
+                   AnchorOrigin="Origin.BottomCenter" @bind-Value="searchObject.SelectedOperation" Clearable Variant="Variant.Outlined"
+                   Class="search-com">
             <MudSelectItem Value="@("2")">
                 @Loc["AuditLogPage_OperationDelete"]
             </MudSelectItem>
@@ -81,4 +84,4 @@
     </TemplateColumn>
 </PageDataGrid>
 
-<PagePagination Page="@Page" Size="@Size" Total="@Total" PageChangedClick="PageChangedClick"></PagePagination>
+<PagePagination PageInfo="searchObject" PageChangedClick="PageChangedClick"></PagePagination>

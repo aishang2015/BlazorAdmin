@@ -3,19 +3,13 @@ using BlazorAdmin.Component.Pages;
 using BlazorAdmin.Rbac.Pages.Role.Dialogs;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
+using static BlazorAdmin.Component.Pages.PagePagination;
 using static MudBlazor.CategoryTypes;
 
 namespace BlazorAdmin.Rbac.Pages.Role
 {
     public partial class Role
     {
-        private int Page = 1;
-
-        private int Size = 10;
-
-        private int Total = 0;
-
-        private string? SearchText;
 
         private MudDataGrid<RoleModel> dataGridRef = null!;
 
@@ -25,13 +19,15 @@ namespace BlazorAdmin.Rbac.Pages.Role
 
         private PageDataGridOne PageDataGridOne = new();
 
+        private SearchObject searchObject = new();
+
         private async Task InitialData()
         {
             using var context = await _dbFactory.CreateDbContextAsync();
             IQueryable<Data.Entities.Rbac.Role> query = context.Roles.Where(r => !r.IsDeleted);
-            if (!string.IsNullOrEmpty(SearchText))
+            if (!string.IsNullOrEmpty(searchObject.SearchText))
             {
-                query = query.Where(u => u.Name!.Contains(SearchText));
+                query = query.Where(u => u.Name!.Contains(searchObject.SearchText));
             }
 
             Roles = await query.Select(r => new RoleModel
@@ -39,12 +35,12 @@ namespace BlazorAdmin.Rbac.Pages.Role
                 Id = r.Id,
                 Name = r.Name,
                 IsEnabled = r.IsEnabled
-            }).Skip((Page - 1) * Size).Take(Size).ToListAsync();
-            Total = await query.CountAsync();
+            }).Skip((searchObject.Page - 1) * searchObject.Size).Take(searchObject.Size).ToListAsync();
+            searchObject.Total = await query.CountAsync();
 
             foreach (var role in Roles)
             {
-                role.Number = (Page - 1) * Size + Roles.IndexOf(role) + 1;
+                role.Number = (searchObject.Page - 1) * searchObject.Size + Roles.IndexOf(role) + 1;
             }
         }
 
@@ -52,7 +48,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
         {
             selectedItems.Clear();
             await InitialData();
-            return new GridData<RoleModel>() { TotalItems = Total, Items = Roles };
+            return new GridData<RoleModel>() { TotalItems = searchObject.Total, Items = Roles };
         }
 
         private async Task ChangeRoleActive(int roleId, bool isEnabled)
@@ -145,15 +141,20 @@ namespace BlazorAdmin.Rbac.Pages.Role
 
         private async Task PageChangedClick(int page)
         {
-            Page = page;
+            searchObject.Page = page;
             await dataGridRef.ReloadServerData();
         }
 
         private void SearchReset()
         {
-            SearchText = null;
-            Page = 1;
+            searchObject = new();
+            searchObject.Page = 1;
             dataGridRef.ReloadServerData();
+        }
+
+        private record SearchObject : PaginationModel
+        {
+            public string? SearchText { get; set; }
         }
 
         private class RoleModel

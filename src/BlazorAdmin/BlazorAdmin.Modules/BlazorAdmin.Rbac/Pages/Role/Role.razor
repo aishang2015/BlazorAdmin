@@ -5,7 +5,7 @@
 
 <PageHeader Title="@Loc["RolePage_Title"]">
     <div style="width:140px" class="mr-2">
-        <MudTextField T="string" @bind-Value="SearchText" Margin="Margin.Dense"
+        <MudTextField T="string" @bind-Value="searchObject.SearchText" Margin="Margin.Dense" Class="search-com"
                       Label="@Loc["RolePage_SearchKeywordPlaceholder"]" Variant="Variant.Outlined"></MudTextField>
     </div>
     <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="()=>dataGridRef.ReloadServerData()"
@@ -61,4 +61,4 @@
     </Columns>
 </MudDataGrid>
 
-<PagePagination Page="@Page" Size="@Size" Total="@Total" PageChangedClick="PageChangedClick"></PagePagination>
+<PagePagination PageInfo="searchObject" PageChangedClick="PageChangedClick"></PagePagination>

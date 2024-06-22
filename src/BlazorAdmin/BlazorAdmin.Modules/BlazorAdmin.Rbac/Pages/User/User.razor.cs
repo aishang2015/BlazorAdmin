@@ -4,7 +4,9 @@ using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Rbac.Pages.User.Dialogs;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using MudBlazor;
+using static BlazorAdmin.Component.Pages.PagePagination;
 
 namespace BlazorAdmin.Rbac.Pages.User
 {
@@ -12,17 +14,7 @@ namespace BlazorAdmin.Rbac.Pages.User
     {
         private List<UserModel> Users = new List<UserModel>();
 
-        private int Page = 1;
-
-        private int Size = 10;
-
-        private int Total = 0;
-
-        private string? SearchText;
-
-        private string? SearchRealName;
-
-        private string? SearchRole;
+        private SearchObject searchObject = new();
 
         private MudDataGrid<UserModel> dataGrid = null!;
 
@@ -50,19 +42,19 @@ namespace BlazorAdmin.Rbac.Pages.User
             using var context = await _dbFactory.CreateDbContextAsync();
 
             var searchedUserIdList = new List<int>();
-            if (!string.IsNullOrEmpty(SearchRole))
+            if (!string.IsNullOrEmpty(searchObject.SearchRole))
             {
-                var role = int.Parse(SearchRole);
+                var role = int.Parse(searchObject.SearchRole);
                 searchedUserIdList = context.UserRoles.Where(ur => ur.RoleId == role)
                     .Select(ur => ur.UserId).Distinct().ToList();
             }
 
             var query = context.Users.Where(u => !u.IsDeleted && !u.IsSpecial)
-                .AndIfExist(SearchText, u => u.Name.Contains(SearchText))
-                .AndIfExist(SearchRealName, u => u.RealName.Contains(SearchRealName))
-                .AndIf(!string.IsNullOrEmpty(SearchRole), u => searchedUserIdList.Contains(u.Id));
+                .AndIfExist(searchObject.SearchText, u => u.Name.Contains(searchObject.SearchText!))
+                .AndIfExist(searchObject.SearchRealName, u => u.RealName.Contains(searchObject.SearchRealName!))
+                .AndIf(!string.IsNullOrEmpty(searchObject.SearchRole), u => searchedUserIdList.Contains(u.Id));
 
-            Users = await query.Skip((Page - 1) * Size).Take(Size)
+            Users = await query.Skip((searchObject.Page - 1) * searchObject.Size).Take(searchObject.Size)
                 .Select(p => new UserModel
                 {
                     Id = p.Id,
@@ -71,7 +63,7 @@ namespace BlazorAdmin.Rbac.Pages.User
                     RealName = p.RealName,
                     IsEnabled = p.IsEnabled,
                 }).ToListAsync();
-            Total = await query.CountAsync();
+            searchObject.Total = await query.CountAsync();
 
             var roles = (from r in context.Roles
                          join ur in context.UserRoles on r.Id equals ur.RoleId
@@ -79,7 +71,7 @@ namespace BlazorAdmin.Rbac.Pages.User
 
             foreach (var user in Users)
             {
-                user.Number = (Page - 1) * Size + Users.IndexOf(user) + 1;
+                user.Number = (searchObject.Page - 1) * searchObject.Size + Users.IndexOf(user) + 1;
                 user.Roles = roles.Where(r => r.UserId == user.Id).Select(r => r.Name).ToList();
             }
 
@@ -87,7 +79,7 @@ namespace BlazorAdmin.Rbac.Pages.User
 
         private async Task PageChangedClick(int page)
         {
-            Page = page;
+            searchObject.Page = page;
             await InitialData();
         }
 
@@ -184,11 +176,19 @@ namespace BlazorAdmin.Rbac.Pages.User
 
         private void SearchReset()
         {
-            SearchText = "";
-            SearchRole = "";
-            SearchRealName = "";
-            Page = 1;
+            searchObject = new();
+            searchObject.Page = 1;
             dataGrid.ReloadServerData();
+        }
+
+
+        private record SearchObject : PaginationModel
+        {
+            public string? SearchText { get; set; }
+
+            public string? SearchRole { get; set; }
+
+            public string? SearchRealName { get; set; }
         }
 
         private class UserModel

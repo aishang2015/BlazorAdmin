@@ -2,11 +2,13 @@
 using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Data.Attributes;
 using BlazorAdmin.Log.Pages.AuditLog.Dialogs;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using MudBlazor;
 using System.Reflection;
+using static BlazorAdmin.Component.Pages.PagePagination;
 
 namespace BlazorAdmin.Log.Pages.AuditLog
 {
@@ -21,19 +23,7 @@ namespace BlazorAdmin.Log.Pages.AuditLog
 
         private List<OperateTarget> OperateTargets = new();
 
-        private string? InputTransaction;
-
-        private string? SelectedUser;
-
-        private string? SelectedOperateTarget;
-
-        private string? SelectedOperation;
-
-        private int Page = 1;
-
-        private int Size = 10;
-
-        private int Total = 0;
+        private SearchObject searchObject = new();
 
         protected override async Task OnInitializedAsync()
         {
@@ -45,11 +35,11 @@ namespace BlazorAdmin.Log.Pages.AuditLog
         {
             using var context = await _dbFactory.CreateDbContextAsync();
             var auditLogQuery = context.AuditLogs
-                .AndIf(!string.IsNullOrEmpty(InputTransaction) && Guid.TryParse(InputTransaction, out Guid inputGuid),
-                        q => q.TransactionId == Guid.Parse(InputTransaction!))
-                .AndIfExist(SelectedUser, q => q.UserId == int.Parse(SelectedUser!))
-                .AndIfExist(SelectedOperateTarget, q => q.EntityName == SelectedOperateTarget)
-                .AndIfExist(SelectedOperation, q => q.Operation == int.Parse(SelectedOperation!));
+                .AndIf(!string.IsNullOrEmpty(searchObject.InputTransaction) && Guid.TryParse(searchObject.InputTransaction, out Guid inputGuid),
+                        q => q.TransactionId == Guid.Parse(searchObject.InputTransaction!))
+                .AndIfExist(searchObject.SelectedUser, q => q.UserId == int.Parse(searchObject.SelectedUser!))
+                .AndIfExist(searchObject.SelectedOperateTarget, q => q.EntityName == searchObject.SelectedOperateTarget)
+                .AndIfExist(searchObject.SelectedOperation, q => q.Operation == int.Parse(searchObject.SelectedOperation!));
 
             var query = from log in auditLogQuery
                         join user in context.Users on log.UserId equals user.Id
@@ -64,10 +54,10 @@ namespace BlazorAdmin.Log.Pages.AuditLog
                             log.EntityName,
                         };
             var model = context.GetService<IDesignTimeModel>().Model;
-            AuditLogs = query.Skip((Page - 1) * Size).Take(Size).ToList()
+            AuditLogs = query.Skip((searchObject.Page - 1) * searchObject.Size).Take(searchObject.Size).ToList()
                 .Select((d, i) => new AuditLogModel
                 {
-                    Number = i + (Page - 1) * Size + 1,
+                    Number = i + (searchObject.Page - 1) * searchObject.Size + 1,
                     Id = d.Id,
                     TransactionId = d.TransactionId,
                     EntityName = model.FindEntityType(d.EntityName)?.GetComment(),
@@ -75,7 +65,7 @@ namespace BlazorAdmin.Log.Pages.AuditLog
                     Operation = d.Operation,
                     UserName = d.RealName
                 }).ToList();
-            Total = query.Count();
+            searchObject.Total = query.Count();
 
             Operators = context.Users.Where(u => !u.IsSpecial).Select(u => new Operator
             {
@@ -110,19 +100,28 @@ namespace BlazorAdmin.Log.Pages.AuditLog
 
         private void PageChangedClick(int page)
         {
-            Page = page;
+            searchObject.Page = page;
             dataGrid.ReloadServerData();
         }
 
         private void SearchReset()
         {
-            InputTransaction = null;
-            SelectedUser = null;
-            SelectedOperateTarget = null;
-            SelectedOperation = null;
-            Page = 1;
+            searchObject = new SearchObject();
+            searchObject.Page = 1;
             dataGrid.ReloadServerData();
         }
+
+        private record SearchObject : PaginationModel
+        {
+            public string? InputTransaction { get; set; }
+
+            public string? SelectedUser { get; set; }
+
+            public string? SelectedOperateTarget { get; set; }
+
+            public string? SelectedOperation { get; set; }
+        }
+
 
         private class AuditLogModel
         {
