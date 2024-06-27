@@ -1,6 +1,6 @@
 ﻿@rendermode InteractiveServer
 
-<MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+<MudIconButton Icon="@(_layoutState.NavIsOpen ? IconsConstant.MenuCollapsed : IconsConstant.MenuExpand)" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
 
 @code {
 
