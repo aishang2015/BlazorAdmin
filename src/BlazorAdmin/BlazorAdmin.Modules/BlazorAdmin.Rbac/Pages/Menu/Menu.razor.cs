@@ -15,7 +15,7 @@ namespace BlazorAdmin.Rbac.Pages.Menu
                    { "autocomplete", "off2" },
                 };
 
-        private HashSet<MenuItem> MenuItems = new();
+        private List<TreeItemData<MenuItem>> MenuItems = new();
 
         private MenuItem? SelectedMenuItem;
 
@@ -92,18 +92,21 @@ namespace BlazorAdmin.Rbac.Pages.Menu
             EditVisible = false;
         }
 
-        private HashSet<MenuItem> AppendMenuItems(int? parentId, List<Data.Entities.Rbac.Menu> menus)
+        private List<TreeItemData<MenuItem>> AppendMenuItems(int? parentId, List<Data.Entities.Rbac.Menu> menus)
         {
             return menus.Where(m => m.ParentId == parentId).OrderBy(m => m.Order)
-                .Select(m => new MenuItem
+                .Select(m => new TreeItemData<MenuItem>
                 {
-                    Id = m.Id,
-                    Icon = m.Icon,
-                    MenuName = m.Name,
-                    Route = m.Route,
-                    MenuType = m.Type,
-                    Childs = AppendMenuItems(m.Id, menus)
-                }).ToHashSet();
+                    Value = new MenuItem
+                    {
+                        Id = m.Id,
+                        Icon = m.Icon,
+                        MenuName = m.Name,
+                        Route = m.Route,
+                        MenuType = m.Type,
+                    },
+                    Children = AppendMenuItems(m.Id, menus)
+                }).ToList();
         }
 
         private void AddMenuClick()
@@ -239,12 +242,8 @@ namespace BlazorAdmin.Rbac.Pages.Menu
 
             public string? Route { get; set; }
 
-            public bool IsExpanded { get; set; }
-
             // 1 菜单 2 按钮
             public int MenuType { get; set; }
-
-            public HashSet<MenuItem> Childs { get; set; } = new();
         }
 
         private record MenuModel

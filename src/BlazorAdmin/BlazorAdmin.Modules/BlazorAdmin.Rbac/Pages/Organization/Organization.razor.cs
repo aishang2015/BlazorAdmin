@@ -10,7 +10,7 @@ namespace BlazorAdmin.Rbac.Pages.Organization
 {
     public partial class Organization
     {
-        private HashSet<OrganizationItem> OrganizationItems = new();
+        private List<TreeItemData<OrganizationItem>> OrganizationItems = new();
 
         private OrganizationItem? SelectedOrganizationItem;
 
@@ -78,21 +78,25 @@ namespace BlazorAdmin.Rbac.Pages.Organization
             }
         }
 
-        private HashSet<OrganizationItem> AppendOrganizationItems(int? parentId,
+        private List<TreeItemData<OrganizationItem>> AppendOrganizationItems(int? parentId,
                 List<Data.Entities.Rbac.Organization> organizations)
         {
             return organizations.Where(m => m.ParentId == parentId).OrderBy(m => m.Order)
-                .Select(m => new OrganizationItem
+                .Select(m => new TreeItemData<OrganizationItem>
                 {
-                    Id = m.Id,
-                    Name = m.Name,
-                    Childs = AppendOrganizationItems(m.Id, organizations)
-                }).ToHashSet();
+                    Value = new OrganizationItem
+                    {
+                        Id = m.Id,
+                        Name = m.Name,
+                    },
+                    Children = AppendOrganizationItems(m.Id, organizations)
+                }).ToList();
         }
 
         private void AddOrganizationClick()
         {
             EditVisible = true;
+            MemberVisible = false;
             EditModel = new();
         }
 
@@ -288,10 +292,6 @@ namespace BlazorAdmin.Rbac.Pages.Organization
             public int Id { get; set; }
 
             public string Name { get; set; } = null!;
-
-            public bool IsExpanded { get; set; }
-
-            public HashSet<OrganizationItem> Childs { get; set; } = new();
         }
 
         private record OrganizationModel

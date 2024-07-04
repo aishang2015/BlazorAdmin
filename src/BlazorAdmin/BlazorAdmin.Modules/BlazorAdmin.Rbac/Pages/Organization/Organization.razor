@@ -24,19 +24,19 @@
             <MudTreeView Items="@OrganizationItems" Hover="true" T="OrganizationItem"
                          @bind-SelectedValue="SelectedOrganizationItem">
                 <ItemTemplate>
-                    <MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.Childs" Value="context">
+                    <MudTreeViewItem @bind-Expanded="@context.Expanded" Items="@context.Children" Value="@context.Value">
                         <Content>
-                            <MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="context.Childs.Count > 0" />
+                            <MudTreeViewItemToggleButton @bind-Expanded="@context.Expanded" Visible="context.HasChildren" />
                             <MudIcon Icon="@Icons.Material.Outlined.AccountTree" Class="mr-2"></MudIcon>
-                            <MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.Name</MudText>
-                                <div class="identify" style="display:none;">@context.Id</div>
+                            <MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.Value.Name</MudText>
+                            <div class="identify" style="display:none;">@context.Value.Id</div>
                             <MudSpacer />
                             <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Groups3"
-                                           Color="Color.Inherit" OnClick="()=>EditMemberClick(context.Id)"></MudIconButton>
+                                           Color="Color.Inherit" OnClick="()=>EditMemberClick(context.Value.Id)"></MudIconButton>
                             @if (_accessService.CheckHasElementRights("OrganizationUpdateBtn").Result)
                             {
                                 <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Edit"
-                                               Color="Color.Inherit" OnClick="() => EditOrganizationClick(context.Id)"></MudIconButton>
+                                               Color="Color.Inherit" OnClick="() => EditOrganizationClick(context.Value.Id)"></MudIconButton>
                             }
                             @if (_accessService.CheckHasElementRights("OrganizationOrderBtn").Result)
                             {
@@ -65,11 +65,11 @@
                             <MudSpacer />
                             <MudButton Variant="Variant.Filled" Color="Color.Default" Class="mr-4"
                                        ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Cancel" OnClick="CancelClick">@Loc["MenuPage_CancelButtonText"]</MudButton>
-                                <MudButton Variant="Variant.Filled" Color="Color.Primary"
-                                           ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Upload">@Loc["MenuPage_SubmitButtonText"]</MudButton>
-                            </div>
-                        </EditForm>
-                    </div>
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                                       ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Upload">@Loc["MenuPage_SubmitButtonText"]</MudButton>
+                        </div>
+                    </EditForm>
+                </div>
             }
 
             @if (MemberVisible)
@@ -168,9 +168,9 @@
                         </RowTemplate>
                     </MudTable>
                     <MudButton FullWidth Variant="Variant.Outlined" OnClick="AddNewMember">
-                         <MudIcon Icon="@Icons.Material.Filled.Add"></MudIcon>
-                     </MudButton>
-                 </div>
+                        <MudIcon Icon="@Icons.Material.Filled.Add"></MudIcon>
+                    </MudButton>
+                </div>
             }
         </div>
 

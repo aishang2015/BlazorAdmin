@@ -1,5 +1,6 @@
 using BlazorAdmin.Core.Auth;
 using BlazorAdmin.Core.Chat;
+using BlazorAdmin.Core.Data;
 using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Core.Modules;
@@ -95,7 +96,7 @@ builder.Services.AddAuthentication(options =>
 {
     var connStr = builder.Configuration.GetConnectionString("Rbac");
     using var context = new BlazorAdminDbContext(new DbContextOptionsBuilder<BlazorAdminDbContext>()
-        .UseSqlite(builder.Configuration.GetConnectionString("Rbac")).Options, default, default);
+        .UseSqlite(builder.Configuration.GetConnectionString("Rbac")).Options, default);
 
     var issuer = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtIssue)!.Value;
     var audience = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtAudience)!.Value;

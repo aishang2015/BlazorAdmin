@@ -1,5 +1,6 @@
 ﻿using BlazorAdmin.Data.Entities.Rbac;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 
 namespace BlazorAdmin.Rbac.Components
 {
@@ -11,7 +12,9 @@ namespace BlazorAdmin.Rbac.Components
 
         private List<Menu> MenuList = new();
 
-        private HashSet<MenuItem> MenuItems = new();
+        private List<TreeItemData<MenuItem>> MenuItems = new();
+
+        private MenuItem? SelectedItem;
 
         private string? SelectedMenuName = null;
 
@@ -40,23 +43,28 @@ namespace BlazorAdmin.Rbac.Components
             MenuItems = AppendMenuItems(null, MenuList);
         }
 
-        private HashSet<MenuItem> AppendMenuItems(int? parentId, List<Menu> menus)
+        private List<TreeItemData<MenuItem>> AppendMenuItems(int? parentId, List<Menu> menus)
         {
             return menus.Where(m => m.ParentId == parentId).OrderBy(m => m.Order)
-                .Select(m => new MenuItem
+                .Select(m => new TreeItemData<MenuItem>
                 {
-                    Id = m.Id,
-                    MenuName = m.Name,
-                    Route = m.Route,
-                    MenuType = m.Type,
-                    Childs = AppendMenuItems(m.Id, menus)
-                }).ToHashSet();
+                    Value = new MenuItem
+                    {
+                        Id = m.Id,
+                        MenuName = m.Name,
+                        Route = m.Route,
+                        MenuType = m.Type,
+                    },
+                    Children = AppendMenuItems(m.Id, menus)
+                }).ToList();
         }
 
         private async Task SelectedTreeItemChanged(MenuItem item)
         {
             if (item != null)
             {
+                SelectedItem = item;
+
                 _popoverOpen = false;
                 SelectedMenuName = item.MenuName;
                 SelectedValue = item.Id;
@@ -66,6 +74,8 @@ namespace BlazorAdmin.Rbac.Components
 
         private async Task CleanSelected()
         {
+            SelectedItem = null;
+
             _popoverOpen = false;
             SelectedMenuName = null;
             SelectedValue = null;
@@ -103,12 +113,8 @@ namespace BlazorAdmin.Rbac.Components
 
             public string? Route { get; set; }
 
-            public bool IsExpanded { get; set; }
-
             // 1 菜单 2 按钮
             public int MenuType { get; set; }
-
-            public HashSet<MenuItem> Childs { get; set; } = new();
         }
     }
 }

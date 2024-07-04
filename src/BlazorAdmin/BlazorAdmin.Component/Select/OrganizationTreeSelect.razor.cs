@@ -1,5 +1,7 @@
 ﻿using BlazorAdmin.Data.Entities.Rbac;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
+using static MudBlazor.CategoryTypes;
 
 namespace BlazorAdmin.Component.Select
 {
@@ -11,7 +13,9 @@ namespace BlazorAdmin.Component.Select
 
         private List<Organization> OrganizationList = new();
 
-        private HashSet<OrganizationItem> OrganizationItems = new();
+        private List<TreeItemData<OrganizationItem>> OrganizationItems = new();
+
+        private OrganizationItem? SelectedTreeItem = new();
 
         private string? SelectedMenuName = null;
 
@@ -40,16 +44,19 @@ namespace BlazorAdmin.Component.Select
             OrganizationItems = AppendOrganizationItems(null, OrganizationList);
         }
 
-        private HashSet<OrganizationItem> AppendOrganizationItems(int? parentId,
+        private List<TreeItemData<OrganizationItem>> AppendOrganizationItems(int? parentId,
             List<Organization> organizations)
         {
             return organizations.Where(m => m.ParentId == parentId).OrderBy(m => m.Order)
-                .Select(m => new OrganizationItem
+                .Select(m => new TreeItemData<OrganizationItem>
                 {
-                    Id = m.Id,
-                    Name = m.Name,
-                    Childs = AppendOrganizationItems(m.Id, organizations)
-                }).ToHashSet();
+                    Value = new OrganizationItem
+                    {
+                        Id = m.Id,
+                        Name = m.Name,
+                    },
+                    Children = AppendOrganizationItems(m.Id, organizations)
+                }).ToList();
         }
 
         private async Task SelectedTreeItemChanged(OrganizationItem item)
@@ -57,8 +64,8 @@ namespace BlazorAdmin.Component.Select
             if (item != null)
             {
                 _popoverOpen = false;
+                SelectedTreeItem = item;
                 SelectedMenuName = item.Name;
-                SelectedValue = item.Id;
                 await SelectedValueChanged.InvokeAsync(item.Id);
             }
         }
@@ -66,8 +73,8 @@ namespace BlazorAdmin.Component.Select
         private async Task CleanSelected()
         {
             _popoverOpen = false;
+            SelectedTreeItem = null;
             SelectedMenuName = null;
-            SelectedValue = null;
             await SelectedValueChanged.InvokeAsync(null);
         }
 
@@ -99,10 +106,6 @@ namespace BlazorAdmin.Component.Select
             public int Id { get; set; }
 
             public string? Name { get; set; }
-
-            public bool IsExpanded { get; set; }
-
-            public HashSet<OrganizationItem> Childs { get; set; } = new();
         }
     }
 }

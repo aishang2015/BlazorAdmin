@@ -4,7 +4,6 @@ using BlazorAdmin.Data.Entities.Log;
 using BlazorAdmin.Data.Entities.Rbac;
 using BlazorAdmin.Data.Entities.Setting;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,16 +11,13 @@ namespace BlazorAdmin.Data
 {
     public class BlazorAdminDbContext : DbContext
     {
-        private ProtectedLocalStorage _localStorage;
-
         private IServiceProvider _provider;
 
-        public BlazorAdminDbContext(DbContextOptions<BlazorAdminDbContext> options,
-             ProtectedLocalStorage localStorage,
+        public BlazorAdminDbContext(
+            DbContextOptions<BlazorAdminDbContext> options,
              IServiceProvider provider) : base(options)
         {
             _provider = provider;
-            _localStorage = localStorage;
         }
 
         public DbSet<Setting> Settings { get; set; }

@@ -17,14 +17,14 @@
             <MudDivider />
         }
         <div style="max-height:400px;overflow:auto;">
-            <MudTreeView T="OrganizationItem" Items="@OrganizationItems" Hover="true"
-                         SelectedValueChanged="SelectedTreeItemChanged">
+            <MudTreeView T="OrganizationItem" Items="@OrganizationItems" Hover="true" SelectedValue="SelectedTreeItem"
+                         SelectedValueChanged="SelectedTreeItemChanged" SelectionMode="SelectionMode.SingleSelection">
                 <ItemTemplate>
-                    <MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.Childs" Value="context">
+                    <MudTreeViewItem @bind-Expanded="@context.Expanded" Items="@context.Children" Value="context.Value">
                         <Content>
-                            <MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="context.Childs.Count > 0" />
+                            <MudTreeViewItemToggleButton @bind-Expanded="@context.Expanded" Visible="context.HasChildren" />
                             <MudIcon Icon="@Icons.Material.Outlined.AccountTree" Class="mr-2"></MudIcon>
-                            <MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.Name</MudText>
+                            <MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.Value.Name</MudText>
                             <MudSpacer />
                         </Content>
                     </MudTreeViewItem>

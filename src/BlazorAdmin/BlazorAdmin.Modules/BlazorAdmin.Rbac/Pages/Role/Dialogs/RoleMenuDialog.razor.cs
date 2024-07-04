@@ -13,7 +13,7 @@ namespace BlazorAdmin.Rbac.Pages.Role.Dialogs
 
         private List<Data.Entities.Rbac.Menu> MenuList = new();
 
-        private HashSet<MenuTreeItem> MenuTreeItemSet = new();
+        private List<TreeItemData<MenuTreeItem>> MenuTreeItemSet = new();
 
         private List<int> CheckedMenuIdList = new();
 
@@ -27,17 +27,20 @@ namespace BlazorAdmin.Rbac.Pages.Role.Dialogs
             MenuTreeItemSet = AppendMenuItems(null, MenuList);
         }
 
-        private HashSet<MenuTreeItem> AppendMenuItems(int? parentId, List<Data.Entities.Rbac.Menu> menus)
+        private List<TreeItemData<MenuTreeItem>> AppendMenuItems(int? parentId, List<Data.Entities.Rbac.Menu> menus)
         {
             return menus.Where(m => m.ParentId == parentId).OrderBy(m => m.Order)
-                .Select(m => new MenuTreeItem
+                .Select(m => new TreeItemData<MenuTreeItem>
                 {
-                    Id = m.Id,
-                    IsChecked = CheckedMenuIdList.Contains(m.Id),
-                    MenuIcon = m.Icon,
-                    MenuName = m.Name,
-                    Childs = AppendMenuItems(m.Id, menus)
-                }).ToHashSet();
+                    Value = new MenuTreeItem
+                    {
+                        Id = m.Id,
+                        IsChecked = CheckedMenuIdList.Contains(m.Id),
+                        MenuIcon = m.Icon,
+                        MenuName = m.Name,
+                    },
+                    Children = AppendMenuItems(m.Id, menus)
+                }).ToList();
         }
 
         #endregion
@@ -68,10 +71,10 @@ namespace BlazorAdmin.Rbac.Pages.Role.Dialogs
             MudDialog?.Close(DialogResult.Ok(true));
         }
 
-        private List<int> GetSelectedValues(HashSet<MenuTreeItem> set)
+        private List<int> GetSelectedValues(List<TreeItemData<MenuTreeItem>> set)
         {
-            return set.Where(i => i.IsChecked).Select(i => i.Id)
-                .Concat(set.SelectMany(i => GetSelectedValues(i.Childs)))
+            return set.Where(i => i.Value.IsChecked).Select(i => i.Value.Id)
+                .Concat(set.SelectMany(i => GetSelectedValues(i.Children)))
                 .ToList();
         }
 
@@ -80,7 +83,7 @@ namespace BlazorAdmin.Rbac.Pages.Role.Dialogs
 
         #region checkbox checked change event
 
-        private void CheckedChanged(bool value, MenuTreeItem item)
+        private void CheckedChanged(bool value, TreeItemData<MenuTreeItem> item)
         {
             LoopCheckedChange(value, item);
             if (value)
@@ -89,33 +92,33 @@ namespace BlazorAdmin.Rbac.Pages.Role.Dialogs
             }
         }
 
-        private void LoopCheckedChange(bool value, MenuTreeItem item)
+        private void LoopCheckedChange(bool value, TreeItemData<MenuTreeItem> item)
         {
-            item.IsChecked = value;
-            foreach (var i in item.Childs)
+            item.Value.IsChecked = value;
+            foreach (var i in item.Children)
             {
                 LoopCheckedChange(value, i);
             }
         }
 
-        private void LoopParentChecked(MenuTreeItem item)
+        private void LoopParentChecked(TreeItemData<MenuTreeItem> item)
         {
-            item.IsChecked = true;
-            var parent = FindParentItem(item, MenuTreeItemSet);
+            item.Value.IsChecked = true;
+            var parent = FindParentItem(item.Value, MenuTreeItemSet);
             if (parent != null)
             {
                 LoopParentChecked(parent);
             }
         }
 
-        private MenuTreeItem? FindParentItem(MenuTreeItem item, HashSet<MenuTreeItem> itemList)
+        private TreeItemData<MenuTreeItem>? FindParentItem(MenuTreeItem item, List<TreeItemData<MenuTreeItem>> itemList)
         {
-            var parent = itemList.FirstOrDefault(i => i.Childs.Contains(item));
+            var parent = itemList.FirstOrDefault(i => i.Children.Any(c => c.Value.Id == item.Id));
             if (parent == null)
             {
                 foreach (var i in itemList)
                 {
-                    parent = FindParentItem(item, i.Childs);
+                    parent = FindParentItem(item, i.Children);
                     if (parent != null)
                     {
                         return parent;
@@ -135,11 +138,7 @@ namespace BlazorAdmin.Rbac.Pages.Role.Dialogs
 
             public string? MenuName { get; set; }
 
-            public bool IsExpanded { get; set; }
-
             public bool IsChecked { get; set; }
-
-            public HashSet<MenuTreeItem> Childs { get; set; } = new();
 
         }
     }

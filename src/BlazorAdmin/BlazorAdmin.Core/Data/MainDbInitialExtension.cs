@@ -1,15 +1,19 @@
 ﻿using BlazorAdmin.Data.Constants;
 using BlazorAdmin.Data.Entities.Rbac;
 using BlazorAdmin.Data.Entities.Setting;
+using BlazorAdmin.Data;
 using MudBlazor;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using Role = BlazorAdmin.Data.Entities.Rbac.Role;
-using User = BlazorAdmin.Data.Entities.Rbac.User;
+using System.Threading.Tasks;
+using BlazorAdmin.Core.Helper;
 
-namespace BlazorAdmin.Data.Extensions
+namespace BlazorAdmin.Core.Data
 {
-    public static class BlazorAdminDbContextExtension
+    public static class MainDbInitialExtension
     {
         public static void InitialData(this BlazorAdminDbContext dbContext)
         {
@@ -94,7 +98,7 @@ namespace BlazorAdmin.Data.Extensions
                 {
                     Name = "SystemNotification",
                     IsEnabled = true,
-                    PasswordHash = HashPassword("SystemNotification"),
+                    PasswordHash = HashHelper.HashPassword("SystemNotification"),
                     RealName = "系统通知",
                     IsSpecial = true
                 });
@@ -103,7 +107,7 @@ namespace BlazorAdmin.Data.Extensions
                 {
                     Name = "BlazorAdmin",
                     IsEnabled = true,
-                    PasswordHash = HashPassword("BlazorAdmin"),
+                    PasswordHash = HashHelper.HashPassword("BlazorAdmin"),
                     RealName = "BlazorAdmin"
                 });
                 dbContext.SaveChanges();
@@ -125,15 +129,5 @@ namespace BlazorAdmin.Data.Extensions
                 tran.Commit();
             }
         }
-        public static string HashPassword(string password)
-        {
-            var salt = new byte[16];
-            RandomNumberGenerator.Create().GetBytes(salt);
-            using var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000, HashAlgorithmName.SHA256);
-            var saltString = Convert.ToBase64String(salt);
-            var hashString = Convert.ToBase64String(pbkdf2.GetBytes(32));
-            return $"{saltString}:{hashString}";
-        }
-
     }
 }
