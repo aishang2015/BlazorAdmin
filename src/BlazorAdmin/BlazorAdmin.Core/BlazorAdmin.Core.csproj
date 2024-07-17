@@ -17,6 +17,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
 		<PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.10.0" />
 		<PackageReference Include="Quartz.Extensions.Hosting" Version="3.10.0" />
+		<PackageReference Include="Quartz.Serialization.Json" Version="3.11.0" />
 	</ItemGroup>
 
 	<ItemGroup>

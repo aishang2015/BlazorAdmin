@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace BlazorAdmin.Core.Extension
 {
@@ -20,10 +21,11 @@ namespace BlazorAdmin.Core.Extension
                 q.UseDefaultThreadPool(x => x.MaxConcurrency = 5);
                 q.UsePersistentStore(x =>
                 {
-                    x.UseBinarySerializer();
+                    //x.UseBinarySerializer();
                     x.UseProperties = true;
                     //x.UseClustering(); // sqlite 无法使用clustering
                     x.UseMicrosoftSQLite(opt => opt.ConnectionString = connectionString);
+                    x.UseNewtonsoftJsonSerializer();
                 });
             });
 
