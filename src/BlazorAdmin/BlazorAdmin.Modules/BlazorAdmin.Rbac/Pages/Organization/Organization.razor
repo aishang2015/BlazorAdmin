@@ -22,7 +22,7 @@
 
         <div class="flex-0 pt-2" style="width:340px;overflow:auto;">
             <MudTreeView Items="@OrganizationItems" Hover="true" T="OrganizationItem"
-                         @bind-SelectedValue="SelectedOrganizationItem">
+                         SelectedValue="SelectedOrganizationItem" SelectedValueChanged="OrganizationSelected">
                 <ItemTemplate>
                     <MudTreeViewItem @bind-Expanded="@context.Expanded" Items="@context.Children" Value="@context.Value">
                         <Content>
@@ -33,11 +33,6 @@
                             <MudSpacer />
                             <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Groups3"
                                            Color="Color.Inherit" OnClick="()=>EditMemberClick(context.Value.Id)"></MudIconButton>
-                            @if (_accessService.CheckHasElementRights("OrganizationUpdateBtn").Result)
-                            {
-                                <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Edit"
-                                               Color="Color.Inherit" OnClick="() => EditOrganizationClick(context.Value.Id)"></MudIconButton>
-                            }
                             @if (_accessService.CheckHasElementRights("OrganizationOrderBtn").Result)
                             {
                                 <MudIcon Icon="@Icons.Material.Filled.DragHandle" Class="draghandle cursor-grabbing" />

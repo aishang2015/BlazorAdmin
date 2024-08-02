@@ -137,15 +137,20 @@ namespace BlazorAdmin.Rbac.Pages.Organization
             EditVisible = false;
         }
 
-        private async Task EditOrganizationClick(int organizationId)
+        private async Task OrganizationSelected(OrganizationItem item)
         {
+            if (!_accessService.CheckHasElementRights("OrganizationUpdateBtn").Result)
+            {
+                return;
+            }
+
             using var context = await _dbFactory.CreateDbContextAsync();
-            var organization = context.Organizations.Find(organizationId);
+            var organization = context.Organizations.Find(item.Id);
             if (organization != null)
             {
                 EditModel = new OrganizationModel
                 {
-                    Id = organizationId,
+                    Id = item.Id,
                     Name = organization.Name,
                     ParentId = organization.ParentId,
                 };
@@ -218,6 +223,7 @@ namespace BlazorAdmin.Rbac.Pages.Organization
         {
             OrganizationMembers = (from user in context.Users
                                    join ou in context.OrganizationUsers on user.Id equals ou.UserId
+                                   where ou.OrganizationId == EditModel.Id
                                    select new Member
                                    {
                                        MemberId = user.Id,

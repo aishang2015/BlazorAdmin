@@ -11,6 +11,10 @@ namespace BlazorAdmin.Component.Select
 
         [Parameter] public EventCallback<int?> SelectedValueChanged { get; set; }
 
+        [Parameter] public string? Label { get; set; }
+
+        [Parameter] public bool ShowIcon { get; set; } = true;
+
         private List<Organization> OrganizationList = new();
 
         private List<TreeItemData<OrganizationItem>> OrganizationItems = new();
@@ -34,6 +38,11 @@ namespace BlazorAdmin.Component.Select
             {
                 var organization = OrganizationList.FirstOrDefault(m => m.Id == SelectedValue);
                 SelectedMenuName = organization?.Name;
+            }
+            else
+            {
+                SelectedMenuName = null;
+                SelectedTreeItem = null;
             }
         }
 

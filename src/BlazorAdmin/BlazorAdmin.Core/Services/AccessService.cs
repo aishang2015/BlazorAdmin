@@ -57,7 +57,6 @@ namespace BlazorAdmin.Core.Services
             return query.ToList();
         }
 
-
         public async Task<bool> CheckUriCanAccess(string url)
         {
             var userState = await _stateProvider.GetAuthenticationStateAsync();
@@ -107,5 +106,31 @@ namespace BlazorAdmin.Core.Services
 
         }
 
+        public async Task<List<int>> GetUserOrganizationIds()
+        {
+            var userState = await _stateProvider.GetAuthenticationStateAsync();
+            if (userState.User.Identity == null || !userState.User.Identity.IsAuthenticated)
+            {
+                return new();
+            }
+
+            var userId = userState.User.GetUserId();
+
+            var identities = await _memoryCache.GetOrCreateAsync($"{userId}Organizations", async cacheEntry =>
+            {
+                cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(5);
+
+                using var context = await _dbContextFactory.CreateDbContextAsync();
+
+                var query = from u in context.Users
+                            join ou in context.OrganizationUsers on u.Id equals ou.UserId
+                            join o in context.Organizations on ou.OrganizationId equals o.Id
+                            where u.Id == userId
+                            select o.Id;
+
+                return query.ToList();
+            });
+            return identities ?? new();
+        }
     }
 }

@@ -21,6 +21,10 @@
             }
         </MudSelect>
     </div>
+    <div style="width:140px" class="mr-2">
+        <OrganizationTreeSelect Label="@Loc["UserPage_SearchOrg"]" ShowIcon="false"
+                                @bind-SelectedValue="searchObject.SelectedOrganization" />
+    </div>
     <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="()=>{ dataGrid.ReloadServerData(); }"
                    Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2">
     </MudIconButton>
@@ -67,6 +71,14 @@
                 @foreach (var role in context.Item.Roles)
                 {
                     <MudChip Size="MudBlazor.Size.Medium" Color="Color.Primary" Variant="Variant.Outlined">@role</MudChip>
+                }
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn Title="@Loc["UserPage_TableH8"]" HeaderStyle="white-space:nowrap">
+            <CellTemplate>
+                @foreach (var organization in context.Item.Organizations)
+                {
+                    <MudChip Size="MudBlazor.Size.Medium" Color="Color.Primary" Variant="Variant.Outlined">@organization</MudChip>
                 }
             </CellTemplate>
         </TemplateColumn>

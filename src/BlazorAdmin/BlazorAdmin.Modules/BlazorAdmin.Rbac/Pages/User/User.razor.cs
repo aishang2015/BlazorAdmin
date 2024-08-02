@@ -49,10 +49,17 @@ namespace BlazorAdmin.Rbac.Pages.User
                     .Select(ur => ur.UserId).Distinct().ToList();
             }
 
+            if (searchObject.SelectedOrganization != null)
+            {
+                var userIds = context.OrganizationUsers.Where(ou => ou.OrganizationId == searchObject.SelectedOrganization)
+                   .Select(ou => ou.UserId).Distinct().ToList();
+                searchedUserIdList.AddRange(userIds);
+            }
+
             var query = context.Users.Where(u => !u.IsDeleted && !u.IsSpecial)
                 .AndIfExist(searchObject.SearchText, u => u.Name.Contains(searchObject.SearchText!))
                 .AndIfExist(searchObject.SearchRealName, u => u.RealName.Contains(searchObject.SearchRealName!))
-                .AndIf(!string.IsNullOrEmpty(searchObject.SearchRole), u => searchedUserIdList.Contains(u.Id));
+                .AndIf(searchedUserIdList.Count > 0, u => searchedUserIdList.Contains(u.Id));
 
             Users = await query.Skip((searchObject.Page - 1) * searchObject.Size).Take(searchObject.Size)
                 .Select(p => new UserModel
@@ -69,10 +76,16 @@ namespace BlazorAdmin.Rbac.Pages.User
                          join ur in context.UserRoles on r.Id equals ur.RoleId
                          select new { r.Name, ur.UserId }).ToList();
 
+
+            var organizations = (from r in context.Organizations
+                                 join ou in context.OrganizationUsers on r.Id equals ou.OrganizationId
+                                 select new { r.Name, ou.UserId }).ToList();
+
             foreach (var user in Users)
             {
                 user.Number = (searchObject.Page - 1) * searchObject.Size + Users.IndexOf(user) + 1;
                 user.Roles = roles.Where(r => r.UserId == user.Id).Select(r => r.Name).ToList();
+                user.Organizations = organizations.Where(o => o.UserId == user.Id).Select(o => o.Name).ToList();
             }
 
         }
@@ -189,6 +202,8 @@ namespace BlazorAdmin.Rbac.Pages.User
             public string? SearchRole { get; set; }
 
             public string? SearchRealName { get; set; }
+
+            public int? SelectedOrganization { get; set; }
         }
 
         private class UserModel
@@ -206,6 +221,8 @@ namespace BlazorAdmin.Rbac.Pages.User
             public bool IsEnabled { get; set; }
 
             public List<string> Roles { get; set; } = new();
+
+            public List<string> Organizations { get; set; } = new();
         }
     }
 }

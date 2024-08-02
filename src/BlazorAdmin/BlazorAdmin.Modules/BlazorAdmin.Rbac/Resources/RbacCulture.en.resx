@@ -235,10 +235,13 @@
     <value>Enter keywords to search</value>
   </data>
   <data name="UserPage_SearchName" xml:space="preserve">
-    <value>Input user name</value>
+    <value>Username</value>
+  </data>
+  <data name="UserPage_SearchOrg" xml:space="preserve">
+    <value>Organization</value>
   </data>
   <data name="UserPage_SearchRealName" xml:space="preserve">
-    <value>Input real name</value>
+    <value>RealName</value>
   </data>
   <data name="UserPage_SearchRole" xml:space="preserve">
     <value>Select user role</value>
@@ -272,6 +275,9 @@
   </data>
   <data name="UserPage_TableH7" xml:space="preserve">
     <value>Role</value>
+  </data>
+  <data name="UserPage_TableH8" xml:space="preserve">
+    <value>Organization</value>
   </data>
   <data name="UserPage_Title" xml:space="preserve">
     <value>User</value>

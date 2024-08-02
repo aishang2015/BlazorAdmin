@@ -421,6 +421,15 @@ namespace BlazorAdmin.Rbac.Resources {
         }
         
         /// <summary>
+        ///   查找类似 请选择组织 的本地化字符串。
+        /// </summary>
+        public static string UserPage_SearchOrg {
+            get {
+                return ResourceManager.GetString("UserPage_SearchOrg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 请输入姓名 的本地化字符串。
         /// </summary>
         public static string UserPage_SearchRealName {
@@ -525,6 +534,15 @@ namespace BlazorAdmin.Rbac.Resources {
         public static string UserPage_TableH7 {
             get {
                 return ResourceManager.GetString("UserPage_TableH7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 组织 的本地化字符串。
+        /// </summary>
+        public static string UserPage_TableH8 {
+            get {
+                return ResourceManager.GetString("UserPage_TableH8", resourceCulture);
             }
         }
         
