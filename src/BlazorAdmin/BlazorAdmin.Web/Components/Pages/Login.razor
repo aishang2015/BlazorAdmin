@@ -1,4 +1,6 @@
-﻿@using BlazorAdmin.Web.Components.Layout
+﻿@using BlazorAdmin.Layout.Components.Culture
+@using BlazorAdmin.Layout.Components.Themes
+@using BlazorAdmin.Web.Components.Layout
 
 @layout EmptyLayout
 
@@ -44,6 +46,10 @@
                     </div>
                 </EditForm>
             </div>
+            <div class="d-flex align-center mt-4" style="width:100%;">
+                <MudSpacer />
+                <CultureIcon IsText />
+            </div>
         </MudPaper>
     }
     else
@@ -55,4 +61,8 @@
             <circle class="pl__ring pl__ring--d" cx="155" cy="120" r="70" fill="none" stroke="#000" stroke-width="20" stroke-dasharray="0 440" stroke-linecap="round"></circle>
         </svg>
     }
+
+    <div style="position: absolute; bottom: 20px; right: 20px;">
+        <PrimaryChangeButton IsFab="true" />
+    </div>
 </div>

@@ -153,4 +153,19 @@
   <data name="首页" xml:space="preserve">
     <value>首页</value>
   </data>
+  <data name="ThemeDarkMode" xml:space="preserve">
+    <value>黑暗模式</value>
+  </data>
+  <data name="ThemeLight" xml:space="preserve">
+    <value>明亮</value>
+  </data>
+  <data name="ThemeDark" xml:space="preserve">
+    <value>黑暗</value>
+  </data>
+  <data name="ThemePrimary" xml:space="preserve">
+    <value>主题色</value>
+  </data>
+  <data name="CultureLanguage" xml:space="preserve">
+    <value>语言</value>
+  </data>
 </root>

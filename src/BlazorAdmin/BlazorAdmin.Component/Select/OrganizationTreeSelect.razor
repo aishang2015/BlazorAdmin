@@ -2,7 +2,7 @@
     <MudTextField Value="SelectedMenuName"  Variant="Variant.Outlined"
                   Margin="Margin.Dense" @onfocus="ElementFocused" @onblur="MouseBlur" Label="@(Label ?? _loc["OrganizationTreeSelect_Title"])"
                   Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Clear"
-                  OnAdornmentClick="CleanSelected" IconSize="Size.Small" />
+                  OnAdornmentClick="CleanSelected" IconSize="Size.Small" Class="search-com" />
     <MudPopover Open="@_popoverOpen" Fixed="true" Class="pa-4" tabindex="-1" Style="min-width:300px;"
                 RelativeWidth="true" @onmouseenter="MouseEnterPopover" @onmouseleave="MouseLeavePopover" @onblur="MouseBlur">
         <div class="d-flex align-center">

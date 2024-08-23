@@ -61,6 +61,51 @@ namespace BlazorAdmin.Layout.Resources {
         }
         
         /// <summary>
+        ///   查找类似 语言 的本地化字符串。
+        /// </summary>
+        internal static string CultureLanguage {
+            get {
+                return ResourceManager.GetString("CultureLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 黑暗 的本地化字符串。
+        /// </summary>
+        internal static string ThemeDark {
+            get {
+                return ResourceManager.GetString("ThemeDark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 黑暗模式 的本地化字符串。
+        /// </summary>
+        internal static string ThemeDarkMode {
+            get {
+                return ResourceManager.GetString("ThemeDarkMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 明亮 的本地化字符串。
+        /// </summary>
+        internal static string ThemeLight {
+            get {
+                return ResourceManager.GetString("ThemeLight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 主题色 的本地化字符串。
+        /// </summary>
+        internal static string ThemePrimary {
+            get {
+                return ResourceManager.GetString("ThemePrimary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 关于 的本地化字符串。
         /// </summary>
         internal static string 关于 {

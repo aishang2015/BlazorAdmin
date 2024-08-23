@@ -10,7 +10,6 @@ namespace BlazorAdmin.Web.Components
             typeof(Rbac._Imports).Assembly,
             typeof(Log._Imports).Assembly,
             typeof(Setting._Imports).Assembly,
-            typeof(Im._Imports).Assembly,
             typeof(About.Client._Imports).Assembly,
         };
     }

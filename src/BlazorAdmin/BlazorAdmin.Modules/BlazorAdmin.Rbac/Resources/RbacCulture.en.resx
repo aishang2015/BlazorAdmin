@@ -190,7 +190,7 @@
     <value>Edit role</value>
   </data>
   <data name="RolePage_SearchKeywordPlaceholder" xml:space="preserve">
-    <value>Enter keywords to search</value>
+    <value>Search</value>
   </data>
   <data name="RolePage_SetRoleMenuTitle" xml:space="preserve">
     <value>Set menu</value>
@@ -229,10 +229,10 @@
     <value>Edit user</value>
   </data>
   <data name="UserPage_ModifyPasswordTitle" xml:space="preserve">
-    <value>Change password</value>
+    <value>Modify password</value>
   </data>
   <data name="UserPage_SearchKeywordPlaceholder" xml:space="preserve">
-    <value>Enter keywords to search</value>
+    <value>Search</value>
   </data>
   <data name="UserPage_SearchName" xml:space="preserve">
     <value>Username</value>
@@ -244,7 +244,7 @@
     <value>RealName</value>
   </data>
   <data name="UserPage_SearchRole" xml:space="preserve">
-    <value>Select user role</value>
+    <value>User role</value>
   </data>
   <data name="UserPage_SetUserRoleTitle" xml:space="preserve">
     <value>Set role</value>

@@ -1,16 +1,38 @@
 ﻿@rendermode InteractiveServer
 
-<MudMenu Icon="@Icons.Material.Filled.Language" Color="Color.Inherit" Dense="true"
-         AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight">
-    <MudMenuItem OnClick="@(()=>CultureChanged("en-US"))">
-        @Loc["AuthorizedLayout_Language_enus"]
-    </MudMenuItem>
-    <MudMenuItem OnClick="@(()=>CultureChanged("zh-CN"))">
-        @Loc["AuthorizedLayout_Language_zhcn"]
-    </MudMenuItem>
-</MudMenu>
+@if (IsText)
+{
+    <MudMenu Color="Color.Inherit" Dense="true"
+             AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight">
+        <ActivatorContent>
+            <MudIcon Icon="@Icons.Material.Filled.Language" Size="Size.Small" Color="Color.Inherit"  />
+            <MudText Typo="Typo.caption" Color="Color.Surface">@_loc["CultureLanguage"]</MudText>
+        </ActivatorContent>
+        <ChildContent>
+            <MudMenuItem OnClick="@(()=>CultureChanged("zh-CN"))">
+                @Loc["AuthorizedLayout_Language_zhcn"]
+            </MudMenuItem>
+            <MudMenuItem OnClick="@(()=>CultureChanged("en-US"))">
+                @Loc["AuthorizedLayout_Language_enus"]
+            </MudMenuItem>
+        </ChildContent>
+    </MudMenu>
+}
+else
+{
+    <MudMenu Icon="@Icons.Material.Filled.Language" Color="Color.Inherit" Dense="true" Style="margin-right:12px;"
+             AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight">
+        <MudMenuItem OnClick="@(()=>CultureChanged("zh-CN"))">
+            @Loc["AuthorizedLayout_Language_zhcn"]
+        </MudMenuItem>
+        <MudMenuItem OnClick="@(()=>CultureChanged("en-US"))">
+            @Loc["AuthorizedLayout_Language_enus"]
+        </MudMenuItem>
+    </MudMenu>
+}
 
 @code {
+    [Parameter] public bool IsText { get; set; } = false;
 
     private void CultureChanged(string culture)
     {

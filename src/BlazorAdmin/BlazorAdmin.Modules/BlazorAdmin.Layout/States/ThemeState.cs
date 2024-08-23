@@ -31,15 +31,27 @@ namespace BlazorAdmin.Layout.States
 
             _theme = new MudTheme()
             {
+                PaletteLight = new PaletteLight()
+                {
+                    Dark = "#141A21",
+                    AppbarBackground = "rgb(144,144,144)",
+
+                    AppbarText = "rgba(1,1,1, 0.70)",   // appbar 文字颜色 如果控件设置了color 则会覆盖变量
+                    //DrawerText = "rgba(255,255,255, 0.70)",   // drawer 文字颜色
+                    //DrawerBackground = "#141A21",
+
+                    DrawerText = "rgba(1,1,1, 0.70)",   // drawer 文字颜色
+                    DrawerBackground = "#ffffff",
+                },
                 PaletteDark = new PaletteDark()
                 {
                     Primary = "#007fff",
                     Tertiary = "#594AE2",
                     Black = "#27272f",
-                    Background = "#121212",                 // 整体背景色
-                    BackgroundGray = "#202020",
-                    Surface = "#1f1f1f",                    // 表格等控件背景色
-                    DrawerBackground = "#181818",
+                    Background = "#141A21",                 // 整体背景色
+                    BackgroundGray = "#1C252E",
+                    Surface = "#1C252E",                    // 表格等控件背景色
+                    DrawerBackground = "#1C252E",
                     DrawerText = "rgba(255,255,255, 0.50)",
                     DrawerIcon = "rgba(255,255,255, 0.50)",
                     AppbarBackground = "rgb(24,24,24)",

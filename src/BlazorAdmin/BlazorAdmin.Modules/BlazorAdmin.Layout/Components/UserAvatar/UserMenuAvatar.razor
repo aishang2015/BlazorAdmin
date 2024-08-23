@@ -7,7 +7,7 @@
     <ActivatorContent>
         @if (string.IsNullOrEmpty(_avatar))
         {
-            <MudAvatar Size="Size.Small" Color="_themeState.IsDark ? Color.Primary : Color.Dark">
+            <MudAvatar Size="Size.Small" Color=" Color.Primary">
                 @_userName.First()
             </MudAvatar>
         }

@@ -1,7 +1,8 @@
 ﻿@rendermode InteractiveServer
 
-<MudIconButton Icon="@(_layoutState.NavIsOpen ? IconsConstant.MenuCollapsed : IconsConstant.MenuExpand)" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-
+<MudHidden Breakpoint="Breakpoint.Sm|Breakpoint.Xs" Invert="true">
+    <MudIconButton Icon="@(_layoutState.NavIsOpen ? IconsConstant.MenuCollapsed : IconsConstant.MenuExpand)" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+</MudHidden>
 @code {
 
     async Task DrawerToggle()

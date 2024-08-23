@@ -67,8 +67,6 @@ namespace BlazorAdmin.Web.Components.Pages
             _authService.SetCurrentUser(token);
             RecordLogin(_loginModel.UserName!, true, context);
             _navManager.NavigateTo("/");
-
-            await _messageSender.SendSystemMessage(user.Id, "欢迎回来！");
         }
 
         private void RecordLogin(string userName, bool isSucceed,

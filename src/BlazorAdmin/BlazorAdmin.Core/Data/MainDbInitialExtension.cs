@@ -94,15 +94,6 @@ namespace BlazorAdmin.Core.Data
                 var roleEntry = dbContext.Roles.Add(new Role { IsEnabled = true, Name = "Admin" });
                 dbContext.SaveChanges();
 
-                dbContext.Users.Add(new User
-                {
-                    Name = "SystemNotification",
-                    IsEnabled = true,
-                    PasswordHash = HashHelper.HashPassword("SystemNotification"),
-                    RealName = "系统通知",
-                    IsSpecial = true
-                });
-
                 var userEntry = dbContext.Users.Add(new User
                 {
                     Name = "BlazorAdmin",

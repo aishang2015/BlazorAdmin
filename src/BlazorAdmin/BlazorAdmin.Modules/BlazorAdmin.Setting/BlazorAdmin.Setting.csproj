@@ -12,11 +12,23 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\BlazorAdmin.Component\BlazorAdmin.Component.csproj" />
+		<ProjectReference Include="..\..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\BlazorAdmin.Component\BlazorAdmin.Component.csproj" />
-		<ProjectReference Include="..\..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
+	  <Compile Update="Resources\SettingCulture.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>SettingCulture.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Resources\SettingCulture.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>SettingCulture.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 </Project>

@@ -2,8 +2,16 @@
 
 @using MudBlazor.Utilities
 
-<MudIconButton Style="margin-right:12px;" Icon="@Icons.Material.Filled.FormatColorFill" Color="Color.Inherit"
-               Edge="Edge.Start" OnClick="()=>{visible=true;}" />
+@if (IsFab)
+{
+    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.ColorLens" OnClick="()=>{visible=true;}" />
+}
+else
+{
+    <MudIconButton Style="margin-right:12px;" Icon="@Icons.Material.Filled.ColorLens" Color="Color.Primary"
+                   Edge="Edge.Start" OnClick="()=>{visible=true;}" />
+}
+
 
 <MudDialog @bind-Visible="visible" Gutters="false" Options="dialogOptions">
     <TitleContent>
@@ -12,24 +20,102 @@
         </MudText>
     </TitleContent>
     <DialogContent>
-        <div style="width:216px;" class="d-flex flex-wrap ">
-            @{
-                string[] colors = ["#ff5722", "#795548", "#ffc107", "#4caf50", "#009688", "#1668dc", "#642ab5", "#262626"];
-            }
-            @foreach (var color in colors)
-            {
-                <div class="mud-picker-color-dot ma-2"
-                     @onclick="()=>{_themeState.PrimaryColor = new MudColor(color);}"
-                     style="background-color:@(color);max-width:38px;@(_themeState.PrimaryColor.ToString(MudColorOutputFormats.Hex) == color ?"border-radius:50%":"" )"></div>
-            }
+        <div style="width:300px;" class="d-flex flex-column">
+
+            <MudCard Class="mx-4 mb-4 pa-4">
+                <div class="d-flex align-center mb-2">
+                    <MudText Typo="Typo.subtitle1">@_loc["ThemeDarkMode"]</MudText>
+                    <MudSpacer />
+                </div>
+                <div class="d-flex align-center">
+                    @*                     <MudSwitch T="bool" Color="Color.Dark" UncheckedColor="Color.Default"></MudSwitch>
+                    <MudSpacer />
+                    <MudIcon Icon="@Icons.Material.Filled.DarkMode" Color="Color.Default" />
+                    <MudIcon Icon="@Icons.Material.Filled.LightMode" Color="Color.Default" /> *@
+
+                    <MudToggleGroup T="string" Value="@toggleValue" ValueChanged="ToggleChanged" Outlined="true" Delimiters="true" Rounded="true" CheckMark="false" Style="width: 100%;">
+                        <MudToggleItem Value="@("Light")">
+                            <div class="d-flex">
+                                <MudIcon Icon="@Icons.Material.Filled.LightMode"></MudIcon>
+                                <MudText>@_loc["ThemeLight"]</MudText>
+                            </div>
+                        </MudToggleItem>
+                        <MudToggleItem Value="@("Dark")">
+                            <div class="d-flex">
+                                <MudIcon Icon="@Icons.Material.Filled.DarkMode"></MudIcon>
+                                <MudText>@_loc["ThemeDark"]</MudText>
+                            </div>
+                        </MudToggleItem>
+                    </MudToggleGroup>
+                </div>
+            </MudCard>
+
+            <MudCard Class="mx-4 mb-4 pa-4">
+                <div class="d-flex align-center mb-2">
+                    <MudText Typo="Typo.subtitle1">@_loc["ThemePrimary"]</MudText>
+                    <MudSpacer />
+                </div>
+                <div class="d-flex justify-space-between">
+                    @foreach (var color in colorGroups1)
+                    {
+                        <MudButton Style=@($"width:60px;height:60px;background:{color};transition:border-radius 0.2s ease;")
+                                   Variant="Variant.Filled"
+                                   OnClick="@(()=>{_themeState.PrimaryColor = new MudColor(color);})"
+                                   Class=@(_themeState.PrimaryColor == new MudColor(color)?"rounded-circle":"")>
+                            <MudIcon Icon="@Icons.Material.Filled.ColorLens" Style="color:white" />
+                        </MudButton>
+                    }
+                </div>
+                <div class="d-flex justify-space-between" style="margin-top:20px;">
+                    @foreach (var color in colorGroups2)
+                    {
+                        <MudButton Style=@($"width:60px;height:60px;background:{color};transition:border-radius 0.2s ease;")
+                                   Variant="Variant.Filled"
+                                   OnClick="@(()=>{_themeState.PrimaryColor = new MudColor(color);})"
+                                   Class=@(_themeState.PrimaryColor == new MudColor(color)?"rounded-circle":"")>
+                            <MudIcon Icon="@Icons.Material.Filled.ColorLens" Style="color:white" />
+                        </MudButton>
+                    }
+                </div>
+                <div class="d-flex justify-space-between" style="margin-top:20px;">
+                    @foreach (var color in colorGroups3)
+                    {
+                        <MudButton Style=@($"width:60px;height:60px;background:{color};transition:border-radius 0.2s ease;")
+                                   Variant="Variant.Filled"
+                                   OnClick="@(()=>{_themeState.PrimaryColor = new MudColor(color);})"
+                                   Class=@(_themeState.PrimaryColor == new MudColor(color)?"rounded-circle":"")>
+                            <MudIcon Icon="@Icons.Material.Filled.ColorLens" Style="color:white" />
+                        </MudButton>
+                    }
+                </div>
+            </MudCard>
 
         </div>
     </DialogContent>
 </MudDialog>
 
 @code {
+    [Parameter] public bool IsFab { get; set; } = false;
+
+    string toggleValue = "Light";
+
+    string[] colorGroups1 = ["#ff5722", "#ffc107", "#4caf50"];
+    string[] colorGroups2 = ["#009688", "#1668dc", "#642ab5"];
+    string[] colorGroups3 = ["#F06292", "#BA68C8", "#7CB342"];
 
     bool visible;
 
     DialogOptions dialogOptions = new() { NoHeader = true };
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        toggleValue = _themeState.IsDark ? "Dark" : "Light";
+    }
+
+    private void ToggleChanged(string value)
+    {
+        toggleValue = value;
+        _themeState.IsDark = value == "Dark";
+    }
 }

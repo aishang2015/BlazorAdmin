@@ -2,7 +2,7 @@
 
 <MudDataGrid Dense="true" Filterable="false" ColumnResizeMode="ResizeMode.Column"
              SortMode="@SortMode.None" Groupable="false" Virtualize="true" FixedHeader="true"
-             Height="@(HasPagination ? "calc(100vh - 280px)" : "calc(100vh - 230px)")"
+             Height="@(HasPagination ? "calc(100vh - 225px)" : "calc(100vh - 175px)")"
              ServerData="ServerData" @ref="dataGridRef" Elevation="0" Outlined="true">
     <Columns>
         @ChildContent

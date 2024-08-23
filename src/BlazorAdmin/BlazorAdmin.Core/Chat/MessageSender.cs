@@ -17,6 +17,7 @@ namespace BlazorAdmin.Core.Chat
             _serviceProvider = serviceProvider;
         }
 
+        [Obsolete]
         public async Task<bool> SendSystemMessage(int targetUserId, string content)
         {
             var senderId = await GetUserId("SystemNotification");
@@ -35,6 +36,7 @@ namespace BlazorAdmin.Core.Chat
             return true;
         }
 
+        [Obsolete]
         public async Task<bool> SendChannelMessage(int senderId, int? targetChannel,
             int? targetUserId, string? content, int type = 1)
         {
@@ -49,6 +51,7 @@ namespace BlazorAdmin.Core.Chat
             return true;
         }
 
+        [Obsolete]
         private async Task<int?> GetUserId(string name)
         {
             if (!_specialUserDic.TryGetValue(name, out var sourceId))

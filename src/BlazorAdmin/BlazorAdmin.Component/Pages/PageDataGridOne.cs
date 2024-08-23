@@ -31,7 +31,7 @@ namespace BlazorAdmin.Component.Pages
 
         public bool FixedHeader { get; private set; } = true;
 
-        public string Height { get => HasPagination ? "calc(100vh - 280px)" : "calc(100vh - 230px)"; }
+        public string Height { get => HasPagination ? "calc(100vh - 225px)" : "calc(100vh - 175px)"; }
 
         public int Elevation { get; private set; } = 0;
 

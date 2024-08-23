@@ -13,7 +13,6 @@ namespace BlazorAdmin.Im
     {
         public IServiceCollection Add(IServiceCollection services)
         {
-            services.AddSingleton<MessageSender>();
             services.AddHostedService<SendMessageBackgroundService>();
             services.AddScoped<EventHelper<UpdateNoReadCountEvent>>();
 

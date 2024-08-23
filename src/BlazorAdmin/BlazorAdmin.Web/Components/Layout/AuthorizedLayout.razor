@@ -3,12 +3,11 @@
 @using BlazorAdmin.Layout.Components.NavMenus
 @using BlazorAdmin.Layout.Components.NavTabs
 @using BlazorAdmin.Layout.Components.UserAvatar
-@using BlazorAdmin.Im.Components;
 @using BlazorAdmin.Web.Components.Shared
 @using MudBlazor.Utilities
 
 
-<MudAppBar Elevation="1" Dense="true">
+<MudAppBar Elevation="0" Dense="true" Color="Color.Inherit" Style="background:var(--mud-palette-background);transform:translateX(1px);">
 
     <NavOpenButton />
     <MudSpacer />
@@ -16,9 +15,7 @@
     <div class="d-none d-md-flex">
         <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.Start" Href="https://github.com/aishang2015/BlazorAdmin" />
         <CultureIcon />
-        <DarkToggleButton />
         <PrimaryChangeButton />
-        <Chat></Chat>
     </div>
 
     <UserMenuAvatar />
@@ -28,8 +25,8 @@
 
 <MudMainContent Style="height:100vh;">
     <div class="pa-4 d-flex flex-column" style="height:100%;overflow:auto;">
-        <NavTab ></NavTab>
-        <MudPaper Class="flex-1 pa-4 border-t border-solid mud-border-lines-default" Style="overflow:auto;border-start-start-radius:0;border-start-end-radius:0;">
+        @* <NavTab ></NavTab> *@
+        <MudPaper Class="flex-1 pa-4 border-t border-solid mud-border-lines-default" Style="overflow:auto;">
             @Child
         </MudPaper>
     </div>

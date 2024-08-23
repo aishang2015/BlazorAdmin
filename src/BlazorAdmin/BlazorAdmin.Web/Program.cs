@@ -8,7 +8,6 @@ using BlazorAdmin.Core.Services;
 using BlazorAdmin.Data;
 using BlazorAdmin.Data.Constants;
 using BlazorAdmin.Data.Extensions;
-using BlazorAdmin.Im.Core;
 using BlazorAdmin.Layout.States;
 using BlazorAdmin.Web.Components;
 using Cropper.Blazor.Extensions;
@@ -81,6 +80,9 @@ builder.Services.AddDbContextFactory<BlazorAdminDbContext>(b =>
 
 // quartz
 builder.Services.AddQuartzService(dbConnectionString);
+
+// messagesender
+builder.Services.AddSingleton<MessageSender>();
 
 // custom auth state provider
 builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, BlazorAuthorizationMiddlewareResultHandler>();

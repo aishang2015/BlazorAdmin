@@ -169,7 +169,7 @@
     <value>语言</value>
   </data>
   <data name="AuthorizedLayout_Language_enus" xml:space="preserve">
-    <value>English(United State)</value>
+    <value>English</value>
   </data>
   <data name="AuthorizedLayout_Language_zhcn" xml:space="preserve">
     <value>简体中文</value>
