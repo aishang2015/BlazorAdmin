@@ -66,6 +66,7 @@ namespace BlazorAdmin.Core.Data
                 dbContext.SaveChanges();
 
                 dbContext.Menus.Add(new Menu { ParentId = entry3.Entity.Id, Name = "配置", Type = 1, Route = "/setting", Order = 1, Icon = Icons.Material.Filled.Settings });
+                dbContext.Menus.Add(new Menu { ParentId = entry3.Entity.Id, Name = "指标", Type = 1, Route = "/appmetric", Order = 2, Icon = Icons.Material.Filled.AutoGraph });
                 dbContext.SaveChanges();
 
                 dbContext.Menus.Add(new Menu { ParentId = userManageEnty.Entity.Id, Name = "添加按钮", Type = 2, Order = 1, Identify = "UserAddBtn" });

@@ -20,6 +20,7 @@
 		<ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.About\BlazorAdmin.About.Server\BlazorAdmin.About.Server.csproj" />
 		<ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Layout\BlazorAdmin.Layout.csproj" />
 		<ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Log\BlazorAdmin.Log.csproj" />
+		<ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Metric\BlazorAdmin.Metric.csproj" />
 		<ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Rbac\BlazorAdmin.Rbac.csproj" />
 		<ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Setting\BlazorAdmin.Setting.csproj" />
 	</ItemGroup>

@@ -28,7 +28,6 @@ namespace BlazorAdmin.Log.Pages.AuditLog
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            await InitialAsync();
         }
 
         private async Task InitialAsync()

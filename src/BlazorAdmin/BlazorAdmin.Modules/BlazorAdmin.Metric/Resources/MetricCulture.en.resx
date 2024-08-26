@@ -117,58 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="关于" xml:space="preserve">
-    <value>关于</value>
+  <data name="AppMetric" xml:space="preserve">
+    <value>App Metrics</value>
   </data>
-  <data name="审计" xml:space="preserve">
-    <value>审计</value>
+  <data name="TotalRequests" xml:space="preserve">
+    <value>Total Requests</value>
   </data>
-  <data name="日志" xml:space="preserve">
-    <value>日志</value>
+  <data name="CurrentRequests" xml:space="preserve">
+    <value>Current Requests</value>
   </data>
-  <data name="权限" xml:space="preserve">
-    <value>权限</value>
+  <data name="BytesReceived" xml:space="preserve">
+    <value>Bytes Received</value>
   </data>
-  <data name="用户" xml:space="preserve">
-    <value>用户</value>
+  <data name="BytesSent" xml:space="preserve">
+    <value>Bytes Sent</value>
   </data>
-  <data name="登录" xml:space="preserve">
-    <value>登录</value>
+  <data name="CpuUsage" xml:space="preserve">
+    <value>Cpu Usage</value>
   </data>
-  <data name="系统" xml:space="preserve">
-    <value>系统</value>
+  <data name="AssemblyCount" xml:space="preserve">
+    <value>Assembly Count</value>
   </data>
-  <data name="组织" xml:space="preserve">
-    <value>组织</value>
+  <data name="ActiveTimerCount" xml:space="preserve">
+    <value>Active Timer Count</value>
   </data>
-  <data name="菜单" xml:space="preserve">
-    <value>菜单</value>
+  <data name="WorkingSet" xml:space="preserve">
+    <value>Working Set</value>
   </data>
-  <data name="角色" xml:space="preserve">
-    <value>角色</value>
+  <data name="GcHeapSize" xml:space="preserve">
+    <value>Gc Heap Size</value>
   </data>
-  <data name="配置" xml:space="preserve">
-    <value>配置</value>
+  <data name="QueryPerSecond" xml:space="preserve">
+    <value>Query Per Second</value>
   </data>
-  <data name="首页" xml:space="preserve">
-    <value>首页</value>
+  <data name="ActiveDbContexts" xml:space="preserve">
+    <value>Active DbContexts</value>
   </data>
-  <data name="ThemeDarkMode" xml:space="preserve">
-    <value>黑暗模式</value>
+  <data name="TotalQueries" xml:space="preserve">
+    <value>Total Queries</value>
   </data>
-  <data name="ThemeLight" xml:space="preserve">
-    <value>明亮</value>
-  </data>
-  <data name="ThemeDark" xml:space="preserve">
-    <value>黑暗</value>
-  </data>
-  <data name="ThemePrimary" xml:space="preserve">
-    <value>主题色</value>
-  </data>
-  <data name="CultureLanguage" xml:space="preserve">
-    <value>语言</value>
-  </data>
-  <data name="指标" xml:space="preserve">
-    <value>指标</value>
+  <data name="TotalSaveChanges" xml:space="preserve">
+    <value>Total SaveChanges</value>
   </data>
 </root>

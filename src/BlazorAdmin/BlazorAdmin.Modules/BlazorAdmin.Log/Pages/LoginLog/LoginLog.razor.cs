@@ -16,10 +16,8 @@ namespace BlazorAdmin.Log.Pages.LoginLog
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            await InitialAsync();
-
-
         }
+
         private async Task InitialAsync()
         {
             using var context = await _dbFactory.CreateDbContextAsync();

@@ -1,4 +1,5 @@
-﻿using BlazorAdmin.Data.Constants;
+﻿using BlazorAdmin.Core.Helper;
+using BlazorAdmin.Data.Constants;
 using BlazorAdmin.Data.Extensions;
 using BlazorAdmin.Setting.Pages.Setting.Dialogs;
 using MudBlazor;
@@ -51,6 +52,8 @@ namespace BlazorAdmin.Setting.Pages.Setting.Com
             dbContext.Settings.SetSettingValue(JwtConstant.JwtSigningRsaPrivateKey, JwtConfigModel.RsaPrivateKey);
             dbContext.Settings.SetSettingValue(JwtConstant.JwtSigningRsaPublicKey, JwtConfigModel.RsaPublicKey);
             await dbContext.SaveChangesAsync();
+
+            JwtHelper.ResetCache();
 
             _snackbarService.Add("保存成功！", Severity.Success);
         }

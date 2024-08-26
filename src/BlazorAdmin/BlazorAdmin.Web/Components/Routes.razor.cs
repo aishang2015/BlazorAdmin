@@ -11,6 +11,7 @@ namespace BlazorAdmin.Web.Components
             typeof(Log._Imports).Assembly,
             typeof(Setting._Imports).Assembly,
             typeof(About.Client._Imports).Assembly,
+            typeof(Metric._Imports).Assembly,
         };
     }
 }

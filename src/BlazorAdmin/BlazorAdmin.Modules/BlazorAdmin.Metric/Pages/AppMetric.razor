@@ -1,0 +1,297 @@
+﻿@rendermode RenderMode.InteractiveServer
+
+@page "/appmetric"
+
+@implements IDisposable
+
+<MudText Typo="Typo.h6" Style="white-space:nowrap;">
+    @_loc["AppMetric"]
+</MudText>
+
+
+<div class="d-flex" style="height: 120px;">
+    <div class="flex-1 d-flex flex-column">
+        <div class="d-flex flex-1 mb-2">
+            <MudCard Style="height:100%;" Class="flex-1 d-flex flex-column ma-2 pa-2">
+                <MudText Typo="Typo.subtitle1"><b>@_loc["TotalRequests"]</b></MudText>
+                <MudText Typo="Typo.h4" Class="flex-1 d-flex align-center justify-center">
+                    <span>@_metricEventListener.Metrics.HostingTotalRequests</span>
+                </MudText>
+            </MudCard>
+            <MudCard Style="height:100%;" Class="flex-1 d-flex flex-column ma-2 pa-2">
+                <MudText Typo="Typo.subtitle1"><b>@_loc["CurrentRequests"]</b></MudText>
+                <MudText Typo="Typo.h4" Class="flex-1 d-flex align-center justify-center">
+                    <span>@_metricEventListener.Metrics.HostingCurrentRequests</span>
+                </MudText>
+            </MudCard>
+            <MudCard Style="height:100%;" Class="flex-1 d-flex flex-column ma-2 pa-2">
+                <MudText Typo="Typo.subtitle1"><b>@_loc["BytesReceived"]</b></MudText>
+                <MudText Typo="Typo.h4" Class="flex-1 d-flex align-center justify-center">
+                    <span>@BytesCountToString(_metricEventListener.Metrics.SocketsBytesReceived)</span>
+                </MudText>
+            </MudCard>
+            <MudCard Style="height:100%;" Class="flex-1 d-flex flex-column ma-2 pa-2">
+                <MudText Typo="Typo.subtitle1"><b>@_loc["BytesSent"]</b></MudText>
+                <MudText Typo="Typo.h4" Class="flex-1 d-flex align-center justify-center">
+                    <span>@BytesCountToString(_metricEventListener.Metrics.SocketsBytesSent)</span>
+                </MudText>
+            </MudCard>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex">
+    <div class="flex-1 px-2 pt-2">
+        <MudCard>
+            <ApexChart TItem="MetricDataRecord" @ref="cpuUsageChart"
+                       XAxisType="XAxisType.Datetime"
+                       Title="@_loc["CpuUsage"]" Options="cpuUsageOptions" Height="240">
+
+                <ApexPointSeries TItem="MetricDataRecord"
+                                 Items="_metricEventListener.Metrics.CpuUsageList"
+                                 Name="值"
+                                 SeriesType="SeriesType.Line"
+                                 XValue="@(e => e.Time.Value.ToUnixTimeMilliseconds())"
+                                 OrderBy="@(e => e.X)"
+                                 YAggregate="@(items=>decimal.Round(items.Max(item => decimal.Parse(item.Value))))" />
+            </ApexChart>
+        </MudCard>
+    </div>
+</div>
+<div class="d-flex" style="height: 120px;">
+    <div class="flex-1 d-flex flex-column">
+        <div class="d-flex flex-1 mb-2">
+            <MudCard Style="height:100%;" Class="flex-1 d-flex flex-column ma-2 pa-2">
+                <MudText Typo="Typo.subtitle1"><b>@_loc["AssemblyCount"]</b></MudText>
+                <MudText Typo="Typo.h4" Class="flex-1 d-flex align-center justify-center">
+                    <span>@_metricEventListener.Metrics.RuntimeAssemblyCount</span>
+                </MudText>
+            </MudCard>
+            <MudCard Style="height:100%;" Class="flex-1 d-flex flex-column ma-2 pa-2">
+                <MudText Typo="Typo.subtitle1"><b>@_loc["ActiveTimerCount"]</b></MudText>
+                <MudText Typo="Typo.h4" Class="flex-1 d-flex align-center justify-center">
+                    <span>@_metricEventListener.Metrics.RuntimeActiveTimerCount</span>
+                </MudText>
+            </MudCard>
+            <MudCard Style="height:100%;" Class="flex-1 d-flex flex-column ma-2 pa-2">
+                <MudText Typo="Typo.subtitle1"><b>@_loc["WorkingSet"]</b></MudText>
+                <MudText Typo="Typo.h4" Class="flex-1 d-flex align-center justify-center">
+                    <span>@(double.Parse(_metricEventListener.Metrics.RuntimeWorkingSet).ToString("N2") + " MB")</span>
+                </MudText>
+            </MudCard>
+            <MudCard Style="height:100%;" Class="flex-1 d-flex flex-column ma-2 pa-2">
+                <MudText Typo="Typo.subtitle1"><b>@_loc["GcHeapSize"]</b></MudText>
+                <MudText Typo="Typo.h4" Class="flex-1 d-flex align-center justify-center">
+                    <span>@(double.Parse(_metricEventListener.Metrics.RuntimeGcHeapSize).ToString("N2") + " MB")</span>
+                </MudText>
+            </MudCard>
+        </div>
+    </div>
+</div>
+<div class="d-flex">
+    <div class="flex-1 px-2 pt-2">
+        <MudCard>
+            <ApexChart TItem="MetricDataRecord" @ref="queryPerSecondChart"
+                       XAxisType="XAxisType.Datetime"
+                       Title="@_loc["QueryPerSecond"]" Options="queryPerSecondChartOptions" Height="240">
+
+                <ApexPointSeries TItem="MetricDataRecord"
+                                 Items="_metricEventListener.Metrics.EFCoreQueriesPerSecondList"
+                                 Name="值"
+                                 SeriesType="SeriesType.Line"
+                                 XValue="@(e => e.Time.Value.ToUnixTimeMilliseconds())"
+                                 OrderBy="@(e => e.X)"
+                                 YValue="@(e=> decimal.Parse(e.Value))" />
+            </ApexChart>
+        </MudCard>
+    </div>
+</div>
+<div class="d-flex" style="height: 120px;">
+    <div class="flex-1 d-flex flex-column">
+        <div class="d-flex flex-1 mb-2">
+            <MudCard Style="height:100%;" Class="flex-1 d-flex flex-column ma-2 pa-2">
+                <MudText Typo="Typo.subtitle1"><b>@_loc["ActiveDbContexts"]</b></MudText>
+                <MudText Typo="Typo.h4" Class="flex-1 d-flex align-center justify-center">
+                    <span>@(_metricEventListener.Metrics.EFCoreActiveDbContexts)</span>
+                </MudText>
+            </MudCard>
+            <MudCard Style="height:100%;" Class="flex-1 d-flex flex-column ma-2 pa-2">
+                <MudText Typo="Typo.subtitle1"><b>@_loc["TotalQueries"]</b></MudText>
+                <MudText Typo="Typo.h4" Class="flex-1 d-flex align-center justify-center">
+                    <span>@(_metricEventListener.Metrics.EFCoreTotalQueries)</span>
+                </MudText>
+            </MudCard>
+            <MudCard Style="height:100%;" Class="flex-1 d-flex flex-column ma-2 pa-2">
+                <MudText Typo="Typo.subtitle1"><b>@_loc["TotalSaveChanges"]</b></MudText>
+                <MudText Typo="Typo.h4" Class="flex-1 d-flex align-center justify-center">
+                    <span>@_metricEventListener.Metrics.EFCoreTotalSaveChanges</span>
+                </MudText>
+            </MudCard>
+        </div>
+    </div>
+</div>
+
+@code {
+    Timer _timer;
+    ApexChart<MetricDataRecord> cpuUsageChart;
+    ApexChart<MetricDataRecord> queryPerSecondChart;
+
+    ApexChartOptions<MetricDataRecord> cpuUsageOptions = new ApexChartOptions<MetricDataRecord>
+        {
+            Chart =
+            {
+                Toolbar = new Toolbar
+                {
+                    Show = false
+                },
+            },
+            Xaxis = new XAxis
+            {
+                TickAmount = 10,
+                Labels = new XAxisLabels
+                {
+                    Rotate = 0,
+                    Style = new AxisLabelStyle
+                    {
+                        FontSize = "10px"
+                    }
+                },
+            },
+            Yaxis = new List<YAxis>
+            {
+                new YAxis
+                {
+                    Min = 0,
+                    Max = 100,
+                    StepSize = 20,
+                },
+
+            },
+            Stroke = new Stroke()
+            {
+                Curve = Curve.Smooth,
+                Width = 2,
+            },
+            Theme = new Theme()
+        };
+    ApexChartOptions<MetricDataRecord> queryPerSecondChartOptions = new ApexChartOptions<MetricDataRecord>
+        {
+            Chart =
+            {
+                Toolbar = new Toolbar
+                {
+                    Show = false
+                },
+            },
+            Xaxis = new XAxis
+            {
+                TickAmount = 10,
+                Labels = new XAxisLabels
+                {
+                    Rotate = 0,
+                    Style = new AxisLabelStyle
+                    {
+                        FontSize = "10px"
+                    }
+                },
+            },
+            Yaxis = new List<YAxis>
+            {
+                new YAxis
+                {
+                    Min = 0,
+                    Max = 300,
+                    StepSize = 60,
+                },
+
+            },
+            Stroke = new Stroke()
+            {
+                Curve = Curve.Smooth,
+                Width = 2,
+            },
+            Theme = new Theme()
+        };
+
+    protected override async Task OnInitializedAsync()
+    {
+        _timer = new Timer(async p => await UpdateMetricData(), null, 5000, 5000);
+
+        await ChangeTheme();
+
+        _themeState.IsDarkChangeEvent += async () => await ChangeTheme();
+    }
+
+
+
+    private async Task ChangeTheme()
+    {
+        if (_themeState.IsDark)
+        {
+            cpuUsageOptions.Theme.Mode = Mode.Dark;
+            queryPerSecondChartOptions.Theme.Mode = Mode.Dark;
+        }
+        else
+        {
+            cpuUsageOptions.Theme.Mode = Mode.Light;
+            queryPerSecondChartOptions.Theme.Mode = Mode.Light;
+        }
+        if (cpuUsageChart != null)
+        {
+            await cpuUsageChart.RenderAsync();
+        }
+        if (queryPerSecondChart != null)
+        {
+            await queryPerSecondChart.RenderAsync();
+        }
+    }
+
+
+
+    private async Task UpdateMetricData()
+    {
+        await InvokeAsync(async () =>
+        {
+            StateHasChanged();
+            try
+            {
+                await queryPerSecondChart.UpdateSeriesAsync(false);
+                await cpuUsageChart.UpdateSeriesAsync(false);
+
+            }
+            catch (Exception)
+            {
+                await Task.Delay(1000);
+            }
+        });
+    }
+
+    string BytesCountToString(string byteStr)
+    {
+        // 字节总数转换为文本显示
+        var byteCount = decimal.Parse(byteStr);
+        if (byteCount < 1024)
+        {
+            return byteCount.ToString("F2") + " B";
+        }
+        else if (byteCount < 1024 * 1024)
+        {
+            return (byteCount / 1024).ToString("F2") + " KB";
+        }
+        else if (byteCount < 1024 * 1024 * 1024)
+        {
+            return (byteCount / (1024 * 1024)).ToString("F2") + " MB";
+        }
+        else
+        {
+            return (byteCount / (1024 * 1024 * 1024)).ToString("F2") + " GB";
+        }
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
+
+        _themeState.IsDarkChangeEvent -= async () => await ChangeTheme();
+    }
+}

@@ -168,4 +168,7 @@
   <data name="CultureLanguage" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="指标" xml:space="preserve">
+    <value>Metrics</value>
+  </data>
 </root>

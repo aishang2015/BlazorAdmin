@@ -89,7 +89,7 @@ namespace BlazorAdmin.Rbac.Components
         {
             SearchKeyWord = keyword;
 
-            if (SelectedType == null)
+            if (SelectedType != null)
             {
                 GetIcons(SelectedType, keyword);
             }
