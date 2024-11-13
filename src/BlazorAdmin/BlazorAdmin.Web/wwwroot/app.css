@@ -79,5 +79,9 @@ h1:focus {
     line-height: 14px !important;
 }
 
+.mud-input-control.search-com {
+    margin: 0 !important;
+}
+
 :root {
 }

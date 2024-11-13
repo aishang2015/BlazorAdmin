@@ -33,9 +33,9 @@ namespace BlazorAdmin.Component.Pages
 
         public string Height { get => HasPagination ? "calc(100vh - 225px)" : "calc(100vh - 175px)"; }
 
-        public int Elevation { get; private set; } = 0;
+        public int Elevation { get; private set; } = 1;
 
-        public bool Outlined { get; private set; } = true;
+        public bool Outlined { get; private set; } = false;
 
 
     }

@@ -1,24 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
-
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
-
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
-
   <ItemGroup>
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\BlazorAdmin.Component\BlazorAdmin.Component.csproj" />
     <ProjectReference Include="..\..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Update="Pages\AuditLog\AuditLog.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
@@ -30,5 +24,4 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
   </ItemGroup>
-
 </Project>

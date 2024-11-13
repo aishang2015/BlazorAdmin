@@ -6,7 +6,7 @@
 <div class="d-flex flex-column" style="height:100%;">
     <PageHeader Title=@_loc["SystemSettingTitle"]>
     </PageHeader>
-    <div class="flex-1 d-flex border rounded" style="overflow:auto;border-color:var(--mud-palette-lines-default)">
+    <MudPaper class="flex-1 d-flex" style="overflow:auto;">
 
         <div class="flex-none" style="width:340px;overflow:auto;">
             <MudList T="SettingModel" ReadOnly="false" @bind-SelectedValue="SelectedValue">
@@ -27,5 +27,5 @@
         <div class="flex-1 mx-2">
             <DynamicComponent Type="@SettingComDic[SelectedValue?.Name.ToString()!]" />
         </div>
-    </div>
+    </MudPaper>
 </div>

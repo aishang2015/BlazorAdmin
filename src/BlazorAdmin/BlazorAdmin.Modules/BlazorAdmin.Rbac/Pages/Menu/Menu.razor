@@ -16,7 +16,7 @@
                            OnClick="DeleteMenuClick" Size="Size.Medium" Disabled="SelectedMenuItem == null"></MudIconButton>
         }
     </PageHeader>
-    <div class="flex-1 d-flex border rounded" style="overflow:auto;border-color:var(--mud-palette-lines-default)">
+    <MudPaper class="flex-1 d-flex " style="overflow:auto;">
 
         <div class="flex-0 pt-2" style="width:340px;overflow:auto;">
             @if (ReRenderFlg)
@@ -95,7 +95,7 @@
                 </div>
             }
         </div>
-    </div>
+    </MudPaper>
 
 </div>
 

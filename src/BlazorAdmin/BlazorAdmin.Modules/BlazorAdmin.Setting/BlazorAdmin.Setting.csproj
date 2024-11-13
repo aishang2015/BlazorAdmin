@@ -1,34 +1,27 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
-
-	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
-	</PropertyGroup>
-
-
-	<ItemGroup>
-		<SupportedPlatform Include="browser" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\..\BlazorAdmin.Component\BlazorAdmin.Component.csproj" />
-		<ProjectReference Include="..\..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Update="Resources\SettingCulture.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>SettingCulture.resx</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <EmbeddedResource Update="Resources\SettingCulture.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>SettingCulture.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	</ItemGroup>
-
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BlazorAdmin.Component\BlazorAdmin.Component.csproj" />
+    <ProjectReference Include="..\..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Resources\SettingCulture.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SettingCulture.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\SettingCulture.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SettingCulture.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

@@ -1,8 +1,8 @@
-﻿<div class="d-flex justify-between align-center mt-4">
+﻿<MudPaper class="d-flex justify-between align-center mt-4 px-4 py-2">
     <MudSpacer />
-    <MudPagination Color="Color.Primary" Count="@((PageInfo.Total - 1)/PageInfo.Size + 1)" Selected="@PageInfo.Page" 
-            SelectedChanged="PageChangedClick"/>
-</div>
+    <MudPagination Color="Color.Primary" Count="@((PageInfo.Total - 1)/PageInfo.Size + 1)" Selected="@PageInfo.Page"
+                   SelectedChanged="PageChangedClick" />
+</MudPaper>
 
 
 

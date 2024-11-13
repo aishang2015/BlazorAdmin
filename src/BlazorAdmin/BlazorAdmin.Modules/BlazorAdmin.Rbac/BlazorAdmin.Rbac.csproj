@@ -1,33 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="Pages\Organization\e1mr3ufu.j3f~" />
     <None Remove="sort.js" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="Pages\Organization\Dialogs\MemberSelect.razor" />
   </ItemGroup>
-
-
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
-
   <ItemGroup>
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\BlazorAdmin.Component\BlazorAdmin.Component.csproj" />
     <ProjectReference Include="..\..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="Resources\RbacCulture.Designer.cs">
       <DependentUpon>RbacCulture.resx</DependentUpon>
@@ -35,12 +27,10 @@
       <AutoGen>True</AutoGen>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Update="Resources\RbacCulture.resx">
       <LastGenOutput>RbacCulture.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
-
 </Project>

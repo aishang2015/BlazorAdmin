@@ -172,7 +172,7 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/Avatars"
 });
 
-app.UseStaticFiles();
+app.MapStaticAssets();
 app.UseAntiforgery();
 
 app.UseAuthentication();
