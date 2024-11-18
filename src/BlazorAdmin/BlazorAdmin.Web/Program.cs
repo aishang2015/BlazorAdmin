@@ -76,6 +76,7 @@ var dbConnectionString = builder.Configuration.GetConnectionString("Rbac")!;
 builder.Services.AddDbContextFactory<BlazorAdminDbContext>(b =>
 {
     b.UseSqlite(dbConnectionString);
+    b.UseSeeding((d, v) => (d as BlazorAdminDbContext).InitialData(v));
 }, ServiceLifetime.Scoped);
 
 // quartz
@@ -139,15 +140,12 @@ builder.Services.AddScoped<JwtHelper>();
 
 builder.Services.AddControllers();
 
+// modules
 moduleList.ForEach(m => m.Add(builder.Services));
 
 var app = builder.Build();
 
-// initial db
-using var scope = app.Services.CreateScope();
-var dbContextFactory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<BlazorAdminDbContext>>();
-using var context = dbContextFactory.CreateDbContext();
-context.InitialData();
+app.CreateDb();
 QuartzExtension.InitialSqliteQuartzTable(dbConnectionString);
 
 // Configure the HTTP request pipeline.

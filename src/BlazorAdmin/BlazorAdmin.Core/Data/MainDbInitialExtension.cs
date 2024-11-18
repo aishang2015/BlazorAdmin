@@ -10,20 +10,31 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using BlazorAdmin.Core.Helper;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BlazorAdmin.Core.Data
 {
     public static class MainDbInitialExtension
     {
-        public static void InitialData(this BlazorAdminDbContext dbContext)
+        public static void CreateDb(this WebApplication app)
         {
-            if (dbContext.Database.EnsureCreated())
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContextFactory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<BlazorAdminDbContext>>();
+                using var context = dbContextFactory.CreateDbContext();
+                context.Database.EnsureCreated();
+            }
+        }
+
+        public static void InitialData(this BlazorAdminDbContext dbContext, bool isCreated)
+        {
+            if (isCreated)
             {
                 var rsa = RSA.Create();
                 var privateKey = Convert.ToBase64String(rsa.ExportRSAPrivateKey());
                 var publicKey = Convert.ToBase64String(rsa.ExportRSAPublicKey());
-
-                using var tran = dbContext.Database.BeginTransaction();
 
                 dbContext.Settings.AddRange(new Setting
                 {
@@ -118,7 +129,6 @@ namespace BlazorAdmin.Core.Data
                 }));
                 dbContext.SaveChanges();
 
-                tran.Commit();
             }
         }
     }
