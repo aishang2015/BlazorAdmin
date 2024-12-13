@@ -7,7 +7,7 @@
 @using MudBlazor.Utilities
 
 
-<MudAppBar Elevation="0" Dense="true" Color="Color.Inherit" Style="background:var(--mud-palette-background);transform:translateX(1px);">
+<MudAppBar Elevation="1" Dense="true" Color="Color.Inherit" Style="background:var(--mud-palette-surface);transform:translateX(1px);">
 
     <NavOpenButton />
     <MudSpacer />
@@ -24,8 +24,7 @@
 <NavMenu></NavMenu>
 
 <MudMainContent Style="height:100vh;">
-    <div class="pa-4 d-flex flex-column" style="height:100%;overflow:auto;">
-        @* <NavTab ></NavTab> *@
+    <div class="pa-2 d-flex flex-column" style="height:100%;overflow:auto;">
         @Child
     </div>
 </MudMainContent>

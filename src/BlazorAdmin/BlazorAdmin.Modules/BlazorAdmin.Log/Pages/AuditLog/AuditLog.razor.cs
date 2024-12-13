@@ -15,7 +15,7 @@ namespace BlazorAdmin.Log.Pages.AuditLog
     public partial class AuditLog
     {
 
-        private PageDataGrid<AuditLogModel> dataGrid = null!;
+        private MudDataGrid<AuditLogModel> dataGrid = null!;
 
         private List<AuditLogModel> AuditLogs = new();
 

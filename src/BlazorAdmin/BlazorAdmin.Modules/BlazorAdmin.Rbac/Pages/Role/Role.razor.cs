@@ -17,7 +17,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
 
         private List<RoleModel> Roles = new();
 
-        private PageDataGridOne PageDataGridOne = new();
+        private PageDataGridConfig PageDataGridOne = new();
 
         private SearchObject searchObject = new();
 

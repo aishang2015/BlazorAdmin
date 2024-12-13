@@ -21,11 +21,10 @@
     }
 </PageHeader>
 
-<MudDataGrid Dense=PageDataGridOne.Dense Filterable=PageDataGridOne.Filterable ColumnResizeMode=PageDataGridOne.ColumnResizeMode
-             SortMode=PageDataGridOne.SortMode Groupable=PageDataGridOne.Groupable Virtualize=PageDataGridOne.Virtualize
-             FixedHeader=PageDataGridOne.FixedHeader Elevation=PageDataGridOne.Elevation Outlined=PageDataGridOne.Outlined
-             SelectedItems="selectedItems"
-             Height=@PageDataGridOne.Height ServerData="GetTableData" @ref="dataGridRef" T="RoleModel">
+<MudDataGrid Dense=PageDataGridConfig.Dense Filterable=PageDataGridConfig.Filterable ColumnResizeMode=PageDataGridConfig.ColumnResizeMode
+             SortMode=PageDataGridConfig.SortMode Groupable=PageDataGridConfig.Groupable Virtualize=PageDataGridConfig.Virtualize
+             FixedHeader=PageDataGridConfig.FixedHeader Elevation=PageDataGridConfig.Elevation Outlined=PageDataGridConfig.Outlined
+             SelectedItems="selectedItems" ServerData="GetTableData" @ref="dataGridRef" T="RoleModel" Class="flex-1">
     <Columns>
         <SelectColumn T="RoleModel" ShowInFooter="false" />
         <PropertyColumn Title="@Loc["RolePage_TableH1"]" Property="x=>x.Number" HeaderStyle="white-space:nowrap;width:40px;" Resizable="false" />

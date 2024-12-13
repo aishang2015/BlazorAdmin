@@ -7,7 +7,7 @@ namespace BlazorAdmin.Log.Pages.LoginLog
 {
     public partial class LoginLog
     {
-        private PageDataGrid<LoginLogModel> dataGrid = null!;
+        private MudDataGrid<LoginLogModel> dataGrid = null!;
 
         private List<LoginLogModel> LoginLogs = new();
 

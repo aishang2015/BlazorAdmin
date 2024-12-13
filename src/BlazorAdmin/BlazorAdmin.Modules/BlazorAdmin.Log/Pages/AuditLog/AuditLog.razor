@@ -52,36 +52,41 @@
     </MudTooltip>
 </PageHeader>
 
-<PageDataGrid T="AuditLogModel" ServerData="GetTableData" @ref="dataGrid">
-    <PropertyColumn T="AuditLogModel" TProperty="int" Property="x => x.Number" Title="@Loc["AuditLogPage_TableH1"]" StickyLeft="true" Resizable="false"
-                    HeaderStyle="white-space:nowrap;width:50px;" />
-    <PropertyColumn T="AuditLogModel" TProperty="Guid" Property="x => x.TransactionId" Title="@Loc["AuditLogPage_TableH2"]"
-                    HeaderStyle="white-space:nowrap;" />
-    <PropertyColumn T="AuditLogModel" TProperty="string" Property="x => x.UserName" Title="@Loc["AuditLogPage_TableH3"]" />
-    <PropertyColumn T="AuditLogModel" TProperty="string" Property="x => x.EntityName" Title="@Loc["AuditLogPage_TableH4"]" HeaderStyle="white-space:nowrap" />
-    <TemplateColumn T="AuditLogModel" Title="@Loc["AuditLogPage_TableH5"]" HeaderStyle="white-space:nowrap">
-        <CellTemplate>
-            @if (context.Item.Operation == 2)
-            {
-                <MudChip T="string" Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Error">@Loc["AuditLogPage_OperationDelete"]</MudChip>
-            }
-            else if (context.Item.Operation == 3)
-            {
-                <MudChip T="string" Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Warning">@Loc["AuditLogPage_OperationModify"]</MudChip>
-            }
-            else if (context.Item.Operation == 4)
-            {
-                <MudChip T="string" Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["AuditLogPage_OperationCreate"]</MudChip>
-            }
-        </CellTemplate>
-    </TemplateColumn>
-    <PropertyColumn T="AuditLogModel" TProperty="DateTime" Property="x => x.OperateTime" Title="@Loc["AuditLogPage_TableH6"]" />
-    <TemplateColumn T="AuditLogModel" Title="@Loc["AuditLogPage_TableH7"]" StickyRight="true" CellStyle="text-align:center;" HeaderStyle="white-space:nowrap;width:50px;" Resizable="false">
-        <CellTemplate>
-            <MudIconButton Size="@MudBlazor.Size.Small" Icon="@IconsConstant.Database" Color="Color.Primary"
-                           OnClick="()=>ViewDetail(context.Item.Id)" />
-        </CellTemplate>
-    </TemplateColumn>
-</PageDataGrid>
+<MudDataGrid Dense=PageDataGridConfig.Dense Filterable=PageDataGridConfig.Filterable ColumnResizeMode=PageDataGridConfig.ColumnResizeMode
+             SortMode=PageDataGridConfig.SortMode Groupable=PageDataGridConfig.Groupable Virtualize=PageDataGridConfig.Virtualize
+             FixedHeader=PageDataGridConfig.FixedHeader Elevation=PageDataGridConfig.Elevation Outlined=PageDataGridConfig.Outlined
+             ServerData="GetTableData" @ref="dataGrid" T="AuditLogModel" Class="flex-1">
+    <Columns>
+        <PropertyColumn Property="x => x.Number" Title="@Loc["AuditLogPage_TableH1"]" StickyLeft="true" Resizable="false"
+                        HeaderStyle="white-space:nowrap;width:50px;" />
+        <PropertyColumn Property="x => x.TransactionId" Title="@Loc["AuditLogPage_TableH2"]"
+                        HeaderStyle="white-space:nowrap;" />
+        <PropertyColumn Property="x => x.UserName" Title="@Loc["AuditLogPage_TableH3"]" />
+        <PropertyColumn Property="x => x.EntityName" Title="@Loc["AuditLogPage_TableH4"]" HeaderStyle="white-space:nowrap" />
+        <TemplateColumn Title="@Loc["AuditLogPage_TableH5"]" HeaderStyle="white-space:nowrap">
+            <CellTemplate>
+                @if (context.Item.Operation == 2)
+                {
+                    <MudChip T="string" Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Error">@Loc["AuditLogPage_OperationDelete"]</MudChip>
+                }
+                else if (context.Item.Operation == 3)
+                {
+                    <MudChip T="string" Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Warning">@Loc["AuditLogPage_OperationModify"]</MudChip>
+                }
+                else if (context.Item.Operation == 4)
+                {
+                    <MudChip T="string" Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["AuditLogPage_OperationCreate"]</MudChip>
+                }
+            </CellTemplate>
+        </TemplateColumn>
+        <PropertyColumn Property="x => x.OperateTime" Title="@Loc["AuditLogPage_TableH6"]" />
+        <TemplateColumn Title="@Loc["AuditLogPage_TableH7"]" StickyRight="true" CellStyle="text-align:center;" HeaderStyle="white-space:nowrap;width:50px;" Resizable="false">
+            <CellTemplate>
+                <MudIconButton Size="@MudBlazor.Size.Small" Icon="@IconsConstant.Database" Color="Color.Primary"
+                               OnClick="()=>ViewDetail(context.Item.Id)" />
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
 
 <PagePagination PageInfo="searchObject" PageChangedClick="PageChangedClick"></PagePagination>

@@ -18,7 +18,7 @@ namespace BlazorAdmin.Rbac.Pages.User
 
         private MudDataGrid<UserModel> dataGrid = null!;
 
-        private PageDataGridOne PageDataGridOne = new();
+        private PageDataGridConfig PageDataGridOne = new();
 
         private List<Data.Entities.Rbac.Role> RoleList = new();
 

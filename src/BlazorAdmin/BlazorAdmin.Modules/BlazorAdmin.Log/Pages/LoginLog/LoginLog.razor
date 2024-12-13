@@ -15,29 +15,34 @@
     </MudTooltip>
 </PageHeader>
 
-<PageDataGrid T="LoginLogModel" ServerData="GetTableData" @ref="dataGrid">
-    <PropertyColumn T="LoginLogModel" TProperty="int" Property="x => x.Number" Title="@Loc["LoginLogPage_TableH1"]" StickyLeft="true"
-                    HeaderStyle="white-space:nowrap;width:40px;" Resizable="false" />
-    <PropertyColumn T="LoginLogModel" TProperty="string" Property="x => x.UserName" Title="@Loc["LoginLogPage_TableH2"]"
-                    HeaderStyle="white-space:nowrap" />
-    <PropertyColumn T="LoginLogModel" TProperty="DateTime" Property="x => x.Time" Title="@Loc["LoginLogPage_TableH3"]"
-                    HeaderStyle="white-space:nowrap" CellStyle="white-space:nowrap" />
-    <PropertyColumn T="LoginLogModel" TProperty="string" Property="x => x.Ip" Title="@Loc["LoginLogPage_TableH4"]"
-                    HeaderStyle="white-space:nowrap" />
-    <TemplateColumn T="LoginLogModel" Title="@Loc["LoginLogPage_TableH5"]" HeaderStyle="white-space:nowrap">
-        <CellTemplate>
-            @if (context.Item.IsSuccessd)
-            {
-                <MudChip T="string" Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["LoginLogPage_LoginSuccess"]</MudChip>
-            }
-            else
-            {
-                <MudChip T="string" Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Error">@Loc["LoginLogPage_LoginFail"]</MudChip>
-            }
-        </CellTemplate>
-    </TemplateColumn>
-    <PropertyColumn T="LoginLogModel" TProperty="string" Property="x => x.Agent" Title="@Loc["LoginLogPage_TableH6"]" Resizable="false"
-                    HeaderStyle="white-space:nowrap;width:250px;" CellStyle="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" />
-</PageDataGrid>
+<MudDataGrid Dense=PageDataGridConfig.Dense Filterable=PageDataGridConfig.Filterable ColumnResizeMode=PageDataGridConfig.ColumnResizeMode
+             SortMode=PageDataGridConfig.SortMode Groupable=PageDataGridConfig.Groupable Virtualize=PageDataGridConfig.Virtualize
+             FixedHeader=PageDataGridConfig.FixedHeader Elevation=PageDataGridConfig.Elevation Outlined=PageDataGridConfig.Outlined
+             ServerData="GetTableData" @ref="dataGrid" T="LoginLogModel" Class="flex-1">
+    <Columns>
+        <PropertyColumn Property="x => x.Number" Title="@Loc["LoginLogPage_TableH1"]" StickyLeft="true"
+                        HeaderStyle="white-space:nowrap;width:40px;" Resizable="false" />
+        <PropertyColumn Property="x => x.UserName" Title="@Loc["LoginLogPage_TableH2"]"
+                        HeaderStyle="white-space:nowrap" />
+        <PropertyColumn Property="x => x.Time" Title="@Loc["LoginLogPage_TableH3"]"
+                        HeaderStyle="white-space:nowrap" CellStyle="white-space:nowrap" />
+        <PropertyColumn Property="x => x.Ip" Title="@Loc["LoginLogPage_TableH4"]"
+                        HeaderStyle="white-space:nowrap" />
+        <TemplateColumn Title="@Loc["LoginLogPage_TableH5"]" HeaderStyle="white-space:nowrap">
+            <CellTemplate>
+                @if (context.Item.IsSuccessd)
+                {
+                    <MudChip T="string" Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Primary">@Loc["LoginLogPage_LoginSuccess"]</MudChip>
+                }
+                else
+                {
+                    <MudChip T="string" Variant="Variant.Outlined" Size="MudBlazor.Size.Small" Color="Color.Error">@Loc["LoginLogPage_LoginFail"]</MudChip>
+                }
+            </CellTemplate>
+        </TemplateColumn>
+        <PropertyColumn Property="x => x.Agent" Title="@Loc["LoginLogPage_TableH6"]" Resizable="false"
+                        HeaderStyle="white-space:nowrap;width:250px;" CellStyle="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" />
+    </Columns>
+</MudDataGrid>
 
 <PagePagination PageInfo="searchObject" PageChangedClick="PageChangedClick"></PagePagination>

@@ -88,7 +88,6 @@ namespace BlazorAdmin.Layout.States
             _theme.PaletteLight.Primary = color;
             _theme.PaletteLight.PrimaryDarken = color.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
             _theme.PaletteLight.PrimaryLighten = color.ColorRgbLighten().ToString(MudColorOutputFormats.RGB);
-            _theme.PaletteLight.AppbarBackground = color;
 
             _theme.PaletteDark.Primary = color;
             _theme.PaletteDark.PrimaryDarken = color.ColorRgbDarken().ToString(MudColorOutputFormats.RGB);
