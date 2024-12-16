@@ -1,7 +1,11 @@
-﻿namespace BlazorAdmin.Web.Components.Layout
+﻿using Microsoft.AspNetCore.Components;
+
+namespace BlazorAdmin.Web.Components.Layout
 {
     public partial class EmptyLayout
     {
+        [Parameter] public RenderFragment? ChildContent { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();

@@ -7,25 +7,27 @@
 <PageTitle>BlazorAdmin</PageTitle>
 
 <LoggerErrorBoundary>
-	<ChildContent>
-		<MudLayout>
-			<AuthorizeView Context="authContext">
-				<Authorized>
-					<AuthorizedLayout>
-						<Child>
-							@Body
-						</Child>
-					</AuthorizedLayout>
-				</Authorized>
-				<NotAuthorized>
-					@Body
-				</NotAuthorized>
-			</AuthorizeView>
-		</MudLayout>
-	</ChildContent>
-	<ErrorContent>
-		<div style="background: red">@context</div>
-	</ErrorContent>
+    <ChildContent>
+        <MudLayout>
+            <AuthorizeView Context="authContext">
+                <Authorized>
+                    <AuthorizedLayout>
+                        <Child>
+                            @Body
+                        </Child>
+                    </AuthorizedLayout>
+                </Authorized>
+                <NotAuthorized>
+                    <EmptyLayout>
+                        @Body
+                    </EmptyLayout>
+                </NotAuthorized>
+            </AuthorizeView>
+        </MudLayout>
+    </ChildContent>
+    <ErrorContent>
+        <div style="background: red">@context</div>
+    </ErrorContent>
 </LoggerErrorBoundary>
 
 <div id="blazor-error-ui">
