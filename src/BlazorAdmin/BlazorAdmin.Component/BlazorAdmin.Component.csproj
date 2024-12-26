@@ -8,8 +8,6 @@
     <SupportedPlatform Include="browser" />
   </ItemGroup>
   <ItemGroup>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
