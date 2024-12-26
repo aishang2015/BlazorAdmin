@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
+using BlazorAdmin.Data.Extensions;
 
 namespace BlazorAdmin.Rbac.Pages.Organization
 {
@@ -144,6 +145,8 @@ namespace BlazorAdmin.Rbac.Pages.Organization
                 return;
             }
 
+            SelectedOrganizationItem = item;
+
             using var context = await _dbFactory.CreateDbContextAsync();
             var organization = context.Organizations.Find(item.Id);
             if (organization != null)
@@ -173,28 +176,28 @@ namespace BlazorAdmin.Rbac.Pages.Organization
                 {
                     using var db = await _dbFactory.CreateDbContextAsync();
 
-                    var organizations = db.Organizations.ToList();
-                    var subtreeIdList = FindAllSubTreeIds(SelectedOrganizationItem.Id, organizations);
-                    subtreeIdList.Add(SelectedOrganizationItem.Id);
+                    var organizationIds = db.Organizations.GetAllSubOrganiations(SelectedOrganizationItem.Id)
+                        .Select(o => o.Id);
 
                     using var tran = db.Database.BeginTransaction();
 
-                    await db.Organizations.Where(m => subtreeIdList.Contains(m.Id)).ExecuteDeleteAsync();
-                    await db.OrganizationUsers.Where(ou => subtreeIdList.Contains(ou.OrganizationId)).ExecuteDeleteAsync();
+                    await db.Organizations.Where(m => organizationIds.Contains(m.Id)).ExecuteDeleteAsync();
+                    await db.OrganizationUsers.Where(ou => organizationIds.Contains(ou.OrganizationId)).ExecuteDeleteAsync();
                     await tran.CommitAsync();
 
                     _snackbarService.Add("删除成功！", Severity.Success);
                     await InitialOrganizationTree();
+
+                    if (EditModel.Id == SelectedOrganizationItem?.Id)
+                    {
+                        EditModel = new();
+                        MemberVisible = false;
+                        EditVisible = false;
+                    }
                     SelectedOrganizationItem = null;
+
                     StateHasChanged();
                 });
-        }
-
-        private List<int> FindAllSubTreeIds(int parentId, List<Data.Entities.Rbac.Organization> organizations)
-        {
-            return organizations.Where(m => m.ParentId == parentId).Select(m => m.Id).ToList()
-                .Concat(organizations.Where(m => m.ParentId == parentId).SelectMany(m => FindAllSubTreeIds(m.Id, organizations)))
-                .ToList();
         }
 
         #region Member edit 

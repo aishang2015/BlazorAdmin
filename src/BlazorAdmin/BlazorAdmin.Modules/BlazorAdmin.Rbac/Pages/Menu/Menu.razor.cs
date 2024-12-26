@@ -179,6 +179,12 @@ namespace BlazorAdmin.Rbac.Pages.Menu
                             _snackbarService.Add("删除成功！", Severity.Success);
                             await InitialMenuTree();
 
+                            if (MenuEditModel.Id == SelectedMenuItem.Id)
+                            {
+                                EditVisible = false;
+                                MenuEditModel = new();
+                            }
+
                             SelectedMenuItem = null;
                             StateHasChanged();
                         }

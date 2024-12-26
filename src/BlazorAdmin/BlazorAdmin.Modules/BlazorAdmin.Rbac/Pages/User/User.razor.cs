@@ -4,7 +4,7 @@ using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Rbac.Pages.User.Dialogs;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
+using BlazorAdmin.Data.Extensions;
 using MudBlazor;
 using static BlazorAdmin.Component.Pages.PagePagination;
 
@@ -51,7 +51,10 @@ namespace BlazorAdmin.Rbac.Pages.User
 
             if (searchObject.SelectedOrganization != null)
             {
-                var userIds = context.OrganizationUsers.Where(ou => ou.OrganizationId == searchObject.SelectedOrganization)
+                var orgs = context.Organizations.GetAllSubOrganiations(searchObject.SelectedOrganization.Value)
+                    .Select(org => org.Id);
+
+                var userIds = context.OrganizationUsers.Where(ou => orgs.Contains(ou.OrganizationId))
                    .Select(ou => ou.UserId).Distinct().ToList();
                 searchedUserIdList.AddRange(userIds);
             }
@@ -59,7 +62,7 @@ namespace BlazorAdmin.Rbac.Pages.User
             var query = context.Users.Where(u => !u.IsDeleted && !u.IsSpecial)
                 .AndIfExist(searchObject.SearchText, u => u.Name.Contains(searchObject.SearchText!))
                 .AndIfExist(searchObject.SearchRealName, u => u.RealName.Contains(searchObject.SearchRealName!))
-                .AndIf(searchedUserIdList.Count > 0, u => searchedUserIdList.Contains(u.Id));
+                .AndIf(searchObject.SelectedOrganization != null, u => searchedUserIdList.Contains(u.Id));
 
             Users = await query.Skip((searchObject.Page - 1) * searchObject.Size).Take(searchObject.Size)
                 .Select(p => new UserModel

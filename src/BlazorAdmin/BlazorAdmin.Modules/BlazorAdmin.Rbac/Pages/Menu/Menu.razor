@@ -12,7 +12,7 @@
         }
         @if (_accessService.CheckHasElementRights("MenuDeleteBtn").Result)
         {
-            <MudIconButton Class=" mr-2" Color="Color.Primary" Icon="@Icons.Material.Filled.Remove" Variant="Variant.Outlined"
+            <MudIconButton Class=" mr-2" Color="Color.Primary" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined"
                            OnClick="DeleteMenuClick" Size="Size.Medium" Disabled="SelectedMenuItem == null"></MudIconButton>
         }
     </PageHeader>
