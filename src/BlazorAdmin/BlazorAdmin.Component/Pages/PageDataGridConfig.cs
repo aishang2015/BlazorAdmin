@@ -26,5 +26,7 @@ namespace BlazorAdmin.Component.Pages
         public static int Elevation { get; private set; } = 1;
 
         public static bool Outlined { get; private set; } = false;
+
+        public static string Style { get; private set; } = "flex: 1;overflow: auto;";
     }
 }

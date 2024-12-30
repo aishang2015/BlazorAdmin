@@ -19,9 +19,7 @@ namespace BlazorAdmin.Core.Services
 
         public async Task Execute(IJobExecutionContext context)
         {
-            var dataMap = context.JobDetail.JobDataMap;
-            var now = dataMap.GetString("now");
-            _logger.LogInformation("TestJob executed at {time}", now);
+            _logger.LogInformation("TestJob executed at {0}", DateTime.Now);
         }
     }
 }

@@ -1,7 +1,7 @@
+using BlazorAdmin.Core;
 using BlazorAdmin.Core.Auth;
 using BlazorAdmin.Core.Chat;
 using BlazorAdmin.Core.Data;
-using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Core.Modules;
 using BlazorAdmin.Core.Services;
@@ -72,15 +72,7 @@ if (!Directory.Exists(dbDirectory))
 }
 
 // dbcontext
-var dbConnectionString = builder.Configuration.GetConnectionString("Rbac")!;
-builder.Services.AddDbContextFactory<BlazorAdminDbContext>(b =>
-{
-    b.UseSqlite(dbConnectionString);
-    b.UseSeeding((d, v) => (d as BlazorAdminDbContext).InitialData(v));
-}, ServiceLifetime.Scoped);
-
-// quartz
-builder.Services.AddQuartzService(dbConnectionString);
+builder.AddDatabase();
 
 // messagesender
 builder.Services.AddSingleton<MessageSender>();
@@ -95,35 +87,7 @@ builder.Services.AddScoped<ExternalAuthService>();
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
-    var connStr = builder.Configuration.GetConnectionString("Rbac");
-    using var context = new BlazorAdminDbContext(new DbContextOptionsBuilder<BlazorAdminDbContext>()
-        .UseSqlite(builder.Configuration.GetConnectionString("Rbac")).Options, default);
-
-    var issuer = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtIssue)!.Value;
-    var audience = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtAudience)!.Value;
-    var privateKey = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtSigningRsaPrivateKey)!.Value;
-    var publicKey = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtSigningRsaPublicKey)!.Value;
-
-    var rsa = RSA.Create();
-    rsa.ImportRSAPublicKey(Convert.FromBase64String(publicKey), out int publicReadBytes);
-    rsa.ImportRSAPrivateKey(Convert.FromBase64String(privateKey), out int privateReadBytes);
-    var securityKey = new RsaSecurityKey(rsa);
-    options.TokenValidationParameters = new TokenValidationParameters()
-    {
-        ValidAudience = audience,
-        ValidateAudience = false,
-
-        ValidIssuer = issuer,
-        ValidateIssuer = false,
-
-        IssuerSigningKey = securityKey,
-
-        ValidateIssuerSigningKey = true,
-        ValidateLifetime = true
-    };
-});
+}).AddJwtBearer(JwtOptionsExtension.InitialJwtOptions);
 
 // some service
 builder.Services.AddMemoryCache();
@@ -145,8 +109,8 @@ moduleList.ForEach(m => m.Add(builder.Services));
 
 var app = builder.Build();
 
-app.CreateDb();
-QuartzExtension.InitialSqliteQuartzTable(dbConnectionString);
+CurrentApplication.Application = app;
+app.InitialDatabase();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

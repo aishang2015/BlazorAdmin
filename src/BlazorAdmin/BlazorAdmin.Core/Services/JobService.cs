@@ -11,6 +11,7 @@ namespace BlazorAdmin.Core.Services
     {
         Task Add<TJob>(string jobName, JobDataMap? keyValuePairs) where TJob : IJob;
         Task Add<TJob>(string jobName, string cron) where TJob : IJob;
+        Task AddOneTime<TJob>() where TJob : IJob;
         Task Remove(string jobName);
         Task Pause(string jobName);
         Task Resume(string jobName);
@@ -60,6 +61,24 @@ namespace BlazorAdmin.Core.Services
             var trigger = TriggerBuilder.Create()
                .WithIdentity(GetTriggerIdentity(jobName))
                .WithCronSchedule(cron, m => m.WithMisfireHandlingInstructionIgnoreMisfires())
+               .Build();
+
+            await scheduler.ScheduleJob(job, trigger);
+        }
+
+        public async Task AddOneTime<TJob>() where TJob : IJob
+        {
+            var scheduler = await _schedulerFactory.GetScheduler();
+            var jobName = typeof(TJob).Name + Guid.NewGuid().ToString();
+
+            var job = JobBuilder.Create<TJob>()
+               .WithIdentity(jobName)
+               .DisallowConcurrentExecution()
+               .Build();
+
+            var trigger = TriggerBuilder.Create()
+               .WithIdentity(GetTriggerIdentity(jobName))
+               .StartNow()
                .Build();
 
             await scheduler.ScheduleJob(job, trigger);

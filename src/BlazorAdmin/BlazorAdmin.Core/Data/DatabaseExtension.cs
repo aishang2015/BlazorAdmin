@@ -13,11 +13,55 @@ using BlazorAdmin.Core.Helper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using System.Configuration;
 
 namespace BlazorAdmin.Core.Data
 {
-    public static class MainDbInitialExtension
+    public static class DatabaseExtension
     {
+        public static WebApplicationBuilder AddDatabase(this WebApplicationBuilder builder)
+        {
+            var dbConnectinoString = builder.Configuration.GetValue<string>("Application:ConnectionString")!;
+            var dbProvider = builder.Configuration.GetValue<string>("Application:DatabaseProvider")!;
+
+            builder.Services.AddDbContextFactory<BlazorAdminDbContext>(b =>
+            {
+                if (dbProvider == "SqlServer")
+                {
+                    b.UseSqlServer(dbConnectinoString);
+                }
+                else if (dbProvider == "Sqlite")
+                {
+                    b.UseSqlite(dbConnectinoString);
+                }
+                b.UseSeeding((d, v) => (d as BlazorAdminDbContext).InitialData(v));
+            }, ServiceLifetime.Scoped);
+
+            var useQuartz = builder.Configuration.GetValue<bool>("Application:UseQuartz");
+
+            if (useQuartz)
+            {
+                // quartz
+                builder.Services.AddQuartzService(dbConnectinoString, dbProvider);
+            }
+            return builder;
+        }
+
+        public static void InitialDatabase(this WebApplication app)
+        {
+            var dbConnectinoString = app.Configuration.GetValue<string>("Application:ConnectionString")!;
+            var dbProvider = app.Configuration.GetValue<string>("Application:DatabaseProvider")!;
+            app.CreateDb();
+
+            var useQuartz = app.Configuration.GetValue<bool>("Application:UseQuartz");
+
+            if (useQuartz)
+            {
+                QuartzExtension.InitialQuartzTable(dbConnectinoString, dbProvider);
+            }
+        }
+
         public static void CreateDb(this WebApplication app)
         {
             using (var scope = app.Services.CreateScope())
