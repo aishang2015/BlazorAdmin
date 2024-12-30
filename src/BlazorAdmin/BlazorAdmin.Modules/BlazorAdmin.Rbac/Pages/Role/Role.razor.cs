@@ -37,6 +37,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
                 IsEnabled = r.IsEnabled
             }).Skip((searchObject.Page - 1) * searchObject.Size).Take(searchObject.Size).ToListAsync();
             searchObject.Total = await query.CountAsync();
+            StateHasChanged();
 
             foreach (var role in Roles)
             {

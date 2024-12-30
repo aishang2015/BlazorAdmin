@@ -65,6 +65,7 @@ namespace BlazorAdmin.Log.Pages.AuditLog
                     UserName = d.RealName
                 }).ToList();
             searchObject.Total = query.Count();
+            StateHasChanged();
 
             Operators = context.Users.Where(u => !u.IsSpecial).Select(u => new Operator
             {
@@ -97,10 +98,10 @@ namespace BlazorAdmin.Log.Pages.AuditLog
             await _dialogService.Show<AuditLogDetailDialog>(string.Empty, parameters, options).Result;
         }
 
-        private void PageChangedClick(int page)
+        private async Task PageChangedClick(int page)
         {
             searchObject.Page = page;
-            dataGrid.ReloadServerData();
+            await dataGrid.ReloadServerData();
         }
 
         private void SearchReset()

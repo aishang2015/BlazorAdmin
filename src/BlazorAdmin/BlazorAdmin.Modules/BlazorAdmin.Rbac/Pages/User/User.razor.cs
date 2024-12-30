@@ -74,6 +74,7 @@ namespace BlazorAdmin.Rbac.Pages.User
                     IsEnabled = p.IsEnabled,
                 }).ToListAsync();
             searchObject.Total = await query.CountAsync();
+            StateHasChanged();
 
             var roles = (from r in context.Roles
                          join ur in context.UserRoles on r.Id equals ur.RoleId
@@ -90,13 +91,12 @@ namespace BlazorAdmin.Rbac.Pages.User
                 user.Roles = roles.Where(r => r.UserId == user.Id).Select(r => r.Name).ToList();
                 user.Organizations = organizations.Where(o => o.UserId == user.Id).Select(o => o.Name).ToList();
             }
-
         }
 
         private async Task PageChangedClick(int page)
         {
             searchObject.Page = page;
-            await InitialData();
+            await dataGrid.ReloadServerData();
         }
 
         private async Task AddUserClick()

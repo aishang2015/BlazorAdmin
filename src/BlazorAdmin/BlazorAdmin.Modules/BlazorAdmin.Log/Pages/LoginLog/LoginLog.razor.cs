@@ -36,12 +36,13 @@ namespace BlazorAdmin.Log.Pages.LoginLog
                     UserName = l.UserName,
                 }).ToList();
             searchObject.Total = query.Count();
+            StateHasChanged();
         }
 
-        private async void PageChangedClick(int page)
+        private async Task PageChangedClick(int page)
         {
             searchObject.Page = page;
-            dataGrid.ReloadServerData();
+            await dataGrid.ReloadServerData();
         }
 
         private async Task<GridData<LoginLogModel>> GetTableData(GridState<LoginLogModel> gridState)
