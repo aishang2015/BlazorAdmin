@@ -6,6 +6,8 @@ namespace BlazorAdmin.Data.Entities.Log
 {
     [Table("LOG_LOGIN")]
     [Comment("登录日志")]
+    [Index(nameof(UserName))]
+    [Index(nameof(Time))]
     [IgnoreAudit]
     public class LoginLog
     {

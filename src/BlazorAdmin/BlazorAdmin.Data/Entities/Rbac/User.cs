@@ -30,5 +30,8 @@ namespace BlazorAdmin.Data.Entities.Rbac
 
         [Comment("是否是特殊用户")]
         public bool IsSpecial { get; set; }
+
+        [Comment("一定时间内登录失败次数")]
+        public DateTime? LoginValiedTime { get; set; }
     }
 }

@@ -61,6 +61,7 @@ builder.Services.AddMudServices(config =>
     config.SnackbarConfiguration.VisibleStateDuration = 3000;
     config.SnackbarConfiguration.HideTransitionDuration = 200;
     config.SnackbarConfiguration.ShowTransitionDuration = 200;
+    config.SnackbarConfiguration.PreventDuplicates = false;
 });
 builder.Services.AddMudMarkdownServices();
 builder.Services.AddCropper();
