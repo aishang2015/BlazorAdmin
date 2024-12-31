@@ -18,7 +18,7 @@
 <MudDataGrid Dense=PageDataGridConfig.Dense Filterable=PageDataGridConfig.Filterable ColumnResizeMode=PageDataGridConfig.ColumnResizeMode
              SortMode=PageDataGridConfig.SortMode Groupable=PageDataGridConfig.Groupable Virtualize=PageDataGridConfig.Virtualize
              FixedHeader=PageDataGridConfig.FixedHeader Elevation=PageDataGridConfig.Elevation Outlined=PageDataGridConfig.Outlined
-             Style="@PageDataGridConfig.Style"
+             Style="@PageDataGridConfig.Style" HorizontalScrollbar="PageDataGridConfig.HorizontalScrollbar"
              ServerData="GetTableData" @ref="dataGrid" T="LoginLogModel">
     <Columns>
         <PropertyColumn Property="x => x.Number" Title="@Loc["LoginLogPage_TableH1"]" StickyLeft="true"

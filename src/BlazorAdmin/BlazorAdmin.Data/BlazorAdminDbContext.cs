@@ -94,7 +94,8 @@ namespace BlazorAdmin.Data
 
                     if (entry.State is EntityState.Modified)
                     {
-                        var modifiedProperties = entry.Properties.Where(p => p.IsModified);
+                        var modifiedProperties = entry.Properties.Where(p => p.IsModified ||
+                            p.Metadata.Name == "Id");
                         foreach (var property in modifiedProperties)
                         {
                             var auditLogDetail = new AuditLogDetail()

@@ -84,5 +84,9 @@ h1:focus {
     margin: 0 !important;
 }
 
+.mud-table-container {
+    min-width: 100%;
+}
+
 :root {
 }

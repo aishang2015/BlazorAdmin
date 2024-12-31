@@ -24,7 +24,7 @@
 <MudDataGrid Dense=PageDataGridConfig.Dense Filterable=PageDataGridConfig.Filterable ColumnResizeMode=PageDataGridConfig.ColumnResizeMode
              SortMode=PageDataGridConfig.SortMode Groupable=PageDataGridConfig.Groupable Virtualize=PageDataGridConfig.Virtualize
              FixedHeader=PageDataGridConfig.FixedHeader Elevation=PageDataGridConfig.Elevation Outlined=PageDataGridConfig.Outlined
-             Style="@PageDataGridConfig.Style"
+             Style="@PageDataGridConfig.Style" HorizontalScrollbar="PageDataGridConfig.HorizontalScrollbar"
              SelectedItems="selectedItems" ServerData="GetTableData" @ref="dataGridRef" T="RoleModel">
     <Columns>
         <SelectColumn T="RoleModel" ShowInFooter="false" />
