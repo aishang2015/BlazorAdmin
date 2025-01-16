@@ -31,7 +31,9 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
                 IsEnabled = true,
                 Name = UserModel.UserName!,
                 RealName = UserModel.RealName!,
-                PasswordHash = HashHelper.HashPassword(UserModel.Password!)
+                PasswordHash = HashHelper.HashPassword(UserModel.Password!),
+                Email = UserModel.Email,
+                PhoneNumber = UserModel.PhoneNumber
             });
             await context.SaveChangesAsync();
             _snackbarService.Add("创建成功！", Severity.Success);
@@ -53,6 +55,12 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
             [MaxLength(100, ErrorMessage = "密码位数过长")]
             [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$", ErrorMessage = "密码中必须包含大小写字母以及数字")]
             public string? Password { get; set; }
+
+            [EmailAddress(ErrorMessage = "请输入正确的邮箱地址")]
+            public string? Email { get; set; }
+
+            [MaxLength(30, ErrorMessage = "电话号码长度过长")]
+            public string? PhoneNumber { get; set; }
         }
     }
 }

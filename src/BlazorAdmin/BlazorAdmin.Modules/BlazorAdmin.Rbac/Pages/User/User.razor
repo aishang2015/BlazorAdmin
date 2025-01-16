@@ -67,6 +67,8 @@
         </TemplateColumn>
         <PropertyColumn Property="x => x.Name" Title="@Loc["UserPage_TableH3"]" HeaderStyle="white-space:nowrap" />
         <PropertyColumn Property="x => x.RealName" Title="@Loc["UserPage_TableH6"]" HeaderStyle="white-space:nowrap" />
+        <PropertyColumn Property="x => x.Email" Title="@Loc["UserPage_TableH9"]" HeaderStyle="white-space:nowrap" />
+        <PropertyColumn Property="x => x.PhoneNumber" Title="@Loc["UserPage_TableH10"]" HeaderStyle="white-space:nowrap" />
         <TemplateColumn Title="@Loc["UserPage_TableH7"]" HeaderStyle="white-space:nowrap">
             <CellTemplate>
                 @foreach (var role in context.Item.Roles)

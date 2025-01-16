@@ -72,6 +72,8 @@ namespace BlazorAdmin.Rbac.Pages.User
                     Name = p.Name,
                     RealName = p.RealName,
                     IsEnabled = p.IsEnabled,
+                    Email = p.Email,
+                    PhoneNumber = p.PhoneNumber
                 }).ToListAsync();
             searchObject.Total = await query.CountAsync();
             StateHasChanged();
@@ -220,6 +222,10 @@ namespace BlazorAdmin.Rbac.Pages.User
             public string Name { get; set; } = null!;
 
             public string? RealName { get; set; }
+
+            public string? Email { get; set; }
+
+            public string? PhoneNumber { get; set; }
 
             public bool IsEnabled { get; set; }
 

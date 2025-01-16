@@ -22,7 +22,10 @@
                          Style="@PageDataGridConfig.Style" HorizontalScrollbar="PageDataGridConfig.HorizontalScrollbar"
                          ServerData="GetTableData" @ref="dataGrid" T="TableModel">
                 <Columns>
-                   
+                    <TemplateColumn Title="操作" HeaderStyle="white-space:nowrap;">
+                        <CellTemplate>
+                        </CellTemplate>
+                    </TemplateColumn>
                 </Columns>
             </MudDataGrid>
 
@@ -76,12 +79,6 @@
             private class TableModel
             {
                 public int Id { get; set; }
-                public int Number { get; set; }
-                public string UserName { get; set; } = null!;
-                public DateTime Time { get; set; }
-                public string? Agent { get; set; }
-                public string? Ip { get; set; }
-                public bool IsSuccessd { get; set; }
             }
 
 

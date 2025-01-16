@@ -22,6 +22,12 @@ namespace BlazorAdmin.Data.Entities.Rbac
         [Comment("密码哈希")]
         public string PasswordHash { get; set; } = null!;
 
+        [Comment("电子邮件")]
+        public string? Email { get; set; }
+
+        [Comment("手机号码")]
+        public string? PhoneNumber { get; set; }
+
         [Comment("是否启用")]
         public bool IsEnabled { get; set; }
 

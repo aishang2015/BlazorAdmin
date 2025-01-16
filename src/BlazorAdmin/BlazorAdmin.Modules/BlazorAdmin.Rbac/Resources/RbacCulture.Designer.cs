@@ -484,6 +484,15 @@ namespace BlazorAdmin.Rbac.Resources {
         }
         
         /// <summary>
+        ///   查找类似 电话号码 的本地化字符串。
+        /// </summary>
+        public static string UserPage_TableH10 {
+            get {
+                return ResourceManager.GetString("UserPage_TableH10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 头像 的本地化字符串。
         /// </summary>
         public static string UserPage_TableH2 {
@@ -543,6 +552,15 @@ namespace BlazorAdmin.Rbac.Resources {
         public static string UserPage_TableH8 {
             get {
                 return ResourceManager.GetString("UserPage_TableH8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 邮箱 的本地化字符串。
+        /// </summary>
+        public static string UserPage_TableH9 {
+            get {
+                return ResourceManager.GetString("UserPage_TableH9", resourceCulture);
             }
         }
         

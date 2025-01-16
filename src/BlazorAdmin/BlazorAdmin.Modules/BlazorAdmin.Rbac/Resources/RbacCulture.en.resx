@@ -258,6 +258,9 @@
   <data name="UserPage_TableH1" xml:space="preserve">
     <value>No</value>
   </data>
+  <data name="UserPage_TableH10" xml:space="preserve">
+    <value>PhoneNumber</value>
+  </data>
   <data name="UserPage_TableH2" xml:space="preserve">
     <value>Avatar</value>
   </data>
@@ -278,6 +281,9 @@
   </data>
   <data name="UserPage_TableH8" xml:space="preserve">
     <value>Organization</value>
+  </data>
+  <data name="UserPage_TableH9" xml:space="preserve">
+    <value>Email</value>
   </data>
   <data name="UserPage_Title" xml:space="preserve">
     <value>User</value>
