@@ -29,8 +29,7 @@ var builder = WebApplication.CreateBuilder(args);
 Environment.CurrentDirectory = AppContext.BaseDirectory;
 builder.Host.UseSerilog((context, services, configuration) => configuration
     .ReadFrom.Configuration(context.Configuration)
-    .ReadFrom.Services(services)
-    .WriteTo.Console());
+    .ReadFrom.Services(services));
 
 // 从AdditionalAssemblies中取得IModule接口的实现类
 var types = Routes.AdditionalAssemblies.SelectMany(a => a.GetTypes()).Where(t => t.IsClass && t.GetInterface(nameof(IModule)) != null).ToList();
