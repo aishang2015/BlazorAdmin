@@ -19,6 +19,14 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
 
         private string _editRealName = string.Empty;
 
+        private bool _isEditEmail = false;
+
+        private string _editEmail = string.Empty;
+
+        private bool _isEditPhone = false;
+
+        private string _editPhone = string.Empty;
+
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -121,6 +129,68 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
                 var userId = await _stateProvider.GetUserIdAsync();
                 _user = context.Users.Find(userId);
                 StateHasChanged();
+            }
+        }
+
+        private void EditEmail()
+        {
+            _isEditEmail = true;
+            _editEmail = _user.Email ?? string.Empty;
+        }
+
+        private async Task EditEmailBlur()
+        {
+            if (!string.IsNullOrEmpty(_editEmail) && !System.Text.RegularExpressions.Regex.IsMatch(_editEmail, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                _snackbarService.Add("请输入正确的邮箱格式！", Severity.Error);
+                return;
+            }
+
+            if (_editEmail == _user.Email)
+            {
+                _isEditEmail = false;
+            }
+            else
+            {
+                using var context = await _dbFactory.CreateDbContextAsync();
+                var userId = await _stateProvider.GetUserIdAsync();
+                var findUser = context.Users.Find(userId);
+                findUser.Email = _editEmail;
+                await context.SaveChangesAsync();
+                _user.Email = _editEmail;
+                _isEditEmail = false;
+                _snackbarService.Add("邮箱修改成功！", Severity.Success);
+            }
+        }
+
+        private void EditPhone()
+        {
+            _isEditPhone = true;
+            _editPhone = _user.PhoneNumber ?? string.Empty;
+        }
+
+        private async Task EditPhoneBlur()
+        {
+            if (!string.IsNullOrEmpty(_editPhone) && !System.Text.RegularExpressions.Regex.IsMatch(_editPhone, @"^1[3-9]\d{9}$"))
+            {
+                _snackbarService.Add("请输入正确的手机号格式！", Severity.Error);
+                return;
+            }
+
+            if (_editPhone == _user.PhoneNumber)
+            {
+                _isEditPhone = false;
+            }
+            else
+            {
+                using var context = await _dbFactory.CreateDbContextAsync();
+                var userId = await _stateProvider.GetUserIdAsync();
+                var findUser = context.Users.Find(userId);
+                findUser.PhoneNumber = _editPhone;
+                await context.SaveChangesAsync();
+                _user.PhoneNumber = _editPhone;
+                _isEditPhone = false;
+                _snackbarService.Add("手机号修改成功！", Severity.Success);
             }
         }
     }
