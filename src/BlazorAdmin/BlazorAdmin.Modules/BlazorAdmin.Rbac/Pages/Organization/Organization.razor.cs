@@ -128,6 +128,13 @@ namespace BlazorAdmin.Rbac.Pages.Organization
                     _snackbarService.Add("此组织不存在！", Severity.Error);
                     return;
                 }
+
+                if (organization.Id == EditModel.ParentId)
+                {
+                    _snackbarService.Add("不能将自身设置为上级组织！", Severity.Error);
+                    return;
+                }
+
                 organization.Name = EditModel.Name!;
                 organization.ParentId = EditModel.ParentId;
             }

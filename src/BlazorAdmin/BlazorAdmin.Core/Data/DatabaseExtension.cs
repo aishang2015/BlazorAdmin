@@ -15,6 +15,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using System.Configuration;
+using CrystalQuartz.AspNetCore;
+using Quartz;
+using CrystalQuartz.Application;
+using BlazorAdmin.Core.Services;
 
 namespace BlazorAdmin.Core.Data
 {
@@ -59,6 +63,14 @@ namespace BlazorAdmin.Core.Data
             if (useQuartz)
             {
                 QuartzExtension.InitialQuartzTable(dbConnectinoString, dbProvider);
+                app.UseCrystalQuartz(() => app.Services.GetRequiredService<ISchedulerFactory>().GetScheduler(),
+                        new CrystalQuartzOptions
+                        {
+                            AllowedJobTypes = new[]
+                            {
+                                typeof(TestJob)
+                            }
+                        });
             }
         }
 
