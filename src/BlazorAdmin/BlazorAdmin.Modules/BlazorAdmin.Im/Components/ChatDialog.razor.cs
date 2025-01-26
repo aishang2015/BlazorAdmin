@@ -13,7 +13,7 @@ namespace BlazorAdmin.Im.Components
 {
     public partial class ChatDialog
     {
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+        [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
 
         [Parameter] public HubConnection Connection { get; set; } = null!;
 
@@ -209,7 +209,8 @@ namespace BlazorAdmin.Im.Components
         {
             var parameters = new DialogParameters { };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
-            var result = await _dialogService.Show<UserPickerDialog>(null, parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<UserPickerDialog>(null, parameters, options);
+            var result = await dialog.Result;
             if (!result.Canceled)
             {
                 await InitialChatItemList();

@@ -88,7 +88,8 @@ namespace BlazorAdmin.Im.Components
                 {"NoReadCountChanged", countChangedCallback }
             };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
-            var result = await _dialogService.Show<ChatDialog>(null, parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<ChatDialog>(null, parameters, options);
+            await dialog.Result;
             await RefreshNoReadCountAsync();
             _isDialogOpen = false;
             RegistSignalrMethod();

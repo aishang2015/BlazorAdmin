@@ -11,7 +11,7 @@ namespace BlazorAdmin.Im.Components
 {
     public partial class UserPickerDialog
     {
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+        [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
 
         private string _userName = string.Empty;
 

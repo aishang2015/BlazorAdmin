@@ -12,7 +12,7 @@ namespace BlazorAdmin.Rbac.Pages.Role.Dialogs
                    { "autocomplete", "off2" },
                 };
 
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+        [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
 
         [Parameter] public int RoleId { get; set; }
 

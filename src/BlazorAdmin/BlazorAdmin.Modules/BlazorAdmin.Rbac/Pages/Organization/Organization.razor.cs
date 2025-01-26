@@ -262,8 +262,8 @@ namespace BlazorAdmin.Rbac.Pages.Organization
             };
 
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-            var result = await _dialogService.Show<MemberSelect>
-                ("添加新成员", parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<MemberSelect>("添加新成员", parameters, options);
+            var result = await dialog.Result;
             if (!result.Canceled)
             {
                 using var context = await _dbFactory.CreateDbContextAsync();

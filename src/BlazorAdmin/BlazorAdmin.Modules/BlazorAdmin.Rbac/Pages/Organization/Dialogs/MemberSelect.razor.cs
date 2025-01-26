@@ -7,7 +7,7 @@ namespace BlazorAdmin.Rbac.Pages.Organization.Dialogs
     public partial class MemberSelect
     {
         [CascadingParameter]
-        MudDialogInstance? MudDialog { get; set; }
+        IMudDialogInstance? MudDialog { get; set; }
 
         [Parameter]
         public int OrganizationId { get; set; }

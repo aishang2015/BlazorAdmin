@@ -71,7 +71,8 @@
     {
         var parameters = new DialogParameters { };
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
-        await _dialogService.Show<ProfileSetting>(string.Empty, parameters, options).Result;
+        var dialog = await _dialogService.ShowAsync<ProfileSetting>(string.Empty, parameters, options);
+        var result = await dialog.Result;
 
         using var context = await _dbFactory.CreateDbContextAsync();
         var userId = await _stateProvider.GetUserIdAsync();

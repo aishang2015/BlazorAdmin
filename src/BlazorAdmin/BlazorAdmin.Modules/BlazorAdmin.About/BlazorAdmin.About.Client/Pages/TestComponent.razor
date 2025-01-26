@@ -1,4 +1,5 @@
 ﻿@page "/testcomponent"
+@using BlazorAdmin.About.Client.Common
 
 @rendermode InteractiveWebAssembly
 @attribute [AllowAnonymous]
@@ -6,6 +7,8 @@
 @layout EmptyLayout
 
 <h3>TestComponent</h3>
+
+<MudButton Variant="Variant.Filled" Color="Color.Primary"> aa</MudButton>
 
 <pre>@(code)</pre>
 <div>--------------------------------------</div>

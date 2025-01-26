@@ -6,7 +6,7 @@ namespace BlazorAdmin.Setting.Pages.Setting.Dialogs
     public partial class ConfirmUpdateRsa
     {
 
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+        [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
 
         private void Confirm()
         {

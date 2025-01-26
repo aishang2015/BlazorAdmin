@@ -7,7 +7,7 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
 {
     public partial class ChangePasswordDialog
     {
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+        [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
         [Parameter] public int UserId { get; set; }
 
         private PasswordChangeModel PasswordModel = new();

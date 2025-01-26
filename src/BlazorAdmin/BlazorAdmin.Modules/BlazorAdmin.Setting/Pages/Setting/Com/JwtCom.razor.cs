@@ -34,7 +34,8 @@ namespace BlazorAdmin.Setting.Pages.Setting.Com
         private async Task GenerateNewRsa()
         {
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
-            var result = await _dialogService.Show<ConfirmUpdateRsa>(string.Empty, new DialogParameters(), options).Result;
+            var dialog = await _dialogService.ShowAsync<ConfirmUpdateRsa>(string.Empty, new DialogParameters(), options);
+            var result = await dialog.Result;
             if (!result.Canceled)
             {
                 var rsa = RSA.Create();

@@ -95,7 +95,8 @@ namespace BlazorAdmin.Log.Pages.AuditLog
                 {"AuditLogId",id }
             };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
-            await _dialogService.Show<AuditLogDetailDialog>(string.Empty, parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<AuditLogDetailDialog>(string.Empty, parameters, options);
+            await dialog.Result;
         }
 
         private async Task PageChangedClick(int page)

@@ -9,7 +9,7 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
 {
     public partial class ChangePasswordDialog
     {
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+        [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
 
         private PasswordChangeModel PasswordModel = new();
 
