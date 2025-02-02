@@ -11,6 +11,9 @@
 <MudButton Color="Color.Primary" Variant="Variant.Filled"
            Disabled="_isLoading"
            @onclick="GetCount">Get A Number From Server</MudButton>
+<MudButton Color="Color.Primary" Variant="Variant.Filled"
+           Disabled="_isLoading" Class="mt-2"
+           @onclick="GetCountWithAuthToken">Get A Number From Server Without Auth Token</MudButton>
 
 @code {
 
@@ -36,5 +39,32 @@
         _snackbarService.Add("The Number Is " + result, Severity.Success);
 
         _isLoading = false;
+    }
+
+    private async Task GetCountWithAuthToken(){
+
+        _isLoading = true;
+
+        try
+        {
+            var result = await _navManager.BaseUri
+                .AppendPathSegment("api/about/GetRandomNumber")
+                .PostJsonAsync(new { })
+                .ReceiveString();
+
+            _snackbarService.Add("The Number Is " + result, Severity.Success);
+        }
+        catch (FlurlHttpException ex)
+        {
+            _snackbarService.Add("Error: " + ex.Message, Severity.Error);
+        }
+        catch (Exception ex)
+        {
+            _snackbarService.Add("An unexpected error occurred: " + ex.Message, Severity.Error);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
     }
 }

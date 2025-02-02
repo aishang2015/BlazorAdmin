@@ -13,6 +13,7 @@ using BlazorAdmin.Web.Components;
 using Cropper.Blazor.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -84,6 +85,15 @@ builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthStateProvider>();
 builder.Services.AddScoped<ExternalAuthService>();
 
 // jwt authentication
+builder.Services.AddSingleton<IAuthorizationHandler, ApiAuthorizeHandler>();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ApiAuthorizePolicy", policy =>
+    {
+        policy.RequireAuthenticatedUser(); // 要求用户已登录
+        policy.Requirements.Add(new ApiAuthorizeRequirement());
+    });
+});
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -150,13 +160,3 @@ app.MapRazorComponents<App>()
 moduleList.ForEach(m => m.Use(app));
 
 app.Run();
-
-// https://github.com/dotnet/aspnetcore/issues/52063
-// AuthorizeRouteView 不起作用
-public class BlazorAuthorizationMiddlewareResultHandler : IAuthorizationMiddlewareResultHandler
-{
-    public Task HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
-    {
-        return next(context);
-    }
-}
