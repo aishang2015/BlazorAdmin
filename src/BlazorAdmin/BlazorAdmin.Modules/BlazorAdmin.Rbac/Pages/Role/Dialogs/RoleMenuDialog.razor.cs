@@ -6,7 +6,7 @@ namespace BlazorAdmin.Rbac.Pages.Role.Dialogs
 {
     public partial class RoleMenuDialog
     {
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+        [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
 
         [Parameter] public int RoleId { get; set; }
 

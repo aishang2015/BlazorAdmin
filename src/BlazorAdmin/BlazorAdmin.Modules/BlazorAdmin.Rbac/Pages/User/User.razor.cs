@@ -105,7 +105,8 @@ namespace BlazorAdmin.Rbac.Pages.User
         {
             var parameters = new DialogParameters { };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-            var result = await _dialogService.Show<CreateUserDialog>(Loc["UserPage_CreateNewTitle"], parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<CreateUserDialog>(Loc["UserPage_CreateNewTitle"], parameters, options);
+            var result = await dialog.Result;
             if (!result.Canceled)
             {
                 await dataGrid.ReloadServerData();
@@ -147,7 +148,8 @@ namespace BlazorAdmin.Rbac.Pages.User
                 {"UserId",userId }
             };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-            var result = await _dialogService.Show<UpdateUserDialog>(Loc["UserPage_EditTitle"], parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<UpdateUserDialog>(Loc["UserPage_EditTitle"], parameters, options);
+            var result = await dialog.Result;
             if (!result.Canceled)
             {
                 await dataGrid.ReloadServerData();
@@ -161,7 +163,8 @@ namespace BlazorAdmin.Rbac.Pages.User
                 {"UserId",userId }
             };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-            await _dialogService.Show<ChangePasswordDialog>(Loc["UserPage_ModifyPasswordTitle"], parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<ChangePasswordDialog>(Loc["UserPage_ModifyPasswordTitle"], parameters, options);
+            await dialog.Result;
         }
 
         private async Task SetUserRoleClick(int userId)
@@ -171,7 +174,8 @@ namespace BlazorAdmin.Rbac.Pages.User
                 {"UserId",userId }
             };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-            var result = await _dialogService.Show<UserRoleDialog>(Loc["UserPage_SetUserRoleTitle"], parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<UserRoleDialog>(Loc["UserPage_SetUserRoleTitle"], parameters, options);
+            var result = await dialog.Result;
             if (!result.Canceled)
             {
                 await dataGrid.ReloadServerData();

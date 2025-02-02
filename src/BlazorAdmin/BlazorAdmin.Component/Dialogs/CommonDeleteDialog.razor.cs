@@ -5,7 +5,7 @@ namespace BlazorAdmin.Component.Dialogs
 {
     public partial class CommonDeleteDialog
     {
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+        [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
 
         [Parameter] public string? Title { get; set; }
 

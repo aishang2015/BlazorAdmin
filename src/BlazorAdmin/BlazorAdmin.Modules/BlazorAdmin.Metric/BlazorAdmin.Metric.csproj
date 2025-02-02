@@ -8,9 +8,6 @@
     <SupportedPlatform Include="browser" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.0" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\BlazorAdmin.Component\BlazorAdmin.Component.csproj" />
     <ProjectReference Include="..\..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
   </ItemGroup>

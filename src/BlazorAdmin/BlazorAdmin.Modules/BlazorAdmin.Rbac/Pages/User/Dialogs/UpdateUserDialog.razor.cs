@@ -12,7 +12,7 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
                    { "autocomplete", "off2" },
                 };
 
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+        [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
 
         [Parameter] public int UserId { get; set; }
 

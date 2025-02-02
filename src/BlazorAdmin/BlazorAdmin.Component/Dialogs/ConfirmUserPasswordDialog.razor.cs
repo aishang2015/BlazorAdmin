@@ -21,7 +21,7 @@ namespace BlazorAdmin.Component.Dialogs
 
         private PasswordModel _passwordModel = new PasswordModel();
 
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+        [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
 
         [Inject] public AuthenticationStateProvider? AuthStateProvider { get; set; }
 

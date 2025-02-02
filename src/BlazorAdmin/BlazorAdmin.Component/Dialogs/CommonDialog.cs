@@ -33,7 +33,8 @@ namespace BlazorAdmin.Component.Dialogs
                 {"ConfirmCallBack", confirmCallBack }
             };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true, };
-            var result = await dialogService.Show<CommonDeleteDialog>(string.Empty, parameters, options).Result;
+            var dialog = await dialogService.ShowAsync<CommonDeleteDialog>(string.Empty, parameters, options);
+            var result = await dialog.Result;
             return !result.Canceled;
         }
 
@@ -59,7 +60,8 @@ namespace BlazorAdmin.Component.Dialogs
                 {"ConfirmCallBack", confirmCallBack }
             };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true, };
-            var result = await dialogService.Show<ConfirmUserPasswordDialog>(string.Empty, parameters, options).Result;
+            var dialog = await dialogService.ShowAsync<ConfirmUserPasswordDialog>(string.Empty, parameters, options);
+            var result = await dialog.Result;
             return !result.Canceled;
         }
     }

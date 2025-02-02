@@ -69,7 +69,8 @@ namespace BlazorAdmin.Rbac.Pages.Role
         {
             var parameters = new DialogParameters { };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-            var result = await _dialogService.Show<CreateRoleDialog>(Loc["RolePage_CreateNewTitle"], parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<CreateRoleDialog>(Loc["RolePage_CreateNewTitle"], parameters, options);
+            var result = await dialog.Result;
             if (!result.Canceled)
             {
                 await dataGridRef.ReloadServerData();
@@ -78,11 +79,11 @@ namespace BlazorAdmin.Rbac.Pages.Role
 
         private async Task DeleteRoleClick(int roleId)
         {
-            var isConfirmed = await _dialogService.ShowConfirmUserPasswodDialog();
-            if (!isConfirmed)
-            {
-                return;
-            }
+            //var isConfirmed = await _dialogService.ShowConfirmUserPasswodDialog();
+            //if (!isConfirmed)
+            //{
+            //    return;
+            //}
 
             await _dialogService.ShowDeleteDialog(Loc["RolePage_DeleteTitle"], null,
                 async (e) =>
@@ -119,7 +120,8 @@ namespace BlazorAdmin.Rbac.Pages.Role
                 {"RoleId",roleId }
             };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-            var result = await _dialogService.Show<UpdateRoleDialog>(Loc["RolePage_EditTitle"], parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<UpdateRoleDialog>(Loc["RolePage_EditTitle"], parameters, options);
+            var result = await dialog.Result;
             if (!result.Canceled)
             {
                 await dataGridRef.ReloadServerData();
@@ -133,7 +135,8 @@ namespace BlazorAdmin.Rbac.Pages.Role
                 {"RoleId",roleId }
             };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-            var result = await _dialogService.Show<RoleMenuDialog>(Loc["RolePage_SetRoleMenuTitle"], parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<RoleMenuDialog>(Loc["RolePage_SetRoleMenuTitle"], parameters, options);
+            var result = await dialog.Result;
             if (!result.Canceled)
             {
                 await dataGridRef.ReloadServerData();

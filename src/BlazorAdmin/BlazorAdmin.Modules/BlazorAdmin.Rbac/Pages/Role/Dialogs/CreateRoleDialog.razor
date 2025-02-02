@@ -1,17 +1,17 @@
 ﻿<MudDialog>
-	<DialogContent>
-		<div style="width:300px;">
-			<EditForm Model="RoleModel" OnValidSubmit="CreateSubmit" style="width:100%;">
-				<DataAnnotationsValidator />
-				<MudTextField @bind-Value="RoleModel.RoleName" Variant="Variant.Outlined" Margin="Margin.Dense"
-							  Label="请输入角色名称" For="@(() => RoleModel.RoleName)"
-							  UserAttributes="InputAttributes"></MudTextField>
-				<div class="mt-4 d-flex">
-					<MudSpacer />
-					<MudButton Variant="Variant.Text" FullWidth="false" Color="Color.Primary" Size="Size.Medium"
-							   ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Upload">@Loc["RolePage_SubmitText"]</MudButton>
-				</div>
-			</EditForm>
-		</div>
-	</DialogContent>
+    <DialogContent>
+        <div style="width:300px;overflow:hidden;">
+            <EditForm Model="RoleModel" OnValidSubmit="CreateSubmit" style="width:100%;">
+                <DataAnnotationsValidator />
+                <MudTextField @bind-Value="RoleModel.RoleName" Variant="Variant.Outlined" Margin="Margin.Dense"
+                              Label="请输入角色名称" For="@(() => RoleModel.RoleName)"
+                              UserAttributes="InputAttributes"></MudTextField>
+                <div class="mt-4 d-flex">
+                    <MudSpacer />
+                    <MudButton Variant="Variant.Text" FullWidth="false" Color="Color.Primary" Size="Size.Medium"
+                               ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Upload">@Loc["RolePage_SubmitText"]</MudButton>
+                </div>
+            </EditForm>
+        </div>
+    </DialogContent>
 </MudDialog>

@@ -10,7 +10,7 @@ namespace BlazorAdmin.Log.Pages.AuditLog.Dialogs
     {
         [Parameter] public Guid AuditLogId { get; set; }
 
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+        [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
 
         private List<AuditLogDetailModel> AuditLogDetails { get; set; } = new();
 
