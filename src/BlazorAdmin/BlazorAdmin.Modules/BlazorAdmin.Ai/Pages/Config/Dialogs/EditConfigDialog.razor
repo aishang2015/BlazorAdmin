@@ -1,0 +1,45 @@
+@using BlazorAdmin.Data.Entities.Ai
+@using MudBlazor
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="@Config" @ref="@form" ValidationDelay="0">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="@Loc["AIConfig_ModelName"]" Variant="Variant.Outlined"
+                                  @bind-Value="Config.ModelName" For="@(() => Config.ModelName)"
+                                  Required="true" RequiredError="@Loc["AIConfig_ModelNameRequired"]" />
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="@Loc["AIConfig_Endpoint"]" Variant="Variant.Outlined"
+                                  @bind-Value="Config.Endpoint" For="@(() => Config.Endpoint)" />
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="@Loc["AIConfig_ApiKey"]" Variant="Variant.Outlined"
+                                  @bind-Value="Config.ApiKey" For="@(() => Config.ApiKey)" />
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudNumericField Label="@Loc["AIConfig_ContextLength"]" Variant="Variant.Outlined"
+                                     @bind-Value="Config.ContextLength" For="@(() => Config.ContextLength)"
+                                     Required="true" RequiredError="@Loc["AIConfig_ContextLengthRequired"]" />
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudNumericField Label="@Loc["AIConfig_InputPrice"]" Variant="Variant.Outlined"
+                                     @bind-Value="Config.InputPricePerToken" For="@(() => Config.InputPricePerToken)" />
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudNumericField Label="@Loc["AIConfig_OutputPrice"]" Variant="Variant.Outlined"
+                                     @bind-Value="Config.OutputPricePerToken" For="@(() => Config.OutputPricePerToken)" />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField Label="@Loc["AIConfig_Description"]" Variant="Variant.Outlined" Lines="3"
+                                  @bind-Value="Config.Description" For="@(() => Config.Description)" />
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">@Loc["Button_Cancel"]</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">@Loc["Button_Save"]</MudButton>
+    </DialogActions>
+</MudDialog>

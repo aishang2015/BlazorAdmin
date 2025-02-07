@@ -1,4 +1,5 @@
 ﻿using BlazorAdmin.Data.Constants;
+using BlazorAdmin.Data.Entities.Ai;
 using BlazorAdmin.Data.Entities.Chat;
 using BlazorAdmin.Data.Entities.Log;
 using BlazorAdmin.Data.Entities.Rbac;
@@ -62,6 +63,13 @@ namespace BlazorAdmin.Data
 
         #endregion
 
+        #region Ai
+
+        public DbSet<AiConfig> AiConfigs { get; set; }
+
+        public DbSet<AiRequestRecord> AiRequestRecords { get; set; }
+
+        #endregion
 
         public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
