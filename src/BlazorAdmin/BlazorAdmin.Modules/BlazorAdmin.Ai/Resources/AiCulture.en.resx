@@ -150,10 +150,94 @@
   <data name="AIConfigPage_EditTitle" xml:space="preserve">
     <value>Edit AI Config</value>
   </data>
-    <data name="AIConfigPage_DeleteTitle" xml:space="preserve">
-        <value>Confirm Delete?</value>
-    </data>
-    <data name="AIConfigPage_DeleteSuccess" xml:space="preserve">
-        <value>Delete succeed!</value>
-    </data>
+  <data name="AIConfigPage_DeleteTitle" xml:space="preserve">
+    <value>Confirm Delete?</value>
+  </data>
+  <data name="AIConfigPage_DeleteSuccess" xml:space="preserve">
+    <value>Delete succeed!</value>
+  </data>
+  <data name="AIRequestRecord_Title" xml:space="preserve">
+    <value>AI Request Record</value>
+  </data>
+  <data name="AIRequestRecord_SearchStartTime" xml:space="preserve">
+    <value>Search Start Time</value>
+  </data>
+  <data name="AIRequestRecord_SearchEndTime" xml:space="preserve">
+    <value>Search End Time</value>
+  </data>
+  <data name="Button_ResetSearch" xml:space="preserve">
+    <value>Reset Search</value>
+  </data>
+  <data name="AIRequestRecord_TableH1" xml:space="preserve">
+    <value>No.</value>
+  </data>
+  <data name="AIRequestRecord_TableH2" xml:space="preserve">
+    <value>Request Time</value>
+  </data>
+  <data name="AIRequestRecord_TableH3" xml:space="preserve">
+    <value>Request Tokens</value>
+  </data>
+  <data name="AIRequestRecord_TableH4" xml:space="preserve">
+    <value>Response Tokens</value>
+  </data>
+  <data name="AIRequestRecord_TableH5" xml:space="preserve">
+    <value>Total Price</value>
+  </data>
+  <data name="AIRequestRecord_TableH6" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="AIRequestRecord_DetailTitle" xml:space="preserve">
+    <value>Request Detail</value>
+  </data>
+  <data name="AIConfig_ModelName" xml:space="preserve">
+    <value>Model Name</value>
+  </data>
+  <data name="AIConfig_Endpoint" xml:space="preserve">
+    <value>Endpoint</value>
+  </data>
+  <data name="AIConfig_ApiKey" xml:space="preserve">
+    <value>ApiKey</value>
+  </data>
+  <data name="AIConfig_ContextLength" xml:space="preserve">
+    <value>Context Length</value>
+  </data>
+  <data name="AIConfig_InputPrice" xml:space="preserve">
+    <value>Input Price(million token)</value>
+  </data>
+  <data name="AIConfig_OutputPrice" xml:space="preserve">
+    <value>Output Price(million token)</value>
+  </data>
+  <data name="AIConfig_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="AIConfig_ModelNameRequired" xml:space="preserve">
+    <value>Model Name Required</value>
+  </data>
+  <data name="AIConfig_ContextLengthRequired" xml:space="preserve">
+    <value>Context Length Required</value>
+  </data>
+  <data name="Button_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Button_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="AIConfig_CreateSuccess" xml:space="preserve">
+    <value>Create Success</value>
+  </data>
+  <data name="AIConfig_EditSuccess" xml:space="preserve">
+    <value>Edit Success</value>
+  </data>
+  <data name="AIConfigPage_TableH7" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="AIConfigPage_SearchCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="AIConfig_Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="AIConfig_CodeRequired" xml:space="preserve">
+    <value>Code Required</value>
+  </data>
 </root>

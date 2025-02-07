@@ -25,7 +25,18 @@ namespace BlazorAdmin.Ai.Pages.Config.Dialogs
                 var config = await context.AiConfigs.FindAsync(ConfigId);
                 if (config != null)
                 {
-                    Config = config;
+                    Config = new AiConfig
+                    {
+                        Id = config.Id,
+                        Endpoint = config.Endpoint,
+                        ApiKey = config.ApiKey,
+                        ModelName = config.ModelName,
+                        ContextLength = config.ContextLength,
+                        InputPricePerToken = config.InputPricePerToken,
+                        OutputPricePerToken = config.OutputPricePerToken,
+                        Description = config.Description,
+                        Code = config.Code
+                    };
                 }
             }
         }

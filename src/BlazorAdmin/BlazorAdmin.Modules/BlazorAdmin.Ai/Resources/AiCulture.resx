@@ -144,16 +144,100 @@
   <data name="AIConfigPage_TableH6" xml:space="preserve">
     <value>操作</value>
   </data>
-    <data name="AIConfigPage_CreateTitle" xml:space="preserve">
+  <data name="AIConfigPage_CreateTitle" xml:space="preserve">
     <value>创建AI配置</value>
   </data>
-    <data name="AIConfigPage_EditTitle" xml:space="preserve">
+  <data name="AIConfigPage_EditTitle" xml:space="preserve">
     <value>编辑AI配置</value>
   </data>
-    <data name="AIConfigPage_DeleteTitle" xml:space="preserve">
-        <value>是否删除该配置</value>
-    </data>
-    <data name="AIConfigPage_DeleteSuccess" xml:space="preserve">
-        <value>删除成功!</value>
-    </data>
+  <data name="AIConfigPage_DeleteTitle" xml:space="preserve">
+    <value>是否删除该配置</value>
+  </data>
+  <data name="AIConfigPage_DeleteSuccess" xml:space="preserve">
+    <value>删除成功!</value>
+  </data>
+  <data name="AIRequestRecord_Title" xml:space="preserve">
+    <value>AI请求记录</value>
+  </data>
+  <data name="AIRequestRecord_SearchStartTime" xml:space="preserve">
+    <value>搜索开始时间</value>
+  </data>
+  <data name="AIRequestRecord_SearchEndTime" xml:space="preserve">
+    <value>搜索结束时间</value>
+  </data>
+  <data name="Button_ResetSearch" xml:space="preserve">
+    <value>重置搜索</value>
+  </data>
+  <data name="AIRequestRecord_TableH1" xml:space="preserve">
+    <value>序号</value>
+  </data>
+  <data name="AIRequestRecord_TableH2" xml:space="preserve">
+    <value>请求时间</value>
+  </data>
+  <data name="AIRequestRecord_TableH3" xml:space="preserve">
+    <value>请求Tokens</value>
+  </data>
+  <data name="AIRequestRecord_TableH4" xml:space="preserve">
+    <value>回复Tokens</value>
+  </data>
+  <data name="AIRequestRecord_TableH5" xml:space="preserve">
+    <value>总价</value>
+  </data>
+  <data name="AIRequestRecord_TableH6" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="AIRequestRecord_DetailTitle" xml:space="preserve">
+    <value>请求详情</value>
+  </data>
+  <data name="AIConfig_ModelName" xml:space="preserve">
+    <value>模型名称</value>
+  </data>
+  <data name="AIConfig_Endpoint" xml:space="preserve">
+    <value>接口地址</value>
+  </data>
+  <data name="AIConfig_ApiKey" xml:space="preserve">
+    <value>ApiKey</value>
+  </data>
+  <data name="AIConfig_ContextLength" xml:space="preserve">
+    <value>上下文长度</value>
+  </data>
+  <data name="AIConfig_InputPrice" xml:space="preserve">
+    <value>输入单价(百万token)</value>
+  </data>
+  <data name="AIConfig_OutputPrice" xml:space="preserve">
+    <value>输出单价(百万token)</value>
+  </data>
+  <data name="AIConfig_Description" xml:space="preserve">
+    <value>描述</value>
+  </data>
+  <data name="AIConfig_ModelNameRequired" xml:space="preserve">
+    <value>模型名称必填</value>
+  </data>
+  <data name="AIConfig_ContextLengthRequired" xml:space="preserve">
+    <value>上下文长度必填</value>
+  </data>
+  <data name="Button_Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Button_Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="AIConfig_CreateSuccess" xml:space="preserve">
+    <value>创建成功</value>
+  </data>
+  <data name="AIConfig_EditSuccess" xml:space="preserve">
+    <value>修改成功</value>
+  </data>
+  <data name="AIConfigPage_TableH7" xml:space="preserve">
+    <value>编码</value>
+  </data>
+  <data name="AIConfigPage_SearchCode" xml:space="preserve">
+    <value>编码</value>
+  </data>
+  <data name="AIConfig_Code" xml:space="preserve">
+    <value>编码</value>
+  </data>
+  <data name="AIConfig_CodeRequired" xml:space="preserve">
+    <value>编码必填</value>
+  </data>
 </root>

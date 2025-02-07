@@ -31,6 +31,9 @@ namespace BlazorAdmin.Data.Entities.Ai
         [Comment("配置描述")]
         public string? Description { get; set; }
 
+        [Comment("编码")]
+        public string? Code { get; set; }
+
         [Comment("是否启用")]
         public bool IsEnabled { get; set; }
 

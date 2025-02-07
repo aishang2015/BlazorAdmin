@@ -1,19 +1,24 @@
-@page "/ai-config"
+@page "/ai/config"
 @rendermode RenderMode.InteractiveServer
 @attribute [StreamRendering]
 
 <PageHeader Title="@Loc["AIConfigPage_Title"]">
     <div style="width:200px" class="mr-2">
-        <MudTextField T="string" @bind-Value="searchObject.SearchModelName" 
+        <MudTextField T="string" @bind-Value="searchObject.SearchModelName"
                      Margin="Margin.Dense" Label="@Loc["AIConfigPage_SearchModel"]"
                      Variant="Variant.Outlined" Clearable Class="search-com"/>
     </div>
     <div style="width:200px" class="mr-2">
-        <MudTextField T="string" @bind-Value="searchObject.SearchEndpoint" 
+        <MudTextField T="string" @bind-Value="searchObject.SearchCode"
+                     Margin="Margin.Dense" Label="@Loc["AIConfigPage_SearchCode"]"
+                     Variant="Variant.Outlined" Clearable Class="search-com"/>
+    </div>
+    <div style="width:200px" class="mr-2">
+        <MudTextField T="string" @bind-Value="searchObject.SearchEndpoint"
                      Margin="Margin.Dense" Label="@Loc["AIConfigPage_SearchEndpoint"]"
                      Variant="Variant.Outlined" Clearable Class="search-com"/>
     </div>
-    <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" 
+    <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search"
                   OnClick="()=>{ dataGrid.ReloadServerData(); }"
                   Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2"/>
     <MudTooltip Text="重置搜索" Color="Color.Primary">
@@ -22,7 +27,7 @@
     </MudTooltip>
     @if (_accessService.CheckHasElementRights("AIConfigAddBtn").Result)
     {
-        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" 
+        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" Class="ml-2"
                       OnClick="AddConfigClick" Variant="Variant.Outlined" Color="Color.Primary"/>
     }
 </PageHeader>
@@ -33,13 +38,14 @@
              Style="@PageDataGridConfig.Style" HorizontalScrollbar="PageDataGridConfig.HorizontalScrollbar"
              ServerData="GetTableData" @ref="dataGrid" T="ConfigModel">
     <Columns>
-        <PropertyColumn Property="x => x.Number" Title="@Loc["AIConfigPage_TableH1"]" 
-                       StickyLeft="true" Resizable="false" HeaderStyle="width:60px;"/>
+        <PropertyColumn Property="x => x.Number" Title="@Loc["AIConfigPage_TableH1"]"
+                        StickyLeft="true" Resizable="false" HeaderStyle="width:80px;" />
+        <PropertyColumn Property="x => x.Code" Title="@Loc["AIConfigPage_TableH7"]" />
         <PropertyColumn Property="x => x.ModelName" Title="@Loc["AIConfigPage_TableH2"]"/>
         <PropertyColumn Property="x => x.Endpoint" Title="@Loc["AIConfigPage_TableH3"]"/>
         <PropertyColumn Property="x => x.ContextLength" Title="@Loc["AIConfigPage_TableH4"]"/>
         <PropertyColumn Property="x => x.Description" Title="@Loc["AIConfigPage_TableH5"]"/>
-        <TemplateColumn Title="@Loc["AIConfigPage_TableH6"]" HeaderStyle="width:140px;" StickyRight="true">
+        <TemplateColumn Title="@Loc["AIConfigPage_TableH6"]" HeaderStyle="width:90px;" StickyRight="true">
             <CellTemplate>
                 @if (_accessService.CheckHasElementRights("AIConfigEditBtn").Result)
                 {

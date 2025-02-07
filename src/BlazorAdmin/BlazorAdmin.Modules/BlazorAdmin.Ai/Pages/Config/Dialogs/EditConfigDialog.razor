@@ -3,36 +3,49 @@
 
 <MudDialog>
     <DialogContent>
-        <MudForm Model="@Config" @ref="@form" ValidationDelay="0">
+        <MudForm Model="@Config" @ref="@form" ValidationDelay="0" Class="mt-2">
             <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="@Loc["AIConfig_Code"]" Variant="Variant.Outlined"
+                                  @bind-Value="Config.Code" For="@(() => Config.Code)"
+                                  Class="search-com" Margin="Margin.Dense"
+                                  Required="true" RequiredError="@Loc["AIConfig_CodeRequired"]" />
+                </MudItem>
                 <MudItem xs="12" sm="6">
                     <MudTextField Label="@Loc["AIConfig_ModelName"]" Variant="Variant.Outlined"
                                   @bind-Value="Config.ModelName" For="@(() => Config.ModelName)"
+                                  Class="search-com" Margin="Margin.Dense"
                                   Required="true" RequiredError="@Loc["AIConfig_ModelNameRequired"]" />
                 </MudItem>
                 <MudItem xs="12" sm="6">
                     <MudTextField Label="@Loc["AIConfig_Endpoint"]" Variant="Variant.Outlined"
-                                  @bind-Value="Config.Endpoint" For="@(() => Config.Endpoint)" />
+                                  @bind-Value="Config.Endpoint" For="@(() => Config.Endpoint)"
+                                  Class="search-com" Margin="Margin.Dense" />
                 </MudItem>
                 <MudItem xs="12" sm="6">
                     <MudTextField Label="@Loc["AIConfig_ApiKey"]" Variant="Variant.Outlined"
-                                  @bind-Value="Config.ApiKey" For="@(() => Config.ApiKey)" />
+                                  @bind-Value="Config.ApiKey" For="@(() => Config.ApiKey)"
+                                  Class="search-com" Margin="Margin.Dense" InputType="InputType.Password"/>
                 </MudItem>
                 <MudItem xs="12" sm="6">
                     <MudNumericField Label="@Loc["AIConfig_ContextLength"]" Variant="Variant.Outlined"
                                      @bind-Value="Config.ContextLength" For="@(() => Config.ContextLength)"
+                                     Class="search-com" Margin="Margin.Dense"
                                      Required="true" RequiredError="@Loc["AIConfig_ContextLengthRequired"]" />
                 </MudItem>
                 <MudItem xs="12" sm="6">
                     <MudNumericField Label="@Loc["AIConfig_InputPrice"]" Variant="Variant.Outlined"
+                                     Class="search-com" Margin="Margin.Dense"
                                      @bind-Value="Config.InputPricePerToken" For="@(() => Config.InputPricePerToken)" />
                 </MudItem>
                 <MudItem xs="12" sm="6">
                     <MudNumericField Label="@Loc["AIConfig_OutputPrice"]" Variant="Variant.Outlined"
+                                     Class="search-com" Margin="Margin.Dense"
                                      @bind-Value="Config.OutputPricePerToken" For="@(() => Config.OutputPricePerToken)" />
                 </MudItem>
                 <MudItem xs="12">
                     <MudTextField Label="@Loc["AIConfig_Description"]" Variant="Variant.Outlined" Lines="3"
+                                  Class="search-com"
                                   @bind-Value="Config.Description" For="@(() => Config.Description)" />
                 </MudItem>
             </MudGrid>

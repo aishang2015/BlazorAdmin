@@ -33,7 +33,8 @@ namespace BlazorAdmin.Ai.Pages.Config
             var query = context.AiConfigs
                 .Where(c => !c.IsDeleted)
                 .AndIfExist(searchObject.SearchModelName, c => c.ModelName.Contains(searchObject.SearchModelName!))
-                .AndIfExist(searchObject.SearchEndpoint, c => c.Endpoint!.Contains(searchObject.SearchEndpoint!));
+                .AndIfExist(searchObject.SearchEndpoint, c => c.Endpoint!.Contains(searchObject.SearchEndpoint!))
+                .AndIfExist(searchObject.SearchCode, c => c.Code!.Contains(searchObject.SearchCode!));
 
             Configs = await query
                 .OrderBy(c => c.Id)
@@ -45,7 +46,8 @@ namespace BlazorAdmin.Ai.Pages.Config
                     ModelName = c.ModelName,
                     Endpoint = c.Endpoint,
                     ContextLength = c.ContextLength,
-                    Description = c.Description
+                    Description = c.Description,
+                    Code = c.Code
                 })
                 .ToListAsync();
 
@@ -68,7 +70,7 @@ namespace BlazorAdmin.Ai.Pages.Config
         private async Task AddConfigClick()
         {
             var parameters = new DialogParameters();
-            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium };
             var dialog = await _dialogService.ShowAsync<EditConfigDialog>(Loc["AIConfigPage_CreateTitle"], parameters, options);
             var result = await dialog.Result;
             if (!result.Canceled)
@@ -80,7 +82,7 @@ namespace BlazorAdmin.Ai.Pages.Config
         private async Task EditConfigClick(int configId)
         {
             var parameters = new DialogParameters { { "ConfigId", configId } };
-            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium };
             var dialog = await _dialogService.ShowAsync<EditConfigDialog>(Loc["AIConfigPage_EditTitle"], parameters, options);
             var result = await dialog.Result;
             if (!result.Canceled)
@@ -115,6 +117,7 @@ namespace BlazorAdmin.Ai.Pages.Config
         {
             public string? SearchModelName { get; set; }
             public string? SearchEndpoint { get; set; }
+            public string? SearchCode { get; set; }
         }
 
         public class ConfigModel
@@ -125,6 +128,7 @@ namespace BlazorAdmin.Ai.Pages.Config
             public string? Endpoint { get; set; }
             public int ContextLength { get; set; }
             public string? Description { get; set; }
+            public string? Code { get; set; }
         }
     }
 }
