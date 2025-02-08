@@ -13,6 +13,9 @@ namespace BlazorAdmin.Data.Entities.Ai
         [Comment("请求时间")]
         public DateTime RequestTime { get; set; }
 
+        [Comment("耗时")]
+        public int ElapsedMilliseconds { get; set; }
+
         [Comment("请求Token数")]
         public int RequestTokens { get; set; }
 
