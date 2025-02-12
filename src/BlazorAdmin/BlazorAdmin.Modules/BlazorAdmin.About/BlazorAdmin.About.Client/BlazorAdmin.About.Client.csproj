@@ -1,15 +1,18 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
-    <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
   </PropertyGroup>
+
+
   <ItemGroup>
-    <PackageReference Include="Flurl.Http" Version="4.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="9.0.0" />
-    <PackageReference Include="MudBlazor" Version="8.0.0" />
+    <SupportedPlatform Include="browser" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BlazorAdmin.Clients\BlazorAdmin.Clients.Core\BlazorAdmin.Clients.Core.csproj" />
+  </ItemGroup>
+
 </Project>
