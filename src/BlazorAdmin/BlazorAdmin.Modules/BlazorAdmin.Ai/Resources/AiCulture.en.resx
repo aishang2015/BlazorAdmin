@@ -240,4 +240,25 @@
   <data name="AIConfig_CodeRequired" xml:space="preserve">
     <value>Code Required</value>
   </data>
+  <data name="AIConfigPage_TestSuccess" xml:space="preserve">
+    <value>Connect success！</value>
+  </data>
+  <data name="Button_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="AIRequestRecord_RequestContent" xml:space="preserve">
+    <value>Request Content</value>
+  </data>
+  <data name="AIRequestRecord_ResponseContent" xml:space="preserve">
+    <value>Response Content</value>
+  </data>
+  <data name="AIRequestRecord_TableH7" xml:space="preserve">
+    <value>Config Code</value>
+  </data>
+  <data name="AIRequestRecord_TableH8" xml:space="preserve">
+    <value>Elapsed Milliseconds</value>
+  </data>
+  <data name="AIRequestRecord_SearchConfigCode" xml:space="preserve">
+    <value>Config Code</value>
+  </data>
 </root>

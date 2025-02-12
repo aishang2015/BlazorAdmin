@@ -17,7 +17,7 @@ namespace BlazorAdmin.Core.Helper
         }
 
         public async Task<string?> ChatToAi(string configCode, string prompt,
-            Dictionary<string, string> parameterDictionary)
+            Dictionary<string, string> parameterDictionary, int? configId = null)
         {
             using var context = await _dbContextFactory.CreateDbContextAsync();
             var config = context.AiConfigs.FirstOrDefault(c => c.Code == configCode);
@@ -64,19 +64,21 @@ namespace BlazorAdmin.Core.Helper
 
             context.AiRequestRecords.Add(new AiRequestRecord
             {
+                AiConfigId = configId,
                 RequestTime = DateTime.Now,
                 ElapsedMilliseconds = (int)stopWatch.ElapsedMilliseconds,
                 RequestTokens = usage.InputTokenCount,
                 ResponseTokens = usage.OutputTokenCount,
                 RequestContent = prompt,
                 ResponseContent = responseText,
-                TotalPrice = totalPrice
+                TotalPrice = totalPrice,
             });
             context.SaveChanges();
             return responseText;
         }
 
-        public async Task<(bool IsSuccess, string? ErrorMessage)> TestAiConfig(string modelName, string apiKey, string endpoint)
+        public async Task<(bool IsSuccess, string? ErrorMessage)> TestAiConfig(string modelName, string apiKey, string endpoint,
+            int? configId = null)
         {
             try
             {
@@ -105,6 +107,7 @@ namespace BlazorAdmin.Core.Helper
                 using var context = await _dbContextFactory.CreateDbContextAsync();
                 context.AiRequestRecords.Add(new AiRequestRecord
                 {
+                    AiConfigId = configId,
                     RequestTime = DateTime.Now,
                     ElapsedMilliseconds = (int)stopWatch.ElapsedMilliseconds,
                     RequestTokens = usage.InputTokenCount,

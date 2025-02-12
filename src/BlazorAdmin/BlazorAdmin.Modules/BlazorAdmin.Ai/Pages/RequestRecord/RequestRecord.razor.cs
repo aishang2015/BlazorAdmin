@@ -31,23 +31,29 @@ namespace BlazorAdmin.Ai.Pages.RequestRecord
         {
             using var context = await _dbFactory.CreateDbContextAsync();
 
-            var query = context.AiRequestRecords
+            var recordQuery = context.AiRequestRecords
                 .AndIfExist(searchObject.StartTime, r => r.RequestTime >= searchObject.StartTime)
                 .AndIfExist(searchObject.EndTime, r => r.RequestTime < searchObject.EndTime.Value.AddDays(1));
 
+            var query = from r in recordQuery
+                        join c in context.AiConfigs on r.AiConfigId equals c.Id into rc
+                        from c in rc.DefaultIfEmpty()
+                        where string.IsNullOrEmpty(searchObject.AiConfigCode) || c.Code.Contains(searchObject.AiConfigCode)
+                        select new RequestRecordModel
+                        {
+                            Id = r.Id,
+                            AiConfigCode = c.Code,
+                            RequestTime = r.RequestTime,
+                            ElapsedMilliseconds = r.ElapsedMilliseconds,
+                            RequestTokens = r.RequestTokens,
+                            ResponseTokens = r.ResponseTokens,
+                            TotalPrice = r.TotalPrice
+                        };
 
             Records = await query
                 .OrderByDescending(r => r.Id)
                 .Skip((searchObject.Page - 1) * searchObject.Size)
                 .Take(searchObject.Size)
-                .Select(r => new RequestRecordModel
-                {
-                    Id = r.Id,
-                    RequestTime = r.RequestTime,
-                    RequestTokens = r.RequestTokens,
-                    ResponseTokens = r.ResponseTokens,
-                    TotalPrice = r.TotalPrice
-                })
                 .ToListAsync();
 
             searchObject.Total = await query.CountAsync();
@@ -83,12 +89,17 @@ namespace BlazorAdmin.Ai.Pages.RequestRecord
         {
             public DateTime? StartTime { get; set; }
             public DateTime? EndTime { get; set; }
+
+            public string? AiConfigCode { get; set; }
         }
 
         private class RequestRecordModel
         {
             public int Id { get; set; }
             public int Number { get; set; }
+
+            public string? AiConfigCode { get; set; }
+            public int ElapsedMilliseconds { get; set; }
             public DateTime RequestTime { get; set; }
             public int RequestTokens { get; set; }
             public int ResponseTokens { get; set; }

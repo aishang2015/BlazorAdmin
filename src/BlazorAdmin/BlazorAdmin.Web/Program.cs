@@ -111,6 +111,7 @@ builder.Services.AddHttpContextAccessor();
 
 // jwt helper
 builder.Services.AddScoped<JwtHelper>();
+builder.Services.AddScoped<AiHelper>();
 
 builder.Services.AddControllers();
 

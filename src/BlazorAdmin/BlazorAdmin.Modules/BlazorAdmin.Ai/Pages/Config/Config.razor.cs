@@ -107,6 +107,21 @@ namespace BlazorAdmin.Ai.Pages.Config
             });
         }
 
+        private async Task TestAi(int configId)
+        {
+            using var context = await _dbFactory.CreateDbContextAsync();
+            var config = context.AiConfigs.Find(configId);
+            var result = await _aiHelper.TestAiConfig(config.ModelName, config.ApiKey, config.Endpoint, configId);
+            if (result.IsSuccess)
+            {
+                _snackbarService.Add(Loc["AIConfigPage_TestSuccess"], Severity.Success);
+            }
+            else
+            {
+                _snackbarService.Add(result.ErrorMessage, Severity.Error);
+            }
+        }
+
         private void SearchReset()
         {
             searchObject = new SearchObject { Page = 1 };

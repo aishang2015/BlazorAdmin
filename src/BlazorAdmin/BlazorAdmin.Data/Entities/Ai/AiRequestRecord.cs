@@ -10,6 +10,9 @@ namespace BlazorAdmin.Data.Entities.Ai
         [Comment("主键")]
         public int Id { get; set; }
 
+        [Comment("Ai配置Id")]
+        public int? AiConfigId { get; set; }
+
         [Comment("请求时间")]
         public DateTime RequestTime { get; set; }
 
