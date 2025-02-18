@@ -20,6 +20,7 @@
     <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.10.0" />
     <PackageReference Include="Quartz.Extensions.Hosting" Version="3.10.0" />
     <PackageReference Include="Quartz.Serialization.Json" Version="3.11.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.28.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BlazorAdmin.Data\BlazorAdmin.Data.csproj" />

@@ -6,6 +6,7 @@ using BlazorAdmin.Data.Entities.Log;
 using BlazorAdmin.Data.Entities.Setting;
 using Microsoft.JSInterop;
 using MudBlazor;
+using OpenQA.Selenium;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 

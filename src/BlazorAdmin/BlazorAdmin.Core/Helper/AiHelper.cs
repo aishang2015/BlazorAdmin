@@ -1,6 +1,7 @@
 ﻿using BlazorAdmin.Data;
 using BlazorAdmin.Data.Entities.Ai;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using OpenAI.Chat;
 using System.Diagnostics;
@@ -11,9 +12,13 @@ namespace BlazorAdmin.Core.Helper
     {
         private readonly IDbContextFactory<BlazorAdminDbContext> _dbContextFactory;
 
-        public AiHelper(IDbContextFactory<BlazorAdminDbContext> dbContextFactory)
+        private readonly ILogger<AiHelper> _logger;
+
+        public AiHelper(IDbContextFactory<BlazorAdminDbContext> dbContextFactory,
+            ILogger<AiHelper> logger)
         {
             _dbContextFactory = dbContextFactory;
+            _logger = logger;
         }
 
         public async Task<string?> ChatToAi(string configCode, string prompt,
@@ -82,6 +87,7 @@ namespace BlazorAdmin.Core.Helper
         {
             try
             {
+                _logger.LogInformation("开始测试AI配置");
                 var kernelBuilder = Kernel.CreateBuilder();
                 var kernel = kernelBuilder.AddOpenAIChatCompletion(
                     modelId: modelName,
@@ -116,10 +122,12 @@ namespace BlazorAdmin.Core.Helper
                     ResponseContent = responseText,
                 });
                 context.SaveChanges();
+                _logger.LogInformation($"AI 连接测试成功");
                 return (true, $"AI 配置测试成功");
             }
             catch (Exception ex)
             {
+                _logger.LogInformation($"AI 测试失败，原因：{ex.Message}");
                 return (false, $"AI 配置测试失败: {ex.Message}");
             }
         }
