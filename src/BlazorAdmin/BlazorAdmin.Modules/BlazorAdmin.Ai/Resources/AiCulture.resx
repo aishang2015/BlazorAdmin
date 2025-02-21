@@ -229,16 +229,16 @@
     <value>修改成功</value>
   </data>
   <data name="AIConfigPage_TableH7" xml:space="preserve">
-    <value>编码</value>
+    <value>配置名称</value>
   </data>
   <data name="AIConfigPage_SearchCode" xml:space="preserve">
     <value>编码</value>
   </data>
   <data name="AIConfig_Code" xml:space="preserve">
-    <value>编码</value>
+    <value>配置名称</value>
   </data>
   <data name="AIConfig_CodeRequired" xml:space="preserve">
-    <value>编码必填</value>
+    <value>配置名称必填</value>
   </data>
   <data name="AIConfigPage_TestSuccess" xml:space="preserve">
     <value>连接成功！</value>
@@ -253,12 +253,63 @@
     <value>相应内容</value>
   </data>
   <data name="AIRequestRecord_TableH7" xml:space="preserve">
-    <value>配置编码</value>
+    <value>配置名称</value>
   </data>
   <data name="AIRequestRecord_TableH8" xml:space="preserve">
     <value>耗时（毫秒）</value>
   </data>
   <data name="AIRequestRecord_SearchConfigCode" xml:space="preserve">
-    <value>配置编码</value>
+    <value>配置名称</value>
+  </data>
+  <data name="AIConfigPage_TestBtn" xml:space="preserve">
+    <value>检测ai配置</value>
+  </data>
+  <data name="AIConfigPage_TestStart" xml:space="preserve">
+    <value>开始执行测试请求</value>
+  </data>
+  <data name="PromptDialog_PromptName" xml:space="preserve">
+    <value>提示词名称</value>
+  </data>
+  <data name="PromptDialog_PromptContent" xml:space="preserve">
+    <value>提示词内容</value>
+  </data>
+  <data name="PromptDialog_PromptNameRequired" xml:space="preserve">
+    <value>请输入提示词名称</value>
+  </data>
+  <data name="PromptDialog_PromptContentRequired" xml:space="preserve">
+    <value>请输入提示词内容</value>
+  </data>
+  <data name="PromptDialog_Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="PromptDialog_Submit" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="PromptPage_Title" xml:space="preserve">
+    <value>提示词管理</value>
+  </data>
+  <data name="PromptPage_Reset" xml:space="preserve">
+    <value>重置搜索</value>
+  </data>
+  <data name="PromptPage_TableId" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="PromptPage_TablePromptName" xml:space="preserve">
+    <value>提示词名称</value>
+  </data>
+  <data name="PromptPage_TablePromptContent" xml:space="preserve">
+    <value>提示词内容</value>
+  </data>
+  <data name="PromptPage_TableOperation" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="PromptPage_Create" xml:space="preserve">
+    <value>新增提示词</value>
+  </data>
+  <data name="PromptPage_Edit" xml:space="preserve">
+    <value>编辑提示词</value>
+  </data>
+  <data name="PromptPage_Delete" xml:space="preserve">
+    <value>删除提示词</value>
   </data>
 </root>

@@ -10,6 +10,9 @@ namespace BlazorAdmin.Data.Entities.Ai
         [Comment("主键")]
         public int Id { get; set; }
 
+        [Comment("配置名称")]
+        public string? ConfigName { get; set; }
+
         [Comment("接口地址")]
         public string? Endpoint { get; set; }
 
@@ -30,9 +33,6 @@ namespace BlazorAdmin.Data.Entities.Ai
 
         [Comment("配置描述")]
         public string? Description { get; set; }
-
-        [Comment("编码")]
-        public string? Code { get; set; }
 
         [Comment("是否启用")]
         public bool IsEnabled { get; set; }

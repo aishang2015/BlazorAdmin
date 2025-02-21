@@ -35,7 +35,7 @@
              ServerData="GetTableData" @ref="dataGrid" T="RequestRecordModel">
     <Columns>
         <PropertyColumn Property="x => x.Number" Title="@Loc["AIRequestRecord_TableH1"]" StickyLeft="true" Resizable="false" HeaderStyle="white-space:nowrap;width:60px;" />
-        <PropertyColumn Property="x => x.AiConfigCode" Title="@Loc["AIRequestRecord_TableH7"]" HeaderStyle="white-space:nowrap" />
+        <PropertyColumn Property="x => x.ConfigName" Title="@Loc["AIRequestRecord_TableH7"]" HeaderStyle="white-space:nowrap" />
         <PropertyColumn Property="x => x.ElapsedMilliseconds" Title="@Loc["AIRequestRecord_TableH8"]" HeaderStyle="white-space:nowrap" />
         <PropertyColumn Property="x => x.RequestTime" Title="@Loc["AIRequestRecord_TableH2"]" HeaderStyle="white-space:nowrap" />
         <PropertyColumn Property="x => x.RequestTokens" Title="@Loc["AIRequestRecord_TableH3"]" HeaderStyle="white-space:nowrap" />

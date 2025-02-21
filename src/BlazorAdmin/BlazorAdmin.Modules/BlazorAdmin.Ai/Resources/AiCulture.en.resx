@@ -229,16 +229,16 @@
     <value>Edit Success</value>
   </data>
   <data name="AIConfigPage_TableH7" xml:space="preserve">
-    <value>Code</value>
+    <value>Config Name</value>
   </data>
   <data name="AIConfigPage_SearchCode" xml:space="preserve">
     <value>Code</value>
   </data>
   <data name="AIConfig_Code" xml:space="preserve">
-    <value>Code</value>
+    <value>Config Name</value>
   </data>
   <data name="AIConfig_CodeRequired" xml:space="preserve">
-    <value>Code Required</value>
+    <value>Config Name Required</value>
   </data>
   <data name="AIConfigPage_TestSuccess" xml:space="preserve">
     <value>Connect success！</value>
@@ -253,12 +253,63 @@
     <value>Response Content</value>
   </data>
   <data name="AIRequestRecord_TableH7" xml:space="preserve">
-    <value>Config Code</value>
+    <value>Config Name</value>
   </data>
   <data name="AIRequestRecord_TableH8" xml:space="preserve">
     <value>Elapsed Milliseconds</value>
   </data>
   <data name="AIRequestRecord_SearchConfigCode" xml:space="preserve">
-    <value>Config Code</value>
+    <value>Config Name</value>
+  </data>
+  <data name="AIConfigPage_TestBtn" xml:space="preserve">
+    <value>Test Ai Configuration</value>
+  </data>
+  <data name="AIConfigPage_TestStart" xml:space="preserve">
+    <value>Start Test Request</value>
+  </data>
+  <data name="PromptDialog_PromptName" xml:space="preserve">
+    <value>Prompt Name</value>
+  </data>
+  <data name="PromptDialog_PromptContent" xml:space="preserve">
+    <value>Prompt Content</value>
+  </data>
+  <data name="PromptDialog_PromptNameRequired" xml:space="preserve">
+    <value>Prompt Name Required</value>
+  </data>
+  <data name="PromptDialog_PromptContentRequired" xml:space="preserve">
+    <value>Prompt Content Required</value>
+  </data>
+  <data name="PromptDialog_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="PromptDialog_Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="PromptPage_Title" xml:space="preserve">
+    <value>Prompt Management</value>
+  </data>
+  <data name="PromptPage_Reset" xml:space="preserve">
+    <value>Reset Search</value>
+  </data>
+  <data name="PromptPage_TableId" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="PromptPage_TablePromptName" xml:space="preserve">
+    <value>Prompt Name</value>
+  </data>
+  <data name="PromptPage_TablePromptContent" xml:space="preserve">
+    <value>Prompt Content</value>
+  </data>
+  <data name="PromptPage_TableOperation" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="PromptPage_Create" xml:space="preserve">
+    <value>Add Prompt</value>
+  </data>
+  <data name="PromptPage_Edit" xml:space="preserve">
+    <value>Edit Prompt</value>
+  </data>
+  <data name="PromptPage_Delete" xml:space="preserve">
+    <value>Delete Prompt</value>
   </data>
 </root>

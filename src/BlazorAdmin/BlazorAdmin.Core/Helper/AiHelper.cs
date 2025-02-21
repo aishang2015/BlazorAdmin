@@ -21,14 +21,20 @@ namespace BlazorAdmin.Core.Helper
             _logger = logger;
         }
 
-        public async Task<string?> ChatToAi(string configCode, string prompt,
-            Dictionary<string, string> parameterDictionary, int? configId = null)
+        public async Task<string?> ChatToAi(string configName, string promptName,
+            Dictionary<string, string> parameterDictionary)
         {
             using var context = await _dbContextFactory.CreateDbContextAsync();
-            var config = context.AiConfigs.FirstOrDefault(c => c.Code == configCode);
+            var config = context.AiConfigs.FirstOrDefault(c => c.ConfigName == configName);
             if (config == null)
             {
-                throw new Exception("Config not found");
+                throw new Exception("Ai config not found");
+            }
+
+            var prompt = context.AiPrompts.FirstOrDefault(p => p.PromptName == promptName);
+            if (prompt == null)
+            {
+                throw new Exception("Ai prompt not found");
             }
 
             var kernelBuilder = Kernel.CreateBuilder();
@@ -49,7 +55,7 @@ namespace BlazorAdmin.Core.Helper
             var stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            var promptResult = await kernel.InvokePromptAsync(prompt, parameters);
+            var promptResult = await kernel.InvokePromptAsync(prompt.PromptContent ?? string.Empty, parameters);
 
             stopWatch.Stop();
 
@@ -67,14 +73,20 @@ namespace BlazorAdmin.Core.Helper
                 totalPrice += config.OutputPricePerToken.Value * usage.OutputTokenCount;
             }
 
+            var requestContent = prompt.PromptContent ?? string.Empty;
+            foreach (var key in parameterDictionary.Keys)
+            {
+                requestContent = requestContent.Replace($"{{${key}}}", parameterDictionary[key]);
+            }
+
             context.AiRequestRecords.Add(new AiRequestRecord
             {
-                AiConfigId = configId,
+                AiConfigId = config.Id,
                 RequestTime = DateTime.Now,
                 ElapsedMilliseconds = (int)stopWatch.ElapsedMilliseconds,
                 RequestTokens = usage.InputTokenCount,
                 ResponseTokens = usage.OutputTokenCount,
-                RequestContent = prompt,
+                RequestContent = requestContent,
                 ResponseContent = responseText,
                 TotalPrice = totalPrice,
             });

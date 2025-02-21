@@ -34,7 +34,7 @@ namespace BlazorAdmin.Ai.Pages.Config
                 .Where(c => !c.IsDeleted)
                 .AndIfExist(searchObject.SearchModelName, c => c.ModelName.Contains(searchObject.SearchModelName!))
                 .AndIfExist(searchObject.SearchEndpoint, c => c.Endpoint!.Contains(searchObject.SearchEndpoint!))
-                .AndIfExist(searchObject.SearchCode, c => c.Code!.Contains(searchObject.SearchCode!));
+                .AndIfExist(searchObject.SearchConfigName, c => c.ConfigName!.Contains(searchObject.SearchConfigName!));
 
             Configs = await query
                 .OrderBy(c => c.Id)
@@ -47,7 +47,7 @@ namespace BlazorAdmin.Ai.Pages.Config
                     Endpoint = c.Endpoint,
                     ContextLength = c.ContextLength,
                     Description = c.Description,
-                    Code = c.Code
+                    ConfigName = c.ConfigName
                 })
                 .ToListAsync();
 
@@ -109,6 +109,7 @@ namespace BlazorAdmin.Ai.Pages.Config
 
         private async Task TestAi(int configId)
         {
+            _snackbarService.Add(Loc["AIConfigPage_TestStart"], Severity.Info);
             using var context = await _dbFactory.CreateDbContextAsync();
             var config = context.AiConfigs.Find(configId);
             var result = await _aiHelper.TestAiConfig(config.ModelName, config.ApiKey, config.Endpoint, configId);
@@ -130,20 +131,20 @@ namespace BlazorAdmin.Ai.Pages.Config
 
         public record SearchObject : PaginationModel
         {
+            public string? SearchConfigName { get; set; }
             public string? SearchModelName { get; set; }
             public string? SearchEndpoint { get; set; }
-            public string? SearchCode { get; set; }
         }
 
         public class ConfigModel
         {
             public int Id { get; set; }
             public int Number { get; set; }
+            public string? ConfigName { get; set; }
             public string ModelName { get; set; } = null!;
             public string? Endpoint { get; set; }
             public int ContextLength { get; set; }
             public string? Description { get; set; }
-            public string? Code { get; set; }
         }
     }
 }

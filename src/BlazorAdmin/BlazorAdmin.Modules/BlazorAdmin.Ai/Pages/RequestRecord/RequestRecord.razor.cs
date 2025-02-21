@@ -38,11 +38,11 @@ namespace BlazorAdmin.Ai.Pages.RequestRecord
             var query = from r in recordQuery
                         join c in context.AiConfigs on r.AiConfigId equals c.Id into rc
                         from c in rc.DefaultIfEmpty()
-                        where string.IsNullOrEmpty(searchObject.AiConfigCode) || c.Code.Contains(searchObject.AiConfigCode)
+                        where string.IsNullOrEmpty(searchObject.AiConfigCode) || c.ConfigName.Contains(searchObject.AiConfigCode)
                         select new RequestRecordModel
                         {
                             Id = r.Id,
-                            AiConfigCode = c.Code,
+                            ConfigName = c.ConfigName,
                             RequestTime = r.RequestTime,
                             ElapsedMilliseconds = r.ElapsedMilliseconds,
                             RequestTokens = r.RequestTokens,
@@ -97,8 +97,7 @@ namespace BlazorAdmin.Ai.Pages.RequestRecord
         {
             public int Id { get; set; }
             public int Number { get; set; }
-
-            public string? AiConfigCode { get; set; }
+            public string? ConfigName { get; set; }
             public int ElapsedMilliseconds { get; set; }
             public DateTime RequestTime { get; set; }
             public int RequestTokens { get; set; }

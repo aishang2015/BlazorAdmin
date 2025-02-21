@@ -1,0 +1,165 @@
+@page "/ai/prompt"
+@using BlazorAdmin.Ai.Pages.Prompt.Dialogs
+@using BlazorAdmin.Component.Dialogs
+@using BlazorAdmin.Data.Entities.Ai
+@using static BlazorAdmin.Component.Pages.PagePagination
+@inject IStringLocalizer<AiCulture> localizer
+@inject IAccessService _accessService
+
+@rendermode RenderMode.InteractiveServer
+
+<PageHeader Title="@localizer["PromptPage_Title"]">
+    <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="()=>dataGrid.ReloadServerData()"
+                   Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2"></MudIconButton>
+    <MudTooltip Text="@localizer["PromptPage_Reset"]" Color="Color.Primary">
+        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.SearchOff" OnClick="SearchReset"
+                       Variant="Variant.Outlined" Color="Color.Primary"></MudIconButton>
+    </MudTooltip>
+    @if (_accessService.CheckHasElementRights("PromptAddBtn").Result)
+    {
+        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" OnClick="()=>OpenDialog()"
+                       Variant="Variant.Outlined" Color="Color.Primary" Class="ml-2"></MudIconButton>
+    }
+</PageHeader>
+
+<MudDataGrid Dense=PageDataGridConfig.Dense Filterable=PageDataGridConfig.Filterable ColumnResizeMode=PageDataGridConfig.ColumnResizeMode
+             SortMode=PageDataGridConfig.SortMode Groupable=PageDataGridConfig.Groupable Virtualize=PageDataGridConfig.Virtualize
+             FixedHeader=PageDataGridConfig.FixedHeader Elevation=PageDataGridConfig.Elevation Outlined=PageDataGridConfig.Outlined
+             Style="@PageDataGridConfig.Style" HorizontalScrollbar="PageDataGridConfig.HorizontalScrollbar"
+             ServerData="GetTableData" @ref="dataGrid" T="TableModel">
+    <Columns>
+        <PropertyColumn Property="x => x.Id" Title="@localizer["PromptPage_TableId"]" />
+        <PropertyColumn Property="x => x.PromptName" Title="@localizer["PromptPage_TablePromptName"]" />
+        <PropertyColumn Property="x => x.PromptContent" Title="@localizer["PromptPage_TablePromptContent"]" />
+        <TemplateColumn Title="@localizer["PromptPage_TableOperation"]" HeaderStyle="white-space:nowrap;width:100px;">
+            <CellTemplate>
+                @if (_accessService.CheckHasElementRights("PromptEditBtn").Result)
+                {
+                    <MudIconButton Size="Size.Small" Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary"
+                                   OnClick="()=>OpenDialog(context.Item)" />
+                }
+                @if (_accessService.CheckHasElementRights("PromptDeleteBtn").Result)
+                {
+                    <MudIconButton Size="Size.Small" Icon="@Icons.Material.Outlined.Delete" Color="Color.Error"
+                                   OnClick="()=>DeleteAsync(context.Item)" />
+                }
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
+
+<PagePagination PageInfo="searchObject" PageChangedClick="PageChangedClick"></PagePagination>
+
+@code {
+
+    [Inject]
+    private IDialogService DialogService { get; set; } = null!;
+
+    private MudDataGrid<TableModel> dataGrid = null!;
+
+    private List<TableModel> TableData = new();
+
+    private SearchObject searchObject = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+
+    private async Task InitialAsync()
+    {
+        using var context = await _dbFactory.CreateDbContextAsync();
+        var query = context.AiPrompts.AsQueryable();
+
+        if (!string.IsNullOrEmpty(searchObject.PromptName))
+        {
+            query = query.Where(x => x.PromptName!.Contains(searchObject.PromptName));
+        }
+
+        searchObject.Total = await query.CountAsync();
+
+        var data = await query.OrderByDescending(x => x.Id)
+            .Skip((searchObject.Page - 1) * searchObject.Size)
+            .Take(searchObject.Size)
+            .Select(x => new TableModel
+                {
+                    Id = x.Id,
+                    PromptName = x.PromptName,
+                    PromptContent = x.PromptContent
+                })
+            .ToListAsync();
+
+        TableData = data;
+        StateHasChanged();
+    }
+
+    private async Task PageChangedClick(int page)
+    {
+        searchObject.Page = page;
+        await dataGrid.ReloadServerData();
+    }
+
+    private async Task<GridData<TableModel>> GetTableData(GridState<TableModel> gridState)
+    {
+        await InitialAsync();
+        return new GridData<TableModel>() { TotalItems = searchObject.Total, Items = TableData };
+    }
+
+    private void SearchReset()
+    {
+        searchObject = new();
+        searchObject.Page = 1;
+        dataGrid.ReloadServerData();
+    }
+
+    private async Task OpenDialog(TableModel? model = null)
+    {
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium };
+        var parameters = new DialogParameters<PromptDialog>();
+        if (model != null)
+        {
+            parameters.Add(x => x.Model, new AiPrompt
+                {
+                    Id = model.Id,
+                    PromptName = model.PromptName,
+                    PromptContent = model.PromptContent
+                });
+        }
+
+        var dialog = await DialogService.ShowAsync<PromptDialog>(model == null ? localizer["PromptPage_Create"] : localizer["PromptPage_Edit"], parameters, options);
+        var result = await dialog.Result;
+        if (!result.Canceled)
+        {
+            await dataGrid.ReloadServerData();
+        }
+    }
+
+    private async Task DeleteAsync(TableModel model)
+    {
+        await _dialogService.ShowDeleteDialog(localizer["PromptPage_Delete"], null, async (e) =>
+            {
+                using var context = await _dbFactory.CreateDbContextAsync();
+                var entity = await context.Set<AiPrompt>().FindAsync(model.Id);
+                if (entity != null)
+                {
+                    context.Remove(entity);
+                    await context.SaveChangesAsync();
+                    await dataGrid.ReloadServerData();
+                }
+            });
+    }
+
+    private record SearchObject : PaginationModel
+    {
+        public string? PromptName { get; set; }
+    }
+
+    private class TableModel
+    {
+        public int Id { get; set; }
+
+        public string? PromptName { get; set; }
+
+        public string? PromptContent { get; set; }
+    }
+}

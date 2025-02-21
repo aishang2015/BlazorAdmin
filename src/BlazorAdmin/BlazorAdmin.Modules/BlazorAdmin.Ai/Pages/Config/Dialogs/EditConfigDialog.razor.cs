@@ -28,6 +28,7 @@ namespace BlazorAdmin.Ai.Pages.Config.Dialogs
                     Config = new AiConfig
                     {
                         Id = config.Id,
+                        ConfigName = config.ConfigName,
                         Endpoint = config.Endpoint,
                         ApiKey = config.ApiKey,
                         ModelName = config.ModelName,
@@ -35,7 +36,6 @@ namespace BlazorAdmin.Ai.Pages.Config.Dialogs
                         InputPricePerToken = config.InputPricePerToken,
                         OutputPricePerToken = config.OutputPricePerToken,
                         Description = config.Description,
-                        Code = config.Code
                     };
                 }
             }

@@ -4,7 +4,7 @@
 
 <PageHeader Title="@Loc["AIConfigPage_Title"]">
     <div style="width:200px" class="mr-2">
-        <MudTextField T="string" @bind-Value="searchObject.SearchCode"
+        <MudTextField T="string" @bind-Value="searchObject.SearchConfigName"
                       Margin="Margin.Dense" Label="@Loc["AIConfigPage_SearchCode"]"
                       Variant="Variant.Outlined" Clearable Class="search-com" />
     </div>
@@ -40,15 +40,17 @@
     <Columns>
         <PropertyColumn Property="x => x.Number" Title="@Loc["AIConfigPage_TableH1"]"
                         StickyLeft="true" Resizable="false" HeaderStyle="width:80px;" />
-        <PropertyColumn Property="x => x.Code" Title="@Loc["AIConfigPage_TableH7"]" />
+        <PropertyColumn Property="x => x.ConfigName" Title="@Loc["AIConfigPage_TableH7"]" />
         <PropertyColumn Property="x => x.ModelName" Title="@Loc["AIConfigPage_TableH2"]" />
         <PropertyColumn Property="x => x.Endpoint" Title="@Loc["AIConfigPage_TableH3"]" />
         <PropertyColumn Property="x => x.ContextLength" Title="@Loc["AIConfigPage_TableH4"]" />
         <PropertyColumn Property="x => x.Description" Title="@Loc["AIConfigPage_TableH5"]" />
-        <TemplateColumn Title="@Loc["AIConfigPage_TableH6"]" HeaderStyle="width:140px;" StickyRight="true">
+        <TemplateColumn Title="@Loc["AIConfigPage_TableH6"]" HeaderStyle="width:130px;" StickyRight="true">
             <CellTemplate>
-                <MudIconButton Size="Size.Small" Icon="@Icons.Material.Outlined.PlayCircle" Color="Color.Primary"
-                               OnClick="() => TestAi(context.Item.Id)" />
+                <MudTooltip Text="@Loc["AIConfigPage_TestBtn"]" Color="Color.Primary">
+                    <MudIconButton Size="Size.Small" Icon="@Icons.Material.Outlined.PlayCircle" Color="Color.Primary"
+                                   OnClick="() => TestAi(context.Item.Id)" />
+                </MudTooltip>
                 @if (_accessService.CheckHasElementRights("AIConfigEditBtn").Result)
                 {
                     <MudIconButton Size="Size.Small" Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary"

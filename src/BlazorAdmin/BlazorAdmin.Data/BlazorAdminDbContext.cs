@@ -67,6 +67,8 @@ namespace BlazorAdmin.Data
 
         public DbSet<AiConfig> AiConfigs { get; set; }
 
+        public DbSet<AiPrompt> AiPrompts { get; set; }
+
         public DbSet<AiRequestRecord> AiRequestRecords { get; set; }
 
         #endregion

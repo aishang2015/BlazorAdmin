@@ -7,7 +7,7 @@
             <MudGrid>
                 <MudItem xs="12" sm="6">
                     <MudTextField Label="@Loc["AIConfig_Code"]" Variant="Variant.Outlined"
-                                  @bind-Value="Config.Code" For="@(() => Config.Code)"
+                                  @bind-Value="Config.ConfigName" For="@(() => Config.ConfigName)"
                                   Class="search-com" Margin="Margin.Dense"
                                   Required="true" RequiredError="@Loc["AIConfig_CodeRequired"]" />
                 </MudItem>
