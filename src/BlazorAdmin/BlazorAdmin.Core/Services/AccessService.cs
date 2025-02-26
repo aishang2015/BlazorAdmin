@@ -1,5 +1,6 @@
 ﻿using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Data;
+using BlazorAdmin.Data.Entities.Rbac;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -14,6 +15,10 @@ namespace BlazorAdmin.Core.Services
         Task<bool> CheckUriCanAccess(string url);
 
         Task<bool> CheckHasElementRights(string identify);
+
+        Task<List<int>> GetUserOrganizationIds();
+
+        Task<User?> GetUserInfo();
     }
 
     public class AccessService : IAccessService
@@ -131,6 +136,20 @@ namespace BlazorAdmin.Core.Services
                 return query.ToList();
             });
             return identities ?? new();
+        }
+
+        public async Task<User?> GetUserInfo()
+        {
+            var userState = await _stateProvider.GetAuthenticationStateAsync();
+            if (userState.User.Identity == null || !userState.User.Identity.IsAuthenticated)
+            {
+                return null;
+            }
+
+            var userId = userState.User.GetUserId();
+
+            using var context = await _dbContextFactory.CreateDbContextAsync();
+            return await context.Users.FindAsync(userId);
         }
     }
 }

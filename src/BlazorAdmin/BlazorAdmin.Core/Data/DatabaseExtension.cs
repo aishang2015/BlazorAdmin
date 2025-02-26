@@ -119,12 +119,12 @@ namespace BlazorAdmin.Core.Data
                 var entry = dbContext.Menus.Add(new Menu { Name = "日志", Type = 1, Route = "/", Order = 2, Icon = Icons.Material.Filled.Info });
                 var entry2 = dbContext.Menus.Add(new Menu { Name = "权限", Type = 1, Route = "/", Order = 3, Icon = Icons.Material.Filled.VerifiedUser });
                 var entry3 = dbContext.Menus.Add(new Menu { Name = "系统", Type = 1, Route = "/", Order = 4, Icon = Icons.Material.Filled.Computer });
-                dbContext.Menus.Add(new Menu { Name = "关于", Type = 1, Route = "/about", Order = 4, Icon = Icons.Material.Filled.TextFields });
+                //var aiEntry = dbContext.Menus.Add(new Menu { Name = "AI", Type = 1, Route = "/", Order = 5, Icon = Icons.Material.Filled.Grain });
+                dbContext.Menus.Add(new Menu { Name = "关于", Type = 1, Route = "/about", Order = 6, Icon = Icons.Material.Filled.TextFields });
                 dbContext.SaveChanges();
 
                 dbContext.Menus.Add(new Menu { ParentId = entry.Entity.Id, Name = "审计", Type = 1, Route = "/auditLog", Order = 1, Icon = Icons.Material.Filled.Verified });
                 dbContext.Menus.Add(new Menu { ParentId = entry.Entity.Id, Name = "登录", Type = 1, Route = "/loginLog", Order = 2, Icon = Icons.Material.Filled.Login });
-                
                 dbContext.SaveChanges();
 
                 var userManageEnty = dbContext.Menus.Add(new Menu { ParentId = entry2.Entity.Id, Name = "用户", Type = 1, Route = "/user", Order = 1, Icon = Icons.Material.Filled.Person });
@@ -135,10 +135,12 @@ namespace BlazorAdmin.Core.Data
 
                 dbContext.Menus.Add(new Menu { ParentId = entry3.Entity.Id, Name = "配置", Type = 1, Route = "/setting", Order = 1, Icon = Icons.Material.Filled.Settings });
                 dbContext.Menus.Add(new Menu { ParentId = entry3.Entity.Id, Name = "指标", Type = 1, Route = "/appmetric", Order = 2, Icon = Icons.Material.Filled.AutoGraph });
-                //var aiConfigPage = dbContext.Menus.Add(new Menu { ParentId = entry3.Entity.Id, Name = "Ai配置", Type = 1, Route = "/ai/config", Order = 3, Icon = Icons.Material.Filled.Grain });
-                //var arRecordPage = dbContext.Menus.Add(new Menu { ParentId = entry3.Entity.Id, Name = "Ai记录", Type = 1, Route = "/ai/requestrecord", Order = 4, Icon = Icons.Material.Filled.RequestPage });
-                //var arPromptPage = dbContext.Menus.Add(new Menu { ParentId = entry3.Entity.Id, Name = "Ai提示词", Type = 1, Route = "/ai/prompt", Order = 5, Icon = Icons.Material.Filled.RequestPage });
                 dbContext.SaveChanges();
+
+                //var aiConfigPage = dbContext.Menus.Add(new Menu { ParentId = aiEntry.Entity.Id, Name = "Ai配置", Type = 1, Route = "/ai/config", Order = 3, Icon = Icons.Material.Filled.SettingsInputComponent });
+                //var arRecordPage = dbContext.Menus.Add(new Menu { ParentId = aiEntry.Entity.Id, Name = "Ai记录", Type = 1, Route = "/ai/requestrecord", Order = 4, Icon = Icons.Material.Filled.RequestPage });
+                //var arPromptPage = dbContext.Menus.Add(new Menu { ParentId = aiEntry.Entity.Id, Name = "Ai提示词", Type = 1, Route = "/ai/prompt", Order = 5, Icon = Icons.Material.Filled.TipsAndUpdates });
+                //dbContext.SaveChanges();
 
                 dbContext.Menus.Add(new Menu { ParentId = userManageEnty.Entity.Id, Name = "添加按钮", Type = 2, Order = 1, Identify = "UserAddBtn" });
                 dbContext.Menus.Add(new Menu { ParentId = userManageEnty.Entity.Id, Name = "修改按钮", Type = 2, Order = 2, Identify = "UserUpdateBtn" });
