@@ -135,6 +135,7 @@ namespace BlazorAdmin.Core.Data
 
                 dbContext.Menus.Add(new Menu { ParentId = entry3.Entity.Id, Name = "配置", Type = 1, Route = "/setting", Order = 1, Icon = Icons.Material.Filled.Settings });
                 dbContext.Menus.Add(new Menu { ParentId = entry3.Entity.Id, Name = "指标", Type = 1, Route = "/appmetric", Order = 2, Icon = Icons.Material.Filled.AutoGraph });
+                //dbContext.Menus.Add(new Menu { ParentId = entry3.Entity.Id, Name = "代码生成", Type = 1, Route = "/setting/code-generator", Order = 3, Icon = Icons.Material.Filled.Code });
                 dbContext.SaveChanges();
 
                 //var aiConfigPage = dbContext.Menus.Add(new Menu { ParentId = aiEntry.Entity.Id, Name = "Ai配置", Type = 1, Route = "/ai/config", Order = 3, Icon = Icons.Material.Filled.SettingsInputComponent });

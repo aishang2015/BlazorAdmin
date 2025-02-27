@@ -5,6 +5,7 @@
 @using BlazorAdmin.Core.Dynamic
 @using BlazorAdmin.Data.Entities
 @using System.ComponentModel.DataAnnotations.Schema
+@using System.IO.Compression
 @using static BlazorAdmin.Component.Pages.PagePagination
 @rendermode RenderMode.InteractiveServer
 @inject IDbContextFactory<BlazorAdminDbContext> _dbFactory
@@ -19,7 +20,8 @@
             }
         </MudSelect>
     </div>
-    <MudButton Color="Color.Primary" OnClick="GenerateCode" Class="mr-2">生成代码</MudButton>
+    <MudButton Color="Color.Primary" OnClick="GenerateCode" Class="mr-2" Variant="Variant.Filled">生成代码</MudButton>
+    <MudButton Color="Color.Primary" OnClick="DownloadZip" Class="mr-2" Variant="Variant.Filled">打包下载</MudButton>
 </PageHeader>
 
 <MudPaper Class="pa-4 mb-4 flex-1" Style="overflow:auto">
@@ -30,28 +32,20 @@
             @_pageSrc
         </MudText>
     }
-    @if (!string.IsNullOrEmpty(_createDialogSrc))
-    {
-        <MudText Style="white-space: pre; font-family: monospace; " Class="border mt-2">
-            @_createDialogSrc
-        </MudText>
-    }
     @if (!string.IsNullOrEmpty(_editDialogSrc))
     {
         <MudText Style="white-space: pre; font-family: monospace; " Class="border mt-2">
             @_editDialogSrc
         </MudText>
     }
-    </MudPaper>
+</MudPaper>
 
-    @code {
+@code {
 
     private List<Type> entityTypes = new();
     private Type? selectedEntity;
 
     private string _pageSrc = string.Empty;
-
-    private string _createDialogSrc = string.Empty;
 
     private string _editDialogSrc = string.Empty;
 
@@ -128,6 +122,7 @@
 @using BlazorAdmin.Core.Dynamic
 @using BlazorAdmin.Data.Entities
 @using static BlazorAdmin.Component.Pages.PagePagination
+@using BlazorAdmin.Component.Dialogs
 
 @using {selectedEntity.Namespace}
 
@@ -140,6 +135,9 @@
         <MudIconButton Size=""MudBlazor.Size.Medium"" Icon = ""@Icons.Material.Filled.SearchOff""
             OnClick=""SearchReset"" Variant = ""Variant.Outlined"" Color = ""Color.Primary"" ></MudIconButton >
     </MudTooltip>
+    <MudIconButton Size=""MudBlazor.Size.Medium"" Icon =""@Icons.Material.Filled.Add"" OnClick=""AddClick""
+            Variant=""Variant.Outlined"" Color=""Color.Primary"" >
+    </MudIconButton>
 </PageHeader>
 
 <MudDataGrid Dense=PageDataGridConfig.Dense
@@ -160,6 +158,10 @@
     {tableColumns}
         <TemplateColumn Title=""操作"" HeaderStyle="" white-space:nowrap;"">
             <CellTemplate>
+                <MudIconButton Size=""@MudBlazor.Size.Small"" Icon =""@Icons.Material.Outlined.Delete"" Color=""Color.Error""
+                    OnClick=""() =>DeleteClick(context.Item.Id)"" />
+                <MudIconButton Size=""@MudBlazor.Size.Small"" Icon =""@Icons.Material.Outlined.Edit"" Color=""Color.Primary""
+                    OnClick=""() =>EditClick(context.Item.Id)"" />
             </CellTemplate>
         </TemplateColumn>
     </Columns>
@@ -224,6 +226,57 @@
         dataGrid.ReloadServerData();
     }}
 
+    private async Task AddClick()
+    {{
+        var parameters = new DialogParameters<Edit{entityName}Dialog> {{ }};
+        var options = new DialogOptions() {{CloseButton = true,MaxWidth = MaxWidth.ExtraLarge}};
+        var dialog = await _dialogService.ShowAsync<Edit{entityName}Dialog>(""创建"", parameters, options);
+        var result = await dialog.Result;
+        if (!result.Canceled)
+        {{
+            _snackbarService.Add(""创建成功"", Severity.Success);
+            await dataGrid.ReloadServerData();
+        }}
+    }}
+
+    private async Task EditClick(int id)
+    {{
+        var parameters = new DialogParameters<Edit{entityName}Dialog>
+        {{
+            {{ x=> x.Id, id}}
+        }};
+        var options = new DialogOptions() {{CloseButton = true,MaxWidth = MaxWidth.ExtraLarge}};
+        var dialog = await _dialogService.ShowAsync<Edit{entityName}Dialog>(""编辑"", parameters, options);
+        var result = await dialog.Result;
+        if (!result.Canceled)
+        {{
+            _snackbarService.Add(""修改成功"", Severity.Success);
+            await dataGrid.ReloadServerData();
+        }}
+    }}
+
+    private async Task DeleteClick(int id)
+    {{
+        await _dialogService.ShowDeleteDialog(""确定是否删除"", null,
+            async (e) =>
+            {{
+                using var context = await _dbFactory.CreateDbContextAsync();
+                var data = context.Set<{entityName}>().Find(id);
+                if (data != null)
+                {{
+                    context.Remove(data);
+                    context.SaveChanges();
+
+                    _snackbarService.Add(""删除成功！"", Severity.Success);
+                }}
+                else
+                {{
+                    _snackbarService.Add(""信息不存在！"", Severity.Error);
+                }}
+                await dataGrid.ReloadServerData();
+            }});
+    }}
+
     private record SearchObject : PaginationModel
     {{
 {searchProperties}
@@ -242,7 +295,7 @@
         var formFields = string.Join("\n", properties.Select(p =>
             $"                <MudTextField T=\"{GetCSharpTypeName(p.PropertyType)}\" @bind-Value=\"EditModel.{p.Name}\"\n " +
             $"                      Label=\"{p.Name}\" Variant=\"Variant.Outlined\" For=\"()=>EditModel.{p.Name}\"/>"));
-            
+
         var setEditModelProperties = string.Join(",\n", properties
             .Select(p =>
                  $"                {p.Name} = entity.{p.Name}"));
@@ -320,15 +373,49 @@
     }}
 }}";
 
-        _createDialogSrc = createDialogCode;
         _editDialogSrc = createDialogCode;
 
     }
 
-    private record SearchObject : PaginationModel
+    private async Task DownloadZip()
     {
-    }
+        if (selectedEntity == null || string.IsNullOrEmpty(_pageSrc) || string.IsNullOrEmpty(_editDialogSrc)) return;
 
+        var entityName = selectedEntity.Name;
+        var tempPath = Path.Combine(Path.GetTempPath(), $"CodeGenerator_{DateTime.Now:yyyyMMddHHmmss}");
+        Directory.CreateDirectory(tempPath);
+
+        try
+        {
+            // 保存页面文件
+            var pageFilePath = Path.Combine(tempPath, $"{entityName}Page.razor");
+            await File.WriteAllTextAsync(pageFilePath, _pageSrc);
+
+            // 保存对话框文件
+            var dialogFilePath = Path.Combine(tempPath, $"Edit{entityName}Dialog.razor");
+            await File.WriteAllTextAsync(dialogFilePath, _editDialogSrc);
+
+            // 创建zip文件
+            var zipPath = Path.Combine(Path.GetTempPath(), $"{entityName}_{DateTime.Now:yyyyMMddHHmmss}.zip");
+            ZipFile.CreateFromDirectory(tempPath, zipPath);
+
+            // 读取zip文件并转换为base64字符串
+            var zipBytes = await File.ReadAllBytesAsync(zipPath);
+            var base64String = Convert.ToBase64String(zipBytes);
+
+            // 通过JavaScript触发下载
+            var commonModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/common.js");
+            await commonModule.InvokeVoidAsync("downloadFileFromBase64", base64String, $"{entityName}_Code.zip");
+
+            // 清理临时文件
+            Directory.Delete(tempPath, true);
+            File.Delete(zipPath);
+        }
+        catch (Exception ex)
+        {
+            _snackbarService.Add($"下载失败：{ex.Message}", Severity.Error);
+        }
+    }
     private class EntityInfo
     {
         public string EntityName { get; set; } = string.Empty;
