@@ -357,11 +357,11 @@
             }};
         if (Id.HasValue)
         {{
-            await context.AddAsync(dataModel);
+            context.Update(dataModel);
         }}
         else
         {{
-            context.Update(dataModel);
+            context.Add(dataModel);
         }}
         await context.SaveChangesAsync();
         MudDialog.Close(DialogResult.Ok(true));
