@@ -165,8 +165,16 @@ namespace BlazorAdmin.Core.Helper
             if (request.RequestUri != null &&
                 (sourceArray.Contains(request.RequestUri.Host)))
             {
-                // 修改请求URI,以包含模型URL
-                request.RequestUri = new Uri(modelUrl + request.RequestUri.PathAndQuery);
+                if (modelUrl.Contains("v1"))
+                {
+                    request.RequestUri = new Uri(modelUrl.Replace("/v1", string.Empty) + request.RequestUri.PathAndQuery);
+                }
+                else
+                {
+                    // 修改请求URI,以包含模型URL
+                    request.RequestUri = new Uri(modelUrl + request.RequestUri.PathAndQuery);
+                }
+
             }
             // 调用基类方法实际发送HTTP请求
             return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
