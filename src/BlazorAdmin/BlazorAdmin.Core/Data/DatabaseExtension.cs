@@ -19,6 +19,7 @@ using CrystalQuartz.AspNetCore;
 using Quartz;
 using CrystalQuartz.Application;
 using BlazorAdmin.Core.Services;
+using System.Reflection;
 
 namespace BlazorAdmin.Core.Data
 {
@@ -66,10 +67,15 @@ namespace BlazorAdmin.Core.Data
                 app.UseCrystalQuartz(() => app.Services.GetRequiredService<ISchedulerFactory>().GetScheduler(),
                         new CrystalQuartzOptions
                         {
-                            AllowedJobTypes = new[]
-                            {
-                                typeof(TestJob)
-                            }
+                            AllowedJobTypes = Assembly.GetEntryAssembly()?
+                                .GetReferencedAssemblies()
+                                .SelectMany(a => Assembly.Load(a).GetExportedTypes())
+                                .Where(x =>
+                                    x.IsPublic &&
+                                    x.IsClass &&
+                                    !x.IsAbstract &&
+                                    typeof(IJob).IsAssignableFrom(x))
+                                .ToArray() ?? new Type[0],
                         });
             }
         }
