@@ -75,8 +75,12 @@
             .Where(p => !p.GetCustomAttributes(typeof(NotMappedAttribute), true).Any())
             .ToList();
 
-        var tableColumns = string.Join("\n        ", properties.Select(p =>
-            $"<PropertyColumn Property =\"x => x.{p.Name}\" Title =\"{p.Name}\"/> "));
+        var tableColumns = string.Join("\n", properties.Select(p =>
+            $"        <TemplateColumn Title=\"{p.Name}\" HeaderStyle=\"\">\n" +
+            $"            <CellTemplate>\n" +
+            $"                @context.Item.{p.Name}\n" +
+            $"            </CellTemplate>\n" +
+            $"        </TemplateColumn>"));
 
         var searchFields = string.Join("\n", properties
             .Where(p => p.PropertyType == typeof(string))
@@ -132,7 +136,7 @@
                    Icon=""@Icons.Material.Filled.Search"" Color=""Color.Primary"" Class=""mr-2""
                    OnClick=""()=> dataGrid.ReloadServerData()"" Variant=""Variant.Outlined""/>
     <MudTooltip Text=""重置搜索"" Color = ""Color.Primary"" >
-        <MudIconButton Size=""MudBlazor.Size.Medium"" Icon = ""@Icons.Material.Filled.SearchOff""
+        <MudIconButton Size=""MudBlazor.Size.Medium"" Icon = ""@Icons.Material.Filled.SearchOff"" Class=""mr-2""
             OnClick=""SearchReset"" Variant = ""Variant.Outlined"" Color = ""Color.Primary"" ></MudIconButton >
     </MudTooltip>
     <MudIconButton Size=""MudBlazor.Size.Medium"" Icon =""@Icons.Material.Filled.Add"" OnClick=""AddClick""
@@ -155,7 +159,12 @@
              @ref=""dataGrid""
              T=""TableModel"">
     <Columns>
-    {tableColumns}
+        <TemplateColumn CellStyle=""width:80px"" StickyLeft=true Title=""序号"" >
+            <CellTemplate>
+                @(TableData.IndexOf(context.Item) + 1 + (searchObject.Page - 1) * searchObject.Size)
+            </CellTemplate>
+        </TemplateColumn>
+{tableColumns}
         <TemplateColumn Title=""操作"" HeaderStyle="" white-space:nowrap;"">
             <CellTemplate>
                 <MudIconButton Size=""@MudBlazor.Size.Small"" Icon =""@Icons.Material.Outlined.Delete"" Color=""Color.Error""
