@@ -21,7 +21,8 @@
         </MudSelect>
     </div>
     <MudButton Color="Color.Primary" OnClick="GenerateCode" Class="mr-2" Variant="Variant.Filled">生成代码</MudButton>
-    <MudButton Color="Color.Primary" OnClick="DownloadZip" Class="mr-2" Variant="Variant.Filled">打包下载</MudButton>
+    <MudButton Color="Color.Primary" OnClick="DownloadZip" Class="mr-2" Variant="Variant.Filled">下载文件</MudButton>
+    <MudButton Color="Color.Primary" OnClick="CopyCode" Class="mr-2" Variant="Variant.Filled">复制代码</MudButton>
 </PageHeader>
 
 <MudPaper Class="pa-4 mb-4 flex-1" Style="overflow:auto">
@@ -32,12 +33,6 @@
             @_pageSrc
         </MudText>
     }
-    @if (!string.IsNullOrEmpty(_editDialogSrc))
-    {
-        <MudText Style="white-space: pre; font-family: monospace; " Class="border mt-2">
-            @_editDialogSrc
-        </MudText>
-    }
 </MudPaper>
 
 @code {
@@ -46,8 +41,6 @@
     private Type? selectedEntity;
 
     private string _pageSrc = string.Empty;
-
-    private string _editDialogSrc = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -75,21 +68,31 @@
             .Where(p => !p.GetCustomAttributes(typeof(NotMappedAttribute), true).Any())
             .ToList();
 
-        var tableColumns = string.Join("\n", properties.Select(p =>
-            $"        <TemplateColumn Title=\"{p.Name}\" HeaderStyle=\"\">\n" +
+        var tableColumns = string.Join("\n", properties.Where(p => p.Name != "Id").Select(p =>
+        {
+            var commentAttribute = p.GetCustomAttribute(typeof(CommentAttribute)) as CommentAttribute;
+            var title = commentAttribute?.Comment ?? p.Name;
+            return
+            $"        <TemplateColumn Title=\"{title}\" HeaderStyle=\"\">\n" +
             $"            <CellTemplate>\n" +
             $"                @context.Item.{p.Name}\n" +
             $"            </CellTemplate>\n" +
-            $"        </TemplateColumn>"));
+            $"        </TemplateColumn>";
+        }));
 
         var searchFields = string.Join("\n", properties
             .Where(p => p.PropertyType == typeof(string))
             .Select(p =>
+            {
+                var commentAttribute = p.GetCustomAttribute(typeof(CommentAttribute)) as CommentAttribute;
+                var title = commentAttribute?.Comment ?? p.Name;
+                return
                 $"    <div style=\"width:140px\" class=\"mr-2\">\n" +
                 $"        <MudTextField T=\"string\" @bind-Value=\"searchObject.Search{p.Name}\" \n" +
-                $"            Margin=\"Margin.Dense\"  Label=\"{p.Name}\" Variant=\"Variant.Outlined\" \n" +
+                $"            Margin=\"Margin.Dense\"  Label=\"{title}\" Variant=\"Variant.Outlined\" \n" +
                 $"            Clearable  Class=\"search-com\"></MudTextField>\n" +
-                $"    </div>"));
+                $"    </div>";
+            }));
 
         var searchProperties = string.Join("\n", properties
             .Select(p =>
@@ -116,6 +119,24 @@
         var setProperties = string.Join(",\n", properties
             .Select(p =>
                  $"                {p.Name} = x.{p.Name}"));
+
+
+        var formFields = string.Join("\n", properties.Where(p => p.Name != "Id").Select(p =>
+            {
+                var commentAttribute = p.GetCustomAttribute(typeof(CommentAttribute)) as CommentAttribute;
+                var title = commentAttribute?.Comment ?? p.Name;
+                return
+                $"                <MudTextField T=\"{GetCSharpTypeName(p.PropertyType)}\" @bind-Value=\"editModel.{p.Name}\"\n " +
+                $"                      Label=\"{title}\" Variant=\"Variant.Outlined\" For=\"()=>editModel.{p.Name}\"/>";
+            }));
+
+        var setEditModelProperties = string.Join(",\n", properties
+            .Select(p =>
+                 $"                {p.Name} = entity.{p.Name}"));
+
+        var setEntityProperties = string.Join(",\n", properties
+            .Select(p =>
+                 $"                {p.Name} = editModel.{p.Name}"));
 
         var code = $@"
 @page ""/{entityName.ToLower()}page""
@@ -165,7 +186,7 @@
             </CellTemplate>
         </TemplateColumn>
 {tableColumns}
-        <TemplateColumn Title=""操作"" HeaderStyle="" white-space:nowrap;"">
+        <TemplateColumn StickyRight=true Title=""操作"" HeaderStyle="" white-space:nowrap;"">
             <CellTemplate>
                 <MudIconButton Size=""@MudBlazor.Size.Small"" Icon =""@Icons.Material.Outlined.Delete"" Color=""Color.Error""
                     OnClick=""() =>DeleteClick(context.Item.Id)"" />
@@ -179,11 +200,33 @@
 <PagePagination PageInfo=""searchObject""
                 PageChangedClick=""PageChangedClick"" />
 
+<MudDialog @bind-Visible=""_dialogVisible"" >
+    <TitleContent>
+        <MudText Typo=""Typo.h5"" Class=""mt-4"">编辑信息</MudText>
+    </TitleContent>
+    <DialogContent>
+        <div style=""width:400px;"" >
+            <EditForm Model=""editModel"" OnValidSubmit =""Submit"" >
+                <DataAnnotationsValidator />
+{formFields}
+                <div class=""mt-4 d-flex align-center"" >
+                    <MudSpacer />
+                    <MudButton OnClick=""Cancel"">取消</MudButton>
+                    <MudButton Color = ""Color.Primary"" ButtonType=""ButtonType.Submit"">确定</MudButton>
+                </div>
+            </EditForm>
+        </div>
+    </DialogContent>
+</MudDialog>
+
 @code {{
 
     private MudDataGrid<TableModel> dataGrid = null!;
     private List<TableModel> TableData = new();
     private SearchObject searchObject = new();
+
+    private bool _dialogVisible = false;
+    private EditViewModel editModel {{ get; set; }} = new();
 
     protected override async Task OnInitializedAsync()
     {{
@@ -237,31 +280,18 @@
 
     private async Task AddClick()
     {{
-        var parameters = new DialogParameters<Edit{entityName}Dialog> {{ }};
-        var options = new DialogOptions() {{CloseButton = true,MaxWidth = MaxWidth.ExtraLarge}};
-        var dialog = await _dialogService.ShowAsync<Edit{entityName}Dialog>(""创建"", parameters, options);
-        var result = await dialog.Result;
-        if (!result.Canceled)
-        {{
-            _snackbarService.Add(""创建成功"", Severity.Success);
-            await dataGrid.ReloadServerData();
-        }}
+        _dialogVisible = true;
     }}
 
     private async Task EditClick(int id)
     {{
-        var parameters = new DialogParameters<Edit{entityName}Dialog>
+        using var context = await _dbFactory.CreateDbContextAsync();
+        var entity = await context.Set<{entityName}>().FindAsync(id);
+        editModel = new EditViewModel
         {{
-            {{ x=> x.Id, id}}
+{setEditModelProperties}
         }};
-        var options = new DialogOptions() {{CloseButton = true,MaxWidth = MaxWidth.ExtraLarge}};
-        var dialog = await _dialogService.ShowAsync<Edit{entityName}Dialog>(""编辑"", parameters, options);
-        var result = await dialog.Result;
-        if (!result.Canceled)
-        {{
-            _snackbarService.Add(""修改成功"", Severity.Success);
-            await dataGrid.ReloadServerData();
-        }}
+        _dialogVisible = true;
     }}
 
     private async Task DeleteClick(int id)
@@ -286,75 +316,9 @@
             }});
     }}
 
-    private record SearchObject : PaginationModel
-    {{
-{searchProperties}
-    }}
-
-    private class TableModel
-    {{
-{modelProperties}
-    }}
-}}";
-
-        _pageSrc = code;
-
-
-
-        var formFields = string.Join("\n", properties.Select(p =>
-            $"                <MudTextField T=\"{GetCSharpTypeName(p.PropertyType)}\" @bind-Value=\"EditModel.{p.Name}\"\n " +
-            $"                      Label=\"{p.Name}\" Variant=\"Variant.Outlined\" For=\"()=>EditModel.{p.Name}\"/>"));
-
-        var setEditModelProperties = string.Join(",\n", properties
-            .Select(p =>
-                 $"                {p.Name} = entity.{p.Name}"));
-        var setEntityProperties = string.Join(",\n", properties
-            .Select(p =>
-                 $"                {p.Name} = EditModel.{p.Name}"));
-
-        var createDialogCode = $@"
-@using {selectedEntity.Namespace}
-
-<MudDialog>
-    <DialogContent>
-        <div style=""width:400px;"" >
-            <EditForm Model=""EditModel"" OnValidSubmit =""Submit"" >
-                <DataAnnotationsValidator />
-{formFields}
-                <div class=""mt-4 d-flex align-center"" >
-                    <MudSpacer />
-                    <MudButton OnClick=""Cancel"">取消</MudButton>
-                    <MudButton Color = ""Color.Primary"" ButtonType=""ButtonType.Submit"">确定</MudButton>
-                </div>
-            </EditForm>
-        </div>
-    </DialogContent>
-</MudDialog>
-
-@code {{
-    [CascadingParameter] IMudDialogInstance MudDialog {{ get; set; }} = null!;
-
-    [Parameter]public int? Id {{ get; set; }}
-
-    private EditViewModel EditModel {{ get; set; }} = new();
-
-    protected override async Task OnInitializedAsync()
-    {{
-        await base.OnInitializedAsync();
-        if (Id.HasValue)
-        {{
-            using var context = await _dbFactory.CreateDbContextAsync();
-            var entity = await context.Set<{entityName}>().FindAsync(Id.Value);
-            EditModel = new EditViewModel
-            {{
-{setEditModelProperties}
-            }};
-        }}
-    }}
-
     private void Cancel()
     {{
-        MudDialog.Cancel();
+        _dialogVisible = false;
     }}
 
     private async Task Submit()
@@ -364,7 +328,7 @@
             {{
 {setEntityProperties}
             }};
-        if (Id.HasValue)
+        if (dataModel.Id != 0)
         {{
             context.Update(dataModel);
         }}
@@ -373,7 +337,19 @@
             context.Add(dataModel);
         }}
         await context.SaveChangesAsync();
-        MudDialog.Close(DialogResult.Ok(true));
+        _dialogVisible = false;
+        _snackbarService.Add(""保存成功！"", Severity.Success);
+        await dataGrid.ReloadServerData();
+    }}
+
+    private record SearchObject : PaginationModel
+    {{
+{searchProperties}
+    }}
+
+    private class TableModel
+    {{
+{modelProperties}
     }}
 
     private class EditViewModel
@@ -382,13 +358,13 @@
     }}
 }}";
 
-        _editDialogSrc = createDialogCode;
+        _pageSrc = code;
 
     }
 
     private async Task DownloadZip()
     {
-        if (selectedEntity == null || string.IsNullOrEmpty(_pageSrc) || string.IsNullOrEmpty(_editDialogSrc)) return;
+        if (selectedEntity == null || string.IsNullOrEmpty(_pageSrc)) return;
 
         var entityName = selectedEntity.Name;
         var tempPath = Path.Combine(Path.GetTempPath(), $"CodeGenerator_{DateTime.Now:yyyyMMddHHmmss}");
@@ -400,31 +376,33 @@
             var pageFilePath = Path.Combine(tempPath, $"{entityName}Page.razor");
             await File.WriteAllTextAsync(pageFilePath, _pageSrc);
 
-            // 保存对话框文件
-            var dialogFilePath = Path.Combine(tempPath, $"Edit{entityName}Dialog.razor");
-            await File.WriteAllTextAsync(dialogFilePath, _editDialogSrc);
-
-            // 创建zip文件
-            var zipPath = Path.Combine(Path.GetTempPath(), $"{entityName}_{DateTime.Now:yyyyMMddHHmmss}.zip");
-            ZipFile.CreateFromDirectory(tempPath, zipPath);
-
-            // 读取zip文件并转换为base64字符串
-            var zipBytes = await File.ReadAllBytesAsync(zipPath);
-            var base64String = Convert.ToBase64String(zipBytes);
+            var bytes = File.ReadAllBytes(pageFilePath);
+            var base64String = Convert.ToBase64String(bytes);
 
             // 通过JavaScript触发下载
             var commonModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/common.js");
-            await commonModule.InvokeVoidAsync("downloadFileFromBase64", base64String, $"{entityName}_Code.zip");
+            await commonModule.InvokeVoidAsync("downloadFileFromBase64", base64String, $"{entityName}Page.razor");
 
             // 清理临时文件
             Directory.Delete(tempPath, true);
-            File.Delete(zipPath);
+            //File.Delete(pageFilePath);
         }
         catch (Exception ex)
         {
             _snackbarService.Add($"下载失败：{ex.Message}", Severity.Error);
         }
     }
+
+    private async Task CopyCode()
+    {
+        if (selectedEntity == null || string.IsNullOrEmpty(_pageSrc)) return;
+
+        var entityName = selectedEntity.Name;
+        var code = _pageSrc;
+        await _jsRuntime.InvokeVoidAsync("copyTextToClipboard", code);
+        _snackbarService.Add($"已复制{entityName}管理页面代码到剪贴板", Severity.Success);
+    }
+
     private class EntityInfo
     {
         public string EntityName { get; set; } = string.Empty;
