@@ -231,4 +231,7 @@
   <data name="NotFound_Text" xml:space="preserve">
     <value>Sorry, there's nothing at this address.</value>
   </data>
+  <data name="Search_Text" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>

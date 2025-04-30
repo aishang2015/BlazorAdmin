@@ -5,47 +5,24 @@
 @attribute [StreamRendering]
 
 <PageHeader Title="@Loc["AuditLogPage_Title"]">
-    <div style="width:140px" class="mr-2">
-        <MudTextField Label="@Loc["AuditLogPage_TableH2"]" Clearable Margin="Margin.Dense"
-                      @bind-Value="searchObject.InputTransaction" Variant="Variant.Outlined" Class="search-com"></MudTextField>
-    </div>
-    <div style="width:140px" class="mr-2">
-        <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH3"]" Margin="Margin.Dense"
-                   AnchorOrigin="Origin.BottomCenter" @bind-Value="searchObject.SelectedUser" Clearable Variant="Variant.Outlined"
-                   Class="search-com">
-            @foreach (var o in Operators)
-            {
-                <MudSelectItem Value="@o.Id.ToString()">@o.UserName</MudSelectItem>
-            }
-        </MudSelect>
-    </div>
-    <div style="width:140px" class="mr-2">
-        <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH4"]" Margin="Margin.Dense"
-                   AnchorOrigin="Origin.BottomCenter" @bind-Value="searchObject.SelectedOperateTarget" Clearable Variant="Variant.Outlined"
-                   Class="search-com">
-            @foreach (var o in OperateTargets)
-            {
-                <MudSelectItem Value="@o.EntityName">@o.DisplayName</MudSelectItem>
-            }
-        </MudSelect>
-    </div>
-    <div style="width:140px" class="mr-2">
-        <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH5"]" Margin="Margin.Dense"
-                   AnchorOrigin="Origin.BottomCenter" @bind-Value="searchObject.SelectedOperation" Clearable Variant="Variant.Outlined"
-                   Class="search-com">
-            <MudSelectItem Value="@("2")">
-                @Loc["AuditLogPage_OperationDelete"]
-            </MudSelectItem>
-            <MudSelectItem Value="@("3")">
-                @Loc["AuditLogPage_OperationModify"]
-            </MudSelectItem>
-            <MudSelectItem Value="@("4")">
-                @Loc["AuditLogPage_OperationCreate"]
-            </MudSelectItem>
-        </MudSelect>
-    </div>
-    <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="@(()=>dataGrid.ReloadServerData())"
-                   Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2"></MudIconButton>
+    @if (_notEmptyCount > 0)
+    {
+        <MudBadge Content="@_notEmptyCount" Overlap="true" Color="Color.Primary" Bordered="true" Class="mr-3">
+            <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search"
+                           OnClick="ShowSearchDialog"
+                           Variant="Variant.Outlined" Color="Color.Primary" Class=""></MudIconButton>
+        </MudBadge>
+    }
+    else
+    {
+        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search"
+                       OnClick="ShowSearchDialog"
+                       Variant="Variant.Outlined" Color="Color.Primary" Class="mr-3"></MudIconButton>
+    }
+    <MudTooltip Text="刷新" Color="Color.Primary">
+        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Refresh" OnClick="Refresh"
+                       Variant="Variant.Outlined" Color="Color.Primary" Class="mr-3"></MudIconButton>
+    </MudTooltip>
     <MudTooltip Text="重置搜索" Color="Color.Primary">
         <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.SearchOff" OnClick="SearchReset"
                        Variant="Variant.Outlined" Color="Color.Primary"></MudIconButton>
@@ -91,3 +68,48 @@
 </MudDataGrid>
 
 <PagePagination PageInfo="searchObject" PageChangedClick="PageChangedClick"></PagePagination>
+
+
+<MudDialog @bind-Visible="_searchDialogVisible" Options="_dialogOptions">
+
+    <DialogContent>
+        <div style="width:400px;overflow:hidden;">
+            <MudText Typo="Typo.h6" Class="my-4">@Loc["Search_Text"]</MudText>
+            <MudTextField Label="@Loc["AuditLogPage_TableH2"]" Clearable Margin="Margin.Dense"
+                          @bind-Value="searchObject.InputTransaction" Variant="Variant.Outlined"
+                          Class="mt-2"></MudTextField>
+            <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH3"]" Margin="Margin.Dense"
+                       @bind-Value="searchObject.SelectedUser" Clearable Variant="Variant.Outlined"
+                       Class="mt-2">
+                @foreach (var o in Operators)
+                {
+                    <MudSelectItem Value="@o.Id.ToString()">@o.UserName</MudSelectItem>
+                }
+            </MudSelect>
+            <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH4"]" Margin="Margin.Dense"
+                       @bind-Value="searchObject.SelectedOperateTarget" Clearable Variant="Variant.Outlined"
+                       Class="mt-2">
+                @foreach (var o in OperateTargets)
+                {
+                    <MudSelectItem Value="@o.EntityName">@o.DisplayName</MudSelectItem>
+                }
+            </MudSelect>
+            <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH5"]" Margin="Margin.Dense"
+                       @bind-Value="searchObject.SelectedOperation" Clearable Variant="Variant.Outlined"
+                       Class="mt-2">
+                <MudSelectItem Value="@("2")">
+                    @Loc["AuditLogPage_OperationDelete"]
+                </MudSelectItem>
+                <MudSelectItem Value="@("3")">
+                    @Loc["AuditLogPage_OperationModify"]
+                </MudSelectItem>
+                <MudSelectItem Value="@("4")">
+                    @Loc["AuditLogPage_OperationCreate"]
+                </MudSelectItem>
+            </MudSelect>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Search">@Loc["Search_Text"]</MudButton>
+    </DialogActions>
+</MudDialog>
