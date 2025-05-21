@@ -1,5 +1,5 @@
-﻿using BlazorAdmin.Core.Modules;
-using BlazorAdmin.Metric.Core;
+﻿using BlazorAdmin.Metric.Core;
+using BlazorAdmin.Servers.Core.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BlazorAdmin.Metric

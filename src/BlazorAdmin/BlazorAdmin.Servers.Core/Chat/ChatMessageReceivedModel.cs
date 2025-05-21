@@ -1,4 +1,4 @@
-﻿namespace BlazorAdmin.Core.Chat
+﻿namespace BlazorAdmin.Servers.Core.Chat
 {
     public class ChatMessageReceivedModel
     {

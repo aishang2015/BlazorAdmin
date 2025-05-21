@@ -1,7 +1,7 @@
-﻿using BlazorAdmin.Core.Extension;
+﻿using BlazorAdmin.Servers.Core.Extension;
 using System.Linq.Expressions;
 
-namespace BlazorAdmin.Core.Extension
+namespace BlazorAdmin.Servers.Core.Extension
 {
     public static class QueryableExtension
     {

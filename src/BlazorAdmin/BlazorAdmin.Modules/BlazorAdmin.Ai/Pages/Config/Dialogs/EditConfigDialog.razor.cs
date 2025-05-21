@@ -1,4 +1,4 @@
-using BlazorAdmin.Data.Entities.Ai;
+using BlazorAdmin.Servers.Core.Data.Entities.Ai;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;

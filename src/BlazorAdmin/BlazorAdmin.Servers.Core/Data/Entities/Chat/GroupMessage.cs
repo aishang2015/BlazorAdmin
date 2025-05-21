@@ -1,8 +1,8 @@
-﻿using BlazorAdmin.Data.Attributes;
+﻿using BlazorAdmin.Servers.Core.Data.Attributes;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BlazorAdmin.Data.Entities.Chat
+namespace BlazorAdmin.Servers.Core.Data.Entities.Chat
 {
     [Comment("群聊消息")]
     [Table("CHAT_GROUP_MESSAGE")]

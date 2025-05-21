@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BlazorAdmin.Data.Entities.Rbac
+namespace BlazorAdmin.Servers.Core.Data.Entities.Rbac
 {
     [Table("RBAC_USER_ROLE")]
     [Comment("用户角色")]

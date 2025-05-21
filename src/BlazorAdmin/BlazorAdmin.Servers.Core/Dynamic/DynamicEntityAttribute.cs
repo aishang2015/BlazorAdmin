@@ -1,4 +1,4 @@
-﻿namespace BlazorAdmin.Core.Dynamic
+﻿namespace BlazorAdmin.Servers.Core.Dynamic
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class DynamicEntityAttribute : Attribute

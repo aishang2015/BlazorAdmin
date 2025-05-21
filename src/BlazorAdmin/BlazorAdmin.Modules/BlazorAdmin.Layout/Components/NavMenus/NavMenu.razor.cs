@@ -1,4 +1,4 @@
-﻿using BlazorAdmin.Data.Entities.Rbac;
+﻿using BlazorAdmin.Servers.Core.Data.Entities.Rbac;
 using static BlazorAdmin.Layout.Components.NavMenus.NavItemMenu;
 
 namespace BlazorAdmin.Layout.Components.NavMenus

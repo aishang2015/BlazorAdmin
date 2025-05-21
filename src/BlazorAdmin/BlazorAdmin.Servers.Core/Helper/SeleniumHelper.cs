@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Edge;
 
-namespace BlazorAdmin.Core.Helper
+namespace BlazorAdmin.Servers.Core.Helper
 {
     public static class SeleniumHelper
     {

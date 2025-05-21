@@ -1,4 +1,4 @@
-﻿using BlazorAdmin.Core.Helper;
+﻿using BlazorAdmin.Servers.Core.Helper;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
@@ -26,7 +26,7 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
                 return;
             }
 
-            context.Users.Add(new Data.Entities.Rbac.User
+            context.Users.Add(new Servers.Core.Data.Entities.Rbac.User
             {
                 IsEnabled = true,
                 Name = UserModel.UserName!,

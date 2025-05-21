@@ -1,5 +1,5 @@
-﻿using BlazorAdmin.Core.Auth;
-using BlazorAdmin.Data;
+﻿using BlazorAdmin.Servers.Core.Auth;
+using BlazorAdmin.Servers.Core.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

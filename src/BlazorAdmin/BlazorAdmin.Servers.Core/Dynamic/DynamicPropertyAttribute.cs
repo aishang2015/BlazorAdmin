@@ -1,4 +1,4 @@
-﻿namespace BlazorAdmin.Core.Dynamic
+﻿namespace BlazorAdmin.Servers.Core.Dynamic
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class DynamicPropertyAttribute : Attribute

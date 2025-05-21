@@ -1,8 +1,7 @@
-﻿using BlazorAdmin.Servers.Core.Components.Dialogs;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace BlazorAdmin.Component.Dialogs
+namespace BlazorAdmin.Servers.Core.Components.Dialogs
 {
     public static class CommonDialog
     {

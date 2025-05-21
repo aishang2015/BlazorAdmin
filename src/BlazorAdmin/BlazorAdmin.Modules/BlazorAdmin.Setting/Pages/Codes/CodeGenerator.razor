@@ -1,11 +1,12 @@
 @page "/setting/code-generator"
 
-@using System.Reflection
-@using BlazorAdmin.Data
-@using BlazorAdmin.Core.Dynamic
-@using BlazorAdmin.Data.Entities
 @using System.ComponentModel.DataAnnotations.Schema
 @using System.IO.Compression
+@using System.Reflection
+@using BlazorAdmin.Servers.Core.Data
+@using BlazorAdmin.Servers.Core.Data.Entities
+@using BlazorAdmin.Servers.Core.Dynamic
+@using BlazorAdmin.Servers.Core.Helper
 @using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination
 @rendermode RenderMode.InteractiveServer
 @inject IDbContextFactory<BlazorAdminDbContext> _dbFactory
@@ -143,9 +144,9 @@
 
 @rendermode RenderMode.InteractiveServer
 
-@using BlazorAdmin.Data
-@using BlazorAdmin.Core.Dynamic
-@using BlazorAdmin.Data.Entities
+@using BlazorAdmin.Servers.Core.Data
+@using BlazorAdmin.Servers.Core.Dynamic
+@using BlazorAdmin.Servers.Core.Data.Entities
 @using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination
 @using BlazorAdmin.Component.Dialogs
 

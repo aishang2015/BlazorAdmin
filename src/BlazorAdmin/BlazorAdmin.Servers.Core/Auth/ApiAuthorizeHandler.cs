@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace BlazorAdmin.Core.Auth
+namespace BlazorAdmin.Servers.Core.Auth
 {
     public class ApiAuthorizeHandler : AuthorizationHandler<ApiAuthorizeRequirement>
     {

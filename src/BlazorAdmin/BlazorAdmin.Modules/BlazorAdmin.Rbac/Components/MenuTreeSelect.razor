@@ -1,4 +1,5 @@
-﻿<div class="d-flex flex-column">
+﻿@using BlazorAdmin.Servers.Core.Helper
+<div class="d-flex flex-column">
     <MudTextField Value="SelectedMenuName" Placeholder="@Loc["MenuPage_UpMenuSelectTitle"]" Variant="Variant.Outlined"
                   Margin="Margin.Dense" @onfocus="ElementFocused" @onblur="MouseBlur" Label="@Loc["MenuPage_UpMenuSelectTitle"]"
                   Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Clear"

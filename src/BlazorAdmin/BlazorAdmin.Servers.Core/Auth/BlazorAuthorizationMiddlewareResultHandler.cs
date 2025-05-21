@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.AspNetCore.Http;
 
-namespace BlazorAdmin.Core.Auth
+namespace BlazorAdmin.Servers.Core.Auth
 {
 
     // https://github.com/dotnet/aspnetcore/issues/52063

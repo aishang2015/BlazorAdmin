@@ -1,10 +1,10 @@
-using BlazorAdmin.Core;
-using BlazorAdmin.Core.Auth;
-using BlazorAdmin.Core.Chat;
-using BlazorAdmin.Core.Data;
-using BlazorAdmin.Core.Helper;
-using BlazorAdmin.Core.Modules;
-using BlazorAdmin.Core.Services;
+using BlazorAdmin.Servers.Core;
+using BlazorAdmin.Servers.Core.Auth;
+using BlazorAdmin.Servers.Core.Chat;
+using BlazorAdmin.Servers.Core.Data;
+using BlazorAdmin.Servers.Core.Helper;
+using BlazorAdmin.Servers.Core.Modules;
+using BlazorAdmin.Servers.Core.Services;
 using BlazorAdmin.Web.Components;
 using Cropper.Blazor.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

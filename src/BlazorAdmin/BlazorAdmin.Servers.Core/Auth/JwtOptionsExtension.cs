@@ -1,12 +1,12 @@
-﻿using BlazorAdmin.Data;
-using BlazorAdmin.Data.Constants;
+﻿using BlazorAdmin.Servers.Core.Data;
+using BlazorAdmin.Servers.Core.Data.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
 
-namespace BlazorAdmin.Core.Auth
+namespace BlazorAdmin.Servers.Core.Auth
 {
     public static class JwtOptionsExtension
     {

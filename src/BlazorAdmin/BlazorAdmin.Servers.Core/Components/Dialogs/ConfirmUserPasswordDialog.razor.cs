@@ -1,6 +1,5 @@
-﻿using BlazorAdmin.Component.Dialogs;
-using BlazorAdmin.Core.Auth;
-using BlazorAdmin.Core.Helper;
+﻿using BlazorAdmin.Servers.Core.Auth;
+using BlazorAdmin.Servers.Core.Helper;
 using BlazorAdmin.Servers.Core.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;

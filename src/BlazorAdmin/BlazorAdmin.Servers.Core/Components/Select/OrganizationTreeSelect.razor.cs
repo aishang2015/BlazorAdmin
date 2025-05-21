@@ -1,4 +1,4 @@
-﻿using BlazorAdmin.Data.Entities.Rbac;
+﻿using BlazorAdmin.Servers.Core.Data.Entities.Rbac;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 

@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.DependencyModel;
 using System.Reflection;
 
-namespace BlazorAdmin.Core.Dynamic
+namespace BlazorAdmin.Servers.Core.Dynamic
 {
     public static class DynamicLoader
     {
@@ -23,8 +23,8 @@ namespace BlazorAdmin.Core.Dynamic
             if (classes.Any())
             {
                 var template = """
-					using BlazorAdmin.Data;
-					using BlazorAdmin.Data.Entities;
+					using BlazorAdmin.Servers.Core.Data;
+					using BlazorAdmin.Servers.Core.Data.Entities;
 					using System.Collections.Generic;
 					using System.Linq;
 					using System.Threading.Tasks;

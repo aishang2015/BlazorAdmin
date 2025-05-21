@@ -1,6 +1,6 @@
 using BlazorAdmin.Ai.Pages.Config.Dialogs;
-using BlazorAdmin.Component.Dialogs;
-using BlazorAdmin.Core.Extension;
+using BlazorAdmin.Servers.Core.Components.Dialogs;
+using BlazorAdmin.Servers.Core.Extension;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination;

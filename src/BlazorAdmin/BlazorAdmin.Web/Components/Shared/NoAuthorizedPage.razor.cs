@@ -1,4 +1,4 @@
-﻿using BlazorAdmin.Data.Constants;
+﻿using BlazorAdmin.Servers.Core.Data.Constants;
 using Microsoft.JSInterop;
 
 namespace BlazorAdmin.Web.Components.Shared

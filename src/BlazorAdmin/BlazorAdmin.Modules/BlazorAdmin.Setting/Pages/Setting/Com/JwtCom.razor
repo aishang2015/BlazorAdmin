@@ -1,4 +1,5 @@
-﻿<EditForm Model="JwtConfigModel" OnValidSubmit="JwtConfigSubmit" style="width:100%;">
+﻿@using BlazorAdmin.Servers.Core.Helper
+<EditForm Model="JwtConfigModel" OnValidSubmit="JwtConfigSubmit" style="width:100%;">
 
 	<DataAnnotationsValidator />
 	<MudTextField Class="mt-4" @bind-Value="JwtConfigModel.Issuer" Variant="Variant.Outlined" Margin="Margin.Dense"

@@ -1,7 +1,7 @@
-﻿using BlazorAdmin.Data.Entities.Rbac;
+﻿using BlazorAdmin.Servers.Core.Data.Entities.Rbac;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlazorAdmin.Data.Extensions
+namespace BlazorAdmin.Servers.Core.Data.Extensions
 {
     public static class OrganizationSetExtensions
     {

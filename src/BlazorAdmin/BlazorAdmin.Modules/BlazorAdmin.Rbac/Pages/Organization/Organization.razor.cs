@@ -1,7 +1,7 @@
-﻿using BlazorAdmin.Component.Dialogs;
-using BlazorAdmin.Data;
-using BlazorAdmin.Data.Extensions;
-using BlazorAdmin.Rbac.Pages.Organization.Dialogs;
+﻿using BlazorAdmin.Rbac.Pages.Organization.Dialogs;
+using BlazorAdmin.Servers.Core.Components.Dialogs;
+using BlazorAdmin.Servers.Core.Data;
+using BlazorAdmin.Servers.Core.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
 using MudBlazor;
@@ -80,7 +80,7 @@ namespace BlazorAdmin.Rbac.Pages.Organization
         }
 
         private List<TreeItemData<OrganizationItem>> AppendOrganizationItems(int? parentId,
-                List<Data.Entities.Rbac.Organization> organizations)
+                List<Servers.Core.Data.Entities.Rbac.Organization> organizations)
         {
             return organizations.Where(m => m.ParentId == parentId).OrderBy(m => m.Order)
                 .Select(m => new TreeItemData<OrganizationItem>
@@ -113,7 +113,7 @@ namespace BlazorAdmin.Rbac.Pages.Organization
             {
                 var organizationCount = context.Organizations.Count(m => m.ParentId == EditModel.ParentId);
 
-                context.Organizations.Add(new Data.Entities.Rbac.Organization
+                context.Organizations.Add(new Servers.Core.Data.Entities.Rbac.Organization
                 {
                     Name = EditModel.Name!,
                     ParentId = EditModel.ParentId,

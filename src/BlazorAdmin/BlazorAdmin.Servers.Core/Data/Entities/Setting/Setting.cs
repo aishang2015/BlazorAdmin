@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BlazorAdmin.Data.Entities.Setting
+namespace BlazorAdmin.Servers.Core.Data.Entities.Setting
 {
     [Table("SYSTEM_SETTING")]
     [Comment("系统设置")]

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Quartz;
 
-namespace BlazorAdmin.Core.Services
+namespace BlazorAdmin.Servers.Core.Services
 {
     public class TestJob : IJob
     {

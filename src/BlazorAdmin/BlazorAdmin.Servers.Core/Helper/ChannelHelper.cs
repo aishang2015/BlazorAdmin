@@ -1,6 +1,6 @@
 ﻿using System.Threading.Channels;
 
-namespace BlazorAdmin.Core.Helper
+namespace BlazorAdmin.Servers.Core.Helper
 {
     public class ChannelHelper<TModel>
     {

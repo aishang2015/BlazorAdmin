@@ -1,7 +1,7 @@
-﻿using BlazorAdmin.Core.Helper;
-using BlazorAdmin.Data;
-using BlazorAdmin.Data.Constants;
-using BlazorAdmin.Data.Entities.Log;
+﻿using BlazorAdmin.Servers.Core.Data;
+using BlazorAdmin.Servers.Core.Data.Constants;
+using BlazorAdmin.Servers.Core.Data.Entities.Log;
+using BlazorAdmin.Servers.Core.Helper;
 using BlazorAdmin.Servers.Core.Resources;
 using Microsoft.JSInterop;
 using MudBlazor;

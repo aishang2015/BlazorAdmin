@@ -1,8 +1,8 @@
-﻿using BlazorAdmin.Data.Attributes;
+﻿using BlazorAdmin.Servers.Core.Data.Attributes;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BlazorAdmin.Data.Entities.Log
+namespace BlazorAdmin.Servers.Core.Data.Entities.Log
 {
     [Table("LOG_AUDIT_DETAIL")]
     [Comment("审计日志详情")]

@@ -1,7 +1,7 @@
-﻿using BlazorAdmin.Data.Constants;
+﻿using BlazorAdmin.Servers.Core.Data.Constants;
 using System.Security.Claims;
 
-namespace BlazorAdmin.Core.Extension
+namespace BlazorAdmin.Servers.Core.Extension
 {
     public static class ClaimsPrincipalExtensions
     {

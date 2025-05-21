@@ -1,12 +1,12 @@
-﻿using BlazorAdmin.Data;
-using BlazorAdmin.Data.Entities.Ai;
+﻿using BlazorAdmin.Servers.Core.Data;
+using BlazorAdmin.Servers.Core.Data.Entities.Ai;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using OpenAI.Chat;
 using System.Diagnostics;
 
-namespace BlazorAdmin.Core.Helper
+namespace BlazorAdmin.Servers.Core.Helper
 {
     public class AiHelper
     {

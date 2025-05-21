@@ -1,10 +1,10 @@
-﻿using BlazorAdmin.Core.Services;
+﻿using BlazorAdmin.Servers.Core.Services;
 using Microsoft.Data.SqlClient;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
-namespace BlazorAdmin.Core.Data
+namespace BlazorAdmin.Servers.Core.Data
 {
     public static class QuartzExtension
     {

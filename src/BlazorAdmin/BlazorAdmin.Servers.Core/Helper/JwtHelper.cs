@@ -1,12 +1,12 @@
-﻿using BlazorAdmin.Data;
-using BlazorAdmin.Data.Constants;
+﻿using BlazorAdmin.Servers.Core.Data;
+using BlazorAdmin.Servers.Core.Data.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 
-namespace BlazorAdmin.Core.Helper
+namespace BlazorAdmin.Servers.Core.Helper
 {
     public class JwtHelper
     {

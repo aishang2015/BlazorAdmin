@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
-namespace BlazorAdmin.Core
+namespace BlazorAdmin.Servers.Core
 {
     public static class CurrentApplication
     {

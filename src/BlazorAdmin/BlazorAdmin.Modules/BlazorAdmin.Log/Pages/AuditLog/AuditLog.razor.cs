@@ -1,6 +1,6 @@
-﻿using BlazorAdmin.Core.Extension;
-using BlazorAdmin.Data.Attributes;
-using BlazorAdmin.Log.Pages.AuditLog.Dialogs;
+﻿using BlazorAdmin.Log.Pages.AuditLog.Dialogs;
+using BlazorAdmin.Servers.Core.Data.Attributes;
+using BlazorAdmin.Servers.Core.Extension;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;

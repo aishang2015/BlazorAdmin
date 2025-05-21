@@ -10,7 +10,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["BlazorAdmin.Web/BlazorAdmin.Web.csproj", "BlazorAdmin.Web/"]
 COPY ["BlazorAdmin.Core/BlazorAdmin.Core.csproj", "BlazorAdmin.Core/"]
-COPY ["BlazorAdmin.Data/BlazorAdmin.Data.csproj", "BlazorAdmin.Data/"]
+COPY ["BlazorAdmin.Servers.Core.Data/BlazorAdmin.Servers.Core.Data.csproj", "BlazorAdmin.Servers.Core.Data/"]
 COPY ["BlazorAdmin.Modules/BlazorAdmin.Log/BlazorAdmin.Log.csproj", "BlazorAdmin.Modules/BlazorAdmin.Log/"]
 COPY ["BlazorAdmin.Modules/BlazorAdmin.Rbac/BlazorAdmin.Rbac.csproj", "BlazorAdmin.Modules/BlazorAdmin.Rbac/"]
 COPY ["BlazorAdmin.Modules/BlazorAdmin.Setting/BlazorAdmin.Setting.csproj", "BlazorAdmin.Modules/BlazorAdmin.Setting/"]

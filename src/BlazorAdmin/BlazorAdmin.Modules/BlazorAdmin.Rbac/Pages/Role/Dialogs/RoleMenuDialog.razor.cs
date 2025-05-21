@@ -1,4 +1,4 @@
-﻿using BlazorAdmin.Data.Entities.Rbac;
+﻿using BlazorAdmin.Servers.Core.Data.Entities.Rbac;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
@@ -11,7 +11,7 @@ namespace BlazorAdmin.Rbac.Pages.Role.Dialogs
         [Parameter] public int RoleId { get; set; }
 
 
-        private List<Data.Entities.Rbac.Menu> MenuList = new();
+        private List<Servers.Core.Data.Entities.Rbac.Menu> MenuList = new();
 
         private List<TreeItemData<MenuTreeItem>> MenuTreeItemSet = new();
 
@@ -27,7 +27,7 @@ namespace BlazorAdmin.Rbac.Pages.Role.Dialogs
             MenuTreeItemSet = AppendMenuItems(null, MenuList);
         }
 
-        private List<TreeItemData<MenuTreeItem>> AppendMenuItems(int? parentId, List<Data.Entities.Rbac.Menu> menus)
+        private List<TreeItemData<MenuTreeItem>> AppendMenuItems(int? parentId, List<Servers.Core.Data.Entities.Rbac.Menu> menus)
         {
             return menus.Where(m => m.ParentId == parentId).OrderBy(m => m.Order)
                 .Select(m => new TreeItemData<MenuTreeItem>

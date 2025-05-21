@@ -1,11 +1,11 @@
-﻿using BlazorAdmin.Core.Extension;
-using BlazorAdmin.Data;
-using BlazorAdmin.Data.Entities.Rbac;
+﻿using BlazorAdmin.Servers.Core.Data;
+using BlazorAdmin.Servers.Core.Data.Entities.Rbac;
+using BlazorAdmin.Servers.Core.Extension;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace BlazorAdmin.Core.Services
+namespace BlazorAdmin.Servers.Core.Services
 {
 
     public interface IAccessService

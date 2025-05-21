@@ -1,5 +1,4 @@
-﻿using BlazorAdmin.Component.Dialogs;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace BlazorAdmin.Servers.Core.Components.Dialogs

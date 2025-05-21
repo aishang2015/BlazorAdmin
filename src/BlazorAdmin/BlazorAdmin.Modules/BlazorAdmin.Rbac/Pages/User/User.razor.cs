@@ -1,8 +1,8 @@
-﻿using BlazorAdmin.Component.Dialogs;
-using BlazorAdmin.Core.Extension;
-using BlazorAdmin.Data.Extensions;
-using BlazorAdmin.Rbac.Pages.User.Dialogs;
+﻿using BlazorAdmin.Rbac.Pages.User.Dialogs;
+using BlazorAdmin.Servers.Core.Components.Dialogs;
 using BlazorAdmin.Servers.Core.Components.Pages;
+using BlazorAdmin.Servers.Core.Data.Extensions;
+using BlazorAdmin.Servers.Core.Extension;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination;
@@ -19,7 +19,7 @@ namespace BlazorAdmin.Rbac.Pages.User
 
         private PageDataGridConfig PageDataGridOne = new();
 
-        private List<Data.Entities.Rbac.Role> RoleList = new();
+        private List<Servers.Core.Data.Entities.Rbac.Role> RoleList = new();
 
         protected override async Task OnInitializedAsync()
         {

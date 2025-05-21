@@ -1,4 +1,4 @@
-﻿namespace BlazorAdmin.Data.Constants
+﻿namespace BlazorAdmin.Servers.Core.Data.Constants
 {
     public class IconsConstant
     {

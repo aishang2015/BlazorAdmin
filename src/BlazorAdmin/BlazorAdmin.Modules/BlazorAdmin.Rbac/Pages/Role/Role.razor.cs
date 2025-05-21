@@ -1,5 +1,5 @@
-﻿using BlazorAdmin.Component.Dialogs;
-using BlazorAdmin.Rbac.Pages.Role.Dialogs;
+﻿using BlazorAdmin.Rbac.Pages.Role.Dialogs;
+using BlazorAdmin.Servers.Core.Components.Dialogs;
 using BlazorAdmin.Servers.Core.Components.Pages;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
@@ -23,7 +23,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
         private async Task InitialData()
         {
             using var context = await _dbFactory.CreateDbContextAsync();
-            IQueryable<Data.Entities.Rbac.Role> query = context.Roles.Where(r => !r.IsDeleted);
+            IQueryable<Servers.Core.Data.Entities.Rbac.Role> query = context.Roles.Where(r => !r.IsDeleted);
             if (!string.IsNullOrEmpty(searchObject.SearchText))
             {
                 query = query.Where(u => u.Name!.Contains(searchObject.SearchText));

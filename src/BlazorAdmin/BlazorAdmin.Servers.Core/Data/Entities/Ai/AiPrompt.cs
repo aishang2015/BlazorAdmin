@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BlazorAdmin.Data.Entities.Ai
+namespace BlazorAdmin.Servers.Core.Data.Entities.Ai
 {
     [Table("AI_PROMPT")]
     [Comment("AI提示词配置")]

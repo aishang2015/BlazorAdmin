@@ -1,10 +1,10 @@
-﻿using BlazorAdmin.Core.Helper;
-using BlazorAdmin.Data.Constants;
+﻿using BlazorAdmin.Servers.Core.Data.Constants;
+using BlazorAdmin.Servers.Core.Helper;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
-namespace BlazorAdmin.Core.Auth
+namespace BlazorAdmin.Servers.Core.Auth
 {
     public class JwtAuthStateProvider : AuthenticationStateProvider
     {

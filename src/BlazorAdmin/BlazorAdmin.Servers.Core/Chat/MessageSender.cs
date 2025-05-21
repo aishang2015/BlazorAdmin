@@ -1,10 +1,10 @@
-﻿using BlazorAdmin.Core.Helper;
-using BlazorAdmin.Data;
+﻿using BlazorAdmin.Servers.Core.Data;
+using BlazorAdmin.Servers.Core.Helper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Concurrent;
 
-namespace BlazorAdmin.Core.Chat
+namespace BlazorAdmin.Servers.Core.Chat
 {
     public class MessageSender
     {

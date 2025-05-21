@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace BlazorAdmin.Core.Helper
+namespace BlazorAdmin.Servers.Core.Helper
 {
     public static class HashHelper
     {

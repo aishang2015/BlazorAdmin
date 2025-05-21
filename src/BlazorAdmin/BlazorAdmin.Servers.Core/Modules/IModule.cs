@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BlazorAdmin.Core.Modules
+namespace BlazorAdmin.Servers.Core.Modules
 {
     public interface IModule
     {

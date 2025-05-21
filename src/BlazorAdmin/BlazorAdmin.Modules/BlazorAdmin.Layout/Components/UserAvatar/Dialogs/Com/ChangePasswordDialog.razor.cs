@@ -1,5 +1,5 @@
-﻿using BlazorAdmin.Core.Auth;
-using BlazorAdmin.Core.Helper;
+﻿using BlazorAdmin.Servers.Core.Auth;
+using BlazorAdmin.Servers.Core.Helper;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;

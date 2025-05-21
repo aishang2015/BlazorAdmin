@@ -1,7 +1,7 @@
-﻿using BlazorAdmin.Core.Auth;
+﻿using BlazorAdmin.Servers.Core.Auth;
 using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
-using User = BlazorAdmin.Data.Entities.Rbac.User;
+using User = BlazorAdmin.Servers.Core.Data.Entities.Rbac.User;
 
 namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
 {

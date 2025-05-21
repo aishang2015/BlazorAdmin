@@ -1,7 +1,7 @@
-﻿using BlazorAdmin.Core.Auth;
-using BlazorAdmin.Core.Chat;
-using BlazorAdmin.Data.Constants;
-using BlazorAdmin.Im.Core;
+﻿using BlazorAdmin.Im.Core;
+using BlazorAdmin.Servers.Core.Auth;
+using BlazorAdmin.Servers.Core.Chat;
+using BlazorAdmin.Servers.Core.Data.Constants;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;

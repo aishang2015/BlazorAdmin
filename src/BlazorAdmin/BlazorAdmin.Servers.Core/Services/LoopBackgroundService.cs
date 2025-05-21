@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
 
-namespace BlazorAdmin.Core.Services
+namespace BlazorAdmin.Servers.Core.Services
 {
     public abstract class LoopBackgroundService : BackgroundService
     {

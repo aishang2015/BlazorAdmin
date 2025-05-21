@@ -1,5 +1,5 @@
 using BlazorAdmin.Ai.Pages.RequestRecord.Dialogs;
-using BlazorAdmin.Core.Extension;
+using BlazorAdmin.Servers.Core.Extension;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination;

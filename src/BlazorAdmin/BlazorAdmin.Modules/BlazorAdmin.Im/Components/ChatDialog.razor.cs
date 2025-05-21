@@ -1,6 +1,6 @@
-﻿using BlazorAdmin.Core.Auth;
-using BlazorAdmin.Core.Chat;
-using BlazorAdmin.Core.Extension;
+﻿using BlazorAdmin.Servers.Core.Auth;
+using BlazorAdmin.Servers.Core.Chat;
+using BlazorAdmin.Servers.Core.Extension;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.EntityFrameworkCore;

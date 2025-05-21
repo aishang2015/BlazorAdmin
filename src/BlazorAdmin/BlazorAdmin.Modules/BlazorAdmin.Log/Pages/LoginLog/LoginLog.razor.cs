@@ -1,4 +1,4 @@
-﻿using BlazorAdmin.Core.Extension;
+﻿using BlazorAdmin.Servers.Core.Extension;
 using MudBlazor;
 using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination;
 

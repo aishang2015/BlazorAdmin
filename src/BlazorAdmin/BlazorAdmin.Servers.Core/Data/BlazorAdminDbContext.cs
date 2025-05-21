@@ -1,14 +1,14 @@
-﻿using BlazorAdmin.Data.Constants;
-using BlazorAdmin.Data.Entities.Ai;
-using BlazorAdmin.Data.Entities.Chat;
-using BlazorAdmin.Data.Entities.Log;
-using BlazorAdmin.Data.Entities.Rbac;
-using BlazorAdmin.Data.Entities.Setting;
+﻿using BlazorAdmin.Servers.Core.Data.Constants;
+using BlazorAdmin.Servers.Core.Data.Entities.Ai;
+using BlazorAdmin.Servers.Core.Data.Entities.Chat;
+using BlazorAdmin.Servers.Core.Data.Entities.Log;
+using BlazorAdmin.Servers.Core.Data.Entities.Rbac;
+using BlazorAdmin.Servers.Core.Data.Entities.Setting;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BlazorAdmin.Data
+namespace BlazorAdmin.Servers.Core.Data
 {
     public class BlazorAdminDbContext : DbContext
     {

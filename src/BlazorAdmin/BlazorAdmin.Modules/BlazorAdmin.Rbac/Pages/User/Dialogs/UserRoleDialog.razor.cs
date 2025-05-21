@@ -1,4 +1,4 @@
-﻿using BlazorAdmin.Data.Entities.Rbac;
+﻿using BlazorAdmin.Servers.Core.Data.Entities.Rbac;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
@@ -12,7 +12,7 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
 
         [Parameter] public int UserId { get; set; }
 
-        private List<Data.Entities.Rbac.Role> RoleList = new();
+        private List<Servers.Core.Data.Entities.Rbac.Role> RoleList = new();
 
         private Dictionary<int, bool> CheckedDic = new Dictionary<int, bool>();
 

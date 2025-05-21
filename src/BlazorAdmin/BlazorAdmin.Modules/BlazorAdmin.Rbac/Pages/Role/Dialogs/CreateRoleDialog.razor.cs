@@ -25,7 +25,7 @@ namespace BlazorAdmin.Rbac.Pages.Role.Dialogs
                 return;
             }
 
-            context.Roles.Add(new Data.Entities.Rbac.Role
+            context.Roles.Add(new Servers.Core.Data.Entities.Rbac.Role
             {
                 Name = RoleModel.RoleName,
                 IsEnabled = true

@@ -1,8 +1,7 @@
-﻿using BlazorAdmin.Core.Helper;
-using BlazorAdmin.Data;
-using BlazorAdmin.Data.Constants;
-using BlazorAdmin.Data.Entities.Rbac;
-using BlazorAdmin.Data.Entities.Setting;
+﻿using BlazorAdmin.Servers.Core.Data.Constants;
+using BlazorAdmin.Servers.Core.Data.Entities.Rbac;
+using BlazorAdmin.Servers.Core.Data.Entities.Setting;
+using BlazorAdmin.Servers.Core.Helper;
 using CrystalQuartz.Application;
 using CrystalQuartz.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -14,7 +13,7 @@ using Quartz;
 using System.Reflection;
 using System.Security.Cryptography;
 
-namespace BlazorAdmin.Core.Data
+namespace BlazorAdmin.Servers.Core.Data
 {
     public static class DatabaseExtension
     {

@@ -1,7 +1,7 @@
-﻿using BlazorAdmin.Core.Extension;
+﻿using BlazorAdmin.Servers.Core.Extension;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace BlazorAdmin.Core.Auth
+namespace BlazorAdmin.Servers.Core.Auth
 {
     public static class UserStateExtension
     {

@@ -1,11 +1,15 @@
 ﻿@using System.Net.Http
-@using BlazorAdmin.Core.Auth;
-@using BlazorAdmin.Core.Helper;
-@using BlazorAdmin.Servers.Core.Resources;
-@using BlazorAdmin.Data;
-@using BlazorAdmin.Core.Services;
+@using BlazorAdmin
+
 @using BlazorAdmin.Rbac.Components;
 @using BlazorAdmin.Rbac.Resources;
+@using BlazorAdmin.Servers.Core.Auth;
+@using BlazorAdmin.Servers.Core.Components.Pages;
+@using BlazorAdmin.Servers.Core.Components.Select;
+@using BlazorAdmin.Servers.Core.Data;
+@using BlazorAdmin.Servers.Core.Helper
+@using BlazorAdmin.Servers.Core.Resources;
+@using BlazorAdmin.Servers.Core.Services;
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.Forms
@@ -16,10 +20,6 @@
 @using Microsoft.EntityFrameworkCore;
 @using Microsoft.Extensions.Localization;
 @using Microsoft.JSInterop
-@using BlazorAdmin
-@using BlazorAdmin.Servers.Core.Components.Select;
-@using BlazorAdmin.Servers.Core.Components.Pages;
-
 @using MudBlazor
 
 @inject IJSRuntime _jsRuntime;
