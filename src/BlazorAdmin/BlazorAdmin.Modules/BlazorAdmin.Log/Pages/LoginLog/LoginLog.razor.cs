@@ -1,7 +1,6 @@
-﻿using BlazorAdmin.Component.Pages;
-using BlazorAdmin.Core.Extension;
+﻿using BlazorAdmin.Core.Extension;
 using MudBlazor;
-using static BlazorAdmin.Component.Pages.PagePagination;
+using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination;
 
 namespace BlazorAdmin.Log.Pages.LoginLog
 {

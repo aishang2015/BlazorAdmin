@@ -23,9 +23,6 @@
     <PackageReference Include="Selenium.WebDriver" Version="4.28.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BlazorAdmin.Data\BlazorAdmin.Data.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Update="Resources\CusCulture.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

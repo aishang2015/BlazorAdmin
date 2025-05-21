@@ -1,11 +1,11 @@
 ﻿using BlazorAdmin.Component.Dialogs;
 using BlazorAdmin.Data;
+using BlazorAdmin.Data.Extensions;
 using BlazorAdmin.Rbac.Pages.Organization.Dialogs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
-using BlazorAdmin.Data.Extensions;
 
 namespace BlazorAdmin.Rbac.Pages.Organization
 {

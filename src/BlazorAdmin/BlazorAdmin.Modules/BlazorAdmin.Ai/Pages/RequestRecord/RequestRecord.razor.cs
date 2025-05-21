@@ -1,10 +1,8 @@
-using BlazorAdmin.Component.Pages;
-using BlazorAdmin.Data.Entities.Ai;
-using Microsoft.EntityFrameworkCore;
-using MudBlazor;
-using static BlazorAdmin.Component.Pages.PagePagination;
 using BlazorAdmin.Ai.Pages.RequestRecord.Dialogs;
 using BlazorAdmin.Core.Extension;
+using Microsoft.EntityFrameworkCore;
+using MudBlazor;
+using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination;
 
 namespace BlazorAdmin.Ai.Pages.RequestRecord
 {

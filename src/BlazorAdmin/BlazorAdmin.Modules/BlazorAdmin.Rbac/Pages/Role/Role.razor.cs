@@ -1,10 +1,9 @@
 ﻿using BlazorAdmin.Component.Dialogs;
-using BlazorAdmin.Component.Pages;
 using BlazorAdmin.Rbac.Pages.Role.Dialogs;
+using BlazorAdmin.Servers.Core.Components.Pages;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
-using static BlazorAdmin.Component.Pages.PagePagination;
-using static MudBlazor.CategoryTypes;
+using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination;
 
 namespace BlazorAdmin.Rbac.Pages.Role
 {

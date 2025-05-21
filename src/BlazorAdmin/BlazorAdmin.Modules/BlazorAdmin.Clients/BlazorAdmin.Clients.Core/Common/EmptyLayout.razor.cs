@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-
-namespace BlazorAdmin.Clients.Core.Common
+﻿namespace BlazorAdmin.Clients.Core.Common
 {
     public partial class EmptyLayout
     {

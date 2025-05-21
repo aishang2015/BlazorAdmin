@@ -1,7 +1,5 @@
-using BlazorAdmin.Data;
 using BlazorAdmin.Data.Entities.Ai;
 using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 
 namespace BlazorAdmin.Ai.Pages.RequestRecord.Dialogs

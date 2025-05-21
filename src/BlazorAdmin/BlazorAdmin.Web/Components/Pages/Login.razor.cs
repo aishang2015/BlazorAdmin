@@ -1,12 +1,10 @@
 ﻿using BlazorAdmin.Core.Helper;
-using BlazorAdmin.Core.Resources;
 using BlazorAdmin.Data;
 using BlazorAdmin.Data.Constants;
 using BlazorAdmin.Data.Entities.Log;
-using BlazorAdmin.Data.Entities.Setting;
+using BlazorAdmin.Servers.Core.Resources;
 using Microsoft.JSInterop;
 using MudBlazor;
-using OpenQA.Selenium;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 

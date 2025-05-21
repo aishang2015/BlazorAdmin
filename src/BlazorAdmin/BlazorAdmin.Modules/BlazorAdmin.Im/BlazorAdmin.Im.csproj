@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -10,8 +10,7 @@
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BlazorAdmin.Component\BlazorAdmin.Component.csproj" />
-    <ProjectReference Include="..\..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
+	  <ProjectReference Include="..\..\BlazorAdmin.Servers.Core\BlazorAdmin.Servers.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\ImCulture.Designer.cs">

@@ -1,6 +1,5 @@
 ﻿using BlazorAdmin.Core.Modules;
 using BlazorAdmin.Layout.States;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BlazorAdmin.Layout

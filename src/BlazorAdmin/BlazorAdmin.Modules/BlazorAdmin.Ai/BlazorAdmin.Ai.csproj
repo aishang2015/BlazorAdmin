@@ -12,8 +12,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\BlazorAdmin.Component\BlazorAdmin.Component.csproj" />
-		<ProjectReference Include="..\..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
+		<ProjectReference Include="..\..\BlazorAdmin.Servers.Core\BlazorAdmin.Servers.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

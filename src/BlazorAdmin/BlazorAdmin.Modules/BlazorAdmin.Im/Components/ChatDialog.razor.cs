@@ -1,9 +1,7 @@
 ﻿using BlazorAdmin.Core.Auth;
 using BlazorAdmin.Core.Chat;
 using BlazorAdmin.Core.Extension;
-using BlazorAdmin.Data;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
@@ -121,7 +119,7 @@ namespace BlazorAdmin.Im.Components
 
             var channelList = context.GroupMembers.Where(m => m.MemberId == userId)
                 .Select(m => m.GroupId).Distinct().ToList();
-            var groups = context.Groups.Where(g=>channelList.Contains(g.Id)).Select(g => new ItemModel
+            var groups = context.Groups.Where(g => channelList.Contains(g.Id)).Select(g => new ItemModel
             {
                 Avatar = null,
                 Name = g.Name,

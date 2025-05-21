@@ -10,8 +10,6 @@
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
-    <ProjectReference Include="..\BlazorAdmin.Data\BlazorAdmin.Data.csproj" />
     <ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.About\BlazorAdmin.About.Server\BlazorAdmin.About.Server.csproj" />
     <ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Ai\BlazorAdmin.Ai.csproj" />
     <ProjectReference Include="..\BlazorAdmin.Modules\BlazorAdmin.Clients\BlazorAdmin.Clients\BlazorAdmin.Clients.csproj" />

@@ -6,7 +6,7 @@
 @using BlazorAdmin.Data.Entities
 @using System.ComponentModel.DataAnnotations.Schema
 @using System.IO.Compression
-@using static BlazorAdmin.Component.Pages.PagePagination
+@using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination
 @rendermode RenderMode.InteractiveServer
 @inject IDbContextFactory<BlazorAdminDbContext> _dbFactory
 
@@ -146,7 +146,7 @@
 @using BlazorAdmin.Data
 @using BlazorAdmin.Core.Dynamic
 @using BlazorAdmin.Data.Entities
-@using static BlazorAdmin.Component.Pages.PagePagination
+@using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination
 @using BlazorAdmin.Component.Dialogs
 
 @using {selectedEntity.Namespace}

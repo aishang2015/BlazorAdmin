@@ -1,14 +1,12 @@
-﻿using BlazorAdmin.Component.Pages;
-using BlazorAdmin.Core.Extension;
+﻿using BlazorAdmin.Core.Extension;
 using BlazorAdmin.Data.Attributes;
 using BlazorAdmin.Log.Pages.AuditLog.Dialogs;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using MudBlazor;
 using System.Reflection;
-using static BlazorAdmin.Component.Pages.PagePagination;
+using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination;
 
 namespace BlazorAdmin.Log.Pages.AuditLog
 {

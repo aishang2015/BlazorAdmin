@@ -1,5 +1,4 @@
 ﻿using BlazorAdmin.Core.Auth;
-using BlazorAdmin.Core.Extension;
 using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
 using User = BlazorAdmin.Data.Entities.Rbac.User;
@@ -124,7 +123,7 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
             };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = false };
             var dialog = await _dialogService.ShowAsync<AvatarEditDialog>("编辑图片", parameters, options);
-            var result = await dialog.Result; 
+            var result = await dialog.Result;
             if (!result.Canceled)
             {
                 using var context = await _dbFactory.CreateDbContextAsync();

@@ -1,9 +1,7 @@
-using BlazorAdmin.Data;
 using BlazorAdmin.Data.Entities.Ai;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
-using BlazorAdmin.Ai.Resources;
 
 namespace BlazorAdmin.Ai.Pages.Config.Dialogs
 {

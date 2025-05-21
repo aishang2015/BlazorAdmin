@@ -5,10 +5,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <SupportedPlatform Include="browser" />
+    <ProjectReference Include="..\BlazorAdmin.Servers.Core\BlazorAdmin.Servers.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
+    <SupportedPlatform Include="browser" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\CommonComponent.Designer.cs">

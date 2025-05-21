@@ -1,12 +1,11 @@
 ﻿using BlazorAdmin.Component.Dialogs;
-using BlazorAdmin.Component.Pages;
 using BlazorAdmin.Core.Extension;
-using BlazorAdmin.Rbac.Pages.User.Dialogs;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore;
 using BlazorAdmin.Data.Extensions;
+using BlazorAdmin.Rbac.Pages.User.Dialogs;
+using BlazorAdmin.Servers.Core.Components.Pages;
+using Microsoft.EntityFrameworkCore;
 using MudBlazor;
-using static BlazorAdmin.Component.Pages.PagePagination;
+using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination;
 
 namespace BlazorAdmin.Rbac.Pages.User
 {

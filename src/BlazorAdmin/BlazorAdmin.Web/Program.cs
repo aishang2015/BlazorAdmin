@@ -5,24 +5,15 @@ using BlazorAdmin.Core.Data;
 using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Core.Modules;
 using BlazorAdmin.Core.Services;
-using BlazorAdmin.Data;
-using BlazorAdmin.Data.Constants;
-using BlazorAdmin.Data.Extensions;
-using BlazorAdmin.Layout.States;
 using BlazorAdmin.Web.Components;
 using Cropper.Blazor.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
-using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.IdentityModel.Tokens;
 using MudBlazor;
 using MudBlazor.Services;
 using Serilog;
-using System.Security.Cryptography;
 
 var builder = WebApplication.CreateBuilder(args);
 
