@@ -401,5 +401,14 @@ namespace BlazorAdmin.Servers.Core.Resources {
                 return ResourceManager.GetString("NotFound_Text", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 搜索 的本地化字符串。
+        /// </summary>
+        public static string Search_Text {
+            get {
+                return ResourceManager.GetString("Search_Text", resourceCulture);
+            }
+        }
     }
 }

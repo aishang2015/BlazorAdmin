@@ -1,4 +1,5 @@
-﻿using BlazorAdmin.Log.Pages.AuditLog.Dialogs;
+﻿using BlazorAdmin.Core.Helper;
+using BlazorAdmin.Log.Pages.AuditLog.Dialogs;
 using BlazorAdmin.Servers.Core.Data.Attributes;
 using BlazorAdmin.Servers.Core.Extension;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,16 @@ namespace BlazorAdmin.Log.Pages.AuditLog
         private List<OperateTarget> OperateTargets = new();
 
         private SearchObject searchObject = new();
+
+        private bool _searchDialogVisible = false;
+
+        private int _notEmptyCount = 0;
+
+        private DialogOptions _dialogOptions = new()
+        {
+            MaxWidth = MaxWidth.Large,
+            NoHeader = true,
+        };
 
         protected override async Task OnInitializedAsync()
         {
@@ -86,6 +97,19 @@ namespace BlazorAdmin.Log.Pages.AuditLog
             return new GridData<AuditLogModel>() { TotalItems = AuditLogs.Count, Items = AuditLogs };
         }
 
+        private void ShowSearchDialog()
+        {
+            _searchDialogVisible = true;
+            StateHasChanged();
+        }
+
+        private async Task Search()
+        {
+            _searchDialogVisible = false;
+            _notEmptyCount = ReflectionHelper.GetNonNullPropertyCount(searchObject);
+            await dataGrid.ReloadServerData();
+        }
+
         private async Task ViewDetail(Guid id)
         {
             var parameters = new DialogParameters
@@ -103,8 +127,14 @@ namespace BlazorAdmin.Log.Pages.AuditLog
             await dataGrid.ReloadServerData();
         }
 
+        private void Refresh()
+        {
+            dataGrid.ReloadServerData();
+        }
+
         private void SearchReset()
         {
+            _notEmptyCount = 0;
             searchObject = new SearchObject();
             searchObject.Page = 1;
             dataGrid.ReloadServerData();

@@ -1,26 +1,50 @@
 ﻿@using BlazorAdmin.Servers.Core.Helper
 <MudDialog>
     <DialogContent>
-        <div style="width:300px;">
-            <MudTreeView T="MenuTreeItem" Items="@MenuTreeItemSet" Hover="true">
-                <ItemTemplate>
-                    <MudTreeViewItem @bind-Expanded="@context.Expanded" Items="@context.Children" Value="@context.Value">
-                        <Content>
-                            <MudTreeViewItemToggleButton @bind-Expanded="@context.Expanded"
-                                                         Visible="context.HasChildren" />
-                            <MudCheckBox Value="@context.Value.IsChecked" Dense="true" T="bool"
-                                         ValueChanged="@((v) => CheckedChanged(v, context))">
-                            </MudCheckBox>
-                            <MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.Value.MenuName</MudText>
-                            <MudSpacer />
-                        </Content>
-                    </MudTreeViewItem>
-                </ItemTemplate>
-            </MudTreeView>
+        <div style="min-width:750px;">
+            <MudTable Items="@MenuTableRows" Hover="true" Dense="true">
+                <HeaderContent>
+                    <MudTh Style="width: 150px;">菜单</MudTh>
+                    <MudTh Style="">按钮</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>
+                        <div class="d-flex align-center">
+                            @{
+                                // 根据层级添加缩进
+                                var paddingLeft = context.Menu.Level * 20;
+                            }
+                            <div style="padding-left: @(paddingLeft)px" class="d-flex align-center">
+                                <MudCheckBox Value="@context.Menu.IsChecked" Dense="true" T="bool"
+                                           ValueChanged="@((v) => MenuCheckedChanged(v, context.Menu))">
+                                </MudCheckBox>
+                                @if (!string.IsNullOrEmpty(context.Menu.MenuIcon))
+                                {
+                                    <MudIcon Icon="@context.Menu.MenuIcon" Class="mr-2" />
+                                }
+                                <MudText Typo="Typo.subtitle2">@context.Menu.MenuName</MudText>
+                            </div>
+                        </div>
+                    </MudTd>
+                    <MudTd>
+                        <div class="d-flex flex-wrap gap-2">
+                            @foreach (var button in context.Buttons)
+                            {
+                                <div class="d-flex align-center mr-4">
+                                    <MudCheckBox Value="@button.IsChecked" Dense="true" T="bool"
+                                               ValueChanged="@((v) => ButtonCheckedChanged(v, button))">
+                                    </MudCheckBox>
+                                    <MudText Typo="Typo.body2">@button.MenuName</MudText>
+                                </div>
+                            }
+                        </div>
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
 
-            <div class=" d-flex">
+            <div class="d-flex mt-4">
                 <MudSpacer />
-                <MudButton Class="mt-2" StartIcon="@Icons.Material.Filled.Upload" FullWidth="false" Variant="Variant.Text" Color="Color.Primary"
+                <MudButton StartIcon="@Icons.Material.Filled.Upload" Variant="Variant.Text" Color="Color.Primary"
                            OnClick="SubmitRoleMenu">
                     @Loc["RolePage_SubmitText"]
                 </MudButton>
