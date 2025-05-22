@@ -64,6 +64,7 @@
 	
 	<ItemGroup>
 	  <Folder Include="Data\Entities\WeChat\" />
+	  <Folder Include="Data\Entities\Notification\" />
 	</ItemGroup>
 
 </Project>

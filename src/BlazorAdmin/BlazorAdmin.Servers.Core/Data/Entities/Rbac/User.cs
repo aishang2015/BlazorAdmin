@@ -25,7 +25,7 @@ namespace BlazorAdmin.Servers.Core.Data.Entities.Rbac
         [Comment("电子邮件")]
         public string? Email { get; set; }
 
-        [Comment("手机号码")]
+        [Comment("手机号码")]   
         public string? PhoneNumber { get; set; }
 
         [Comment("是否启用")]

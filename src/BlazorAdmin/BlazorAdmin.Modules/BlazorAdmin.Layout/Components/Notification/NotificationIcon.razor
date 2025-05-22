@@ -1,0 +1,169 @@
+@using BlazorAdmin.Servers.Core.Data
+@using BlazorAdmin.Servers.Core.Data.Entities.Notification
+@using BlazorAdmin.Servers.Core.Extension
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.EntityFrameworkCore
+@using MudBlazor
+@using MudBlazor.Interfaces
+
+@rendermode InteractiveServer
+
+<MudMenu Icon="@Icons.Material.Filled.Notifications" Color="Color.Inherit" Dense="true">
+    <ActivatorContent>
+        @if (UnreadCount > 0)
+        {
+            <MudBadge Content="@UnreadCount" Color="Color.Primary" Class="dense-badge"
+                      Overlap="true" Style="margin-right:12px;">
+                <MudIconButton Icon="@Icons.Material.Filled.Notifications" Color="Color.Inherit">
+                </MudIconButton>
+            </MudBadge>
+        }
+        else
+        {
+            <MudIconButton Icon="@Icons.Material.Filled.Notifications" Color="Color.Inherit"
+                           Style="margin-right:12px;">
+            </MudIconButton>
+        }
+    </ActivatorContent>
+    <ChildContent>
+        <MudList Dense="true" Padding="false" T="string">
+            @if (Notifications?.Any() == true)
+            {
+                foreach (var notification in Notifications)
+                {
+                    <MudListItem OnClick="() => OnNotificationClick(notification.Id)">
+                        <div class="d-flex py-1" style="min-width: 300px;">
+                            <MudAvatar Size="Size.Small" Class="mr-3">
+                                @if (string.IsNullOrEmpty(notification.SenderAvatar))
+                                {
+                                    <MudIcon Icon="@Icons.Material.Filled.Person" />
+                                }
+                                else
+                                {
+                                    <MudImage Src="@("Avatars/" + notification.SenderAvatar)"></MudImage>
+                                }
+                            </MudAvatar>
+                            <div class="flex-grow-1">
+                                <MudText Typo="Typo.subtitle2" Style="@(!notification.IsRead ? "font-weight: bold" : null)">@notification.Title</MudText>
+                                <MudText Typo="Typo.body2" Class="mud-text-secondary">@notification.Content</MudText>
+                                <MudText Typo="Typo.caption" Class="mud-text-secondary mt-1">@notification.SendTime.ToString("yyyy-MM-dd HH:mm:ss")</MudText>
+                            </div>
+                        </div>
+                    </MudListItem>
+                    <MudDivider />
+                }
+            }
+            else
+            {
+                <MudListItem>
+                    <MudText Typo="Typo.body2" Class="mud-text-secondary">暂无通知</MudText>
+                </MudListItem>
+            }
+            @if (TotalCount > PageSize)
+            {
+                <MudMenuItem AutoClose="false">
+                    <ActivatableContainer>
+                        <div class="d-flex justify-center pa-2">
+                            <MudPagination Count="@((int)Math.Ceiling(TotalCount / (double)PageSize))"
+                                           SelectedChanged="OnPageChanged"
+                                           Selected="CurrentPage"
+                                           Size="Size.Small" />
+                        </div>
+                    </ActivatableContainer>
+                </MudMenuItem>
+            }
+        </MudList>
+    </ChildContent>
+</MudMenu>
+
+@code {
+    private List<NotificationViewModel> Notifications { get; set; } = new();
+    private int UnreadCount { get; set; }
+    private int PageSize { get; set; } = 5;
+    private int CurrentPage { get; set; } = 1;
+    private int TotalCount { get; set; }
+
+    private class NotificationViewModel
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Content { get; set; }
+        public DateTime SendTime { get; set; }
+        public string SenderAvatar { get; set; }
+        public bool IsRead { get; set; }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadNotifications();
+        await LoadUnreadCount();
+    }
+
+    private async Task LoadNotifications()
+    {
+        using var context = await _dbFactory.CreateDbContextAsync();
+        var userState = await _stateProvider.GetAuthenticationStateAsync();
+        var userId = userState.User.GetUserId();
+
+        var query = from n in context.Notifications
+                    join nr in context.NotificationReceivers on n.Id equals nr.NotificationId
+                    join u in context.Users on n.SenderId equals u.Id into uGroup
+                    from u in uGroup.DefaultIfEmpty()
+                    where nr.ReceiverId == userId
+                    orderby n.SendTime descending
+                    select new { Notification = n, Receiver = nr, Sender = u };
+
+        TotalCount = await query.CountAsync();
+
+        var skip = (CurrentPage - 1) * PageSize;
+        Notifications = await query
+            .Skip(skip)
+            .Take(PageSize)
+            .Select(x => new NotificationViewModel
+            {
+                Id = x.Notification.Id,
+                Title = x.Notification.Title,
+                Content = x.Notification.Content,
+                SendTime = x.Notification.SendTime,
+                SenderAvatar = x.Sender.Avatar,
+                IsRead = x.Receiver.IsRead
+            })
+            .ToListAsync();
+    }
+
+    private async Task LoadUnreadCount()
+    {
+        using var context = await _dbFactory.CreateDbContextAsync();
+        var userState = await _stateProvider.GetAuthenticationStateAsync();
+        var userId = userState.User.GetUserId();
+
+        UnreadCount = await context.NotificationReceivers
+            .CountAsync(nr => nr.ReceiverId == userId && !nr.IsRead);
+    }
+
+    private async Task OnPageChanged(int page)
+    {
+        CurrentPage = page;
+        await LoadNotifications();
+    }
+
+    private async Task OnNotificationClick(int notificationId)
+    {
+        using var context = await _dbFactory.CreateDbContextAsync();
+        var userState = await _stateProvider.GetAuthenticationStateAsync();
+        var userId = userState.User.GetUserId();
+
+        var receiver = await context.NotificationReceivers
+            .FirstOrDefaultAsync(nr => nr.NotificationId == notificationId && nr.ReceiverId == userId);
+
+        if (receiver != null && !receiver.IsRead)
+        {
+            receiver.IsRead = true;
+            receiver.ReadTime = DateTime.Now;
+            await context.SaveChangesAsync();
+            await LoadUnreadCount();
+            await LoadNotifications();
+        }
+    }
+}

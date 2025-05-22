@@ -93,5 +93,9 @@ h1:focus {
     min-width: 100%;
 }
 
+.dense-badge .mud-badge {
+    inset: auto auto calc(100% - 24px) calc(100% - 24px) !important;
+}
+
 :root {
 }

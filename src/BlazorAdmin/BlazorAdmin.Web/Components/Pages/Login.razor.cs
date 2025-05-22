@@ -94,6 +94,8 @@ namespace BlazorAdmin.Web.Components.Pages
             var cookieUtil = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/cookieUtil.js");
             await cookieUtil.InvokeVoidAsync("setCookie", CommonConstant.UserToken, token);
 
+            await _notificationHelper.SendSystemNotificationAsync($"欢迎回来，{user.RealName}！", string.Empty, user.Id);
+
             _authService.SetCurrentUser(token);
             RecordLogin(_loginModel.UserName!, true, context);
             _navManager.NavigateTo("/");

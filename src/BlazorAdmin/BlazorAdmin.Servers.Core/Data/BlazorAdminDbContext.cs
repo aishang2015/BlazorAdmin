@@ -2,6 +2,7 @@
 using BlazorAdmin.Servers.Core.Data.Entities.Ai;
 using BlazorAdmin.Servers.Core.Data.Entities.Chat;
 using BlazorAdmin.Servers.Core.Data.Entities.Log;
+using BlazorAdmin.Servers.Core.Data.Entities.Notification;
 using BlazorAdmin.Servers.Core.Data.Entities.Rbac;
 using BlazorAdmin.Servers.Core.Data.Entities.Setting;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -70,6 +71,14 @@ namespace BlazorAdmin.Servers.Core.Data
         public DbSet<AiPrompt> AiPrompts { get; set; }
 
         public DbSet<AiRequestRecord> AiRequestRecords { get; set; }
+
+        #endregion
+
+        #region Notification
+
+        public DbSet<Notification> Notifications { get; set; }
+
+        public DbSet<NotificationReceiver> NotificationReceivers { get; set; }
 
         #endregion
 

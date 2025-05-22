@@ -103,6 +103,7 @@ builder.Services.AddHttpContextAccessor();
 // jwt helper
 builder.Services.AddScoped<JwtHelper>();
 builder.Services.AddScoped<AiHelper>();
+builder.Services.AddScoped<NotificationHelper>();
 
 builder.Services.AddControllers();
 
@@ -115,7 +116,7 @@ CurrentApplication.Application = app;
 app.InitialDatabase();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
 }
