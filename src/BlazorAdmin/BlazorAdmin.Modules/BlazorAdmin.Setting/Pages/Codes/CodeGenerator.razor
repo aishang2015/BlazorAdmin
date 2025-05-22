@@ -11,9 +11,10 @@
 @rendermode RenderMode.InteractiveServer
 @inject IDbContextFactory<BlazorAdminDbContext> _dbFactory
 
-<PageHeader Title="代码生成器">
+<PageHeader Title="@_loc["CodeGeneratorTitle"]">
     <div style="width:200px" class="mr-2">
-        <MudSelect T="Type" @bind-Value="selectedEntity" Margin="Margin.Dense" Label="选择实体类"
+        <MudSelect T="Type" @bind-Value="selectedEntity" Margin="Margin.Dense"
+                   Label="@_loc["CodeGeneratorSelectEntity"]"
                    Variant="Variant.Outlined" Clearable Class="search-com">
             @foreach (var entity in entityTypes)
             {
@@ -21,9 +22,9 @@
             }
         </MudSelect>
     </div>
-    <MudButton Color="Color.Primary" OnClick="GenerateCode" Class="mr-2" Variant="Variant.Filled">生成代码</MudButton>
-    <MudButton Color="Color.Primary" OnClick="DownloadZip" Class="mr-2" Variant="Variant.Filled">下载文件</MudButton>
-    <MudButton Color="Color.Primary" OnClick="CopyCode" Class="mr-2" Variant="Variant.Filled">复制代码</MudButton>
+    <MudButton Color="Color.Primary" OnClick="GenerateCode" Class="mr-2" Variant="Variant.Filled">@_loc["CodeGeneratorGenerate"]</MudButton>
+    <MudButton Color="Color.Primary" OnClick="DownloadZip" Class="mr-2" Variant="Variant.Filled">@_loc["CodeGeneratorDownload"]</MudButton>
+    <MudButton Color="Color.Primary" OnClick="CopyCode" Class="mr-2" Variant="Variant.Filled">@_loc["CodeGeneratorCopy"]</MudButton>
 </PageHeader>
 
 <MudPaper Class="pa-4 mb-4 flex-1" Style="overflow:auto">
@@ -304,7 +305,7 @@
             Items = TableData
         }};
     }}
-    
+
     private void ShowSearchDialog()
     {{
         _searchDialogVisible = true;
@@ -317,7 +318,7 @@
         _notEmptyCount = ReflectionHelper.GetNonNullPropertyCount(searchObject);
         await dataGrid.ReloadServerData();
     }}
-    
+
     private void Refresh()
     {{
         dataGrid.ReloadServerData();

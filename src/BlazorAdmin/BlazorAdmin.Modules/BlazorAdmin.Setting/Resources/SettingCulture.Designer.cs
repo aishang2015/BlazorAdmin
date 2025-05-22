@@ -61,6 +61,105 @@ namespace BlazorAdmin.Setting.Resources {
         }
         
         /// <summary>
+        ///   查找类似 复制代码 的本地化字符串。
+        /// </summary>
+        internal static string CodeGeneratorCopy {
+            get {
+                return ResourceManager.GetString("CodeGeneratorCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 下载文件 的本地化字符串。
+        /// </summary>
+        internal static string CodeGeneratorDownload {
+            get {
+                return ResourceManager.GetString("CodeGeneratorDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 生成代码 的本地化字符串。
+        /// </summary>
+        internal static string CodeGeneratorGenerate {
+            get {
+                return ResourceManager.GetString("CodeGeneratorGenerate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 选择实体类 的本地化字符串。
+        /// </summary>
+        internal static string CodeGeneratorSelectEntity {
+            get {
+                return ResourceManager.GetString("CodeGeneratorSelectEntity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 代码生成器 的本地化字符串。
+        /// </summary>
+        internal static string CodeGeneratorTitle {
+            get {
+                return ResourceManager.GetString("CodeGeneratorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 是否生成新的JWT密钥？ 的本地化字符串。
+        /// </summary>
+        internal static string JwtComConfirmQuestion {
+            get {
+                return ResourceManager.GetString("JwtComConfirmQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 确定生成 的本地化字符串。
+        /// </summary>
+        internal static string JwtComConfirmText {
+            get {
+                return ResourceManager.GetString("JwtComConfirmText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 过期时间（分钟） 的本地化字符串。
+        /// </summary>
+        internal static string JwtComExpireMinutes {
+            get {
+                return ResourceManager.GetString("JwtComExpireMinutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 生成新密钥 的本地化字符串。
+        /// </summary>
+        internal static string JwtComGenerateNew {
+            get {
+                return ResourceManager.GetString("JwtComGenerateNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 保存 的本地化字符串。
+        /// </summary>
+        internal static string JwtComSave {
+            get {
+                return ResourceManager.GetString("JwtComSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 JWT配置 的本地化字符串。
+        /// </summary>
+        internal static string JwtComTitle {
+            get {
+                return ResourceManager.GetString("JwtComTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 系统设置 的本地化字符串。
         /// </summary>
         internal static string SystemSettingTitle {

@@ -171,4 +171,7 @@
   <data name="指标" xml:space="preserve">
     <value>指标</value>
   </data>
+  <data name="代码" xml:space="preserve">
+    <value>代码</value>
+  </data>
 </root>

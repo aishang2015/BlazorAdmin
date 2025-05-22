@@ -117,6 +117,39 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CodeGeneratorCopy" xml:space="preserve">
+    <value>Copy to clipboard</value>
+  </data>
+  <data name="CodeGeneratorDownload" xml:space="preserve">
+    <value>Download File</value>
+  </data>
+  <data name="CodeGeneratorGenerate" xml:space="preserve">
+    <value>Generate</value>
+  </data>
+  <data name="CodeGeneratorSelectEntity" xml:space="preserve">
+    <value>Select One Entity</value>
+  </data>
+  <data name="CodeGeneratorTitle" xml:space="preserve">
+    <value>Code Generator</value>
+  </data>
+  <data name="JwtComConfirmQuestion" xml:space="preserve">
+    <value>Generate new secret?</value>
+  </data>
+  <data name="JwtComConfirmText" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="JwtComExpireMinutes" xml:space="preserve">
+    <value>Expiration Minutes</value>
+  </data>
+  <data name="JwtComGenerateNew" xml:space="preserve">
+    <value>Generate New Secret</value>
+  </data>
+  <data name="JwtComSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="JwtComTitle" xml:space="preserve">
+    <value>JWT Config</value>
+  </data>
   <data name="SystemSettingTitle" xml:space="preserve">
     <value>System Setting</value>
   </data>

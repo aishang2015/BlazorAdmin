@@ -106,6 +106,15 @@ namespace BlazorAdmin.Layout.Resources {
         }
         
         /// <summary>
+        ///   查找类似 代码 的本地化字符串。
+        /// </summary>
+        internal static string 代码 {
+            get {
+                return ResourceManager.GetString("代码", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 关于 的本地化字符串。
         /// </summary>
         internal static string 关于 {
@@ -120,6 +129,15 @@ namespace BlazorAdmin.Layout.Resources {
         internal static string 审计 {
             get {
                 return ResourceManager.GetString("审计", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 指标 的本地化字符串。
+        /// </summary>
+        internal static string 指标 {
+            get {
+                return ResourceManager.GetString("指标", resourceCulture);
             }
         }
         

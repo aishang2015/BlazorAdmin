@@ -9,22 +9,24 @@ namespace BlazorAdmin.Setting.Pages.Setting
 
         private SettingModel? SelectedValue;
 
-        private List<SettingModel> SettingGroups = new List<SettingModel>{
-            new SettingModel
-            {
-                Name = "JWT配置",
-                Icon = Icons.Material.Filled.Security
-            },
-        };
+        private List<SettingModel> SettingGroups = new();
 
-        private Dictionary<string, Type> SettingComDic = new Dictionary<string, Type>
-        {
-             {"JWT配置",typeof(JwtCom)},
-        };
+        private Dictionary<string, Type> SettingComDic = new();
 
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
+            SettingGroups = new List<SettingModel>{
+                new SettingModel
+                {
+                    Name = _loc["JwtComTitle"],
+                    Icon = Icons.Material.Filled.Security
+                },
+            };
+            SettingComDic = new Dictionary<string, Type>
+            {
+                 {_loc["JwtComTitle"],typeof(JwtCom)},
+            };
             SelectedValue = SettingGroups.First();
         }
 

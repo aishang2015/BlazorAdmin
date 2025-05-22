@@ -171,4 +171,7 @@
   <data name="指标" xml:space="preserve">
     <value>Metrics</value>
   </data>
+  <data name="代码" xml:space="preserve">
+    <value>Code</value>
+  </data>
 </root>
