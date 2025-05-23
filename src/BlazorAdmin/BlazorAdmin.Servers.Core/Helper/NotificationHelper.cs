@@ -1,5 +1,7 @@
 using BlazorAdmin.Servers.Core.Data;
 using BlazorAdmin.Servers.Core.Data.Entities.Notification;
+using BlazorAdmin.Servers.Core.Extension;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlazorAdmin.Servers.Core.Helper
@@ -11,9 +13,13 @@ namespace BlazorAdmin.Servers.Core.Helper
     {
         private readonly IDbContextFactory<BlazorAdminDbContext> _dbContextFactory;
 
-        public NotificationHelper(IDbContextFactory<BlazorAdminDbContext> dbContextFactory)
+        private readonly AuthenticationStateProvider _stateProvider;
+
+        public NotificationHelper(IDbContextFactory<BlazorAdminDbContext> dbContextFactory,
+            AuthenticationStateProvider stateProvider)
         {
             _dbContextFactory = dbContextFactory;
+            _stateProvider = stateProvider;
         }
 
         /// <summary>
@@ -69,8 +75,9 @@ namespace BlazorAdmin.Servers.Core.Helper
         /// <param name="senderId">发送者Id</param>
         /// <param name="receiverId">接收者Id</param>
         /// <returns></returns>
-        public async Task SendPersonalNotificationAsync(string title, string content, int senderId, int receiverId)
+        public async Task SendPersonalNotificationAsync(string title, string content, params int[] receiverIds)
         {
+            var userState = await _stateProvider.GetAuthenticationStateAsync();
             using var context = await _dbContextFactory.CreateDbContextAsync();
             using var transaction = await context.Database.BeginTransactionAsync();
             try
@@ -79,7 +86,7 @@ namespace BlazorAdmin.Servers.Core.Helper
                 {
                     Title = title,
                     Content = content,
-                    SenderId = senderId,
+                    SenderId = userState.User.GetUserId(),
                     SendTime = DateTime.Now,
                     Type = 2, // 个人通知
                     Status = 1  // 已发送
@@ -88,14 +95,14 @@ namespace BlazorAdmin.Servers.Core.Helper
                 context.Notifications.Add(notification);
                 await context.SaveChangesAsync();
 
-                var receiver = new NotificationReceiver
+                var receivers = receiverIds.Select(receiverId => new NotificationReceiver
                 {
                     NotificationId = notification.Id,
                     ReceiverId = receiverId,
                     IsRead = false
-                };
+                }).ToList();
 
-                context.NotificationReceivers.Add(receiver);
+                context.NotificationReceivers.AddRange(receivers);
                 await context.SaveChangesAsync();
 
                 await transaction.CommitAsync();

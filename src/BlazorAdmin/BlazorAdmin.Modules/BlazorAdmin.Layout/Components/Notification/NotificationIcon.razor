@@ -9,7 +9,8 @@
 
 @rendermode InteractiveServer
 
-<MudMenu Icon="@Icons.Material.Filled.Notifications" Color="Color.Inherit" Dense="true">
+<MudMenu Icon="@Icons.Material.Filled.Notifications" Color="Color.Inherit" Dense="true"
+         TransformOrigin="Origin.TopRight">
     <ActivatorContent>
         @if (UnreadCount > 0)
         {
@@ -27,27 +28,89 @@
         }
     </ActivatorContent>
     <ChildContent>
-        <MudList Dense="true" Padding="false" T="string">
+        <MudList Dense="true" Padding="false" T="string" Style="min-width: 360px;max-width:360px;">
+            <MudListItem>
+                <div class="d-flex justify-space-between align-center px-2">
+                    <div class="d-flex align-center gap-2">
+                        <MudText Typo="Typo.subtitle2">通知</MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">(@UnreadCount/@TotalCount)</MudText>
+                    </div>
+                    <div>
+                        <MudTooltip Text="发送消息" Color="Color.Primary">
+                            <MudIconButton Icon="@Icons.Material.Filled.Send" Size="Size.Small"
+                                           OnClick="OpenSendDialog" />
+                        </MudTooltip>
+                        <ActivatableContainer>
+                            <MudTooltip Text="查看未读" Color="Color.Primary">
+                                <MudIconButton Icon="@Icons.Material.Filled.FilterAlt" Size="Size.Small"
+                                               OnClick="ShowAllNotRead"
+                                               Color="@(ShowUnreadOnly ? Color.Primary : Color.Default)" />
+                            </MudTooltip>
+                            <MudTooltip Text="全部标记为已读" Color="Color.Primary">
+                                <MudIconButton Icon="@Icons.Material.Filled.DoneAll" Size="Size.Small"
+                                               OnClick="MarkAllAsRead" />
+                            </MudTooltip>
+                            <MudTooltip Text="删除全部已读消息" Color="Color.Primary">
+                                <MudIconButton Icon="@Icons.Material.Filled.DeleteSweep" Size="Size.Small"
+                                               OnClick="DeleteAllRead" />
+                            </MudTooltip>
+                        </ActivatableContainer>
+                    </div>
+                </div>
+            </MudListItem>
+            <MudDivider />
             @if (Notifications?.Any() == true)
             {
                 foreach (var notification in Notifications)
                 {
-                    <MudListItem OnClick="() => OnNotificationClick(notification.Id)">
+                    <MudListItem OnClick="() => SetRead(notification)">
+
                         <div class="d-flex py-1" style="min-width: 300px;">
-                            <MudAvatar Size="Size.Small" Class="mr-3">
-                                @if (string.IsNullOrEmpty(notification.SenderAvatar))
+                            <MudAvatar Size="Size.Small" Class="mr-3" Color="Color.Primary">
+                                @if (notification?.Type == 1)
                                 {
-                                    <MudIcon Icon="@Icons.Material.Filled.Person" />
+                                    <MudIcon Icon="@Icons.Material.Filled.Settings" />
                                 }
                                 else
                                 {
-                                    <MudImage Src="@("Avatars/" + notification.SenderAvatar)"></MudImage>
+                                    @if (string.IsNullOrEmpty(notification?.SenderAvatar))
+                                    {
+                                        @notification?.SenderName?.FirstOrDefault()
+                                    }
+                                    else
+                                    {
+                                        <MudImage Src="@("Avatars/" + notification.SenderAvatar)"></MudImage>
+                                    }
                                 }
                             </MudAvatar>
                             <div class="flex-grow-1">
                                 <MudText Typo="Typo.subtitle2" Style="@(!notification.IsRead ? "font-weight: bold" : null)">@notification.Title</MudText>
-                                <MudText Typo="Typo.body2" Class="mud-text-secondary">@notification.Content</MudText>
-                                <MudText Typo="Typo.caption" Class="mud-text-secondary mt-1">@notification.SendTime.ToString("yyyy-MM-dd HH:mm:ss")</MudText>
+                                <MudText Typo="Typo.body2" Class="mud-text-secondary" Style=@((!notification.IsRead ? "font-weight: bold;" : null) + "display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; text-overflow: ellipsis;")>
+                                    @notification.Content
+                                </MudText>
+                                <MudText Typo="Typo.caption" Style="text-align:right;" Class="mud-text-secondary mt-1">@notification.SendTime.ToString("yyyy-MM-dd HH:mm:ss")</MudText>
+                            </div>
+                            <div class="d-flex flex-column justify-center gap-1">
+                                @if (!notification.IsRead)
+                                {
+                                    <MudTooltip Text="标记为已读">
+                                        <MudIconButton Icon="@Icons.Material.Filled.Done" Size="Size.Small"
+                                                       OnClick="@((e) => { _ = MarkAsRead(notification.Id); })" />
+                                    </MudTooltip>
+                                }
+                                @if (notification.IsRead)
+                                {
+                                    <ActivatableContainer>
+                                        <MudTooltip Text="删除消息">
+                                            <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" Color="Color.Error"
+                                                           OnClick="@((e) => { _ = DeleteNotification(notification.Id); })" />
+                                        </MudTooltip>
+                                    </ActivatableContainer>
+                                }
+                                <MudTooltip Text="查看详情">
+                                    <MudIconButton Icon="@Icons.Material.Filled.Info" Size="Size.Small" Color="Color.Primary"
+                                                   OnClick="@((e) => {OpenNotificationDialog(notification); })" />
+                                </MudTooltip>
                             </div>
                         </div>
                     </MudListItem>
@@ -66,7 +129,7 @@
                     <ActivatableContainer>
                         <div class="d-flex justify-center pa-2">
                             <MudPagination Count="@((int)Math.Ceiling(TotalCount / (double)PageSize))"
-                                           SelectedChanged="OnPageChanged"
+                                           SelectedChanged="OnPageChanged" BoundaryCount=1 MiddleCount=3
                                            Selected="CurrentPage"
                                            Size="Size.Small" />
                         </div>
@@ -77,12 +140,86 @@
     </ChildContent>
 </MudMenu>
 
+<MudDialog @bind-Visible="dialogVisible" Options="dialogOptions">
+    <DialogContent>
+        <div class="d-flex flex-column gap-4">
+            <div class="d-flex gap-2 align-center">
+                <MudAvatar Size="Size.Small" Color="Color.Primary">
+                    @if (selectedNotification?.Type == 1)
+                    {
+                        <MudIcon Icon="@Icons.Material.Filled.Settings" />
+                    }
+                    else
+                    {
+                        @if (string.IsNullOrEmpty(selectedNotification?.SenderAvatar))
+                        {
+                            @selectedNotification?.SenderName?.FirstOrDefault()
+                        }
+                        else
+                        {
+                            <MudImage Src="@("Avatars/" + selectedNotification.SenderAvatar)"></MudImage>
+                        }
+                    }
+                </MudAvatar>
+                <div class="d-flex flex-column">
+                    @if (selectedNotification.Type == 1)
+                    {
+                        <MudText Typo="Typo.body2">发送人：系统发送</MudText>
+                    }
+                    else
+                    {
+                        <MudText Typo="Typo.body2">发送人：@selectedNotification?.SenderName</MudText>
+                    }
+                    <MudText Typo="Typo.body2">接收人：@selectedNotification?.ReceiverName</MudText>
+                    <MudText Typo="Typo.body2">发送时间：@(selectedNotification?.SendTime.ToString("yyyy-MM-dd HH:mm:ss"))</MudText>
+                </div>
+            </div>
+            <MudText Typo="Typo.h6">@selectedNotification?.Title</MudText>
+            <MudText Typo="Typo.body1" Style="white-space: pre-wrap;">@selectedNotification?.Content</MudText>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="CloseDialog">关闭</MudButton>
+    </DialogActions>
+</MudDialog>
+
+<MudDialog @bind-Visible="sendDialogVisible" Options="dialogOptions">
+    <TitleContent>
+        <MudText Typo="Typo.h6">发送消息</MudText>
+    </TitleContent>
+    <DialogContent>
+        <div class="d-flex flex-column gap-4">
+            <MudTextField @bind-Value="newNotification.Title" Label="标题" Required="true" RequiredError="标题不能为空" />
+            <MudTextField @bind-Value="newNotification.Content" Label="内容" Lines="5" Required="true" RequiredError="内容不能为空" />
+            <MudSelect T="string" Label="接收者" MultiSelection="true" @bind-SelectedValues="selectedReceivers" Required="true"
+                       RequiredError="请选择接收者" MultiSelectionTextFunc="@((items) => string.Join(',',users.Where(u => items.Contains(u.Id)).Select(u =>u.UserName)) )">
+                @foreach (var user in users)
+                {
+                    <MudSelectItem Value="@user.Id">@user.UserName</MudSelectItem>
+                }
+            </MudSelect>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="CloseSendDialog">取消</MudButton>
+        <MudButton Color="Color.Primary" OnClick="SendNotification">发送</MudButton>
+    </DialogActions>
+</MudDialog>
+
 @code {
     private List<NotificationViewModel> Notifications { get; set; } = new();
     private int UnreadCount { get; set; }
     private int PageSize { get; set; } = 5;
     private int CurrentPage { get; set; } = 1;
     private int TotalCount { get; set; }
+    private bool ShowUnreadOnly { get; set; }
+    private bool dialogVisible;
+    private bool sendDialogVisible;
+    private NotificationViewModel selectedNotification;
+    private DialogOptions dialogOptions = new() { MaxWidth = MaxWidth.Medium, FullWidth = true };
+    private List<UserViewModel> users = new();
+    private IEnumerable<string> selectedReceivers = new HashSet<string>();
+    private NotificationCreateModel newNotification = new();
 
     private class NotificationViewModel
     {
@@ -91,13 +228,75 @@
         public string Content { get; set; }
         public DateTime SendTime { get; set; }
         public string SenderAvatar { get; set; }
+        public string SenderName { get; set; }
         public bool IsRead { get; set; }
+        public string ReceiverName { get; set; }
+        public int Type { get; set; }
+    }
+
+    private class UserViewModel
+    {
+        public string Id { get; set; }
+        public string UserName { get; set; }
+    }
+
+    private class NotificationCreateModel
+    {
+        public string Title { get; set; }
+        public string Content { get; set; }
     }
 
     protected override async Task OnInitializedAsync()
     {
         await LoadNotifications();
         await LoadUnreadCount();
+    }
+
+    private async Task LoadUsers()
+    {
+        using var context = await _dbFactory.CreateDbContextAsync();
+        users = await context.Users
+            .Select(u => new UserViewModel
+            {
+                Id = u.Id.ToString(),
+                UserName = u.RealName
+            })
+            .ToListAsync();
+    }
+
+    private async Task SendNotification()
+    {
+        if (string.IsNullOrWhiteSpace(newNotification.Title) ||
+            string.IsNullOrWhiteSpace(newNotification.Content) ||
+            !selectedReceivers.Any())
+        {
+            return;
+        }
+
+        await _notificationHelper.SendPersonalNotificationAsync(newNotification.Title, newNotification.Content,
+                selectedReceivers.Select(r => int.Parse(r)).ToArray());
+
+        newNotification = new NotificationCreateModel();
+        selectedReceivers = new HashSet<string>();
+        sendDialogVisible = false;
+
+        await LoadNotifications();
+        await LoadUnreadCount();
+    }
+
+    private async Task OpenSendDialog()
+    {
+        newNotification = new NotificationCreateModel();
+        selectedReceivers = new HashSet<string>();
+        sendDialogVisible = true;
+        await LoadUsers();
+    }
+
+    private void CloseSendDialog()
+    {
+        sendDialogVisible = false;
+        newNotification = new NotificationCreateModel();
+        selectedReceivers = new HashSet<string>();
     }
 
     private async Task LoadNotifications()
@@ -110,9 +309,11 @@
                     join nr in context.NotificationReceivers on n.Id equals nr.NotificationId
                     join u in context.Users on n.SenderId equals u.Id into uGroup
                     from u in uGroup.DefaultIfEmpty()
-                    where nr.ReceiverId == userId
+                    join r in context.Users on nr.ReceiverId equals r.Id into rGroup
+                    from r in rGroup.DefaultIfEmpty()
+                    where nr.ReceiverId == userId && (!ShowUnreadOnly || !nr.IsRead)
                     orderby n.SendTime descending
-                    select new { Notification = n, Receiver = nr, Sender = u };
+                    select new { Notification = n, Receiver = nr, Sender = u, ReceiverUser = r };
 
         TotalCount = await query.CountAsync();
 
@@ -127,7 +328,10 @@
                 Content = x.Notification.Content,
                 SendTime = x.Notification.SendTime,
                 SenderAvatar = x.Sender.Avatar,
-                IsRead = x.Receiver.IsRead
+                SenderName = x.Sender.RealName,
+                IsRead = x.Receiver.IsRead,
+                ReceiverName = x.ReceiverUser.RealName,
+                Type = x.Notification.Type,
             })
             .ToListAsync();
     }
@@ -148,7 +352,7 @@
         await LoadNotifications();
     }
 
-    private async Task OnNotificationClick(int notificationId)
+    private async Task MarkAsRead(int notificationId)
     {
         using var context = await _dbFactory.CreateDbContextAsync();
         var userState = await _stateProvider.GetAuthenticationStateAsync();
@@ -165,5 +369,92 @@
             await LoadUnreadCount();
             await LoadNotifications();
         }
+    }
+
+    private async Task MarkAllAsRead()
+    {
+        using var context = await _dbFactory.CreateDbContextAsync();
+        var userState = await _stateProvider.GetAuthenticationStateAsync();
+        var userId = userState.User.GetUserId();
+
+        var unreadReceivers = await context.NotificationReceivers
+            .Where(nr => nr.ReceiverId == userId && !nr.IsRead)
+            .ToListAsync();
+
+        foreach (var receiver in unreadReceivers)
+        {
+            receiver.IsRead = true;
+            receiver.ReadTime = DateTime.Now;
+        }
+
+        await context.SaveChangesAsync();
+        await LoadUnreadCount();
+        await LoadNotifications();
+    }
+
+    private async Task DeleteNotification(int notificationId)
+    {
+        using var context = await _dbFactory.CreateDbContextAsync();
+        var userState = await _stateProvider.GetAuthenticationStateAsync();
+        var userId = userState.User.GetUserId();
+
+        var receiver = await context.NotificationReceivers
+            .FirstOrDefaultAsync(nr => nr.NotificationId == notificationId && nr.ReceiverId == userId);
+
+        if (receiver != null)
+        {
+            context.NotificationReceivers.Remove(receiver);
+            await context.SaveChangesAsync();
+            await LoadUnreadCount();
+            await LoadNotifications();
+        }
+    }
+
+    private async Task DeleteAllRead()
+    {
+        using var context = await _dbFactory.CreateDbContextAsync();
+        var userState = await _stateProvider.GetAuthenticationStateAsync();
+        var userId = userState.User.GetUserId();
+
+        var readReceivers = await context.NotificationReceivers
+            .Where(nr => nr.ReceiverId == userId && nr.IsRead)
+            .ToListAsync();
+
+        context.NotificationReceivers.RemoveRange(readReceivers);
+        await context.SaveChangesAsync();
+        await LoadUnreadCount();
+        await LoadNotifications();
+    }
+
+    private void SetRead(NotificationViewModel notification)
+    {
+        selectedNotification = notification;
+        if (!notification.IsRead)
+        {
+            _ = MarkAsRead(notification.Id);
+        }
+    }
+
+    private void OpenNotificationDialog(NotificationViewModel notification)
+    {
+        selectedNotification = notification;
+        dialogVisible = true;
+        if (!notification.IsRead)
+        {
+            _ = MarkAsRead(notification.Id);
+        }
+    }
+
+    private void CloseDialog()
+    {
+        dialogVisible = false;
+        selectedNotification = null;
+    }
+
+    private void ShowAllNotRead()
+    {
+        ShowUnreadOnly = !ShowUnreadOnly;
+        CurrentPage = 1;
+        _ = LoadNotifications();
     }
 }
