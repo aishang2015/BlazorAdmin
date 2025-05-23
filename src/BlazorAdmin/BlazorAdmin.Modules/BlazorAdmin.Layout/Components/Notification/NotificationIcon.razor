@@ -6,6 +6,11 @@
 @using Microsoft.EntityFrameworkCore
 @using MudBlazor
 @using MudBlazor.Interfaces
+@using System.Threading
+@using Microsoft.Extensions.Localization
+@implements IDisposable
+
+@inject IStringLocalizer<LayoutCulture> L
 
 @rendermode InteractiveServer
 
@@ -32,25 +37,25 @@
             <MudListItem>
                 <div class="d-flex justify-space-between align-center px-2">
                     <div class="d-flex align-center gap-2">
-                        <MudText Typo="Typo.subtitle2">通知</MudText>
+                        <MudText Typo="Typo.subtitle2">@L["Notification"]</MudText>
                         <MudText Typo="Typo.caption" Color="Color.Secondary">(@UnreadCount/@TotalCount)</MudText>
                     </div>
                     <div>
-                        <MudTooltip Text="发送消息" Color="Color.Primary">
+                        <MudTooltip Text="@L["SendMessage"]" Color="Color.Primary">
                             <MudIconButton Icon="@Icons.Material.Filled.Send" Size="Size.Small"
                                            OnClick="OpenSendDialog" />
                         </MudTooltip>
                         <ActivatableContainer>
-                            <MudTooltip Text="查看未读" Color="Color.Primary">
+                            <MudTooltip Text="@L["ViewUnread"]" Color="Color.Primary">
                                 <MudIconButton Icon="@Icons.Material.Filled.FilterAlt" Size="Size.Small"
                                                OnClick="ShowAllNotRead"
                                                Color="@(ShowUnreadOnly ? Color.Primary : Color.Default)" />
                             </MudTooltip>
-                            <MudTooltip Text="全部标记为已读" Color="Color.Primary">
+                            <MudTooltip Text="@L["MarkAllAsRead"]" Color="Color.Primary">
                                 <MudIconButton Icon="@Icons.Material.Filled.DoneAll" Size="Size.Small"
                                                OnClick="MarkAllAsRead" />
                             </MudTooltip>
-                            <MudTooltip Text="删除全部已读消息" Color="Color.Primary">
+                            <MudTooltip Text="@L["DeleteAllRead"]" Color="Color.Primary">
                                 <MudIconButton Icon="@Icons.Material.Filled.DeleteSweep" Size="Size.Small"
                                                OnClick="DeleteAllRead" />
                             </MudTooltip>
@@ -93,7 +98,7 @@
                             <div class="d-flex flex-column justify-center gap-1">
                                 @if (!notification.IsRead)
                                 {
-                                    <MudTooltip Text="标记为已读">
+                                    <MudTooltip Text="@L["MarkAsRead"]">
                                         <MudIconButton Icon="@Icons.Material.Filled.Done" Size="Size.Small"
                                                        OnClick="@((e) => { _ = MarkAsRead(notification.Id); })" />
                                     </MudTooltip>
@@ -101,13 +106,13 @@
                                 @if (notification.IsRead)
                                 {
                                     <ActivatableContainer>
-                                        <MudTooltip Text="删除消息">
+                                        <MudTooltip Text="@L["DeleteMessage"]">
                                             <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" Color="Color.Error"
                                                            OnClick="@((e) => { _ = DeleteNotification(notification.Id); })" />
                                         </MudTooltip>
                                     </ActivatableContainer>
                                 }
-                                <MudTooltip Text="查看详情">
+                                <MudTooltip Text="@L["ViewDetails"]">
                                     <MudIconButton Icon="@Icons.Material.Filled.Info" Size="Size.Small" Color="Color.Primary"
                                                    OnClick="@((e) => {OpenNotificationDialog(notification); })" />
                                 </MudTooltip>
@@ -120,7 +125,7 @@
             else
             {
                 <MudListItem>
-                    <MudText Typo="Typo.body2" Class="mud-text-secondary">暂无通知</MudText>
+                    <MudText Typo="Typo.body2" Class="mud-text-secondary">@L["NoNotifications"]</MudText>
                 </MudListItem>
             }
             @if (TotalCount > PageSize)
@@ -164,14 +169,14 @@
                 <div class="d-flex flex-column">
                     @if (selectedNotification.Type == 1)
                     {
-                        <MudText Typo="Typo.body2">发送人：系统发送</MudText>
+                        <MudText Typo="Typo.body2">@L["Sender"]: @L["SystemSender"]</MudText>
                     }
                     else
                     {
-                        <MudText Typo="Typo.body2">发送人：@selectedNotification?.SenderName</MudText>
+                        <MudText Typo="Typo.body2">@L["Sender"]: @selectedNotification?.SenderName</MudText>
                     }
-                    <MudText Typo="Typo.body2">接收人：@selectedNotification?.ReceiverName</MudText>
-                    <MudText Typo="Typo.body2">发送时间：@(selectedNotification?.SendTime.ToString("yyyy-MM-dd HH:mm:ss"))</MudText>
+                    <MudText Typo="Typo.body2">@L["Receiver"]: @selectedNotification?.ReceiverName</MudText>
+                    <MudText Typo="Typo.body2">@L["SendTime"]: @(selectedNotification?.SendTime.ToString("yyyy-MM-dd HH:mm:ss"))</MudText>
                 </div>
             </div>
             <MudText Typo="Typo.h6">@selectedNotification?.Title</MudText>
@@ -179,20 +184,20 @@
         </div>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="CloseDialog">关闭</MudButton>
+        <MudButton OnClick="CloseDialog">@L["Close"]</MudButton>
     </DialogActions>
 </MudDialog>
 
 <MudDialog @bind-Visible="sendDialogVisible" Options="dialogOptions">
     <TitleContent>
-        <MudText Typo="Typo.h6">发送消息</MudText>
+        <MudText Typo="Typo.h6">@L["SendMessage"]</MudText>
     </TitleContent>
     <DialogContent>
         <div class="d-flex flex-column gap-4">
-            <MudTextField @bind-Value="newNotification.Title" Label="标题" Required="true" RequiredError="标题不能为空" />
-            <MudTextField @bind-Value="newNotification.Content" Label="内容" Lines="5" Required="true" RequiredError="内容不能为空" />
-            <MudSelect T="string" Label="接收者" MultiSelection="true" @bind-SelectedValues="selectedReceivers" Required="true"
-                       RequiredError="请选择接收者" MultiSelectionTextFunc="@((items) => string.Join(',',users.Where(u => items.Contains(u.Id)).Select(u =>u.UserName)) )">
+            <MudTextField @bind-Value="newNotification.Title" Label="@L["Title"]" Required="true" RequiredError="@L["TitleRequired"]" />
+            <MudTextField @bind-Value="newNotification.Content" Label="@L["Content"]" Lines="5" Required="true" RequiredError="@L["ContentRequired"]" />
+            <MudSelect T="string" Label="@L["Receivers"]" MultiSelection="true" @bind-SelectedValues="selectedReceivers" Required="true"
+                       RequiredError="@L["ReceiversRequired"]" MultiSelectionTextFunc="@((items) => string.Join(',',users.Where(u => items.Contains(u.Id)).Select(u =>u.UserName)) )">
                 @foreach (var user in users)
                 {
                     <MudSelectItem Value="@user.Id">@user.UserName</MudSelectItem>
@@ -201,8 +206,8 @@
         </div>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="CloseSendDialog">取消</MudButton>
-        <MudButton Color="Color.Primary" OnClick="SendNotification">发送</MudButton>
+        <MudButton OnClick="CloseSendDialog">@L["Cancel"]</MudButton>
+        <MudButton Color="Color.Primary" OnClick="SendNotification">@L["Send"]</MudButton>
     </DialogActions>
 </MudDialog>
 
@@ -246,10 +251,19 @@
         public string Content { get; set; }
     }
 
+    private Timer _refreshTimer;
+
     protected override async Task OnInitializedAsync()
     {
         await LoadNotifications();
         await LoadUnreadCount();
+
+        _refreshTimer = new Timer(async _ =>
+        {
+            await LoadNotifications();
+            await LoadUnreadCount();
+            await InvokeAsync(StateHasChanged);
+        }, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
     }
 
     private async Task LoadUsers()
@@ -449,6 +463,11 @@
     {
         dialogVisible = false;
         selectedNotification = null;
+    }
+
+    public void Dispose()
+    {
+        _refreshTimer?.Dispose();
     }
 
     private void ShowAllNotRead()
