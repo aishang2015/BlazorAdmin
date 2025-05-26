@@ -6,14 +6,6 @@ A simple management project template written using Blazor and MudBlazor.
 
 ---
 
-#### Credentials:
-
-Username:BlazorAdmin
-
-Password:BlazorAdmin
-
----
-
 #### Features:
 
 - Support Interactive Auto Render Mode
@@ -45,3 +37,43 @@ Password:BlazorAdmin
 - MudBlazor
 
 - Entity Framework Core
+
+---
+
+#### Getting Started:
+
+##### Run the Project:
+
+1. Clone the repository
+2. Navigate to the src/BlazorAdmin directory
+3. Run `dotnet restore` to restore dependencies
+4. Run `dotnet run --project BlazorAdmin.Web` to start the application
+5. Open your browser and navigate to `https://localhost:37219`
+
+##### Credentials:
+
+Username:BlazorAdmin
+
+Password:BlazorAdmin
+
+##### Create New Project from Template:
+
+1. Enter the folder:
+   ```bash
+   cd src
+   ```
+
+2. Install the template:
+   ```bash
+   dotnet new install .
+   ```
+
+3. Create a new project in other folder:
+   ```bash
+   dotnet new batpl -n YourProjectName
+   ```
+
+4. Uninstall the template in src folder:
+   ```bash
+   dotnet new  uninstall .
+   ```

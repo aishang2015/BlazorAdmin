@@ -2,13 +2,7 @@
 
 一个使用 Blazor 和 MudBlazor 编写的简单管理项目模板。
 
----
-
-#### 登录凭据：
-
-用户名：BlazorAdmin
-
-密码：BlazorAdmin
+[English](README.md)
 
 ---
 
@@ -30,7 +24,7 @@
 
 - 模块化设计
 
-- 添加Quartz支持
+- Quartz 支持
 
 ---
 
@@ -43,3 +37,43 @@
 - MudBlazor
 
 - Entity Framework Core
+
+---
+
+#### 快速开始：
+
+##### 运行项目：
+
+1. 克隆仓库
+2. 进入 src/BlazorAdmin 目录
+3. 运行 `dotnet restore` 恢复依赖
+4. 运行 `dotnet run --project BlazorAdmin.Web` 启动应用
+5. 打开浏览器访问 `https://localhost:37219`
+
+##### 登录凭据：
+
+用户名：BlazorAdmin
+
+密码：BlazorAdmin
+
+##### 从模板创建新项目：
+
+1. 进入目录：
+   ```bash
+   cd src
+   ```
+
+2. 安装模板：
+   ```bash
+   dotnet new install .
+   ```
+
+3. 在其他目录创建新项目：
+   ```bash
+   dotnet new batpl -n 你的项目名称
+   ```
+
+4. 在 src 目录卸载模板：
+   ```bash
+   dotnet new uninstall .
+   ```
