@@ -2,6 +2,8 @@
 
 A simple management project template written using Blazor and MudBlazor.
 
+[中文版](README_zh.md)
+
 ---
 
 #### Credentials:
@@ -22,7 +24,7 @@ Password:BlazorAdmin
 
 - Built on Mudblazor
 
-- Theme light/dark switch
+- Theme light/dark and color switch
 
 - Localization
 
@@ -30,14 +32,16 @@ Password:BlazorAdmin
 
 - Modularization
 
+- Quartz Support
+
 ---
 
 #### Technology stack:
 
-- .NET 8
+- .NET 9
 
 - Blazor
 
 - MudBlazor
 
-- Entity Framework 8
+- Entity Framework Core

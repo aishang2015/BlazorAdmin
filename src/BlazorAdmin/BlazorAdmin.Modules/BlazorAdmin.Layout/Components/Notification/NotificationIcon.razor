@@ -251,19 +251,12 @@
         public string Content { get; set; }
     }
 
-    private Timer _refreshTimer;
 
     protected override async Task OnInitializedAsync()
     {
         await LoadNotifications();
         await LoadUnreadCount();
-
-        _refreshTimer = new Timer(async _ =>
-        {
-            await LoadNotifications();
-            await LoadUnreadCount();
-            await InvokeAsync(StateHasChanged);
-        }, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
+        StateHasChanged();
     }
 
     private async Task LoadUsers()
@@ -467,7 +460,6 @@
 
     public void Dispose()
     {
-        _refreshTimer?.Dispose();
     }
 
     private void ShowAllNotRead()
