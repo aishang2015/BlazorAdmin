@@ -6,12 +6,13 @@
 @using BlazorAdmin.Servers.Core.Data.Entities.Notification
 @using BlazorAdmin.Servers.Core.Data
 @using Microsoft.EntityFrameworkCore
+@using BlazorAdmin.Servers.Core.Resources
 @inject BlazorAdminDbContext DbContext
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
     <MudGrid>
         <MudItem xs="12">
-            <MudText Typo="Typo.h4" Class="mb-4">系统概览</MudText>
+            <MudText Typo="Typo.h4" Class="mb-4">@_commonLoc["HomePage_Title"]</MudText>
         </MudItem>
 
         <MudItem xs="12" sm="6" md="3">
@@ -19,7 +20,7 @@
                 <MudStack>
                     <MudIcon Icon="@Icons.Material.Filled.People" Color="Color.Primary" Size="Size.Large" />
                     <MudText Typo="Typo.h5">@_userCount</MudText>
-                    <MudText>用户总数</MudText>
+                    <MudText>@_commonLoc["HomePage_Title"]</MudText>
                 </MudStack>
             </MudPaper>
         </MudItem>
@@ -29,7 +30,7 @@
                 <MudStack>
                     <MudIcon Icon="@Icons.Material.Filled.AccountTree" Color="Color.Secondary" Size="Size.Large" />
                     <MudText Typo="Typo.h5">@_orgCount</MudText>
-                    <MudText>组织数量</MudText>
+                    <MudText>@_commonLoc["HomePage_OrgCount"]</MudText>
                 </MudStack>
             </MudPaper>
         </MudItem>
@@ -39,7 +40,7 @@
                 <MudStack>
                     <MudIcon Icon="@Icons.Material.Filled.Login" Color="Color.Success" Size="Size.Large" />
                     <MudText Typo="Typo.h5">@_todayLoginCount</MudText>
-                    <MudText>今日登录</MudText>
+                    <MudText>@_commonLoc["HomePage_TodayLogin"]</MudText>
                 </MudStack>
             </MudPaper>
         </MudItem>
@@ -49,7 +50,7 @@
                 <MudStack>
                     <MudIcon Icon="@Icons.Material.Filled.History" Color="Color.Warning" Size="Size.Large" />
                     <MudText Typo="Typo.h5">@_todayAuditCount</MudText>
-                    <MudText>今日操作</MudText>
+                    <MudText>@_commonLoc["HomePage_TodayOperation"]</MudText>
                 </MudStack>
             </MudPaper>
         </MudItem>
@@ -58,7 +59,7 @@
             <MudGrid>
                 <MudItem xs="6">
                     <MudPaper Elevation="2" Class="pa-4">
-                        <MudText Typo="Typo.h6" Class="mb-4">系统通知</MudText>
+                        <MudText Typo="Typo.h6" Class="mb-4">@_commonLoc["HomePage_SystemNotification"]</MudText>
                         <MudList Dense="true" T="string">
                             @foreach (var notification in _notifications)
                             {
@@ -73,7 +74,7 @@
 
                 <MudItem xs="6">
                     <MudPaper Elevation="2" Class="pa-4">
-                        <MudText Typo="Typo.h6" Class="mb-4">最近登录</MudText>
+                        <MudText Typo="Typo.h6" Class="mb-4">@_commonLoc["HomePage_RecentLogin"]</MudText>
                         <MudList Dense="true" T="string">
                             @foreach (var log in _recentLogins)
                             {
@@ -96,25 +97,25 @@
 
                 <MudItem xs="12">
                     <MudPaper Elevation="2" Class="pa-4">
-                        <MudText Typo="Typo.h6" Class="mb-4">最近操作审计</MudText>
+                        <MudText Typo="Typo.h6" Class="mb-4">@_commonLoc["HomePage_RecentAudit"]</MudText>
                         <MudTable Items="_recentAudits" Dense="true" Hover="true">
                             <HeaderContent>
-                                <MudTh>操作类型</MudTh>
-                                <MudTh>实体</MudTh>
-                                <MudTh>时间</MudTh>
+                                <MudTh>@_commonLoc["HomePage_OperationType"]</MudTh>
+                                <MudTh>@_commonLoc["HomePage_Entity"]</MudTh>
+                                <MudTh>@_commonLoc["HomePage_Time"]</MudTh>
                             </HeaderContent>
                             <RowTemplate>
                                 <MudTd>
                                     @switch (context.Operation)
                                     {
                                         case 2:
-                                            <MudChip Color="Color.Error" Size="Size.Small" T="string">删除</MudChip>
+                                            <MudChip Color="Color.Error" Size="Size.Small" T="string">@_commonLoc["HomePage_Operation_Delete"]</MudChip>
                                             break;
                                         case 3:
-                                            <MudChip Color="Color.Warning" Size="Size.Small" T="string">修改</MudChip>
+                                            <MudChip Color="Color.Warning" Size="Size.Small" T="string">@_commonLoc["HomePage_Operation_Modify"]</MudChip>
                                             break;
                                         case 4:
-                                            <MudChip Color="Color.Success" Size="Size.Small" T="string">添加</MudChip>
+                                            <MudChip Color="Color.Success" Size="Size.Small" T="string">@_commonLoc["HomePage_Operation_Add"]</MudChip>
                                             break;
                                     }
                                 </MudTd>

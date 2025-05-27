@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -146,5 +146,47 @@
   </data>
   <data name="PasswordValidFail" xml:space="preserve">
     <value>Password validation failed!</value>
+  </data>
+  <data name="HomePage_Title" xml:space="preserve">
+    <value>System Overview</value>
+  </data>
+  <data name="HomePage_UserCount" xml:space="preserve">
+    <value>Total Users</value>
+  </data>
+  <data name="HomePage_OrgCount" xml:space="preserve">
+    <value>Organizations</value>
+  </data>
+  <data name="HomePage_TodayLogin" xml:space="preserve">
+    <value>Today's Logins</value>
+  </data>
+  <data name="HomePage_TodayOperation" xml:space="preserve">
+    <value>Today's Operations</value>
+  </data>
+  <data name="HomePage_SystemNotification" xml:space="preserve">
+    <value>System Notifications</value>
+  </data>
+  <data name="HomePage_RecentLogin" xml:space="preserve">
+    <value>Recent Logins</value>
+  </data>
+  <data name="HomePage_RecentAudit" xml:space="preserve">
+    <value>Recent Operation Audit</value>
+  </data>
+  <data name="HomePage_OperationType" xml:space="preserve">
+    <value>Operation Type</value>
+  </data>
+  <data name="HomePage_Entity" xml:space="preserve">
+    <value>Entity</value>
+  </data>
+  <data name="HomePage_Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="HomePage_Operation_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="HomePage_Operation_Modify" xml:space="preserve">
+    <value>Modify</value>
+  </data>
+  <data name="HomePage_Operation_Add" xml:space="preserve">
+    <value>Add</value>
   </data>
 </root>

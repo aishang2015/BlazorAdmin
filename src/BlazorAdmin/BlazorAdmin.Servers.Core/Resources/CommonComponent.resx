@@ -147,4 +147,46 @@
 	<data name="PasswordValidFail" xml:space="preserve">
     <value>密码验证失败！</value>
   </data>
+  <data name="HomePage_Title" xml:space="preserve">
+    <value>系统概览</value>
+  </data>
+  <data name="HomePage_UserCount" xml:space="preserve">
+    <value>用户总数</value>
+  </data>
+  <data name="HomePage_OrgCount" xml:space="preserve">
+    <value>组织数量</value>
+  </data>
+  <data name="HomePage_TodayLogin" xml:space="preserve">
+    <value>今日登录</value>
+  </data>
+  <data name="HomePage_TodayOperation" xml:space="preserve">
+    <value>今日操作</value>
+  </data>
+  <data name="HomePage_SystemNotification" xml:space="preserve">
+    <value>系统通知</value>
+  </data>
+  <data name="HomePage_RecentLogin" xml:space="preserve">
+    <value>最近登录</value>
+  </data>
+  <data name="HomePage_RecentAudit" xml:space="preserve">
+    <value>最近操作审计</value>
+  </data>
+  <data name="HomePage_OperationType" xml:space="preserve">
+    <value>操作类型</value>
+  </data>
+  <data name="HomePage_Entity" xml:space="preserve">
+    <value>实体</value>
+  </data>
+  <data name="HomePage_Time" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <data name="HomePage_Operation_Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="HomePage_Operation_Modify" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="HomePage_Operation_Add" xml:space="preserve">
+    <value>添加</value>
+  </data>
 </root>
