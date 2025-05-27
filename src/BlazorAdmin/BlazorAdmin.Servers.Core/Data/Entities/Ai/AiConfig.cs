@@ -1,3 +1,4 @@
+using BlazorAdmin.Servers.Core.Data.Attributes;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -5,6 +6,7 @@ namespace BlazorAdmin.Servers.Core.Data.Entities.Ai
 {
     [Table("AI_CONFIG")]
     [Comment("AI配置")]
+    [IgnoreAudit]
     public class AiConfig
     {
         [Comment("主键")]

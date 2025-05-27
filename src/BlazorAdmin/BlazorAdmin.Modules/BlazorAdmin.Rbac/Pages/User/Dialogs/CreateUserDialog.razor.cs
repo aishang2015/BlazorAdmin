@@ -35,7 +35,7 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
                 Email = UserModel.Email,
                 PhoneNumber = UserModel.PhoneNumber
             });
-            await context.SaveChangesAsync();
+            await context.SaveChangesAuditAsync();
             _snackbarService.Add("创建成功！", Severity.Success);
             MudDialog?.Close(DialogResult.Ok(true));
         }

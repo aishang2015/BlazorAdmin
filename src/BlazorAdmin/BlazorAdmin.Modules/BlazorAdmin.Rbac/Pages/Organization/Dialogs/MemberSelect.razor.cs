@@ -64,7 +64,7 @@ namespace BlazorAdmin.Rbac.Pages.Organization.Dialogs
                     UserId = user.UserId,
                     OrganizationId = OrganizationId
                 });
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAuditAsync();
                 MudDialog?.Close(DialogResult.Ok(true));
             }
         }

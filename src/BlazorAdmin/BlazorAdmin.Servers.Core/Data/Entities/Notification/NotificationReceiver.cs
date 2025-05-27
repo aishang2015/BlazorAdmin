@@ -1,3 +1,4 @@
+using BlazorAdmin.Servers.Core.Data.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace BlazorAdmin.Servers.Core.Data.Entities.Notification
@@ -5,6 +6,7 @@ namespace BlazorAdmin.Servers.Core.Data.Entities.Notification
     /// <summary>
     /// 通知接收记录实体
     /// </summary>
+    [IgnoreAudit]
     public class NotificationReceiver
     {
         /// <summary>

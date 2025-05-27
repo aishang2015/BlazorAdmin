@@ -82,7 +82,7 @@ namespace BlazorAdmin.Servers.Core.Data
 
         #endregion
 
-        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public async Task<int> SaveChangesAuditAsync()
         {
             var pppp = _provider.GetRequiredService<AuthenticationStateProvider>();
             var user = await pppp.GetAuthenticationStateAsync();
@@ -158,7 +158,7 @@ namespace BlazorAdmin.Servers.Core.Data
                     }
                 }
             }
-            return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+            return await base.SaveChangesAsync();
         }
     }
 }

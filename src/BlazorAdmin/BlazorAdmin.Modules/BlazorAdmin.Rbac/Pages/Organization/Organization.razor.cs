@@ -75,7 +75,7 @@ namespace BlazorAdmin.Rbac.Pages.Organization
                     }
                 }
                 organization.Order = newIndex + 1;
-                await context.SaveChangesAsync();
+                await context.SaveChangesAuditAsync();
             }
         }
 
@@ -139,7 +139,7 @@ namespace BlazorAdmin.Rbac.Pages.Organization
                 organization.ParentId = EditModel.ParentId;
             }
 
-            await context.SaveChangesAsync();
+            await context.SaveChangesAuditAsync();
             await InitialOrganizationTree();
             _snackbarService.Add("保存成功！", Severity.Success);
             EditVisible = false;
@@ -280,7 +280,7 @@ namespace BlazorAdmin.Rbac.Pages.Organization
             {
                 ou.IsLeader = true;
                 db.OrganizationUsers.Update(ou);
-                await db.SaveChangesAsync();
+                await db.SaveChangesAuditAsync();
                 IntialOrganizationMembers(db);
                 _snackbarService.Add("设置成功！", Severity.Success);
             }
@@ -295,7 +295,7 @@ namespace BlazorAdmin.Rbac.Pages.Organization
             {
                 ou.IsLeader = false;
                 db.OrganizationUsers.Update(ou);
-                await db.SaveChangesAsync();
+                await db.SaveChangesAuditAsync();
                 IntialOrganizationMembers(db);
                 _snackbarService.Add("设置成功！", Severity.Success);
             }
