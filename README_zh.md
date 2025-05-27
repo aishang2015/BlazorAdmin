@@ -1,6 +1,6 @@
 ### BlazorAdmin
 
-一个使用 Blazor 和 MudBlazor 编写的简单管理项目模板。
+一个使用 Blazor 和 MudBlazor 编写的简单管理系统模板。
 
 [English](README.md)
 

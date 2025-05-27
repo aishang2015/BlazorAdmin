@@ -1,6 +1,6 @@
 ### BlazorAdmin
 
-A simple management project template written using Blazor and MudBlazor.
+A simple management system template written using Blazor and MudBlazor.
 
 [中文版](README_zh.md)
 
