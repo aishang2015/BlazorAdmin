@@ -32,6 +32,11 @@ namespace BlazorAdmin.Servers.Core.Data
                 {
                     b.UseSqlite(dbConnectinoString);
                 }
+                else if (dbProvider == "PostgreSQL")
+                {
+                    AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+                    b.UseNpgsql(dbConnectinoString);    
+                }
                 b.UseSeeding((d, v) => (d as BlazorAdminDbContext).InitialData(v));
             }, ServiceLifetime.Scoped);
 
