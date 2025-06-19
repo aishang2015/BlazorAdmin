@@ -4,21 +4,27 @@
 @attribute [StreamRendering]
 
 <PageHeader Title="@Loc["RolePage_Title"]">
-    <div style="width:140px" class="mr-2">
-        <MudTextField T="string" @bind-Value="searchObject.SearchText" Margin="Margin.Dense" Class="search-com"
-                      Label="@Loc["RolePage_SearchKeywordPlaceholder"]" Variant="Variant.Outlined"></MudTextField>
-    </div>
-    <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="()=>dataGridRef.ReloadServerData()"
-                   Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2"></MudIconButton>
-    <MudTooltip Text="重置搜索" Color="Color.Primary">
-        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.SearchOff" OnClick="SearchReset"
+    <MudGrid Spacing="2" Justify="Justify.FlexStart">
+        <MudItem xs="12" sm="9" md="6">
+            <MudTextField T="string" @bind-Value="searchObject.SearchText" Margin="Margin.Dense" Class="search-com w-100"
+                          Label="@Loc["RolePage_SearchKeywordPlaceholder"]" Variant="Variant.Outlined"></MudTextField>
+        </MudItem>
+    </MudGrid>
+
+    <div class="mt-3 d-flex">
+        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="()=>dataGridRef.ReloadServerData()"
                        Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2"></MudIconButton>
-    </MudTooltip>
-    @if (_accessService.CheckHasElementRights("RoleAddBtn").Result)
-    {
-        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" OnClick="AddRoleClick"
-                       Variant="Variant.Outlined" Color="Color.Primary" Class=""></MudIconButton>
-    }
+        <MudTooltip Text="重置搜索" Color="Color.Primary">
+            <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.SearchOff" OnClick="SearchReset"
+                           Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2"></MudIconButton>
+        </MudTooltip>
+        <MudSpacer />
+        @if (_accessService.CheckHasElementRights("RoleAddBtn").Result)
+        {
+            <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" OnClick="AddRoleClick"
+                           Variant="Variant.Outlined" Color="Color.Primary" Class=""></MudIconButton>
+        }
+    </div>
 </PageHeader>
 
 <MudDataGrid Dense=PageDataGridConfig.Dense Filterable=PageDataGridConfig.Filterable ColumnResizeMode=PageDataGridConfig.ColumnResizeMode

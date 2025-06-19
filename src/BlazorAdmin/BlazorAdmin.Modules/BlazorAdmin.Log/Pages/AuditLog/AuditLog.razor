@@ -5,51 +5,56 @@
 @attribute [StreamRendering]
 
 <PageHeader Title="@Loc["AuditLogPage_Title"]">
-    <div style="width:140px" class="mr-2">
-        <MudTextField Label="@Loc["AuditLogPage_TableH2"]" Clearable Margin="Margin.Dense"
-                      @bind-Value="searchObject.InputTransaction" Variant="Variant.Outlined" Class="search-com"></MudTextField>
+    <MudGrid Spacing="2" Justify="Justify.FlexStart">
+        <MudItem xs="12" sm="6" md="3">
+            <MudTextField Label="@Loc["AuditLogPage_TableH2"]" Clearable Margin="Margin.Dense"
+                          @bind-Value="searchObject.InputTransaction" Variant="Variant.Outlined" Class="search-com w-100"></MudTextField>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="3">
+            <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH3"]" Margin="Margin.Dense"
+                       AnchorOrigin="Origin.BottomCenter" @bind-Value="searchObject.SelectedUser" Clearable Variant="Variant.Outlined"
+                       Class="search-com w-100">
+                @foreach (var o in Operators)
+                {
+                    <MudSelectItem Value="@o.Id.ToString()">@o.UserName</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="3">
+            <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH4"]" Margin="Margin.Dense"
+                       AnchorOrigin="Origin.BottomCenter" @bind-Value="searchObject.SelectedOperateTarget" Clearable Variant="Variant.Outlined"
+                       Class="search-com w-100">
+                @foreach (var o in OperateTargets)
+                {
+                    <MudSelectItem Value="@o.EntityName">@o.DisplayName</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="3">
+            <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH5"]" Margin="Margin.Dense"
+                       AnchorOrigin="Origin.BottomCenter" @bind-Value="searchObject.SelectedOperation" Clearable Variant="Variant.Outlined"
+                       Class="search-com w-100">
+                <MudSelectItem Value="@("2")">
+                    @Loc["AuditLogPage_OperationDelete"]
+                </MudSelectItem>
+                <MudSelectItem Value="@("3")">
+                    @Loc["AuditLogPage_OperationModify"]
+                </MudSelectItem>
+                <MudSelectItem Value="@("4")">
+                    @Loc["AuditLogPage_OperationCreate"]
+                </MudSelectItem>
+            </MudSelect>
+        </MudItem>
+    </MudGrid>
+
+    <div class="mt-3 d-flex">
+        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="@(()=>dataGrid.ReloadServerData())"
+                       Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2"></MudIconButton>
+        <MudTooltip Text="重置搜索" Color="Color.Primary">
+            <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.SearchOff" OnClick="SearchReset"
+                           Variant="Variant.Outlined" Color="Color.Primary"></MudIconButton>
+        </MudTooltip>
     </div>
-    <div style="width:140px" class="mr-2">
-        <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH3"]" Margin="Margin.Dense"
-                   AnchorOrigin="Origin.BottomCenter" @bind-Value="searchObject.SelectedUser" Clearable Variant="Variant.Outlined"
-                   Class="search-com">
-            @foreach (var o in Operators)
-            {
-                <MudSelectItem Value="@o.Id.ToString()">@o.UserName</MudSelectItem>
-            }
-        </MudSelect>
-    </div>
-    <div style="width:140px" class="mr-2">
-        <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH4"]" Margin="Margin.Dense"
-                   AnchorOrigin="Origin.BottomCenter" @bind-Value="searchObject.SelectedOperateTarget" Clearable Variant="Variant.Outlined"
-                   Class="search-com">
-            @foreach (var o in OperateTargets)
-            {
-                <MudSelectItem Value="@o.EntityName">@o.DisplayName</MudSelectItem>
-            }
-        </MudSelect>
-    </div>
-    <div style="width:140px" class="mr-2">
-        <MudSelect T="string" Dense="true" Label="@Loc["AuditLogPage_TableH5"]" Margin="Margin.Dense"
-                   AnchorOrigin="Origin.BottomCenter" @bind-Value="searchObject.SelectedOperation" Clearable Variant="Variant.Outlined"
-                   Class="search-com">
-            <MudSelectItem Value="@("2")">
-                @Loc["AuditLogPage_OperationDelete"]
-            </MudSelectItem>
-            <MudSelectItem Value="@("3")">
-                @Loc["AuditLogPage_OperationModify"]
-            </MudSelectItem>
-            <MudSelectItem Value="@("4")">
-                @Loc["AuditLogPage_OperationCreate"]
-            </MudSelectItem>
-        </MudSelect>
-    </div>
-    <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="@(()=>dataGrid.ReloadServerData())"
-                   Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2"></MudIconButton>
-    <MudTooltip Text="重置搜索" Color="Color.Primary">
-        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.SearchOff" OnClick="SearchReset"
-                       Variant="Variant.Outlined" Color="Color.Primary"></MudIconButton>
-    </MudTooltip>
 </PageHeader>
 
 <MudDataGrid Dense=PageDataGridConfig.Dense Filterable=PageDataGridConfig.Filterable ColumnResizeMode=PageDataGridConfig.ColumnResizeMode

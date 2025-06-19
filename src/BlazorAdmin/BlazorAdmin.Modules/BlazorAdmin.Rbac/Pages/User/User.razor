@@ -4,40 +4,46 @@
 @attribute [StreamRendering]
 
 <PageHeader Title="@Loc["UserPage_Title"]">
-    <div style="width:140px" class="mr-2">
-        <MudTextField T="string" @bind-Value="searchObject.SearchText" Margin="Margin.Dense" Label="@Loc["UserPage_SearchName"]"
-                      Variant="Variant.Outlined" Clearable Class="search-com"></MudTextField>
-    </div>
-    <div style="width:140px" class="mr-2">
-        <MudTextField T="string" @bind-Value="searchObject.SearchRealName" Margin="Margin.Dense" Label="@Loc["UserPage_SearchRealName"]"
-                      Variant="Variant.Outlined" Clearable Class="search-com"></MudTextField>
-    </div>
-    <div style="width:140px" class="mr-2">
-        <MudSelect T="string" @bind-Value="searchObject.SearchRole" Margin="Margin.Dense" Label="@Loc["UserPage_SearchRole"]"
-                   Variant="Variant.Outlined" Clearable Class="search-com">
-            @foreach (var r in RoleList)
-            {
-                <MudSelectItem Value="@r.Id.ToString()">@r.Name</MudSelectItem>
-            }
-        </MudSelect>
-    </div>
-    <div style="width:140px" class="mr-2">
-        <OrganizationTreeSelect Label="@Loc["UserPage_SearchOrg"]" ShowIcon="false"
-                                @bind-SelectedValue="searchObject.SelectedOrganization" />
-    </div>
-    <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="()=>{ dataGrid.ReloadServerData(); }"
-                   Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2">
-    </MudIconButton>
-    <MudTooltip Text="重置搜索" Color="Color.Primary">
-        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.SearchOff" OnClick="SearchReset"
-                       Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2"></MudIconButton>
-    </MudTooltip>
-    @if (_accessService.CheckHasElementRights("UserAddBtn").Result)
-    {
-        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" OnClick="AddUserClick"
-                       Variant="Variant.Outlined" Color="Color.Primary">
+    <MudGrid Spacing="2" Justify="Justify.FlexStart">
+        <MudItem xs="12" sm="6" md="3">
+            <MudTextField T="string" @bind-Value="searchObject.SearchText" Margin="Margin.Dense" Label="@Loc["UserPage_SearchName"]"
+                          Variant="Variant.Outlined" Clearable Class="search-com w-100"></MudTextField>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="3">
+            <MudTextField T="string" @bind-Value="searchObject.SearchRealName" Margin="Margin.Dense" Label="@Loc["UserPage_SearchRealName"]"
+                          Variant="Variant.Outlined" Clearable Class="search-com w-100"></MudTextField>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="3">
+            <MudSelect T="string" @bind-Value="searchObject.SearchRole" Margin="Margin.Dense" Label="@Loc["UserPage_SearchRole"]"
+                       Variant="Variant.Outlined" Clearable Class="search-com w-100">
+                @foreach (var r in RoleList)
+                {
+                    <MudSelectItem Value="@r.Id.ToString()">@r.Name</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="3">
+            <OrganizationTreeSelect Label="@Loc["UserPage_SearchOrg"]" ShowIcon="false" Margin="Margin.Dense"
+                                    @bind-SelectedValue="searchObject.SelectedOrganization" Class="w-100" />
+        </MudItem>
+    </MudGrid>
+
+    <div class="mt-3 d-flex">
+        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="()=>{ dataGrid.ReloadServerData(); }"
+                       Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2">
         </MudIconButton>
-    }
+        <MudTooltip Text="重置搜索" Color="Color.Primary">
+            <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.SearchOff" OnClick="SearchReset"
+                           Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2"></MudIconButton>
+        </MudTooltip>
+        <MudSpacer />
+        @if (_accessService.CheckHasElementRights("UserAddBtn").Result)
+        {
+            <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" OnClick="AddUserClick"
+                           Variant="Variant.Outlined" Color="Color.Primary">
+            </MudIconButton>
+        }
+    </div>
 </PageHeader>
 
 

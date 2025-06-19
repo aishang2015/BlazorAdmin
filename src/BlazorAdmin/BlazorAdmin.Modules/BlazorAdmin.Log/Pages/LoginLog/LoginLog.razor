@@ -3,16 +3,21 @@
 @rendermode RenderMode.InteractiveServer
 
 <PageHeader Title="@Loc["LoginLogPage_Title"]">
-    <div style="width:140px" class="mr-2">
-        <MudTextField @bind-Value="searchObject.SearchedLoginName" Label="@Loc["LoginLogPage_TableH2"]" Clearable="true"
-                      Margin="Margin.Dense" Variant="Variant.Outlined" Class="search-com"></MudTextField>
+    <MudGrid Spacing="2" Justify="Justify.FlexStart">
+        <MudItem xs="12" sm="9" md="6">
+            <MudTextField @bind-Value="searchObject.SearchedLoginName" Label="@Loc["LoginLogPage_TableH2"]" Clearable="true"
+                          Margin="Margin.Dense" Variant="Variant.Outlined" Class="search-com w-100"></MudTextField>
+        </MudItem>
+    </MudGrid>
+
+    <div class="mt-3 d-flex">
+        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="()=>dataGrid.ReloadServerData()"
+                       Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2"></MudIconButton>
+        <MudTooltip Text="重置搜索" Color="Color.Primary">
+            <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.SearchOff" OnClick="SearchReset"
+                           Variant="Variant.Outlined" Color="Color.Primary"></MudIconButton>
+        </MudTooltip>
     </div>
-    <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="()=>dataGrid.ReloadServerData()"
-                   Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2"></MudIconButton>
-    <MudTooltip Text="重置搜索" Color="Color.Primary">
-        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.SearchOff" OnClick="SearchReset"
-                       Variant="Variant.Outlined" Color="Color.Primary"></MudIconButton>
-    </MudTooltip>
 </PageHeader>
 
 <MudDataGrid Dense=PageDataGridConfig.Dense Filterable=PageDataGridConfig.Filterable ColumnResizeMode=PageDataGridConfig.ColumnResizeMode
