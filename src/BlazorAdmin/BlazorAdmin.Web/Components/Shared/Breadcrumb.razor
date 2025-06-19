@@ -1,0 +1,51 @@
+@inject BlazorAdmin.Layout.States.LayoutState _layoutState
+@inject NavigationManager _navigationManager
+@implements IDisposable
+
+@using MudBlazor // Required for MudBlazor.BreadcrumbItem
+
+@if (_mudBreadcrumbItems.Any())
+{
+    <MudPaper Elevation="0" Class="px-2 py-1" Style="background-color: transparent;">
+        <MudBreadcrumbs Items="_mudBreadcrumbItems" />
+    </MudPaper>
+}
+
+@code {
+    private List<MudBlazor.BreadcrumbItem> _mudBreadcrumbItems = new List<MudBlazor.BreadcrumbItem>();
+
+    protected override void OnInitialized()
+    {
+        _layoutState.BreadcrumbsChangedEvent += OnBreadcrumbsChanged;
+        UpdateMudBreadcrumbItems(); // Initial population
+    }
+
+    private void OnBreadcrumbsChanged()
+    {
+        UpdateMudBreadcrumbItems();
+        InvokeAsync(StateHasChanged); // Use InvokeAsync for safety if called from non-UI thread
+    }
+
+    private void UpdateMudBreadcrumbItems()
+    {
+        _mudBreadcrumbItems.Clear();
+        if (_layoutState.CurrentBreadcrumbs != null)
+        {
+            foreach (var item in _layoutState.CurrentBreadcrumbs)
+            {
+                // The Href for MudBreadcrumbs should be null if it's disabled (typically the last item)
+                // or if our LayoutState.BreadcrumbItem.Href is null.
+                _mudBreadcrumbItems.Add(new MudBlazor.BreadcrumbItem(
+                    text: item.Text,
+                    href: item.Disabled ? null : item.Href,
+                    disabled: item.Disabled,
+                    icon: null));
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        _layoutState.BreadcrumbsChangedEvent -= OnBreadcrumbsChanged;
+    }
+}

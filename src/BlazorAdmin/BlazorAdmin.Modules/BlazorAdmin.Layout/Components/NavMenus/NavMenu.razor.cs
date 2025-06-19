@@ -19,6 +19,7 @@ namespace BlazorAdmin.Layout.Components.NavMenus
             MenuList = MenuList.Where(m => canAccessedMenus.Contains(m.Id)).ToList();
 
             NavMenuItems = AppendMenuItems(null, MenuList);
+            _layoutState.SetAvailableNavItems(NavMenuItems);
         }
 
         private HashSet<NavMenuItem> AppendMenuItems(int? parentId, List<Menu> menus)
@@ -35,7 +36,7 @@ namespace BlazorAdmin.Layout.Components.NavMenus
 
         private void NavTo(NavMenuItem item)
         {
-            _layoutState.NavTo(item);
+            _layoutState.OpenTab(item);
         }
     }
 }

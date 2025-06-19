@@ -1,13 +1,16 @@
 ﻿@using BlazorAdmin.Layout.Components.Culture
 @using BlazorAdmin.Layout.Components.Themes
 @using BlazorAdmin.Layout.Components.NavMenus
-@using BlazorAdmin.Layout.Components.NavTabs
+@*@using BlazorAdmin.Layout.Components.NavTabs*@
 @using BlazorAdmin.Layout.Components.UserAvatar
 @using BlazorAdmin.Web.Components.Shared
 @using MudBlazor.Utilities
+@using BlazorAdmin.Layout.States
+
+@inject LayoutState _layoutState
 
 
-<MudAppBar Elevation="1" Dense="true" Color="Color.Inherit" Style="background:var(--mud-palette-surface);transform:translateX(1px);">
+<MudAppBar Elevation="1" Dense="true" Color="Color.Primary" Style="transform:translateX(1px);">
 
     <NavOpenButton />
     <MudSpacer />
@@ -21,7 +24,28 @@
     <UserMenuAvatar />
 </MudAppBar>
 
+<Breadcrumb />
+
 <NavMenu></NavMenu>
+
+@if (_layoutState.OpenTabs.Any())
+{
+    <MudTabs Elevation="1" Rounded="true" PanelClass="pa-0 ma-0" ActivePanelIndexChanged="OnActivePanelIndexChanged" Class="mt-2 mb-1 mx-2"
+             HideSlider="true" Centered="false" RightToLeft="false" ActivePanelIndex="_layoutState.OpenTabs.IndexOf(_layoutState.ActiveTab)">
+        @foreach (var tab in _layoutState.OpenTabs)
+        {
+            var localTab = tab; // Important for lambda capture
+            <MudTabPanel ID="@localTab.Id" class="custom-tab-panel">
+                <TabHeader>
+                    <MudButton OnClick="@((e) => OnMudTabActivated(localTab))" Class="pa-0 ma-0" Style="min-width:0;">
+                        <MudText>@localTab.Title</MudText>
+                    </MudButton>
+                    <MudIconButton Icon="@Icons.Material.Filled.Close" Size="Size.Small" OnClick="@((e) => CloseTabClicked(localTab))" Class="ml-1 custom-close-icon" />
+                </TabHeader>
+            </MudTabPanel>
+        }
+    </MudTabs>
+}
 
 <MudMainContent Style="height:100vh;">
     <div class="pa-2 d-flex flex-column" style="height:100%;overflow:auto;">
