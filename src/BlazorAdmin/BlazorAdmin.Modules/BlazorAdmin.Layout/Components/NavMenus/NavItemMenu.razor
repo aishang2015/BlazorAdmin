@@ -1,4 +1,6 @@
-﻿@foreach (var m in NavMenuItems)
+﻿@using BlazorAdmin.Servers.Core.Helper
+@using BlazorAdmin.Servers.Core.States
+@foreach (var m in NavMenuItems)
 {
     if (m.Childs.Count == 0)
     {

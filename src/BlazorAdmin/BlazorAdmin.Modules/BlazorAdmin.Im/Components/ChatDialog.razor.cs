@@ -1,9 +1,7 @@
-﻿using BlazorAdmin.Core.Auth;
-using BlazorAdmin.Core.Chat;
-using BlazorAdmin.Core.Extension;
-using BlazorAdmin.Data;
+﻿using BlazorAdmin.Servers.Core.Auth;
+using BlazorAdmin.Servers.Core.Chat;
+using BlazorAdmin.Servers.Core.Extension;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
@@ -13,7 +11,7 @@ namespace BlazorAdmin.Im.Components
 {
     public partial class ChatDialog
     {
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+        [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
 
         [Parameter] public HubConnection Connection { get; set; } = null!;
 
@@ -121,7 +119,7 @@ namespace BlazorAdmin.Im.Components
 
             var channelList = context.GroupMembers.Where(m => m.MemberId == userId)
                 .Select(m => m.GroupId).Distinct().ToList();
-            var groups = context.Groups.Where(g=>channelList.Contains(g.Id)).Select(g => new ItemModel
+            var groups = context.Groups.Where(g => channelList.Contains(g.Id)).Select(g => new ItemModel
             {
                 Avatar = null,
                 Name = g.Name,
@@ -209,7 +207,8 @@ namespace BlazorAdmin.Im.Components
         {
             var parameters = new DialogParameters { };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
-            var result = await _dialogService.Show<UserPickerDialog>(null, parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<UserPickerDialog>(null, parameters, options);
+            var result = await dialog.Result;
             if (!result.Canceled)
             {
                 await InitialChatItemList();

@@ -1,8 +1,7 @@
-﻿using BlazorAdmin.Core.Extension;
+﻿using BlazorAdmin.Servers.Core.Extension;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.Reflection;
-using static MudBlazor.CategoryTypes;
 
 namespace BlazorAdmin.Rbac.Components
 {

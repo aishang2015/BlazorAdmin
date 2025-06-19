@@ -1,6 +1,6 @@
-﻿using BlazorAdmin.Core.Modules;
-using BlazorAdmin.Layout.States;
-using Microsoft.AspNetCore.Builder;
+﻿using BlazorAdmin.Layout.States;
+using BlazorAdmin.Servers.Core.Modules;
+using BlazorAdmin.Servers.Core.States;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BlazorAdmin.Layout

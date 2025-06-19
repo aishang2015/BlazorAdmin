@@ -1,6 +1,5 @@
-﻿using BlazorAdmin.Core.Auth;
-using BlazorAdmin.Core.Extension;
-using BlazorAdmin.Data.Constants;
+﻿using BlazorAdmin.Servers.Core.Auth;
+using BlazorAdmin.Servers.Core.Data.Constants;
 using MudBlazor;
 using System.Text.Json;
 using static BlazorAdmin.Layout.Components.NavMenus.NavItemMenu;
@@ -115,7 +114,7 @@ namespace BlazorAdmin.Layout.Components.NavTabs
                 .FirstOrDefault(s => s.UserId == userId && s.Key == CommonConstant.UserTabs);
             if (userTabSetting == null)
             {
-                context.UserSettings.Add(new Data.Entities.Setting.UserSetting
+                context.UserSettings.Add(new Servers.Core.Data.Entities.Setting.UserSetting
                 {
                     UserId = userId,
                     Key = CommonConstant.UserTabs,

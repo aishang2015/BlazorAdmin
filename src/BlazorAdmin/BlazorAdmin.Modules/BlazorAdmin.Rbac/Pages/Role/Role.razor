@@ -1,4 +1,5 @@
 ﻿@page "/role"
+@using BlazorAdmin.Servers.Core.Helper
 
 @rendermode RenderMode.InteractiveServer
 @attribute [StreamRendering]
@@ -30,7 +31,8 @@
 <MudDataGrid Dense=PageDataGridConfig.Dense Filterable=PageDataGridConfig.Filterable ColumnResizeMode=PageDataGridConfig.ColumnResizeMode
              SortMode=PageDataGridConfig.SortMode Groupable=PageDataGridConfig.Groupable Virtualize=PageDataGridConfig.Virtualize
              FixedHeader=PageDataGridConfig.FixedHeader Elevation=PageDataGridConfig.Elevation Outlined=PageDataGridConfig.Outlined
-             SelectedItems="selectedItems" ServerData="GetTableData" @ref="dataGridRef" T="RoleModel" Class="flex-1">
+             Style="@PageDataGridConfig.Style" HorizontalScrollbar="PageDataGridConfig.HorizontalScrollbar"
+             SelectedItems="selectedItems" ServerData="GetTableData" @ref="dataGridRef" T="RoleModel">
     <Columns>
         <SelectColumn T="RoleModel" ShowInFooter="false" />
         <PropertyColumn Title="@Loc["RolePage_TableH1"]" Property="x=>x.Number" HeaderStyle="white-space:nowrap;width:40px;" Resizable="false" />

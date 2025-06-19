@@ -1,5 +1,4 @@
-﻿
-using BlazorAdmin.Component.Dialogs;
+﻿using BlazorAdmin.Servers.Core.Components.Dialogs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
 using MudBlazor;
@@ -59,7 +58,7 @@ namespace BlazorAdmin.Rbac.Pages.Menu
             {
                 var menusCount = context.Menus.Count(m => m.ParentId == MenuEditModel.ParentId);
 
-                context.Menus.Add(new Data.Entities.Rbac.Menu
+                context.Menus.Add(new Servers.Core.Data.Entities.Rbac.Menu
                 {
                     Icon = MenuEditModel.Type == 1 ? MenuEditModel.Icon : null,
                     Name = MenuEditModel.Name,
@@ -86,13 +85,13 @@ namespace BlazorAdmin.Rbac.Pages.Menu
                 menu.Type = MenuEditModel.Type;
             }
 
-            await context.SaveChangesAsync();
+            await context.SaveChangesAuditAsync();
             await InitialMenuTree();
             _snackbarService.Add("保存成功！", Severity.Success);
             EditVisible = false;
         }
 
-        private List<TreeItemData<MenuItem>> AppendMenuItems(int? parentId, List<Data.Entities.Rbac.Menu> menus)
+        private List<TreeItemData<MenuItem>> AppendMenuItems(int? parentId, List<Servers.Core.Data.Entities.Rbac.Menu> menus)
         {
             return menus.Where(m => m.ParentId == parentId).OrderBy(m => m.Order)
                 .Select(m => new TreeItemData<MenuItem>
@@ -179,6 +178,12 @@ namespace BlazorAdmin.Rbac.Pages.Menu
                             _snackbarService.Add("删除成功！", Severity.Success);
                             await InitialMenuTree();
 
+                            if (MenuEditModel.Id == SelectedMenuItem.Id)
+                            {
+                                EditVisible = false;
+                                MenuEditModel = new();
+                            }
+
                             SelectedMenuItem = null;
                             StateHasChanged();
                         }
@@ -191,7 +196,7 @@ namespace BlazorAdmin.Rbac.Pages.Menu
             EditVisible = false;
         }
 
-        private List<int> FindAllSubTreeIds(int parentId, List<Data.Entities.Rbac.Menu> menus)
+        private List<int> FindAllSubTreeIds(int parentId, List<Servers.Core.Data.Entities.Rbac.Menu> menus)
         {
             return menus.Where(m => m.ParentId == parentId).Select(m => m.Id).ToList()
                 .Concat(menus.Where(m => m.ParentId == parentId).SelectMany(m => FindAllSubTreeIds(m.Id, menus)))
@@ -228,7 +233,7 @@ namespace BlazorAdmin.Rbac.Pages.Menu
                     }
                 }
                 menu.Order = newIndex + 1;
-                await context.SaveChangesAsync();
+                await context.SaveChangesAuditAsync();
             }
         }
 

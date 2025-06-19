@@ -1,22 +1,23 @@
-﻿<EditForm Model="JwtConfigModel" OnValidSubmit="JwtConfigSubmit" style="width:100%;">
+﻿@using BlazorAdmin.Servers.Core.Helper
+<EditForm Model="JwtConfigModel" OnValidSubmit="JwtConfigSubmit" style="width:100%;">
 
-	<DataAnnotationsValidator />
-	<MudTextField Class="mt-4" @bind-Value="JwtConfigModel.Issuer" Variant="Variant.Outlined" Margin="Margin.Dense"
-				  Placeholder="Issuer" For="@(() => JwtConfigModel.Issuer)" Label="Issuer"></MudTextField>
-	<MudTextField Class="mt-4" @bind-Value="JwtConfigModel.Audience" Variant="Variant.Outlined" Margin="Margin.Dense"
-				  Placeholder="Issuer" For="@(() => JwtConfigModel.Audience)" Label="Audience"></MudTextField>
-	<MudTextField Class="mt-4" @bind-Value="JwtConfigModel.RsaPublicKey" Variant="Variant.Outlined" Margin="Margin.Dense"
-				  Placeholder="Issuer" For="@(() => JwtConfigModel.RsaPublicKey)" Label="RsaPublicKey" Lines="5" ReadOnly="true"></MudTextField>
-	<MudNumericField Class="mt-4" @bind-Value="JwtConfigModel.ExpireMinutes" Label="过期时间（分钟）" Variant="Variant.Outlined" />
-	<div class="d-flex mt-4">
-		<MudSpacer />
-		<MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mr-2"
-				   ButtonType="ButtonType.Button" OnClick="GenerateNewRsa" StartIcon="@Icons.Material.Filled.Password">
-			生成新的密钥
-		</MudButton>
-		<MudButton Variant="Variant.Filled" Color="Color.Primary"
-				   ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Save">
-			保存
-		</MudButton>
-	</div>
+    <DataAnnotationsValidator />
+    <MudTextField Class="mt-4" @bind-Value="JwtConfigModel.Issuer" Variant="Variant.Outlined" Margin="Margin.Dense"
+                  Placeholder="Issuer" For="@(() => JwtConfigModel.Issuer)" Label="Issuer"></MudTextField>
+    <MudTextField Class="mt-4" @bind-Value="JwtConfigModel.Audience" Variant="Variant.Outlined" Margin="Margin.Dense"
+                  Placeholder="Issuer" For="@(() => JwtConfigModel.Audience)" Label="Audience"></MudTextField>
+    <MudTextField Class="mt-4" @bind-Value="JwtConfigModel.RsaPublicKey" Variant="Variant.Outlined" Margin="Margin.Dense"
+                  Placeholder="Issuer" For="@(() => JwtConfigModel.RsaPublicKey)" Label="RsaPublicKey" Lines="5" ReadOnly="true"></MudTextField>
+    <MudNumericField Class="mt-4" @bind-Value="JwtConfigModel.ExpireMinutes" Label=@_loc["JwtComExpireMinutes"] Variant="Variant.Outlined" />
+    <div class="d-flex mt-4">
+        <MudSpacer />
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mr-2"
+                   ButtonType="ButtonType.Button" OnClick="GenerateNewRsa" StartIcon="@Icons.Material.Filled.Password">
+            @_loc["JwtComGenerateNew"]
+        </MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                   ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Save">
+            @_loc["JwtComSave"]
+        </MudButton>
+    </div>
 </EditForm>

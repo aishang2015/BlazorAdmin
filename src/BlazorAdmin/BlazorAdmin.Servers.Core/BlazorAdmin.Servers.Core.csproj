@@ -1,0 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+	
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<PackageReference Include="Blazor-ApexCharts" Version="6.0.1" />
+		<PackageReference Include="Cropper.Blazor" Version="1.4.1" />
+		<PackageReference Include="CrystalQuartz.AspNetCore" Version="7.1.0" />
+		<PackageReference Include="Mapster" Version="7.4.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.5" />
+		<PackageReference Include="Microsoft.SemanticKernel" Version="1.54.0" />
+		<PackageReference Include="MudBlazor" Version="8.7.0" />
+		<PackageReference Include="MudBlazor.Markdown" Version="8.6.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.5" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+		<PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.14.0" />
+		<PackageReference Include="Quartz.Extensions.Hosting" Version="3.14.0" />
+		<PackageReference Include="Quartz.Serialization.Json" Version="3.14.0" />
+		<PackageReference Include="Selenium.WebDriver" Version="4.33.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.5" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Compile Update="Resources\CommonComponent.Designer.cs">
+	    <DependentUpon>CommonComponent.resx</DependentUpon>
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	  </Compile>
+	  <Compile Update="Resources\CusCulture.Designer.cs">
+	    <DependentUpon>CusCulture.resx</DependentUpon>
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	  </Compile>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <EmbeddedResource Update="Resources\CommonComponent.resx">
+	    <SubType>Designer</SubType>
+	    <LastGenOutput>CommonComponent.Designer.cs</LastGenOutput>
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Resources\CusCulture.en.resx">
+	    <SubType>Designer</SubType>
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Resources\CusCulture.resx">
+	    <SubType>Designer</SubType>
+	    <LastGenOutput>CusCulture.Designer.cs</LastGenOutput>
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	  </EmbeddedResource>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="Data\Entities\WeChat\" />
+	  <Folder Include="Data\Entities\Notification\" />
+	</ItemGroup>
+
+</Project>

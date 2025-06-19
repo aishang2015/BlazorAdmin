@@ -12,7 +12,7 @@ namespace BlazorAdmin.Rbac.Pages.Role.Dialogs
                    { "autocomplete", "off2" },
                 };
 
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+        [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
 
         private RoleCreateModel RoleModel = new();
 
@@ -25,12 +25,12 @@ namespace BlazorAdmin.Rbac.Pages.Role.Dialogs
                 return;
             }
 
-            context.Roles.Add(new Data.Entities.Rbac.Role
+            context.Roles.Add(new Servers.Core.Data.Entities.Rbac.Role
             {
                 Name = RoleModel.RoleName,
                 IsEnabled = true
             });
-            await context.SaveChangesAsync();
+            await context.SaveChangesAuditAsync();
             _snackbarService.Add("创建成功！", Severity.Success);
             MudDialog?.Close(DialogResult.Ok(true));
         }

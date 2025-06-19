@@ -1,7 +1,6 @@
-﻿using BlazorAdmin.Component.Pages;
-using BlazorAdmin.Core.Extension;
+﻿using BlazorAdmin.Servers.Core.Extension;
 using MudBlazor;
-using static BlazorAdmin.Component.Pages.PagePagination;
+using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination;
 
 namespace BlazorAdmin.Log.Pages.LoginLog
 {
@@ -36,12 +35,13 @@ namespace BlazorAdmin.Log.Pages.LoginLog
                     UserName = l.UserName,
                 }).ToList();
             searchObject.Total = query.Count();
+            StateHasChanged();
         }
 
-        private async void PageChangedClick(int page)
+        private async Task PageChangedClick(int page)
         {
             searchObject.Page = page;
-            dataGrid.ReloadServerData();
+            await dataGrid.ReloadServerData();
         }
 
         private async Task<GridData<LoginLogModel>> GetTableData(GridState<LoginLogModel> gridState)

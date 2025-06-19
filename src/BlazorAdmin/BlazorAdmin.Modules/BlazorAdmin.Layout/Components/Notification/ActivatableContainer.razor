@@ -1,0 +1,21 @@
+﻿@using MudBlazor.Interfaces
+@namespace MudBlazor
+@implements IActivatable
+
+<CascadingValue Value="@((IActivatable)this)" IsFixed="true">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    /// <summary>
+    /// The content to render
+    /// </summary>
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    public void Activate(object activator, MouseEventArgs args)
+    {
+        // NOOP
+    }
+
+}

@@ -1,5 +1,5 @@
-﻿using BlazorAdmin.Core.Extension;
-using BlazorAdmin.Core.Helper;
+﻿using BlazorAdmin.Servers.Core.Extension;
+using BlazorAdmin.Servers.Core.Helper;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;

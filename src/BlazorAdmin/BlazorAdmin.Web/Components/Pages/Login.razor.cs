@@ -1,8 +1,8 @@
-﻿using BlazorAdmin.Core.Helper;
-using BlazorAdmin.Core.Resources;
-using BlazorAdmin.Data;
-using BlazorAdmin.Data.Constants;
-using BlazorAdmin.Data.Entities.Log;
+﻿using BlazorAdmin.Servers.Core.Data;
+using BlazorAdmin.Servers.Core.Data.Constants;
+using BlazorAdmin.Servers.Core.Data.Entities.Log;
+using BlazorAdmin.Servers.Core.Helper;
+using BlazorAdmin.Servers.Core.Resources;
 using Microsoft.JSInterop;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
@@ -47,11 +47,41 @@ namespace BlazorAdmin.Web.Components.Pages
         {
             IsLoading = true;
             using var context = await _dbFactory.CreateDbContextAsync();
-            var user = context.Users.FirstOrDefault(u => u.Name == _loginModel.UserName &&
-                u.IsEnabled && !u.IsDeleted && !u.IsSpecial);
-            if (user == null || !HashHelper.VerifyPassword(user.PasswordHash, _loginModel!.Password!))
+
+            var user = context.Users.FirstOrDefault(u => u.Name == _loginModel.UserName && !u.IsDeleted && !u.IsSpecial);
+
+            if (user == null)
             {
                 _snackbarService.Add("用户名或密码错误！", Severity.Error);
+                RecordLogin(_loginModel.UserName!, false, context);
+                IsLoading = false;
+                return;
+            }
+
+            if (user.LoginValiedTime != null && user.LoginValiedTime > DateTime.Now)
+            {
+                _snackbarService.Add($"登录过于频繁，请{(int)(user.LoginValiedTime.Value - DateTime.Now).TotalMinutes + 1}分后再试！", Severity.Error);
+                RecordLogin(_loginModel.UserName!, false, context);
+                IsLoading = false;
+                return;
+            }
+
+            if (!HashHelper.VerifyPassword(user.PasswordHash, _loginModel!.Password!))
+            {
+                var failCount = context.LoginLogs.Count(l => l.UserName == user.Name && l.IsSuccessd == false &&
+                    l.Time > DateTime.Now.AddMinutes(-30)) + 1;
+                if (failCount >= 5)
+                {
+                    user.LoginValiedTime = DateTime.Now.AddMinutes(30);
+                    context.Users.Update(user);
+                    context.SaveChanges();
+                    _snackbarService.Add("用户名或密码错误！请在30分钟后再进行尝试！", Severity.Error);
+                }
+                else
+                {
+                    _snackbarService.Add("用户名或密码错误！", Severity.Error);
+                }
+
                 RecordLogin(_loginModel.UserName!, false, context);
                 IsLoading = false;
                 return;
@@ -63,6 +93,8 @@ namespace BlazorAdmin.Web.Components.Pages
             });
             var cookieUtil = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/cookieUtil.js");
             await cookieUtil.InvokeVoidAsync("setCookie", CommonConstant.UserToken, token);
+
+            await _notificationHelper.SendSystemNotificationAsync($"欢迎回来，{user.RealName}！", "", user.Id);
 
             _authService.SetCurrentUser(token);
             RecordLogin(_loginModel.UserName!, true, context);

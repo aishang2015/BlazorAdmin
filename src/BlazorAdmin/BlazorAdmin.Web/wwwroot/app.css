@@ -84,5 +84,18 @@ h1:focus {
     margin: 0 !important;
 }
 
+
+.search-com .mud-input-control {
+    margin: 0 !important;
+}
+
+.mud-table-container {
+    min-width: 100%;
+}
+
+.dense-badge .mud-badge {
+    inset: auto auto calc(100% - 24px) calc(100% - 24px) !important;
+}
+
 :root {
 }

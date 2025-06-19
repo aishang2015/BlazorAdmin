@@ -5,6 +5,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BlazorAdmin.Core\BlazorAdmin.Core.csproj" />
+    <ProjectReference Include="..\..\..\BlazorAdmin.Servers.Core\BlazorAdmin.Servers.Core.csproj" />
   </ItemGroup>
 </Project>

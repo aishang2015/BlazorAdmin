@@ -12,7 +12,7 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
                    { "autocomplete", "off2" },
                 };
 
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+        [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
 
         [Parameter] public int UserId { get; set; }
 
@@ -29,6 +29,8 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
                     Id = user.Id,
                     UserName = user.Name,
                     RealName = user.RealName,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber
                 };
             }
             else
@@ -51,7 +53,9 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
             {
                 user.Name = UserModel.UserName!;
                 user.RealName = UserModel.RealName!;
-                await context.SaveChangesAsync();
+                user.Email = UserModel.Email!;
+                user.PhoneNumber = UserModel.PhoneNumber!;
+                await context.SaveChangesAuditAsync();
                 _snackbarService.Add("更新成功！", Severity.Success);
                 MudDialog?.Close(DialogResult.Ok(true));
             }
@@ -72,6 +76,12 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
             [Required(ErrorMessage = "请输入姓名")]
             [MaxLength(200, ErrorMessage = "姓名位数过长")]
             public string? RealName { get; set; }
+
+            [EmailAddress(ErrorMessage = "请输入正确的邮箱地址")]
+            public string? Email { get; set; }
+
+            [MaxLength(30, ErrorMessage = "电话号码长度过长")]
+            public string? PhoneNumber { get; set; }
         }
     }
 }

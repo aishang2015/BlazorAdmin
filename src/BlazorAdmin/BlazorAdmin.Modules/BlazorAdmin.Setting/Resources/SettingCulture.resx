@@ -117,6 +117,39 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CodeGeneratorCopy" xml:space="preserve">
+    <value>复制代码</value>
+  </data>
+  <data name="CodeGeneratorDownload" xml:space="preserve">
+    <value>下载文件</value>
+  </data>
+  <data name="CodeGeneratorGenerate" xml:space="preserve">
+    <value>生成代码</value>
+  </data>
+  <data name="CodeGeneratorSelectEntity" xml:space="preserve">
+    <value>选择实体类</value>
+  </data>
+  <data name="CodeGeneratorTitle" xml:space="preserve">
+    <value>代码生成器</value>
+  </data>
+  <data name="JwtComConfirmQuestion" xml:space="preserve">
+    <value>是否生成新的JWT密钥？</value>
+  </data>
+  <data name="JwtComConfirmText" xml:space="preserve">
+    <value>确定生成</value>
+  </data>
+  <data name="JwtComExpireMinutes" xml:space="preserve">
+    <value>过期时间（分钟）</value>
+  </data>
+  <data name="JwtComGenerateNew" xml:space="preserve">
+    <value>生成新密钥</value>
+  </data>
+  <data name="JwtComSave" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="JwtComTitle" xml:space="preserve">
+    <value>JWT配置</value>
+  </data>
   <data name="SystemSettingTitle" xml:space="preserve">
     <value>系统设置</value>
   </data>

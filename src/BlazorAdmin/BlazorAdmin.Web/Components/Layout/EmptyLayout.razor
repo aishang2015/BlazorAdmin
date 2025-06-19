@@ -1,6 +1,10 @@
 ﻿@using BlazorAdmin.Layout.Components.Themes
+@using BlazorAdmin.Servers.Core.Helper
+@using BlazorAdmin.Servers.Core.States
 @inherits LayoutComponentBase
 
+<ProvidersAggregate></ProvidersAggregate>
+
 <div style="width: 100%; height: 100vh;">
-    @ChildContent
+    @Body
 </div>

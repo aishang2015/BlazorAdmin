@@ -1,12 +1,15 @@
 ﻿@using System.Net.Http
-@using BlazorAdmin.Core.Auth;
-@using BlazorAdmin.Core.Chat
-@using BlazorAdmin.Core.Helper;
-@using BlazorAdmin.Core.Resources;
-@using BlazorAdmin.Data;
-@using BlazorAdmin.Core.Services;
+@using BlazorAdmin
+
 @using BlazorAdmin.Im.Events
 @using BlazorAdmin.Im.Resources
+@using BlazorAdmin.Servers.Core.Auth;
+@using BlazorAdmin.Servers.Core.Chat
+@using BlazorAdmin.Servers.Core.Components.Pages;
+@using BlazorAdmin.Servers.Core.Data;
+@using BlazorAdmin.Servers.Core.Helper
+@using BlazorAdmin.Servers.Core.Resources;
+@using BlazorAdmin.Servers.Core.Services;
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.Forms
@@ -17,11 +20,8 @@
 @using Microsoft.EntityFrameworkCore;
 @using Microsoft.Extensions.Localization;
 @using Microsoft.JSInterop
-@using BlazorAdmin
-@using BlazorAdmin.Component.Pages
-@using static Microsoft.AspNetCore.Components.Web.RenderMode
-
 @using MudBlazor
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
 
 @inject IJSRuntime _jsRuntime;
 @inject IDbContextFactory<BlazorAdminDbContext> _dbFactory;

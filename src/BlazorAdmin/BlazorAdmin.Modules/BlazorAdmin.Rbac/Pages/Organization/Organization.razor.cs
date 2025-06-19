@@ -1,6 +1,7 @@
-﻿using BlazorAdmin.Component.Dialogs;
-using BlazorAdmin.Data;
-using BlazorAdmin.Rbac.Pages.Organization.Dialogs;
+﻿using BlazorAdmin.Rbac.Pages.Organization.Dialogs;
+using BlazorAdmin.Servers.Core.Components.Dialogs;
+using BlazorAdmin.Servers.Core.Data;
+using BlazorAdmin.Servers.Core.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
 using MudBlazor;
@@ -74,12 +75,12 @@ namespace BlazorAdmin.Rbac.Pages.Organization
                     }
                 }
                 organization.Order = newIndex + 1;
-                await context.SaveChangesAsync();
+                await context.SaveChangesAuditAsync();
             }
         }
 
         private List<TreeItemData<OrganizationItem>> AppendOrganizationItems(int? parentId,
-                List<Data.Entities.Rbac.Organization> organizations)
+                List<Servers.Core.Data.Entities.Rbac.Organization> organizations)
         {
             return organizations.Where(m => m.ParentId == parentId).OrderBy(m => m.Order)
                 .Select(m => new TreeItemData<OrganizationItem>
@@ -112,7 +113,7 @@ namespace BlazorAdmin.Rbac.Pages.Organization
             {
                 var organizationCount = context.Organizations.Count(m => m.ParentId == EditModel.ParentId);
 
-                context.Organizations.Add(new Data.Entities.Rbac.Organization
+                context.Organizations.Add(new Servers.Core.Data.Entities.Rbac.Organization
                 {
                     Name = EditModel.Name!,
                     ParentId = EditModel.ParentId,
@@ -127,11 +128,18 @@ namespace BlazorAdmin.Rbac.Pages.Organization
                     _snackbarService.Add("此组织不存在！", Severity.Error);
                     return;
                 }
+
+                if (organization.Id == EditModel.ParentId)
+                {
+                    _snackbarService.Add("不能将自身设置为上级组织！", Severity.Error);
+                    return;
+                }
+
                 organization.Name = EditModel.Name!;
                 organization.ParentId = EditModel.ParentId;
             }
 
-            await context.SaveChangesAsync();
+            await context.SaveChangesAuditAsync();
             await InitialOrganizationTree();
             _snackbarService.Add("保存成功！", Severity.Success);
             EditVisible = false;
@@ -143,6 +151,8 @@ namespace BlazorAdmin.Rbac.Pages.Organization
             {
                 return;
             }
+
+            SelectedOrganizationItem = item;
 
             using var context = await _dbFactory.CreateDbContextAsync();
             var organization = context.Organizations.Find(item.Id);
@@ -173,28 +183,28 @@ namespace BlazorAdmin.Rbac.Pages.Organization
                 {
                     using var db = await _dbFactory.CreateDbContextAsync();
 
-                    var organizations = db.Organizations.ToList();
-                    var subtreeIdList = FindAllSubTreeIds(SelectedOrganizationItem.Id, organizations);
-                    subtreeIdList.Add(SelectedOrganizationItem.Id);
+                    var organizationIds = db.Organizations.GetAllSubOrganiations(SelectedOrganizationItem.Id)
+                        .Select(o => o.Id);
 
                     using var tran = db.Database.BeginTransaction();
 
-                    await db.Organizations.Where(m => subtreeIdList.Contains(m.Id)).ExecuteDeleteAsync();
-                    await db.OrganizationUsers.Where(ou => subtreeIdList.Contains(ou.OrganizationId)).ExecuteDeleteAsync();
+                    await db.Organizations.Where(m => organizationIds.Contains(m.Id)).ExecuteDeleteAsync();
+                    await db.OrganizationUsers.Where(ou => organizationIds.Contains(ou.OrganizationId)).ExecuteDeleteAsync();
                     await tran.CommitAsync();
 
                     _snackbarService.Add("删除成功！", Severity.Success);
                     await InitialOrganizationTree();
+
+                    if (EditModel.Id == SelectedOrganizationItem?.Id)
+                    {
+                        EditModel = new();
+                        MemberVisible = false;
+                        EditVisible = false;
+                    }
                     SelectedOrganizationItem = null;
+
                     StateHasChanged();
                 });
-        }
-
-        private List<int> FindAllSubTreeIds(int parentId, List<Data.Entities.Rbac.Organization> organizations)
-        {
-            return organizations.Where(m => m.ParentId == parentId).Select(m => m.Id).ToList()
-                .Concat(organizations.Where(m => m.ParentId == parentId).SelectMany(m => FindAllSubTreeIds(m.Id, organizations)))
-                .ToList();
         }
 
         #region Member edit 
@@ -252,8 +262,8 @@ namespace BlazorAdmin.Rbac.Pages.Organization
             };
 
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-            var result = await _dialogService.Show<MemberSelect>
-                ("添加新成员", parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<MemberSelect>("添加新成员", parameters, options);
+            var result = await dialog.Result;
             if (!result.Canceled)
             {
                 using var context = await _dbFactory.CreateDbContextAsync();
@@ -270,7 +280,7 @@ namespace BlazorAdmin.Rbac.Pages.Organization
             {
                 ou.IsLeader = true;
                 db.OrganizationUsers.Update(ou);
-                await db.SaveChangesAsync();
+                await db.SaveChangesAuditAsync();
                 IntialOrganizationMembers(db);
                 _snackbarService.Add("设置成功！", Severity.Success);
             }
@@ -285,7 +295,7 @@ namespace BlazorAdmin.Rbac.Pages.Organization
             {
                 ou.IsLeader = false;
                 db.OrganizationUsers.Update(ou);
-                await db.SaveChangesAsync();
+                await db.SaveChangesAuditAsync();
                 IntialOrganizationMembers(db);
                 _snackbarService.Add("设置成功！", Severity.Success);
             }

@@ -1,17 +1,16 @@
-﻿using BlazorAdmin.Core.Auth;
-using BlazorAdmin.Core.Extension;
-using BlazorAdmin.Data.Entities.Chat;
-using BlazorAdmin.Data.Entities.Rbac;
+﻿using BlazorAdmin.Servers.Core.Auth;
+using BlazorAdmin.Servers.Core.Data.Entities.Chat;
+using BlazorAdmin.Servers.Core.Data.Entities.Rbac;
+using BlazorAdmin.Servers.Core.Extension;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
-using System.Linq;
 
 namespace BlazorAdmin.Im.Components
 {
     public partial class UserPickerDialog
     {
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+        [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
 
         private string _userName = string.Empty;
 

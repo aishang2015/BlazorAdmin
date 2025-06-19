@@ -1,4 +1,4 @@
-﻿using BlazorAdmin.Core.Chat;
+﻿using BlazorAdmin.Servers.Core.Chat;
 
 namespace BlazorAdmin.Im.Core
 {

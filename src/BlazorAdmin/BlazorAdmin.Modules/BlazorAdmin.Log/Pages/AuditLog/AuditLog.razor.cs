@@ -1,14 +1,13 @@
-﻿using BlazorAdmin.Component.Pages;
-using BlazorAdmin.Core.Extension;
-using BlazorAdmin.Data.Attributes;
+﻿using BlazorAdmin.Core.Helper;
 using BlazorAdmin.Log.Pages.AuditLog.Dialogs;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using BlazorAdmin.Servers.Core.Data.Attributes;
+using BlazorAdmin.Servers.Core.Extension;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using MudBlazor;
 using System.Reflection;
-using static BlazorAdmin.Component.Pages.PagePagination;
+using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination;
 
 namespace BlazorAdmin.Log.Pages.AuditLog
 {
@@ -24,6 +23,16 @@ namespace BlazorAdmin.Log.Pages.AuditLog
         private List<OperateTarget> OperateTargets = new();
 
         private SearchObject searchObject = new();
+
+        private bool _searchDialogVisible = false;
+
+        private int _notEmptyCount = 0;
+
+        private DialogOptions _dialogOptions = new()
+        {
+            MaxWidth = MaxWidth.Large,
+            NoHeader = true,
+        };
 
         protected override async Task OnInitializedAsync()
         {
@@ -65,6 +74,7 @@ namespace BlazorAdmin.Log.Pages.AuditLog
                     UserName = d.RealName
                 }).ToList();
             searchObject.Total = query.Count();
+            StateHasChanged();
 
             Operators = context.Users.Where(u => !u.IsSpecial).Select(u => new Operator
             {
@@ -87,6 +97,19 @@ namespace BlazorAdmin.Log.Pages.AuditLog
             return new GridData<AuditLogModel>() { TotalItems = AuditLogs.Count, Items = AuditLogs };
         }
 
+        private void ShowSearchDialog()
+        {
+            _searchDialogVisible = true;
+            StateHasChanged();
+        }
+
+        private async Task Search()
+        {
+            _searchDialogVisible = false;
+            _notEmptyCount = ReflectionHelper.GetNonNullPropertyCount(searchObject);
+            await dataGrid.ReloadServerData();
+        }
+
         private async Task ViewDetail(Guid id)
         {
             var parameters = new DialogParameters
@@ -94,17 +117,24 @@ namespace BlazorAdmin.Log.Pages.AuditLog
                 {"AuditLogId",id }
             };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
-            await _dialogService.Show<AuditLogDetailDialog>(string.Empty, parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<AuditLogDetailDialog>(string.Empty, parameters, options);
+            await dialog.Result;
         }
 
-        private void PageChangedClick(int page)
+        private async Task PageChangedClick(int page)
         {
             searchObject.Page = page;
+            await dataGrid.ReloadServerData();
+        }
+
+        private void Refresh()
+        {
             dataGrid.ReloadServerData();
         }
 
         private void SearchReset()
         {
+            _notEmptyCount = 0;
             searchObject = new SearchObject();
             searchObject.Page = 1;
             dataGrid.ReloadServerData();

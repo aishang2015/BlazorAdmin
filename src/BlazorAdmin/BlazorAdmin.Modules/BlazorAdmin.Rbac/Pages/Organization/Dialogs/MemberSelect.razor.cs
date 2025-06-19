@@ -7,7 +7,7 @@ namespace BlazorAdmin.Rbac.Pages.Organization.Dialogs
     public partial class MemberSelect
     {
         [CascadingParameter]
-        MudDialogInstance? MudDialog { get; set; }
+        IMudDialogInstance? MudDialog { get; set; }
 
         [Parameter]
         public int OrganizationId { get; set; }
@@ -59,12 +59,12 @@ namespace BlazorAdmin.Rbac.Pages.Organization.Dialogs
             if (!user.IsInOrg)
             {
                 using var dbContext = await _dbFactory.CreateDbContextAsync();
-                var entry = dbContext.OrganizationUsers.Add(new Data.Entities.Rbac.OrganizationUser
+                var entry = dbContext.OrganizationUsers.Add(new Servers.Core.Data.Entities.Rbac.OrganizationUser
                 {
                     UserId = user.UserId,
                     OrganizationId = OrganizationId
                 });
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAuditAsync();
                 MudDialog?.Close(DialogResult.Ok(true));
             }
         }

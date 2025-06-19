@@ -1,5 +1,7 @@
 ﻿@using BlazorAdmin.Layout.Components.Culture
 @using BlazorAdmin.Layout.Components.Themes
+@using BlazorAdmin.Servers.Core.Helper
+@using BlazorAdmin.Servers.Core.States
 @using BlazorAdmin.Web.Components.Layout
 
 @rendermode InteractiveServer
@@ -8,9 +10,10 @@
 @page "/login"
 
 <div class="full-screen d-flex justify-center align-center">
+    <div class="inner"></div>
     @if (ShowContent)
     {
-        <MudPaper Class="pa-8 d-flex justify-center align-center flex-column py-8">
+        <MudPaper Class="pa-8 d-flex justify-center align-center flex-column py-8 rounded-lg" Style="z-index:10;">
             <MudText Typo="Typo.h4" Class="py-4">
                 <div class="d-flex align-center">
                     <MudIcon Icon="@IconsConstant.Blazor" Class="mr-1" Size="Size.Large"></MudIcon>

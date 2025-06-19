@@ -1,0 +1,490 @@
+@page "/code-generator"
+
+@using System.ComponentModel.DataAnnotations.Schema
+@using System.IO.Compression
+@using System.Reflection
+@using BlazorAdmin.Servers.Core.Data
+@using BlazorAdmin.Servers.Core.Data.Entities
+@using BlazorAdmin.Servers.Core.Dynamic
+@using BlazorAdmin.Servers.Core.Helper
+@using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination
+@rendermode RenderMode.InteractiveServer
+@inject IDbContextFactory<BlazorAdminDbContext> _dbFactory
+
+<PageHeader Title="@_loc["CodeGeneratorTitle"]">
+    <div style="width:200px" class="mr-2">
+        <MudSelect T="Type" @bind-Value="selectedEntity" Margin="Margin.Dense"
+                   Label="@_loc["CodeGeneratorSelectEntity"]"
+                   Variant="Variant.Outlined" Clearable Class="search-com">
+            @foreach (var entity in entityTypes)
+            {
+                <MudSelectItem Value="entity">@entity.Name</MudSelectItem>
+            }
+        </MudSelect>
+    </div>
+    <MudButton Color="Color.Primary" OnClick="GenerateCode" Class="mr-2" Variant="Variant.Filled">@_loc["CodeGeneratorGenerate"]</MudButton>
+    <MudButton Color="Color.Primary" OnClick="DownloadZip" Class="mr-2" Variant="Variant.Filled">@_loc["CodeGeneratorDownload"]</MudButton>
+    <MudButton Color="Color.Primary" OnClick="CopyCode" Class="mr-2" Variant="Variant.Filled">@_loc["CodeGeneratorCopy"]</MudButton>
+</PageHeader>
+
+<MudPaper Class="pa-4 mb-4 flex-1" Style="overflow:auto">
+    @if (!string.IsNullOrEmpty(_pageSrc))
+    {
+
+        <MudText Style="white-space: pre; font-family: monospace; " Class="border">
+            @_pageSrc
+        </MudText>
+    }
+</MudPaper>
+
+@code {
+
+    private List<Type> entityTypes = new();
+    private Type? selectedEntity;
+
+    private string _pageSrc = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        LoadEntityTypes();
+    }
+
+    private void LoadEntityTypes()
+    {
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+            .Where(a => !a.IsDynamic && a.GetName().Name?.StartsWith("BlazorAdmin") == true);
+
+        entityTypes = assemblies
+            .SelectMany(a => a.GetTypes())
+            .Where(t => t.GetCustomAttributes(typeof(TableAttribute), true).Length > 0)
+            .ToList();
+    }
+
+    private async Task GenerateCode()
+    {
+        if (selectedEntity == null) return;
+
+        var entityName = selectedEntity.Name;
+        var properties = selectedEntity.GetProperties()
+            .Where(p => !p.GetCustomAttributes(typeof(NotMappedAttribute), true).Any())
+            .ToList();
+
+        var tableColumns = string.Join("\n", properties.Where(p => p.Name != "Id").Select(p =>
+        {
+            var commentAttribute = p.GetCustomAttribute(typeof(CommentAttribute)) as CommentAttribute;
+            var title = commentAttribute?.Comment ?? p.Name;
+            return
+            $"        <TemplateColumn Title=\"{title}\" HeaderStyle=\"\">\n" +
+            $"            <CellTemplate>\n" +
+            $"                @context.Item.{p.Name}\n" +
+            $"            </CellTemplate>\n" +
+            $"        </TemplateColumn>";
+        }));
+
+        var searchFields = string.Join("\n", properties
+            .Where(p => p.PropertyType == typeof(string))
+            .Select(p =>
+            {
+                var commentAttribute = p.GetCustomAttribute(typeof(CommentAttribute)) as CommentAttribute;
+                var title = commentAttribute?.Comment ?? p.Name;
+                return
+                $"            <MudTextField T=\"string\" @bind-Value=\"searchObject.Search{p.Name}\" \n" +
+                $"                  Margin=\"Margin.Dense\"  Label=\"{title}\" Variant=\"Variant.Outlined\" \n" +
+                $"                  Clearable  Class=\"mt-2\"></MudTextField>\n";
+            }));
+
+        var searchProperties = string.Join("\n", properties
+            .Where(p => p.PropertyType == typeof(string))
+            .Select(p =>
+            {
+                var typeName = GetCSharpTypeName(p.PropertyType);
+                return $"        public {typeName} Search{p.Name} {{ get; set; }}";
+            }));
+
+        var searchConditions = string.Join("\n", properties
+            .Where(p => p.PropertyType == typeof(string))
+            .Select(p =>
+                $"        if (!string.IsNullOrEmpty(searchObject.Search{p.Name}))\n" +
+                $"        {{\n" +
+                $"            query = query.Where(x => x.{p.Name}!.Contains(searchObject.Search{p.Name}));\n" +
+                $"        }}"));
+
+        var modelProperties = string.Join("\n", properties
+            .Select(p =>
+            {
+                var typeName = GetCSharpTypeName(p.PropertyType);
+                return $"        public {typeName} {p.Name} {{ get; set; }}";
+            }));
+
+        var setProperties = string.Join(",\n", properties
+            .Select(p =>
+                 $"                {p.Name} = x.{p.Name}"));
+
+
+        var formFields = string.Join("\n", properties.Where(p => p.Name != "Id").Select(p =>
+            {
+                var commentAttribute = p.GetCustomAttribute(typeof(CommentAttribute)) as CommentAttribute;
+                var title = commentAttribute?.Comment ?? p.Name;
+                return
+                $"                <MudTextField T=\"{GetCSharpTypeName(p.PropertyType)}\" @bind-Value=\"editModel.{p.Name}\" Class=\"mb-2\"\n " +
+                $"                      Label=\"{title}\" Variant=\"Variant.Outlined\" For=\"()=>editModel.{p.Name}\" Margin=\"Margin.Dense\"  Clearable/>";
+            }));
+
+        var setEditModelProperties = string.Join(",\n", properties
+            .Select(p =>
+                 $"                {p.Name} = entity.{p.Name}"));
+
+        var setEntityProperties = string.Join(",\n", properties
+            .Select(p =>
+                 $"                {p.Name} = editModel.{p.Name}"));
+
+        var code = $@"
+@page ""/{entityName.ToLower()}page""
+
+@rendermode RenderMode.InteractiveServer
+
+@using BlazorAdmin.Servers.Core.Data
+@using BlazorAdmin.Servers.Core.Dynamic
+@using BlazorAdmin.Servers.Core.Data.Entities
+@using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination
+@using BlazorAdmin.Servers.Core.Components.Dialogs
+
+@using {selectedEntity.Namespace}
+
+<PageHeader Title=""{entityName}管理"">
+    @if (_notEmptyCount > 0)
+    {{
+        <MudBadge Content=""@_notEmptyCount"" Overlap=""true"" Color=""Color.Primary"" Bordered=""true"" Class=""mr-3"">
+            <MudIconButton Size=""MudBlazor.Size.Medium"" Icon=""@Icons.Material.Filled.Search""
+                           OnClick=""ShowSearchDialog""
+                           Variant=""Variant.Outlined"" Color=""Color.Primary"" Class=""""></MudIconButton >
+        </MudBadge>
+    }}
+    else
+    {{
+        <MudIconButton Size=""MudBlazor.Size.Medium"" Icon =""@Icons.Material.Filled.Search""
+                       OnClick=""ShowSearchDialog""
+                       Variant=""Variant.Outlined"" Color=""Color.Primary"" Class=""mr-3"" ></MudIconButton >
+    }}
+    <MudTooltip Text=""刷新"" Color=""Color.Primary"" >
+        <MudIconButton Size=""MudBlazor.Size.Medium"" Icon = ""@Icons.Material.Filled.Refresh"" OnClick=""Refresh""
+                       Variant=""Variant.Outlined"" Color=""Color.Primary"" Class=""mr-3""></MudIconButton >
+    </MudTooltip>
+    <MudTooltip Text=""重置搜索"" Color = ""Color.Primary"" >
+        <MudIconButton Size=""MudBlazor.Size.Medium"" Icon=""@Icons.Material.Filled.SearchOff""
+            OnClick=""SearchReset"" Variant=""Variant.Outlined"" Color=""Color.Primary"" Class=""mr-3""></MudIconButton >
+    </MudTooltip>
+    <MudIconButton Size=""MudBlazor.Size.Medium"" Icon =""@Icons.Material.Filled.Add"" OnClick=""AddClick""
+            Variant=""Variant.Outlined"" Color=""Color.Primary"" >
+    </MudIconButton>
+</PageHeader>
+
+<MudDataGrid Dense=PageDataGridConfig.Dense
+             Filterable=PageDataGridConfig.Filterable
+             ColumnResizeMode=PageDataGridConfig.ColumnResizeMode
+             SortMode=PageDataGridConfig.SortMode
+             Groupable=PageDataGridConfig.Groupable
+             Virtualize=PageDataGridConfig.Virtualize
+             FixedHeader=PageDataGridConfig.FixedHeader
+             Elevation=PageDataGridConfig.Elevation
+             Outlined=PageDataGridConfig.Outlined
+             Style=""@PageDataGridConfig.Style""
+             HorizontalScrollbar=""PageDataGridConfig.HorizontalScrollbar""
+             ServerData=""GetTableData""
+             @ref=""dataGrid""
+             T=""TableModel"">
+    <Columns>
+        <TemplateColumn CellStyle=""width:80px"" StickyLeft=true Title=""序号"" >
+            <CellTemplate>
+                @(TableData.IndexOf(context.Item) + 1 + (searchObject.Page - 1) * searchObject.Size)
+            </CellTemplate>
+        </TemplateColumn>
+{tableColumns}
+        <TemplateColumn StickyRight=true Title=""操作"" HeaderStyle="" white-space:nowrap;"">
+            <CellTemplate>
+                <MudIconButton Size=""@MudBlazor.Size.Small"" Icon =""@Icons.Material.Outlined.Delete"" Color=""Color.Error""
+                    OnClick=""() =>DeleteClick(context.Item.Id)"" />
+                <MudIconButton Size=""@MudBlazor.Size.Small"" Icon =""@Icons.Material.Outlined.Edit"" Color=""Color.Primary""
+                    OnClick=""() =>EditClick(context.Item.Id)"" />
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
+
+<PagePagination PageInfo=""searchObject""
+                PageChangedClick=""PageChangedClick"" />
+
+<MudDialog @bind-Visible=""_dialogVisible"" >
+    <TitleContent>
+        <MudText Typo=""Typo.h5"" Class=""mt-4"">编辑信息</MudText>
+    </TitleContent>
+    <DialogContent>
+        <div style=""width:400px;"" >
+            <EditForm Model=""editModel"" OnValidSubmit =""Submit"" >
+                <DataAnnotationsValidator />
+{formFields}
+                <div class=""mt-4 d-flex align-center"" >
+                    <MudSpacer />
+                    <MudButton OnClick=""Cancel"">取消</MudButton>
+                    <MudButton Color = ""Color.Primary"" ButtonType=""ButtonType.Submit"">确定</MudButton>
+                </div>
+            </EditForm>
+        </div>
+    </DialogContent>
+</MudDialog>
+
+<MudDialog @bind-Visible=""_searchDialogVisible"" Options=""_searchDialogOptions"" >
+    <DialogContent>
+        <div style=""width:400px;overflow:hidden;"">
+            <MudText Typo=""Typo.h6"" Class=""my-4"">搜索</MudText>
+{searchFields}
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant=""Variant.Filled"" Color=""Color.Primary"" OnClick=""Search"">搜索</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {{
+
+    private MudDataGrid<TableModel> dataGrid = null!;
+    private List<TableModel> TableData = new();
+    private SearchObject searchObject = new();
+
+    private bool _dialogVisible = false;
+    private EditViewModel editModel {{ get; set; }} = new();
+
+    private bool _searchDialogVisible = false;
+    private int _notEmptyCount = 0;
+    private DialogOptions _searchDialogOptions = new()
+    {{
+        MaxWidth = MaxWidth.Large,
+        NoHeader = true,
+    }};
+
+    protected override async Task OnInitializedAsync()
+    {{
+        await base.OnInitializedAsync();
+    }}
+
+    private async Task InitialAsync()
+    {{
+        using var context = await _dbFactory.CreateDbContextAsync();
+        var query = context.Set<{entityName}>().AsQueryable();
+
+{searchConditions}
+
+        searchObject.Total = await query.CountAsync();
+        StateHasChanged();
+        var data = await query
+            .OrderByDescending(x => x.Id)
+            .Skip((searchObject.Page - 1) * searchObject.Size)
+            .Take(searchObject.Size)
+            .Select(x => new TableModel
+            {{
+{setProperties}
+            }}).ToListAsync();
+
+        TableData = data;
+        StateHasChanged();
+    }}
+
+    private async Task PageChangedClick(int page)
+    {{
+        searchObject.Page = page;
+        await dataGrid.ReloadServerData();
+    }}
+
+    private async Task<GridData<TableModel>> GetTableData(GridState<TableModel> gridState)
+    {{
+        await InitialAsync();
+        return new GridData<TableModel>()
+        {{
+            TotalItems = searchObject.Total,
+            Items = TableData
+        }};
+    }}
+
+    private void ShowSearchDialog()
+    {{
+        _searchDialogVisible = true;
+        StateHasChanged();
+    }}
+
+    private async Task Search()
+    {{
+        _searchDialogVisible = false;
+        _notEmptyCount = ReflectionHelper.GetNonNullPropertyCount(searchObject);
+        await dataGrid.ReloadServerData();
+    }}
+
+    private void Refresh()
+    {{
+        dataGrid.ReloadServerData();
+    }}
+
+    private void SearchReset()
+    {{
+        _notEmptyCount = 0;
+        searchObject = new();
+        searchObject.Page = 1;
+        dataGrid.ReloadServerData();
+    }}
+
+    private async Task AddClick()
+    {{
+        _dialogVisible = true;
+    }}
+
+    private async Task EditClick(int id)
+    {{
+        using var context = await _dbFactory.CreateDbContextAsync();
+        var entity = await context.Set<{entityName}>().FindAsync(id);
+        editModel = new EditViewModel
+        {{
+{setEditModelProperties}
+        }};
+        _dialogVisible = true;
+    }}
+
+    private async Task DeleteClick(int id)
+    {{
+        await _dialogService.ShowDeleteDialog(""确定是否删除"", null,
+            async (e) =>
+            {{
+                using var context = await _dbFactory.CreateDbContextAsync();
+                var data = context.Set<{entityName}>().Find(id);
+                if (data != null)
+                {{
+                    context.Remove(data);
+                    context.SaveChanges();
+
+                    _snackbarService.Add(""删除成功！"", Severity.Success);
+                }}
+                else
+                {{
+                    _snackbarService.Add(""信息不存在！"", Severity.Error);
+                }}
+                await dataGrid.ReloadServerData();
+            }});
+    }}
+
+    private void Cancel()
+    {{
+        _dialogVisible = false;
+    }}
+
+    private async Task Submit()
+    {{
+        using var context = await _dbFactory.CreateDbContextAsync();
+        var dataModel = new {entityName}
+            {{
+{setEntityProperties}
+            }};
+        if (dataModel.Id != 0)
+        {{
+            context.Update(dataModel);
+        }}
+        else
+        {{
+            context.Add(dataModel);
+        }}
+        await context.SaveChangesAsync();
+        _dialogVisible = false;
+        _snackbarService.Add(""保存成功！"", Severity.Success);
+        await dataGrid.ReloadServerData();
+    }}
+
+    private record SearchObject : PaginationModel
+    {{
+{searchProperties}
+    }}
+
+    private class TableModel
+    {{
+{modelProperties}
+    }}
+
+    private class EditViewModel
+    {{
+{modelProperties}
+    }}
+}}";
+
+        _pageSrc = code;
+
+    }
+
+    private async Task DownloadZip()
+    {
+        if (selectedEntity == null || string.IsNullOrEmpty(_pageSrc)) return;
+
+        var entityName = selectedEntity.Name;
+        var tempPath = Path.Combine(Path.GetTempPath(), $"CodeGenerator_{DateTime.Now:yyyyMMddHHmmss}");
+        Directory.CreateDirectory(tempPath);
+
+        try
+        {
+            // 保存页面文件
+            var pageFilePath = Path.Combine(tempPath, $"{entityName}Page.razor");
+            await File.WriteAllTextAsync(pageFilePath, _pageSrc);
+
+            var bytes = File.ReadAllBytes(pageFilePath);
+            var base64String = Convert.ToBase64String(bytes);
+
+            // 通过JavaScript触发下载
+            var commonModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/common.js");
+            await commonModule.InvokeVoidAsync("downloadFileFromBase64", base64String, $"{entityName}Page.razor");
+
+            // 清理临时文件
+            Directory.Delete(tempPath, true);
+            //File.Delete(pageFilePath);
+        }
+        catch (Exception ex)
+        {
+            _snackbarService.Add($"下载失败：{ex.Message}", Severity.Error);
+        }
+    }
+
+    private async Task CopyCode()
+    {
+        if (selectedEntity == null || string.IsNullOrEmpty(_pageSrc)) return;
+
+        var entityName = selectedEntity.Name;
+        var code = _pageSrc;
+        await _jsRuntime.InvokeVoidAsync("copyTextToClipboard", code);
+        _snackbarService.Add($"已复制{entityName}管理页面代码到剪贴板", Severity.Success);
+    }
+
+    private class EntityInfo
+    {
+        public string EntityName { get; set; } = string.Empty;
+        public string TableName { get; set; } = string.Empty;
+    }
+
+    private string GetCSharpTypeName(Type type)
+    {
+        if (type == typeof(int) || type == typeof(Int32)) return "int";
+        if (type == typeof(long) || type == typeof(Int64)) return "long";
+        if (type == typeof(short) || type == typeof(Int16)) return "short";
+        if (type == typeof(byte)) return "byte";
+        if (type == typeof(uint) || type == typeof(UInt32)) return "uint";
+        if (type == typeof(ulong) || type == typeof(UInt64)) return "ulong";
+        if (type == typeof(ushort) || type == typeof(UInt16)) return "ushort";
+        if (type == typeof(sbyte)) return "sbyte";
+        if (type == typeof(float)) return "float";
+        if (type == typeof(double)) return "double";
+        if (type == typeof(decimal)) return "decimal";
+        if (type == typeof(bool)) return "bool";
+        if (type == typeof(char)) return "char";
+        if (type == typeof(string) || type == typeof(String)) return "string";
+        if (type == typeof(object)) return "object";
+        if (type == typeof(void)) return "void";
+        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+        {
+            return GetCSharpTypeName(type.GetGenericArguments()[0]) + "?";
+        }
+        return type.Name;
+    }
+}

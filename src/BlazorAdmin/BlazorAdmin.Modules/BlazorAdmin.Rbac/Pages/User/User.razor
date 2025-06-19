@@ -1,4 +1,5 @@
 ﻿@page "/user"
+@using BlazorAdmin.Servers.Core.Helper
 
 @rendermode RenderMode.InteractiveServer
 @attribute [StreamRendering]
@@ -50,7 +51,8 @@
 <MudDataGrid Dense=PageDataGridConfig.Dense Filterable=PageDataGridConfig.Filterable ColumnResizeMode=PageDataGridConfig.ColumnResizeMode
              SortMode=PageDataGridConfig.SortMode Groupable=PageDataGridConfig.Groupable Virtualize=PageDataGridConfig.Virtualize
              FixedHeader=PageDataGridConfig.FixedHeader Elevation=PageDataGridConfig.Elevation Outlined=PageDataGridConfig.Outlined
-             ServerData="GetTableData" @ref="dataGrid" T="UserModel" Class="flex-1">
+             Style="@PageDataGridConfig.Style" HorizontalScrollbar="PageDataGridConfig.HorizontalScrollbar"
+             ServerData="GetTableData" @ref="dataGrid" T="UserModel">
     <Columns>
         <PropertyColumn Property="x => x.Number" Title="@Loc["UserPage_TableH1"]" StickyLeft="true" Resizable="false" HeaderStyle="white-space:nowrap;width:60px;" />
         <TemplateColumn Title="@Loc["UserPage_TableH2"]" HeaderStyle="white-space:nowrap;">
@@ -72,6 +74,8 @@
         </TemplateColumn>
         <PropertyColumn Property="x => x.Name" Title="@Loc["UserPage_TableH3"]" HeaderStyle="white-space:nowrap" />
         <PropertyColumn Property="x => x.RealName" Title="@Loc["UserPage_TableH6"]" HeaderStyle="white-space:nowrap" />
+        <PropertyColumn Property="x => x.Email" Title="@Loc["UserPage_TableH9"]" HeaderStyle="white-space:nowrap" />
+        <PropertyColumn Property="x => x.PhoneNumber" Title="@Loc["UserPage_TableH10"]" HeaderStyle="white-space:nowrap" />
         <TemplateColumn Title="@Loc["UserPage_TableH7"]" HeaderStyle="white-space:nowrap">
             <CellTemplate>
                 @foreach (var role in context.Item.Roles)

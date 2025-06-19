@@ -1,10 +1,9 @@
-﻿using BlazorAdmin.Component.Dialogs;
-using BlazorAdmin.Component.Pages;
-using BlazorAdmin.Rbac.Pages.Role.Dialogs;
+﻿using BlazorAdmin.Rbac.Pages.Role.Dialogs;
+using BlazorAdmin.Servers.Core.Components.Dialogs;
+using BlazorAdmin.Servers.Core.Components.Pages;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
-using static BlazorAdmin.Component.Pages.PagePagination;
-using static MudBlazor.CategoryTypes;
+using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination;
 
 namespace BlazorAdmin.Rbac.Pages.Role
 {
@@ -24,7 +23,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
         private async Task InitialData()
         {
             using var context = await _dbFactory.CreateDbContextAsync();
-            IQueryable<Data.Entities.Rbac.Role> query = context.Roles.Where(r => !r.IsDeleted);
+            IQueryable<Servers.Core.Data.Entities.Rbac.Role> query = context.Roles.Where(r => !r.IsDeleted);
             if (!string.IsNullOrEmpty(searchObject.SearchText))
             {
                 query = query.Where(u => u.Name!.Contains(searchObject.SearchText));
@@ -37,6 +36,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
                 IsEnabled = r.IsEnabled
             }).Skip((searchObject.Page - 1) * searchObject.Size).Take(searchObject.Size).ToListAsync();
             searchObject.Total = await query.CountAsync();
+            StateHasChanged();
 
             foreach (var role in Roles)
             {
@@ -58,7 +58,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
             if (role != null)
             {
                 role.IsEnabled = isEnabled;
-                await context.SaveChangesAsync();
+                await context.SaveChangesAuditAsync();
                 _snackbarService.Add(Loc["RolePage_StatusChangedMessage"], Severity.Success);
                 Roles.FirstOrDefault(u => u.Id == roleId)!.IsEnabled = isEnabled;
             }
@@ -68,7 +68,8 @@ namespace BlazorAdmin.Rbac.Pages.Role
         {
             var parameters = new DialogParameters { };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-            var result = await _dialogService.Show<CreateRoleDialog>(Loc["RolePage_CreateNewTitle"], parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<CreateRoleDialog>(Loc["RolePage_CreateNewTitle"], parameters, options);
+            var result = await dialog.Result;
             if (!result.Canceled)
             {
                 await dataGridRef.ReloadServerData();
@@ -77,11 +78,11 @@ namespace BlazorAdmin.Rbac.Pages.Role
 
         private async Task DeleteRoleClick(int roleId)
         {
-            var isConfirmed = await _dialogService.ShowConfirmUserPasswodDialog();
-            if (!isConfirmed)
-            {
-                return;
-            }
+            //var isConfirmed = await _dialogService.ShowConfirmUserPasswodDialog();
+            //if (!isConfirmed)
+            //{
+            //    return;
+            //}
 
             await _dialogService.ShowDeleteDialog(Loc["RolePage_DeleteTitle"], null,
                 async (e) =>
@@ -99,7 +100,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
                         var roleMenus = context.RoleMenus.Where(rm => rm.RoleId == roleId);
                         context.RoleMenus.RemoveRange(roleMenus);
 
-                        await context.SaveChangesAsync();
+                        await context.SaveChangesAuditAsync();
                         _snackbarService.Add("删除成功！", Severity.Success);
                     }
                     else
@@ -118,7 +119,8 @@ namespace BlazorAdmin.Rbac.Pages.Role
                 {"RoleId",roleId }
             };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-            var result = await _dialogService.Show<UpdateRoleDialog>(Loc["RolePage_EditTitle"], parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<UpdateRoleDialog>(Loc["RolePage_EditTitle"], parameters, options);
+            var result = await dialog.Result;
             if (!result.Canceled)
             {
                 await dataGridRef.ReloadServerData();
@@ -132,7 +134,8 @@ namespace BlazorAdmin.Rbac.Pages.Role
                 {"RoleId",roleId }
             };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-            var result = await _dialogService.Show<RoleMenuDialog>(Loc["RolePage_SetRoleMenuTitle"], parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<RoleMenuDialog>(Loc["RolePage_SetRoleMenuTitle"], parameters, options);
+            var result = await dialog.Result;
             if (!result.Canceled)
             {
                 await dataGridRef.ReloadServerData();

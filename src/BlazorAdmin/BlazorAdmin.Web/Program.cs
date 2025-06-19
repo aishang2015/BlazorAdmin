@@ -1,27 +1,19 @@
-using BlazorAdmin.Core.Auth;
-using BlazorAdmin.Core.Chat;
-using BlazorAdmin.Core.Data;
-using BlazorAdmin.Core.Extension;
-using BlazorAdmin.Core.Helper;
-using BlazorAdmin.Core.Modules;
-using BlazorAdmin.Core.Services;
-using BlazorAdmin.Data;
-using BlazorAdmin.Data.Constants;
-using BlazorAdmin.Data.Extensions;
-using BlazorAdmin.Layout.States;
+using BlazorAdmin.Servers.Core;
+using BlazorAdmin.Servers.Core.Auth;
+using BlazorAdmin.Servers.Core.Chat;
+using BlazorAdmin.Servers.Core.Data;
+using BlazorAdmin.Servers.Core.Helper;
+using BlazorAdmin.Servers.Core.Modules;
+using BlazorAdmin.Servers.Core.Services;
 using BlazorAdmin.Web.Components;
 using Cropper.Blazor.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.IdentityModel.Tokens;
 using MudBlazor;
 using MudBlazor.Services;
 using Serilog;
-using System.Security.Cryptography;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,8 +21,7 @@ var builder = WebApplication.CreateBuilder(args);
 Environment.CurrentDirectory = AppContext.BaseDirectory;
 builder.Host.UseSerilog((context, services, configuration) => configuration
     .ReadFrom.Configuration(context.Configuration)
-    .ReadFrom.Services(services)
-    .WriteTo.Console());
+    .ReadFrom.Services(services));
 
 // 从AdditionalAssemblies中取得IModule接口的实现类
 var types = Routes.AdditionalAssemblies.SelectMany(a => a.GetTypes()).Where(t => t.IsClass && t.GetInterface(nameof(IModule)) != null).ToList();
@@ -61,6 +52,7 @@ builder.Services.AddMudServices(config =>
     config.SnackbarConfiguration.VisibleStateDuration = 3000;
     config.SnackbarConfiguration.HideTransitionDuration = 200;
     config.SnackbarConfiguration.ShowTransitionDuration = 200;
+    config.SnackbarConfiguration.PreventDuplicates = false;
 });
 builder.Services.AddMudMarkdownServices();
 builder.Services.AddCropper();
@@ -72,15 +64,7 @@ if (!Directory.Exists(dbDirectory))
 }
 
 // dbcontext
-var dbConnectionString = builder.Configuration.GetConnectionString("Rbac")!;
-builder.Services.AddDbContextFactory<BlazorAdminDbContext>(b =>
-{
-    b.UseSqlite(dbConnectionString);
-    b.UseSeeding((d, v) => (d as BlazorAdminDbContext).InitialData(v));
-}, ServiceLifetime.Scoped);
-
-// quartz
-builder.Services.AddQuartzService(dbConnectionString);
+builder.AddDatabase();
 
 // messagesender
 builder.Services.AddSingleton<MessageSender>();
@@ -92,38 +76,19 @@ builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthStateProvider>();
 builder.Services.AddScoped<ExternalAuthService>();
 
 // jwt authentication
+builder.Services.AddSingleton<IAuthorizationHandler, ApiAuthorizeHandler>();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ApiAuthorizePolicy", policy =>
+    {
+        policy.RequireAuthenticatedUser(); // 要求用户已登录
+        policy.Requirements.Add(new ApiAuthorizeRequirement());
+    });
+});
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
-    var connStr = builder.Configuration.GetConnectionString("Rbac");
-    using var context = new BlazorAdminDbContext(new DbContextOptionsBuilder<BlazorAdminDbContext>()
-        .UseSqlite(builder.Configuration.GetConnectionString("Rbac")).Options, default);
-
-    var issuer = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtIssue)!.Value;
-    var audience = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtAudience)!.Value;
-    var privateKey = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtSigningRsaPrivateKey)!.Value;
-    var publicKey = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtSigningRsaPublicKey)!.Value;
-
-    var rsa = RSA.Create();
-    rsa.ImportRSAPublicKey(Convert.FromBase64String(publicKey), out int publicReadBytes);
-    rsa.ImportRSAPrivateKey(Convert.FromBase64String(privateKey), out int privateReadBytes);
-    var securityKey = new RsaSecurityKey(rsa);
-    options.TokenValidationParameters = new TokenValidationParameters()
-    {
-        ValidAudience = audience,
-        ValidateAudience = false,
-
-        ValidIssuer = issuer,
-        ValidateIssuer = false,
-
-        IssuerSigningKey = securityKey,
-
-        ValidateIssuerSigningKey = true,
-        ValidateLifetime = true
-    };
-});
+}).AddJwtBearer(JwtOptionsExtension.InitialJwtOptions);
 
 // some service
 builder.Services.AddMemoryCache();
@@ -137,6 +102,8 @@ builder.Services.AddHttpContextAccessor();
 
 // jwt helper
 builder.Services.AddScoped<JwtHelper>();
+builder.Services.AddScoped<AiHelper>();
+builder.Services.AddScoped<NotificationHelper>();
 
 builder.Services.AddControllers();
 
@@ -145,11 +112,11 @@ moduleList.ForEach(m => m.Add(builder.Services));
 
 var app = builder.Build();
 
-app.CreateDb();
-QuartzExtension.InitialSqliteQuartzTable(dbConnectionString);
+CurrentApplication.Application = app;
+app.InitialDatabase();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
 }
@@ -186,13 +153,3 @@ app.MapRazorComponents<App>()
 moduleList.ForEach(m => m.Use(app));
 
 app.Run();
-
-// https://github.com/dotnet/aspnetcore/issues/52063
-// AuthorizeRouteView 不起作用
-public class BlazorAuthorizationMiddlewareResultHandler : IAuthorizationMiddlewareResultHandler
-{
-    public Task HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
-    {
-        return next(context);
-    }
-}

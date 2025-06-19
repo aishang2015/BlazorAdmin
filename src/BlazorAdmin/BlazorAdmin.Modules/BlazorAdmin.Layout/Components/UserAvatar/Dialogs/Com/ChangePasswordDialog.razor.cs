@@ -1,6 +1,5 @@
-﻿using BlazorAdmin.Core.Auth;
-using BlazorAdmin.Core.Extension;
-using BlazorAdmin.Core.Helper;
+﻿using BlazorAdmin.Servers.Core.Auth;
+using BlazorAdmin.Servers.Core.Helper;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +8,7 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
 {
     public partial class ChangePasswordDialog
     {
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+        [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
 
         private PasswordChangeModel PasswordModel = new();
 

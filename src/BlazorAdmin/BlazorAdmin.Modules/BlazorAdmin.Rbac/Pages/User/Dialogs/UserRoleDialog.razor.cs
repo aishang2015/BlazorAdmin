@@ -1,4 +1,4 @@
-﻿using BlazorAdmin.Data.Entities.Rbac;
+﻿using BlazorAdmin.Servers.Core.Data.Entities.Rbac;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
@@ -8,11 +8,11 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
     public partial class UserRoleDialog
     {
 
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+        [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
 
         [Parameter] public int UserId { get; set; }
 
-        private List<Data.Entities.Rbac.Role> RoleList = new();
+        private List<Servers.Core.Data.Entities.Rbac.Role> RoleList = new();
 
         private Dictionary<int, bool> CheckedDic = new Dictionary<int, bool>();
 
@@ -43,7 +43,7 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
                 RoleId = kv.Key,
             }));
 
-            await context.SaveChangesAsync();
+            await context.SaveChangesAuditAsync();
 
             _snackbarService.Add("提交成功！", Severity.Success);
             MudDialog?.Close(DialogResult.Ok(true));

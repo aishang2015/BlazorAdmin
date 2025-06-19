@@ -1,4 +1,4 @@
-﻿using BlazorAdmin.Core.Helper;
+﻿using BlazorAdmin.Servers.Core.Helper;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
@@ -13,7 +13,7 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
                    { "autocomplete", "off2" },
                 };
 
-        [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+        [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
 
         private UserCreateModel UserModel = new();
 
@@ -26,14 +26,16 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
                 return;
             }
 
-            context.Users.Add(new Data.Entities.Rbac.User
+            context.Users.Add(new Servers.Core.Data.Entities.Rbac.User
             {
                 IsEnabled = true,
                 Name = UserModel.UserName!,
                 RealName = UserModel.RealName!,
-                PasswordHash = HashHelper.HashPassword(UserModel.Password!)
+                PasswordHash = HashHelper.HashPassword(UserModel.Password!),
+                Email = UserModel.Email,
+                PhoneNumber = UserModel.PhoneNumber
             });
-            await context.SaveChangesAsync();
+            await context.SaveChangesAuditAsync();
             _snackbarService.Add("创建成功！", Severity.Success);
             MudDialog?.Close(DialogResult.Ok(true));
         }
@@ -53,6 +55,12 @@ namespace BlazorAdmin.Rbac.Pages.User.Dialogs
             [MaxLength(100, ErrorMessage = "密码位数过长")]
             [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$", ErrorMessage = "密码中必须包含大小写字母以及数字")]
             public string? Password { get; set; }
+
+            [EmailAddress(ErrorMessage = "请输入正确的邮箱地址")]
+            public string? Email { get; set; }
+
+            [MaxLength(30, ErrorMessage = "电话号码长度过长")]
+            public string? PhoneNumber { get; set; }
         }
     }
 }

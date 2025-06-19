@@ -1,8 +1,8 @@
-﻿using BlazorAdmin.Core.Chat;
-using BlazorAdmin.Core.Helper;
-using BlazorAdmin.Data;
-using BlazorAdmin.Data.Entities.Chat;
-using BlazorAdmin.Im.Core;
+﻿using BlazorAdmin.Im.Core;
+using BlazorAdmin.Servers.Core.Chat;
+using BlazorAdmin.Servers.Core.Data;
+using BlazorAdmin.Servers.Core.Data.Entities.Chat;
+using BlazorAdmin.Servers.Core.Helper;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

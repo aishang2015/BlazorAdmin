@@ -1,0 +1,52 @@
+@using BlazorAdmin.Servers.Core.Data.Entities.Ai
+@using BlazorAdmin.Servers.Core.Helper
+@inject IStringLocalizer<AiCulture> localizer
+
+<MudDialog>
+    <DialogContent>
+        <div style="width:400px;">
+            <EditForm Model="Model" OnValidSubmit="Submit">
+                <DataAnnotationsValidator />
+                <MudTextField T="string" @bind-Value="Model.PromptName" Label="@localizer["PromptDialog_PromptName"]"
+                              Required="true" RequiredError="@localizer["PromptDialog_PromptNameRequired"]"
+                              Margin="Margin.Dense" Variant="Variant.Outlined"></MudTextField>
+                <MudTextField T="string" @bind-Value="Model.PromptContent" Label="@localizer["PromptDialog_PromptContent"]"
+                              Required="true" RequiredError="@localizer["PromptDialog_PromptContentRequired"]" Lines="5" AutoGrow="true"
+                              Margin="Margin.Dense" Variant="Variant.Outlined"></MudTextField>
+                <div class="mt-4 d-flex align-center">
+                    <MudSpacer />
+                    <MudButton OnClick="Cancel">@localizer["PromptDialog_Cancel"]</MudButton>
+                    <MudButton Color="Color.Primary" ButtonType="ButtonType.Submit">@localizer["PromptDialog_Submit"]</MudButton>
+                </div>
+            </EditForm>
+        </div>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = null!;
+
+    [Parameter]
+    public AiPrompt Model { get; set; } = new();
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private async Task Submit()
+    {
+        using var context = await _dbFactory.CreateDbContextAsync();
+        if (Model.Id == 0)
+        {
+            await context.Set<AiPrompt>().AddAsync(Model);
+        }
+        else
+        {
+            context.Update(Model);
+        }
+        await context.SaveChangesAsync();
+        MudDialog.Close(DialogResult.Ok(true));
+
+    }
+}

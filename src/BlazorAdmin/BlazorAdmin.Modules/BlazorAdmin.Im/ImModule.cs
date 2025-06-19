@@ -1,9 +1,8 @@
-﻿using BlazorAdmin.Core.Chat;
-using BlazorAdmin.Core.Helper;
-using BlazorAdmin.Core.Modules;
-using BlazorAdmin.Im.Backgrounds;
+﻿using BlazorAdmin.Im.Backgrounds;
 using BlazorAdmin.Im.Core;
 using BlazorAdmin.Im.Events;
+using BlazorAdmin.Servers.Core.Helper;
+using BlazorAdmin.Servers.Core.Modules;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 

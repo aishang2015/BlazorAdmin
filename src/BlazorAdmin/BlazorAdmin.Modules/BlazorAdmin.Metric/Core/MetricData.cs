@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BlazorAdmin.Metric.Core
+﻿namespace BlazorAdmin.Metric.Core
 {
     public record MetricDataRecord(DateTime? Time, string? Value);
 

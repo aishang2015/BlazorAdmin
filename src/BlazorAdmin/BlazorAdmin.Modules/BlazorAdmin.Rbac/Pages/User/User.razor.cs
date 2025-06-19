@@ -1,12 +1,11 @@
-﻿using BlazorAdmin.Component.Dialogs;
-using BlazorAdmin.Component.Pages;
-using BlazorAdmin.Core.Extension;
-using BlazorAdmin.Rbac.Pages.User.Dialogs;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using BlazorAdmin.Rbac.Pages.User.Dialogs;
+using BlazorAdmin.Servers.Core.Components.Dialogs;
+using BlazorAdmin.Servers.Core.Components.Pages;
+using BlazorAdmin.Servers.Core.Data.Extensions;
+using BlazorAdmin.Servers.Core.Extension;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using MudBlazor;
-using static BlazorAdmin.Component.Pages.PagePagination;
+using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination;
 
 namespace BlazorAdmin.Rbac.Pages.User
 {
@@ -20,7 +19,7 @@ namespace BlazorAdmin.Rbac.Pages.User
 
         private PageDataGridConfig PageDataGridOne = new();
 
-        private List<Data.Entities.Rbac.Role> RoleList = new();
+        private List<Servers.Core.Data.Entities.Rbac.Role> RoleList = new();
 
         protected override async Task OnInitializedAsync()
         {
@@ -51,7 +50,10 @@ namespace BlazorAdmin.Rbac.Pages.User
 
             if (searchObject.SelectedOrganization != null)
             {
-                var userIds = context.OrganizationUsers.Where(ou => ou.OrganizationId == searchObject.SelectedOrganization)
+                var orgs = context.Organizations.GetAllSubOrganiations(searchObject.SelectedOrganization.Value)
+                    .Select(org => org.Id);
+
+                var userIds = context.OrganizationUsers.Where(ou => orgs.Contains(ou.OrganizationId))
                    .Select(ou => ou.UserId).Distinct().ToList();
                 searchedUserIdList.AddRange(userIds);
             }
@@ -59,7 +61,7 @@ namespace BlazorAdmin.Rbac.Pages.User
             var query = context.Users.Where(u => !u.IsDeleted && !u.IsSpecial)
                 .AndIfExist(searchObject.SearchText, u => u.Name.Contains(searchObject.SearchText!))
                 .AndIfExist(searchObject.SearchRealName, u => u.RealName.Contains(searchObject.SearchRealName!))
-                .AndIf(searchedUserIdList.Count > 0, u => searchedUserIdList.Contains(u.Id));
+                .AndIf(searchObject.SelectedOrganization != null, u => searchedUserIdList.Contains(u.Id));
 
             Users = await query.Skip((searchObject.Page - 1) * searchObject.Size).Take(searchObject.Size)
                 .Select(p => new UserModel
@@ -69,8 +71,11 @@ namespace BlazorAdmin.Rbac.Pages.User
                     Name = p.Name,
                     RealName = p.RealName,
                     IsEnabled = p.IsEnabled,
+                    Email = p.Email,
+                    PhoneNumber = p.PhoneNumber
                 }).ToListAsync();
             searchObject.Total = await query.CountAsync();
+            StateHasChanged();
 
             var roles = (from r in context.Roles
                          join ur in context.UserRoles on r.Id equals ur.RoleId
@@ -87,20 +92,20 @@ namespace BlazorAdmin.Rbac.Pages.User
                 user.Roles = roles.Where(r => r.UserId == user.Id).Select(r => r.Name).ToList();
                 user.Organizations = organizations.Where(o => o.UserId == user.Id).Select(o => o.Name).ToList();
             }
-
         }
 
         private async Task PageChangedClick(int page)
         {
             searchObject.Page = page;
-            await InitialData();
+            await dataGrid.ReloadServerData();
         }
 
         private async Task AddUserClick()
         {
             var parameters = new DialogParameters { };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-            var result = await _dialogService.Show<CreateUserDialog>(Loc["UserPage_CreateNewTitle"], parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<CreateUserDialog>(Loc["UserPage_CreateNewTitle"], parameters, options);
+            var result = await dialog.Result;
             if (!result.Canceled)
             {
                 await dataGrid.ReloadServerData();
@@ -122,7 +127,7 @@ namespace BlazorAdmin.Rbac.Pages.User
                     var urs = context.UserRoles.Where(ur => ur.UserId == userId);
                     context.UserRoles.RemoveRange(urs);
 
-                    await context.SaveChangesAsync();
+                    await context.SaveChangesAuditAsync();
 
                     _snackbarService.Add("删除成功！", Severity.Success);
                 }
@@ -142,7 +147,8 @@ namespace BlazorAdmin.Rbac.Pages.User
                 {"UserId",userId }
             };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-            var result = await _dialogService.Show<UpdateUserDialog>(Loc["UserPage_EditTitle"], parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<UpdateUserDialog>(Loc["UserPage_EditTitle"], parameters, options);
+            var result = await dialog.Result;
             if (!result.Canceled)
             {
                 await dataGrid.ReloadServerData();
@@ -156,7 +162,8 @@ namespace BlazorAdmin.Rbac.Pages.User
                 {"UserId",userId }
             };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-            await _dialogService.Show<ChangePasswordDialog>(Loc["UserPage_ModifyPasswordTitle"], parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<ChangePasswordDialog>(Loc["UserPage_ModifyPasswordTitle"], parameters, options);
+            await dialog.Result;
         }
 
         private async Task SetUserRoleClick(int userId)
@@ -166,7 +173,8 @@ namespace BlazorAdmin.Rbac.Pages.User
                 {"UserId",userId }
             };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
-            var result = await _dialogService.Show<UserRoleDialog>(Loc["UserPage_SetUserRoleTitle"], parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<UserRoleDialog>(Loc["UserPage_SetUserRoleTitle"], parameters, options);
+            var result = await dialog.Result;
             if (!result.Canceled)
             {
                 await dataGrid.ReloadServerData();
@@ -180,7 +188,7 @@ namespace BlazorAdmin.Rbac.Pages.User
             if (user != null)
             {
                 user.IsEnabled = isEnabled;
-                await context.SaveChangesAsync();
+                await context.SaveChangesAuditAsync();
                 _snackbarService.Add(Loc["UserPage_StatusChangedMessage"], Severity.Success);
                 Users.FirstOrDefault(u => u.Id == userId)!.IsEnabled = isEnabled;
             }
@@ -217,6 +225,10 @@ namespace BlazorAdmin.Rbac.Pages.User
             public string Name { get; set; } = null!;
 
             public string? RealName { get; set; }
+
+            public string? Email { get; set; }
+
+            public string? PhoneNumber { get; set; }
 
             public bool IsEnabled { get; set; }
 

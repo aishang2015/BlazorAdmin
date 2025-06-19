@@ -1,4 +1,5 @@
-﻿<MudDialog>
+﻿@using BlazorAdmin.Servers.Core.Helper
+<MudDialog>
 	<DialogContent>
 		<div style="width:300px;">
 			<EditForm Model="UserModel" OnValidSubmit="UpdateSumbit" style="width:100%;">
@@ -8,6 +9,12 @@
 							  UserAttributes="InputAttributes"></MudTextField>
 				<MudTextField Class="mt-4" @bind-Value="UserModel.RealName" Variant="Variant.Outlined" Margin="Margin.Dense"
 							  Label="姓名" For="@(() => UserModel.RealName)"
+							  UserAttributes="InputAttributes"></MudTextField>
+				<MudTextField Class="mt-4" @bind-Value="UserModel.Email" Variant="Variant.Outlined" Margin="Margin.Dense"
+							  Label="邮箱" For="@(() => UserModel.Email)"
+							  UserAttributes="InputAttributes"></MudTextField>
+				<MudTextField Class="mt-4" @bind-Value="UserModel.PhoneNumber" Variant="Variant.Outlined" Margin="Margin.Dense"
+							  Label="电话号码" For="@(() => UserModel.PhoneNumber)"
 							  UserAttributes="InputAttributes"></MudTextField>
 				<div class="mt-4 d-flex">
 					<MudSpacer />

@@ -1,2 +1,170 @@
 ﻿@page "/"
-<MudMarkdown Value="@Value" />
+@using BlazorAdmin.Servers.Core.Helper
+@using BlazorAdmin.Servers.Core.States
+@using BlazorAdmin.Servers.Core.Data.Entities.Rbac
+@using BlazorAdmin.Servers.Core.Data.Entities.Log
+@using BlazorAdmin.Servers.Core.Data.Entities.Notification
+@using BlazorAdmin.Servers.Core.Data
+@using Microsoft.EntityFrameworkCore
+@using BlazorAdmin.Servers.Core.Resources
+@inject BlazorAdminDbContext DbContext
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
+    <MudGrid>
+        <MudItem xs="12">
+            <MudText Typo="Typo.h4" Class="mb-4">@_commonLoc["HomePage_Title"]</MudText>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 150px;">
+                <MudStack>
+                    <MudIcon Icon="@Icons.Material.Filled.People" Color="Color.Primary" Size="Size.Large" />
+                    <MudText Typo="Typo.h5">@_userCount</MudText>
+                    <MudText>@_commonLoc["HomePage_Title"]</MudText>
+                </MudStack>
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 150px;">
+                <MudStack>
+                    <MudIcon Icon="@Icons.Material.Filled.AccountTree" Color="Color.Secondary" Size="Size.Large" />
+                    <MudText Typo="Typo.h5">@_orgCount</MudText>
+                    <MudText>@_commonLoc["HomePage_OrgCount"]</MudText>
+                </MudStack>
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 150px;">
+                <MudStack>
+                    <MudIcon Icon="@Icons.Material.Filled.Login" Color="Color.Success" Size="Size.Large" />
+                    <MudText Typo="Typo.h5">@_todayLoginCount</MudText>
+                    <MudText>@_commonLoc["HomePage_TodayLogin"]</MudText>
+                </MudStack>
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 150px;">
+                <MudStack>
+                    <MudIcon Icon="@Icons.Material.Filled.History" Color="Color.Warning" Size="Size.Large" />
+                    <MudText Typo="Typo.h5">@_todayAuditCount</MudText>
+                    <MudText>@_commonLoc["HomePage_TodayOperation"]</MudText>
+                </MudStack>
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" md="12">
+            <MudGrid>
+                <MudItem xs="6">
+                    <MudPaper Elevation="2" Class="pa-4">
+                        <MudText Typo="Typo.h6" Class="mb-4">@_commonLoc["HomePage_SystemNotification"]</MudText>
+                        <MudList Dense="true" T="string">
+                            @foreach (var notification in _notifications)
+                            {
+                                <MudListItem>
+                                    <MudText>@notification.Title</MudText>
+                                    <MudText Typo="Typo.caption">@notification.SendTime.ToString("yyyy-MM-dd HH:mm:ss")</MudText>
+                                </MudListItem>
+                            }
+                        </MudList>
+                    </MudPaper>
+                </MudItem>
+
+                <MudItem xs="6">
+                    <MudPaper Elevation="2" Class="pa-4">
+                        <MudText Typo="Typo.h6" Class="mb-4">@_commonLoc["HomePage_RecentLogin"]</MudText>
+                        <MudList Dense="true" T="string">
+                            @foreach (var log in _recentLogins)
+                            {
+                                <MudListItem>
+                                    <div class="d-flex">
+                                        <MudText>@log.UserName</MudText>
+                                        <MudText Typo="Typo.caption" Class="ml-auto">@log.Time.ToString("yyyy-MM-dd HH:mm:ss")</MudText>
+                                    </div>
+                                    <MudText Typo="Typo.caption">IP: @log.Ip</MudText>
+                                </MudListItem>
+                            }
+                        </MudList>
+                    </MudPaper>
+                </MudItem>
+            </MudGrid>
+        </MudItem>
+
+        <MudItem xs="12" md="12">
+            <MudGrid>
+
+                <MudItem xs="12">
+                    <MudPaper Elevation="2" Class="pa-4">
+                        <MudText Typo="Typo.h6" Class="mb-4">@_commonLoc["HomePage_RecentAudit"]</MudText>
+                        <MudTable Items="_recentAudits" Dense="true" Hover="true">
+                            <HeaderContent>
+                                <MudTh>@_commonLoc["HomePage_OperationType"]</MudTh>
+                                <MudTh>@_commonLoc["HomePage_Entity"]</MudTh>
+                                <MudTh>@_commonLoc["HomePage_Time"]</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd>
+                                    @switch (context.Operation)
+                                    {
+                                        case 2:
+                                            <MudChip Color="Color.Error" Size="Size.Small" T="string">@_commonLoc["HomePage_Operation_Delete"]</MudChip>
+                                            break;
+                                        case 3:
+                                            <MudChip Color="Color.Warning" Size="Size.Small" T="string">@_commonLoc["HomePage_Operation_Modify"]</MudChip>
+                                            break;
+                                        case 4:
+                                            <MudChip Color="Color.Success" Size="Size.Small" T="string">@_commonLoc["HomePage_Operation_Add"]</MudChip>
+                                            break;
+                                    }
+                                </MudTd>
+                                <MudTd>@context.EntityName</MudTd>
+                                <MudTd>@context.OperateTime.ToString("yyyy-MM-dd HH:mm:ss")</MudTd>
+                            </RowTemplate>
+                        </MudTable>
+                    </MudPaper>
+                </MudItem>
+            </MudGrid>
+        </MudItem>
+
+    </MudGrid>
+</MudContainer>
+
+@code {
+    private int _userCount;
+    private int _orgCount;
+    private int _todayLoginCount;
+    private int _todayAuditCount;
+    private List<Organization> _organizations = new();
+    private List<LoginLog> _recentLogins = new();
+    private List<AuditLog> _recentAudits = new();
+    private List<Notification> _notifications = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _userCount = await DbContext.Users.CountAsync();
+        _orgCount = await DbContext.Organizations.CountAsync();
+        _todayLoginCount = await DbContext.LoginLogs
+            .Where(x => x.Time.Date == DateTime.Today)
+            .CountAsync();
+        _todayAuditCount = await DbContext.AuditLogs
+            .Where(x => x.OperateTime.Date == DateTime.Today)
+            .CountAsync();
+
+        _recentLogins = await DbContext.LoginLogs
+            .OrderByDescending(x => x.Time)
+            .Take(5)
+            .ToListAsync();
+
+        _recentAudits = await DbContext.AuditLogs
+            .OrderByDescending(x => x.OperateTime)
+            .Take(10)
+            .ToListAsync();
+
+        _notifications = await DbContext.Notifications
+            .OrderByDescending(x => x.SendTime)
+            .Take(5)
+            .ToListAsync();
+    }
+}

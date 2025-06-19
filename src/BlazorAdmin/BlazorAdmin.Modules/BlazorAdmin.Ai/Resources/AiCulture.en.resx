@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AIConfigPage_Title" xml:space="preserve">
+    <value>AI Config</value>
+  </data>
+  <data name="AIConfigPage_SearchModel" xml:space="preserve">
+    <value>Model Name</value>
+  </data>
+  <data name="AIConfigPage_SearchEndpoint" xml:space="preserve">
+    <value>Endpoint</value>
+  </data>
+  <data name="AIConfigPage_TableH1" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="AIConfigPage_TableH2" xml:space="preserve">
+    <value>Model Name</value>
+  </data>
+  <data name="AIConfigPage_TableH3" xml:space="preserve">
+    <value>Endpoint</value>
+  </data>
+  <data name="AIConfigPage_TableH4" xml:space="preserve">
+    <value>Context Length</value>
+  </data>
+  <data name="AIConfigPage_TableH5" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="AIConfigPage_TableH6" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="AIConfigPage_CreateTitle" xml:space="preserve">
+    <value>Create AI Config</value>
+  </data>
+  <data name="AIConfigPage_EditTitle" xml:space="preserve">
+    <value>Edit AI Config</value>
+  </data>
+  <data name="AIConfigPage_DeleteTitle" xml:space="preserve">
+    <value>Confirm Delete?</value>
+  </data>
+  <data name="AIConfigPage_DeleteSuccess" xml:space="preserve">
+    <value>Delete succeed!</value>
+  </data>
+  <data name="AIRequestRecord_Title" xml:space="preserve">
+    <value>AI Request Record</value>
+  </data>
+  <data name="AIRequestRecord_SearchStartTime" xml:space="preserve">
+    <value>Search Start Time</value>
+  </data>
+  <data name="AIRequestRecord_SearchEndTime" xml:space="preserve">
+    <value>Search End Time</value>
+  </data>
+  <data name="Button_ResetSearch" xml:space="preserve">
+    <value>Reset Search</value>
+  </data>
+  <data name="AIRequestRecord_TableH1" xml:space="preserve">
+    <value>No.</value>
+  </data>
+  <data name="AIRequestRecord_TableH2" xml:space="preserve">
+    <value>Request Time</value>
+  </data>
+  <data name="AIRequestRecord_TableH3" xml:space="preserve">
+    <value>Request Tokens</value>
+  </data>
+  <data name="AIRequestRecord_TableH4" xml:space="preserve">
+    <value>Response Tokens</value>
+  </data>
+  <data name="AIRequestRecord_TableH5" xml:space="preserve">
+    <value>Total Price</value>
+  </data>
+  <data name="AIRequestRecord_TableH6" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="AIRequestRecord_DetailTitle" xml:space="preserve">
+    <value>Request Detail</value>
+  </data>
+  <data name="AIConfig_ModelName" xml:space="preserve">
+    <value>Model Name</value>
+  </data>
+  <data name="AIConfig_Endpoint" xml:space="preserve">
+    <value>Endpoint</value>
+  </data>
+  <data name="AIConfig_ApiKey" xml:space="preserve">
+    <value>ApiKey</value>
+  </data>
+  <data name="AIConfig_ContextLength" xml:space="preserve">
+    <value>Context Length</value>
+  </data>
+  <data name="AIConfig_InputPrice" xml:space="preserve">
+    <value>Input Price(million token)</value>
+  </data>
+  <data name="AIConfig_OutputPrice" xml:space="preserve">
+    <value>Output Price(million token)</value>
+  </data>
+  <data name="AIConfig_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="AIConfig_ModelNameRequired" xml:space="preserve">
+    <value>Model Name Required</value>
+  </data>
+  <data name="AIConfig_ContextLengthRequired" xml:space="preserve">
+    <value>Context Length Required</value>
+  </data>
+  <data name="Button_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Button_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="AIConfig_CreateSuccess" xml:space="preserve">
+    <value>Create Success</value>
+  </data>
+  <data name="AIConfig_EditSuccess" xml:space="preserve">
+    <value>Edit Success</value>
+  </data>
+  <data name="AIConfigPage_TableH7" xml:space="preserve">
+    <value>Config Name</value>
+  </data>
+  <data name="AIConfigPage_SearchCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="AIConfig_Code" xml:space="preserve">
+    <value>Config Name</value>
+  </data>
+  <data name="AIConfig_CodeRequired" xml:space="preserve">
+    <value>Config Name Required</value>
+  </data>
+  <data name="AIConfigPage_TestSuccess" xml:space="preserve">
+    <value>Connect success！</value>
+  </data>
+  <data name="Button_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="AIRequestRecord_RequestContent" xml:space="preserve">
+    <value>Request Content</value>
+  </data>
+  <data name="AIRequestRecord_ResponseContent" xml:space="preserve">
+    <value>Response Content</value>
+  </data>
+  <data name="AIRequestRecord_TableH7" xml:space="preserve">
+    <value>Config Name</value>
+  </data>
+  <data name="AIRequestRecord_TableH8" xml:space="preserve">
+    <value>Elapsed Milliseconds</value>
+  </data>
+  <data name="AIRequestRecord_SearchConfigCode" xml:space="preserve">
+    <value>Config Name</value>
+  </data>
+  <data name="AIConfigPage_TestBtn" xml:space="preserve">
+    <value>Test Ai Configuration</value>
+  </data>
+  <data name="AIConfigPage_TestStart" xml:space="preserve">
+    <value>Start Test Request</value>
+  </data>
+  <data name="PromptDialog_PromptName" xml:space="preserve">
+    <value>Prompt Name</value>
+  </data>
+  <data name="PromptDialog_PromptContent" xml:space="preserve">
+    <value>Prompt Content</value>
+  </data>
+  <data name="PromptDialog_PromptNameRequired" xml:space="preserve">
+    <value>Prompt Name Required</value>
+  </data>
+  <data name="PromptDialog_PromptContentRequired" xml:space="preserve">
+    <value>Prompt Content Required</value>
+  </data>
+  <data name="PromptDialog_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="PromptDialog_Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="PromptPage_Title" xml:space="preserve">
+    <value>Prompt Management</value>
+  </data>
+  <data name="PromptPage_Reset" xml:space="preserve">
+    <value>Reset Search</value>
+  </data>
+  <data name="PromptPage_TableId" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="PromptPage_TablePromptName" xml:space="preserve">
+    <value>Prompt Name</value>
+  </data>
+  <data name="PromptPage_TablePromptContent" xml:space="preserve">
+    <value>Prompt Content</value>
+  </data>
+  <data name="PromptPage_TableOperation" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="PromptPage_Create" xml:space="preserve">
+    <value>Add Prompt</value>
+  </data>
+  <data name="PromptPage_Edit" xml:space="preserve">
+    <value>Edit Prompt</value>
+  </data>
+  <data name="PromptPage_Delete" xml:space="preserve">
+    <value>Delete Prompt</value>
+  </data>
+</root>

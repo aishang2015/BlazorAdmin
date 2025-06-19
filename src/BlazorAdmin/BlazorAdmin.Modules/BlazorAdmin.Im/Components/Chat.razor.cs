@@ -1,8 +1,7 @@
-﻿using BlazorAdmin.Core.Auth;
-using BlazorAdmin.Core.Chat;
-using BlazorAdmin.Core.Extension;
-using BlazorAdmin.Data.Constants;
-using BlazorAdmin.Im.Core;
+﻿using BlazorAdmin.Im.Core;
+using BlazorAdmin.Servers.Core.Auth;
+using BlazorAdmin.Servers.Core.Chat;
+using BlazorAdmin.Servers.Core.Data.Constants;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
@@ -88,7 +87,8 @@ namespace BlazorAdmin.Im.Components
                 {"NoReadCountChanged", countChangedCallback }
             };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
-            var result = await _dialogService.Show<ChatDialog>(null, parameters, options).Result;
+            var dialog = await _dialogService.ShowAsync<ChatDialog>(null, parameters, options);
+            await dialog.Result;
             await RefreshNoReadCountAsync();
             _isDialogOpen = false;
             RegistSignalrMethod();

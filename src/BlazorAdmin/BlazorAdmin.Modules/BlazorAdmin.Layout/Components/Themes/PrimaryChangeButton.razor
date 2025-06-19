@@ -1,5 +1,7 @@
 ﻿@rendermode InteractiveServer
 
+@using BlazorAdmin.Servers.Core.Helper
+@using BlazorAdmin.Servers.Core.States
 @using MudBlazor.Utilities
 
 @if (IsFab)
@@ -8,7 +10,7 @@
 }
 else
 {
-    <MudIconButton Style="margin-right:12px;" Icon="@Icons.Material.Filled.ColorLens" Color="Color.Inherit"
+    <MudIconButton  Icon="@Icons.Material.Filled.ColorLens" Color="Color.Inherit"
                    Edge="Edge.Start" OnClick="()=>{visible=true;}" />
 }
 

@@ -1,5 +1,5 @@
-﻿using BlazorAdmin.Data;
-using Microsoft.AspNetCore.Authorization;
+﻿using BlazorAdmin.Servers.Core.Auth;
+using BlazorAdmin.Servers.Core.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,7 +9,7 @@ namespace BlazorAdmin.Web.Controllers
     [ApiController]
     public class AboutController : ControllerBase
     {
-        [Authorize]
+        [ApiAuthorize]
         [HttpPost]
         public async Task<IActionResult> GetRandomNumber([FromServices] IDbContextFactory<BlazorAdminDbContext> _dbFactory)
         {

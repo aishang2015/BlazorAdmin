@@ -1,0 +1,13 @@
+@using BlazorAdmin.Servers.Core.Data.Entities.Ai
+@using BlazorAdmin.Servers.Core.Helper
+@inject IDbContextFactory<BlazorAdminDbContext> _dbFactory
+
+<MudDialog>
+    <DialogContent>
+        <MudText>@Loc["AIRequestRecord_RequestContent"]:<br />@Record?.RequestContent</MudText>
+        <MudText>@Loc["AIRequestRecord_ResponseContent"]:<br />@Record?.ResponseContent</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">@Loc["Button_Close"]</MudButton>
+    </DialogActions>
+</MudDialog>
