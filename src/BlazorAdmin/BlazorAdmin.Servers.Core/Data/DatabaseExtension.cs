@@ -35,7 +35,11 @@ namespace BlazorAdmin.Servers.Core.Data
                 else if (dbProvider == "PostgreSQL")
                 {
                     AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-                    b.UseNpgsql(dbConnectinoString);    
+                    b.UseNpgsql(dbConnectinoString);
+                }
+                else if (dbProvider == "MySQL")
+                {
+                    b.UseMySql(dbConnectinoString, ServerVersion.AutoDetect(dbConnectinoString));
                 }
                 b.UseSeeding((d, v) => (d as BlazorAdminDbContext).InitialData(v));
             }, ServiceLifetime.Scoped);
