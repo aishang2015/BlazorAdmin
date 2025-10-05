@@ -7,32 +7,60 @@
 @using BlazorAdmin.Servers.Core.Data.Entities
 @using BlazorAdmin.Servers.Core.Dynamic
 @using BlazorAdmin.Servers.Core.Helper
+@using System.Text
 @using static BlazorAdmin.Servers.Core.Components.Pages.PagePagination
 @rendermode RenderMode.InteractiveServer
-@inject IDbContextFactory<BlazorAdminDbContext> _dbFactory
 
-<PageHeader Title="@_loc["CodeGeneratorTitle"]">
-    <div style="width:200px" class="mr-2">
-        <MudSelect T="Type" @bind-Value="selectedEntity" Margin="Margin.Dense"
-                   Label="@_loc["CodeGeneratorSelectEntity"]"
-                   Variant="Variant.Outlined" Clearable Class="search-com">
-            @foreach (var entity in entityTypes)
-            {
-                <MudSelectItem Value="entity">@entity.Name</MudSelectItem>
-            }
-        </MudSelect>
-    </div>
-    <MudButton Color="Color.Primary" OnClick="GenerateCode" Class="mr-2" Variant="Variant.Filled">@_loc["CodeGeneratorGenerate"]</MudButton>
-    <MudButton Color="Color.Primary" OnClick="DownloadZip" Class="mr-2" Variant="Variant.Filled">@_loc["CodeGeneratorDownload"]</MudButton>
-    <MudButton Color="Color.Primary" OnClick="CopyCode" Class="mr-2" Variant="Variant.Filled">@_loc["CodeGeneratorCopy"]</MudButton>
+<PageHeader Title="@(_showPageGeneration ? _loc["CodeGeneratorTitle"] : _loc["ProjectScaffoldGeneration"])">
+    <MudText>@_loc["SwitchMode"]</MudText>
+    <MudToggleIconButton @bind-Toggled="@_showPageGeneration"
+                        ToggledIcon="@Icons.Material.Filled.Code" 
+                        Icon="@Icons.Material.Filled.Folder"
+                        ToggledColor="Color.Primary" 
+                        Color="Color.Primary"
+                        Title="@_loc["SwitchToProjectGeneration"]"
+                        ToggledTitle="@_loc["SwitchToPageGeneration"]"
+                        Class="mr-2" />
+    
+    @if (_showPageGeneration)
+    {
+        <div style="width:200px" class="mr-2">
+            <MudSelect T="Type" @bind-Value="selectedEntity" Margin="Margin.Dense"
+                       Label="@_loc["CodeGeneratorSelectEntity"]"
+                       Variant="Variant.Outlined" Clearable Class="search-com">
+                @foreach (var entity in entityTypes)
+                {
+                    <MudSelectItem Value="entity">@entity.Name</MudSelectItem>
+                }
+            </MudSelect>
+        </div>
+        <MudButton Color="Color.Primary" OnClick="GenerateCode" Class="mr-2" Variant="Variant.Filled">@_loc["CodeGeneratorGenerate"]</MudButton>
+        <MudButton Color="Color.Primary" OnClick="DownloadZip" Class="mr-2" Variant="Variant.Filled">@_loc["CodeGeneratorDownload"]</MudButton>
+        <MudButton Color="Color.Primary" OnClick="CopyCode" Class="mr-2" Variant="Variant.Filled">@_loc["CodeGeneratorCopy"]</MudButton>
+    }
+    else
+    {
+        <div style="width:200px" class="mr-2">
+            <MudTextField @bind-Value="projectName" Margin="Margin.Dense"
+                       Label="@_loc["ProjectName"]"
+                       Variant="Variant.Outlined" Clearable Class="search-com" />
+        </div>
+        <MudButton Color="Color.Primary" OnClick="GenerateProject" Class="mr-2" Variant="Variant.Filled">@_loc["GenerateProjectScaffold"]</MudButton>
+        <MudButton Color="Color.Primary" OnClick="DownloadProjectZip" Class="mr-2" Variant="Variant.Filled">@_loc["DownloadProjectScaffold"]</MudButton>
+    }
 </PageHeader>
 
 <MudPaper Class="pa-4 mb-4 flex-1" Style="overflow:auto">
-    @if (!string.IsNullOrEmpty(_pageSrc))
+    @if (_showPageGeneration && !string.IsNullOrEmpty(_pageSrc))
     {
-
-        <MudText Style="white-space: pre; font-family: monospace; " Class="border">
+        <MudText Style="white-space: pre; font-family: monospace;" Class="border">
             @_pageSrc
+        </MudText>
+    }
+    else if (!_showPageGeneration && !string.IsNullOrEmpty(_projectInfo))
+    {
+        <MudText Style="white-space: pre; font-family: monospace;" Class="border">
+            @_projectInfo
         </MudText>
     }
 </MudPaper>
@@ -41,8 +69,12 @@
 
     private List<Type> entityTypes = new();
     private Type? selectedEntity;
+    private string projectName = string.Empty;
+    private bool _showPageGeneration = true;
 
     private string _pageSrc = string.Empty;
+    private string _projectInfo = string.Empty;
+    private Dictionary<string, string> _projectFiles = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -455,6 +487,265 @@
         var code = _pageSrc;
         await _jsRuntime.InvokeVoidAsync("copyTextToClipboard", code);
         _snackbarService.Add($"已复制{entityName}管理页面代码到剪贴板", Severity.Success);
+    }
+
+    private async Task GenerateProject()
+    {
+        if (string.IsNullOrWhiteSpace(projectName))
+        {
+            _snackbarService.Add("请输入项目名称", Severity.Warning);
+            return;
+        }
+
+        if (!projectName.StartsWith("BlazorAdmin."))
+        {
+            projectName = "BlazorAdmin." + projectName;
+        }
+
+        _projectFiles.Clear();
+
+        // 生成 csproj 文件
+        var csprojContent = $@"<Project Sdk=""Microsoft.NET.Sdk.Razor"">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <SupportedPlatform Include=""browser"" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include=""..\..\BlazorAdmin.Servers.Core\BlazorAdmin.Servers.Core.csproj"" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include=""Pages\"" />
+    <Folder Include=""Components\"" />
+    <Folder Include=""Resources\"" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update=""Resources\{projectName.Split('.').Last()}Culture.Designer.cs"" >
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>{projectName.Split('.').Last()}Culture.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update=""Resources\{projectName.Split('.').Last()}Culture.resx"" >
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>{projectName.Split('.').Last()}Culture.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>";
+
+        // 生成 _Imports.razor 文件
+        var importsContent = $@"@using System.Net.Http
+@using BlazorAdmin
+@using {projectName}.Resources
+
+@using BlazorAdmin.Servers.Core.Auth;
+@using BlazorAdmin.Servers.Core.Components.Pages;
+@using BlazorAdmin.Servers.Core.Components.Select;
+@using BlazorAdmin.Servers.Core.Data;
+@using BlazorAdmin.Servers.Core.Helper
+@using BlazorAdmin.Servers.Core.Resources;
+@using BlazorAdmin.Servers.Core.Services;
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.EntityFrameworkCore;
+@using Microsoft.Extensions.Localization;
+@using Microsoft.JSInterop
+@using MudBlazor
+
+@inject IJSRuntime _jsRuntime;
+@inject IDbContextFactory<BlazorAdminDbContext> _dbFactory;
+@inject IDialogService _dialogService;
+@inject ISnackbar _snackbarService;
+@inject IAccessService _accessService;
+
+@inject JwtHelper _jwtHelper;
+@inject AuthenticationStateProvider _stateProvider;
+@inject ExternalAuthService _authService;
+@inject ProtectedLocalStorage _localStorage;
+@inject NavigationManager _navManager;
+@inject IStringLocalizer<{projectName.Split('.').Last()}Culture> Loc;
+
+@attribute [Authorize]
+";
+
+        // 生成模块类文件
+        var moduleClassName = projectName.Split('.').Last() + "Module";
+        var moduleContent = $@"using BlazorAdmin.Servers.Core.Modules;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace {projectName}
+{{
+    public class {moduleClassName} : IModule
+    {{
+        public IServiceCollection Add(IServiceCollection services)
+        {{
+            // 在此处添加服务注册
+            return services;
+        }}
+
+        public WebApplication Use(WebApplication app)
+        {{
+            return app;
+        }}
+    }}
+}}";
+
+        // 生成资源文件
+        var resourceClassName = projectName.Split('.').Last() + "Culture";
+        var resourceContent = $@"//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//     Runtime Version:4.0.30319.42000
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+namespace {projectName}.Resources {{
+    using System;
+    
+    
+    /// <summary>
+    ///   A strongly-typed resource class, for looking up localized strings, etc.
+    /// </summary>
+    // This class was auto-generated by the StronglyTypedResourceBuilder
+    // class via a tool like ResGen or Visual Studio.
+    // To add or remove a member, edit your .ResX file then rerun ResGen
+    // with the /str option, or rebuild your VS project.
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute(""System.Resources.Tools.StronglyTypedResourceBuilder"", ""17.0.0.0"")]
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    public class {resourceClassName} {{
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute(""Microsoft.Performance"", ""CA1811:AvoidUncalledPrivateCode"")]
+        internal {resourceClassName}() {{
+        }}
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        public static global::System.Resources.ResourceManager ResourceManager {{
+            get {{
+                if (object.ReferenceEquals(resourceMan, null)) {{
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager(""{projectName}.Resources.{resourceClassName}"", typeof({resourceClassName}).Assembly);
+                    resourceMan = temp;
+                }}
+                return resourceMan;
+            }}
+        }}
+        
+        /// <summary>
+        ///   Overrides the current thread's CurrentUICulture property for all
+        ///   resource lookups using this strongly typed resource class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        public static global::System.Globalization.CultureInfo Culture {{
+            get {{
+                return resourceCulture;
+            }}
+            set {{
+                resourceCulture = value;
+            }}
+        }}
+    }}
+}}";
+
+        // 添加到文件字典
+        _projectFiles.Add($"{projectName}.csproj", csprojContent);
+        _projectFiles.Add("_Imports.razor", importsContent);
+        _projectFiles.Add($"{moduleClassName}.cs", moduleContent);
+        _projectFiles.Add($"Resources/{resourceClassName}.Designer.cs", resourceContent);
+        _projectFiles.Add($"Resources/{resourceClassName}.resx", "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<root>\r\n  <!-- \r\n    Microsoft ResX Schema \r\n    \r\n    Version 2.0\r\n    \r\n    The primary goals of this format is to allow a simple XML format \r\n    that is mostly human readable. The generation and parsing of the \r\n    various data types are done through the TypeConverter classes \r\n    associated with the data types.\r\n    \r\n    Example:\r\n    \r\n    ... ado.net/XML headers & schema ...\r\n    <resheader name=\"resmimetype\">text/microsoft-resx</resheader>\r\n    <resheader name=\"version\">2.0</resheader>\r\n    <resheader name=\"reader\">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>\r\n    <resheader name=\"writer\">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>\r\n    <data name=\"Name1\"><value>this is my long string</value><comment>this is a comment</comment></data>\r\n    <data name=\"Color1\" type=\"System.Drawing.Color, System.Drawing\">Blue</data>\r\n    <data name=\"Bitmap1\" mimetype=\"application/x-microsoft.net.object.binary.base64\">\r\n        <value>[base64 mime encoded serialized .NET Framework object]</value>\r\n    </data>\r\n    <data name=\"Icon1\" type=\"System.Drawing.Icon, System.Drawing\" mimetype=\"application/x-microsoft.net.object.bytearray.base64\">\r\n        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>\r\n        <comment>This is a comment</comment>\r\n    </data>\r\n                \r\n    There are any number of \"resheader\" rows that contain simple \r\n    name/value pairs.\r\n    \r\n    Each data row contains a name, and value. The row also contains a \r\n    type or mimetype. Type corresponds to a .NET class that support \r\n    text/value conversion through the TypeConverter architecture. \r\n    Classes that don't support this are serialized and stored with the \r\n    mimetype set.\r\n    \r\n    The mimetype is used for serialized objects, and tells the \r\n    ResXResourceReader how to depersist the object. This is currently not \r\n    extensible. For a given mimetype the value must be set accordingly:\r\n    \r\n    Note - application/x-microsoft.net.object.binary.base64 is the format \r\n    that the ResXResourceWriter will generate, however the reader can \r\n    read any of the formats listed below.\r\n    \r\n    mimetype: application/x-microsoft.net.object.binary.base64\r\n    value   : The object must be serialized with \r\n            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter\r\n            : and then encoded with base64 encoding.\r\n    \r\n    mimetype: application/x-microsoft.net.object.soap.base64\r\n    value   : The object must be serialized with \r\n            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter\r\n            : and then encoded with base64 encoding.\r\n\r\n    mimetype: application/x-microsoft.net.object.bytearray.base64\r\n    value   : The object must be serialized into a byte array \r\n            : using a System.ComponentModel.TypeConverter\r\n            : and then encoded with base64 encoding.\r\n    -->\r\n  <xsd:schema id=\"root\" xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:msdata=\"urn:schemas-microsoft-com:xml-msdata\">\r\n    <xsd:import namespace=\"http://www.w3.org/XML/1998/namespace\" />\r\n    <xsd:element name=\"root\" msdata:IsDataSet=\"true\">\r\n      <xsd:complexType>\r\n        <xsd:choice maxOccurs=\"unbounded\">\r\n          <xsd:element name=\"metadata\">\r\n            <xsd:complexType>\r\n              <xsd:sequence>\r\n                <xsd:element name=\"value\" type=\"xsd:string\" minOccurs=\"0\" />\r\n              </xsd:sequence>\r\n              <xsd:attribute name=\"name\" use=\"required\" type=\"xsd:string\" />\r\n              <xsd:attribute name=\"type\" type=\"xsd:string\" />\r\n              <xsd:attribute name=\"mimetype\" type=\"xsd:string\" />\r\n              <xsd:attribute ref=\"xml:space\" />\r\n            </xsd:complexType>\r\n          </xsd:element>\r\n          <xsd:element name=\"assembly\">\r\n            <xsd:complexType>\r\n              <xsd:attribute name=\"alias\" type=\"xsd:string\" />\r\n              <xsd:attribute name=\"name\" type=\"xsd:string\" />\r\n            </xsd:complexType>\r\n          </xsd:element>\r\n          <xsd:element name=\"data\">\r\n            <xsd:complexType>\r\n              <xsd:sequence>\r\n                <xsd:element name=\"value\" type=\"xsd:string\" minOccurs=\"0\" msdata:Ordinal=\"1\" />\r\n                <xsd:element name=\"comment\" type=\"xsd:string\" minOccurs=\"0\" msdata:Ordinal=\"2\" />\r\n              </xsd:sequence>\r\n              <xsd:attribute name=\"name\" type=\"xsd:string\" use=\"required\" msdata:Ordinal=\"1\" />\r\n              <xsd:attribute name=\"type\" type=\"xsd:string\" msdata:Ordinal=\"3\" />\r\n              <xsd:attribute name=\"mimetype\" type=\"xsd:string\" msdata:Ordinal=\"4\" />\r\n              <xsd:attribute ref=\"xml:space\" />\r\n            </xsd:complexType>\r\n          </xsd:element>\r\n          <xsd:element name=\"resheader\">\r\n            <xsd:complexType>\r\n              <xsd:sequence>\r\n                <xsd:element name=\"value\" type=\"xsd:string\" minOccurs=\"0\" msdata:Ordinal=\"1\" />\r\n              </xsd:sequence>\r\n              <xsd:attribute name=\"name\" type=\"xsd:string\" use=\"required\" />\r\n            </xsd:complexType>\r\n          </xsd:element>\r\n        </xsd:choice>\r\n      </xsd:complexType>\r\n    </xsd:element>\r\n  </xsd:schema>\r\n  <resheader name=\"resmimetype\">\r\n    <value>text/microsoft-resx</value>\r\n  </resheader>\r\n  <resheader name=\"version\">\r\n    <value>2.0</value>\r\n  </resheader>\r\n  <resheader name=\"reader\">\r\n    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>\r\n  </resheader>\r\n  <resheader name=\"writer\">\r\n    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>\r\n  </resheader>\r\n</root>");
+        _projectFiles.Add($"Resources/{resourceClassName}.en.resx", "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<root>\r\n  <!-- \r\n    Microsoft ResX Schema \r\n    \r\n    Version 2.0\r\n    \r\n    The primary goals of this format is to allow a simple XML format \r\n    that is mostly human readable. The generation and parsing of the \r\n    various data types are done through the TypeConverter classes \r\n    associated with the data types.\r\n    \r\n    Example:\r\n    \r\n    ... ado.net/XML headers & schema ...\r\n    <resheader name=\"resmimetype\">text/microsoft-resx</resheader>\r\n    <resheader name=\"version\">2.0</resheader>\r\n    <resheader name=\"reader\">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>\r\n    <resheader name=\"writer\">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>\r\n    <data name=\"Name1\"><value>this is my long string</value><comment>this is a comment</comment></data>\r\n    <data name=\"Color1\" type=\"System.Drawing.Color, System.Drawing\">Blue</data>\r\n    <data name=\"Bitmap1\" mimetype=\"application/x-microsoft.net.object.binary.base64\">\r\n        <value>[base64 mime encoded serialized .NET Framework object]</value>\r\n    </data>\r\n    <data name=\"Icon1\" type=\"System.Drawing.Icon, System.Drawing\" mimetype=\"application/x-microsoft.net.object.bytearray.base64\">\r\n        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>\r\n        <comment>This is a comment</comment>\r\n    </data>\r\n                \r\n    There are any number of \"resheader\" rows that contain simple \r\n    name/value pairs.\r\n    \r\n    Each data row contains a name, and value. The row also contains a \r\n    type or mimetype. Type corresponds to a .NET class that support \r\n    text/value conversion through the TypeConverter architecture. \r\n    Classes that don't support this are serialized and stored with the \r\n    mimetype set.\r\n    \r\n    The mimetype is used for serialized objects, and tells the \r\n    ResXResourceReader how to depersist the object. This is currently not \r\n    extensible. For a given mimetype the value must be set accordingly:\r\n    \r\n    Note - application/x-microsoft.net.object.binary.base64 is the format \r\n    that the ResXResourceWriter will generate, however the reader can \r\n    read any of the formats listed below.\r\n    \r\n    mimetype: application/x-microsoft.net.object.binary.base64\r\n    value   : The object must be serialized with \r\n            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter\r\n            : and then encoded with base64 encoding.\r\n    \r\n    mimetype: application/x-microsoft.net.object.soap.base64\r\n    value   : The object must be serialized with \r\n            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter\r\n            : and then encoded with base64 encoding.\r\n\r\n    mimetype: application/x-microsoft.net.object.bytearray.base64\r\n    value   : The object must be serialized into a byte array \r\n            : using a System.ComponentModel.TypeConverter\r\n            : and then encoded with base64 encoding.\r\n    -->\r\n  <xsd:schema id=\"root\" xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:msdata=\"urn:schemas-microsoft-com:xml-msdata\">\r\n    <xsd:import namespace=\"http://www.w3.org/XML/1998/namespace\" />\r\n    <xsd:element name=\"root\" msdata:IsDataSet=\"true\">\r\n      <xsd:complexType>\r\n        <xsd:choice maxOccurs=\"unbounded\">\r\n          <xsd:element name=\"metadata\">\r\n            <xsd:complexType>\r\n              <xsd:sequence>\r\n                <xsd:element name=\"value\" type=\"xsd:string\" minOccurs=\"0\" />\r\n              </xsd:sequence>\r\n              <xsd:attribute name=\"name\" use=\"required\" type=\"xsd:string\" />\r\n              <xsd:attribute name=\"type\" type=\"xsd:string\" />\r\n              <xsd:attribute name=\"mimetype\" type=\"xsd:string\" />\r\n              <xsd:attribute ref=\"xml:space\" />\r\n            </xsd:complexType>\r\n          </xsd:element>\r\n          <xsd:element name=\"assembly\">\r\n            <xsd:complexType>\r\n              <xsd:attribute name=\"alias\" type=\"xsd:string\" />\r\n              <xsd:attribute name=\"name\" type=\"xsd:string\" />\r\n            </xsd:complexType>\r\n          </xsd:element>\r\n          <xsd:element name=\"data\">\r\n            <xsd:complexType>\r\n              <xsd:sequence>\r\n                <xsd:element name=\"value\" type=\"xsd:string\" minOccurs=\"0\" msdata:Ordinal=\"1\" />\r\n                <xsd:element name=\"comment\" type=\"xsd:string\" minOccurs=\"0\" msdata:Ordinal=\"2\" />\r\n              </xsd:sequence>\r\n              <xsd:attribute name=\"name\" type=\"xsd:string\" use=\"required\" msdata:Ordinal=\"1\" />\r\n              <xsd:attribute name=\"type\" type=\"xsd:string\" msdata:Ordinal=\"3\" />\r\n              <xsd:attribute name=\"mimetype\" type=\"xsd:string\" msdata:Ordinal=\"4\" />\r\n              <xsd:attribute ref=\"xml:space\" />\r\n            </xsd:complexType>\r\n          </xsd:element>\r\n          <xsd:element name=\"resheader\">\r\n            <xsd:complexType>\r\n              <xsd:sequence>\r\n                <xsd:element name=\"value\" type=\"xsd:string\" minOccurs=\"0\" msdata:Ordinal=\"1\" />\r\n              </xsd:sequence>\r\n              <xsd:attribute name=\"name\" type=\"xsd:string\" use=\"required\" />\r\n            </xsd:complexType>\r\n          </xsd:element>\r\n        </xsd:choice>\r\n      </xsd:complexType>\r\n    </xsd:element>\r\n  </xsd:schema>\r\n  <resheader name=\"resmimetype\">\r\n    <value>text/microsoft-resx</value>\r\n  </resheader>\r\n  <resheader name=\"version\">\r\n    <value>2.0</value>\r\n  </resheader>\r\n  <resheader name=\"reader\">\r\n    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>\r\n  </resheader>\r\n  <resheader name=\"writer\">\r\n    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>\r\n  </resheader>\r\n</root>");
+
+        // 创建目录结构信息
+        var sb = new StringBuilder();
+        sb.AppendLine($"项目 {projectName} 生成成功，包含以下文件：");
+        sb.AppendLine();
+        foreach (var file in _projectFiles.Keys)
+        {
+            sb.AppendLine($"- {file}");
+        }
+
+        _projectInfo = sb.ToString();
+        _snackbarService.Add($"项目 {projectName} 生成成功", Severity.Success);
+    }
+
+    private async Task DownloadProjectZip()
+    {
+        if (_projectFiles.Count == 0)
+        {
+            _snackbarService.Add("请先生成项目", Severity.Warning);
+            return;
+        }
+
+        var tempPath = Path.Combine(Path.GetTempPath(), $"ProjectGenerator_{DateTime.Now:yyyyMMddHHmmss}");
+        var projectPath = Path.Combine(tempPath, projectName);
+        Directory.CreateDirectory(projectPath);
+        Directory.CreateDirectory(Path.Combine(projectPath, "Resources"));
+        Directory.CreateDirectory(Path.Combine(projectPath, "Pages"));
+        Directory.CreateDirectory(Path.Combine(projectPath, "Components"));
+
+        try
+        {
+            // 保存所有文件
+            foreach (var file in _projectFiles)
+            {
+                var filePath = Path.Combine(projectPath, file.Key);
+                var directory = Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory!);
+                }
+                await File.WriteAllTextAsync(filePath, file.Value);
+            }
+
+            // 创建ZIP文件
+            var zipPath = Path.Combine(tempPath, $"{projectName}.zip");
+            if (File.Exists(zipPath))
+            {
+                File.Delete(zipPath);
+            }
+
+            ZipFile.CreateFromDirectory(projectPath, zipPath);
+
+            // 通过JavaScript触发下载
+            var bytes = File.ReadAllBytes(zipPath);
+            var base64String = Convert.ToBase64String(bytes);
+
+            var commonModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/common.js");
+            await commonModule.InvokeVoidAsync("downloadFileFromBase64", base64String, $"{projectName}.zip");
+
+            // 清理临时文件
+            Directory.Delete(tempPath, true);
+        }
+        catch (Exception ex)
+        {
+            _snackbarService.Add($"下载失败：{ex.Message}", Severity.Error);
+        }
     }
 
     private class EntityInfo

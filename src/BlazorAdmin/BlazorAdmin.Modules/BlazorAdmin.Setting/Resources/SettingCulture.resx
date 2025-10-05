@@ -130,7 +130,7 @@
     <value>选择实体类</value>
   </data>
   <data name="CodeGeneratorTitle" xml:space="preserve">
-    <value>代码生成器</value>
+    <value>页面代码生成</value>
   </data>
   <data name="JwtComConfirmQuestion" xml:space="preserve">
     <value>是否生成新的JWT密钥？</value>
@@ -152,5 +152,26 @@
   </data>
   <data name="SystemSettingTitle" xml:space="preserve">
     <value>系统设置</value>
+  </data>
+  <data name="ProjectScaffoldGeneration" xml:space="preserve">
+    <value>项目基架生成</value>
+  </data>
+  <data name="SwitchMode" xml:space="preserve">
+    <value>切换模式</value>
+  </data>
+  <data name="SwitchToProjectGeneration" xml:space="preserve">
+    <value>切换到项目生成</value>
+  </data>
+  <data name="SwitchToPageGeneration" xml:space="preserve">
+    <value>切换到页面生成</value>
+  </data>
+  <data name="ProjectName" xml:space="preserve">
+    <value>项目名称</value>
+  </data>
+  <data name="GenerateProjectScaffold" xml:space="preserve">
+    <value>生成项目基架</value>
+  </data>
+  <data name="DownloadProjectScaffold" xml:space="preserve">
+    <value>下载项目基架</value>
   </data>
 </root>

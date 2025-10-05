@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -130,7 +130,7 @@
     <value>Select One Entity</value>
   </data>
   <data name="CodeGeneratorTitle" xml:space="preserve">
-    <value>Code Generator</value>
+    <value>Page Code Generator</value>
   </data>
   <data name="JwtComConfirmQuestion" xml:space="preserve">
     <value>Generate new secret?</value>
@@ -152,5 +152,26 @@
   </data>
   <data name="SystemSettingTitle" xml:space="preserve">
     <value>System Setting</value>
+  </data>
+  <data name="ProjectScaffoldGeneration" xml:space="preserve">
+    <value>Project Scaffold Generation</value>
+  </data>
+  <data name="SwitchMode" xml:space="preserve">
+    <value>Switch Mode</value>
+  </data>
+  <data name="SwitchToProjectGeneration" xml:space="preserve">
+    <value>Switch to Project Generation</value>
+  </data>
+  <data name="SwitchToPageGeneration" xml:space="preserve">
+    <value>Switch to Page Generation</value>
+  </data>
+  <data name="ProjectName" xml:space="preserve">
+    <value>Project Name</value>
+  </data>
+  <data name="GenerateProjectScaffold" xml:space="preserve">
+    <value>Generate Project Scaffold</value>
+  </data>
+  <data name="DownloadProjectScaffold" xml:space="preserve">
+    <value>Download Project Scaffold</value>
   </data>
 </root>

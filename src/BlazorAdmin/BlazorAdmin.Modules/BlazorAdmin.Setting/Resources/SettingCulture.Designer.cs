@@ -97,7 +97,7 @@ namespace BlazorAdmin.Setting.Resources {
         }
         
         /// <summary>
-        ///   查找类似 代码生成器 的本地化字符串。
+        ///   查找类似 页面代码生成 的本地化字符串。
         /// </summary>
         internal static string CodeGeneratorTitle {
             get {
