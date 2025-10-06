@@ -30,7 +30,7 @@
 @inject NavigationManager _navManager;
 @inject IStringLocalizer<CommonComponent> _loc;
 
-<MudPaper class="d-flex justify-between align-center mt-2 px-4 py-2">
+<MudPaper class="rounded-0 rounded-b d-flex justify-between align-center px-4 py-2" Elevation="0" Outlined=true>
     <MudSpacer />
     <div style="width:100px;" class="mr-1">
         <MudSelect T="int" Value="PageInfo.Size" ValueChanged="PageSizeChanged" Variant="Variant.Outlined" Label="每页条数"

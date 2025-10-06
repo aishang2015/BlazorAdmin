@@ -18,11 +18,11 @@ namespace BlazorAdmin.Servers.Core.Components.Pages
 
         public static bool FixedHeader { get; private set; } = true;
 
-        public static int Elevation { get; private set; } = 1;
+        public static int Elevation { get; private set; } = 0;
 
-        public static bool Outlined { get; private set; } = false;
+        public static bool Outlined { get; private set; } = true;
 
-        public static string Style { get; private set; } = "flex: 1;";
+        public static string Style { get; private set; } = "flex: 1;border-radius:0;";
 
         public static bool HorizontalScrollbar = true;
     }
