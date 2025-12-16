@@ -26,9 +26,14 @@ namespace BlazorAdmin.Metric.Core
 
         protected override void OnEventWritten(EventWrittenEventArgs eventData)
         {
-            eventData.Payload.ToList().ForEach(x =>
+            eventData.Payload?.ToList().ForEach(x =>
             {
-                var (counterName, counterValue) = GetRelevantMetric(x as IDictionary<string, object>);
+                if (x is not IDictionary<string, object> dic)
+                {
+                    return;
+                }
+
+                var (counterName, counterValue) = GetRelevantMetric(dic);
                 var result = counterName switch
                 {
                     "active-db-contexts" => Metrics.EFCoreActiveDbContexts = counterValue,
@@ -85,21 +90,21 @@ namespace BlazorAdmin.Metric.Core
         private static (string, string) GetRelevantMetric(IDictionary<string, object> eventPayload)
         {
             if (eventPayload == null)
-                return (null, null);
+                return ("", "");
 
             var counterName = "";
             var counterValue = "";
-            if (eventPayload.TryGetValue("Name", out object displayValue))
+            if (eventPayload.TryGetValue("Name", out object? displayValue))
             {
-                counterName = displayValue.ToString();
+                counterName = displayValue?.ToString();
             }
-            if (eventPayload.TryGetValue("Mean", out object value) ||
+            if (eventPayload.TryGetValue("Mean", out object? value) ||
                 eventPayload.TryGetValue("Increment", out value))
             {
                 counterValue = value.ToString();
             }
 
-            return (counterName, counterValue);
+            return (counterName ?? "", counterValue ?? "");
         }
     }
 }

@@ -167,7 +167,7 @@
                     }
                 </MudAvatar>
                 <div class="d-flex flex-column">
-                    @if (selectedNotification.Type == 1)
+                    @if (selectedNotification?.Type == 1)
                     {
                         <MudText Typo="Typo.body2">@L["Sender"]: @L["SystemSender"]</MudText>
                     }
@@ -220,7 +220,7 @@
     private bool ShowUnreadOnly { get; set; }
     private bool dialogVisible;
     private bool sendDialogVisible;
-    private NotificationViewModel selectedNotification;
+    private NotificationViewModel? selectedNotification;
     private DialogOptions dialogOptions = new() { MaxWidth = MaxWidth.Medium, FullWidth = true };
     private List<UserViewModel> users = new();
     private IEnumerable<string> selectedReceivers = new HashSet<string>();
@@ -229,26 +229,26 @@
     private class NotificationViewModel
     {
         public int Id { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
+        public string? Title { get; set; }
+        public string? Content { get; set; }
         public DateTime SendTime { get; set; }
-        public string SenderAvatar { get; set; }
-        public string SenderName { get; set; }
+        public string? SenderAvatar { get; set; }
+        public string? SenderName { get; set; }
         public bool IsRead { get; set; }
-        public string ReceiverName { get; set; }
+        public string? ReceiverName { get; set; }
         public int Type { get; set; }
     }
 
     private class UserViewModel
     {
-        public string Id { get; set; }
-        public string UserName { get; set; }
+        public string? Id { get; set; }
+        public string? UserName { get; set; }
     }
 
     private class NotificationCreateModel
     {
-        public string Title { get; set; }
-        public string Content { get; set; }
+        public string? Title { get; set; }
+        public string? Content { get; set; }
     }
 
 
@@ -455,7 +455,7 @@
     private void CloseDialog()
     {
         dialogVisible = false;
-        selectedNotification = null;
+        selectedNotification = new();
     }
 
     public void Dispose()

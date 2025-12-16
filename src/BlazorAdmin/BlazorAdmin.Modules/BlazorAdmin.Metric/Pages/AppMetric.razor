@@ -53,9 +53,9 @@
                                  Items="_metricEventListener.Metrics.CpuUsageList"
                                  Name="值"
                                  SeriesType="SeriesType.Line"
-                                 XValue="@(e => e.Time.Value.ToUnixTimeMilliseconds())"
+                                 XValue="@(e => e.Time?.ToUnixTimeMilliseconds())"
                                  OrderBy="@(e => e.X)"
-                                 YAggregate="@(items=>decimal.Round(items.Max(item => decimal.Parse(item.Value))))" />
+                                 YAggregate="@(items=>decimal.Round(items.Max(item => decimal.Parse(item.Value ?? "0"))))" />
             </ApexChart>
         </MudCard>
     </div>
@@ -78,13 +78,13 @@
             <MudCard Style="height:100%;" Class="flex-1 d-flex flex-column pa-2 mr-2">
                 <MudText Typo="Typo.subtitle1"><b>@_loc["WorkingSet"]</b></MudText>
                 <MudText Typo="Typo.h4" Class="flex-1 d-flex align-center justify-center">
-                    <span>@(double.Parse(_metricEventListener.Metrics.RuntimeWorkingSet).ToString("N2") + " MB")</span>
+                    <span>@(double.Parse(_metricEventListener.Metrics.RuntimeWorkingSet ?? "0").ToString("N2") + " MB")</span>
                 </MudText>
             </MudCard>
             <MudCard Style="height:100%;" Class="flex-1 d-flex flex-column pa-2">
                 <MudText Typo="Typo.subtitle1"><b>@_loc["GcHeapSize"]</b></MudText>
                 <MudText Typo="Typo.h4" Class="flex-1 d-flex align-center justify-center">
-                    <span>@(double.Parse(_metricEventListener.Metrics.RuntimeGcHeapSize).ToString("N2") + " MB")</span>
+                    <span>@(double.Parse(_metricEventListener.Metrics.RuntimeGcHeapSize ?? "0").ToString("N2") + " MB")</span>
                 </MudText>
             </MudCard>
         </div>
@@ -101,9 +101,9 @@
                                  Items="_metricEventListener.Metrics.EFCoreQueriesPerSecondList"
                                  Name="值"
                                  SeriesType="SeriesType.Line"
-                                 XValue="@(e => e.Time.Value.ToUnixTimeMilliseconds())"
+                                 XValue="@(e => e.Time?.ToUnixTimeMilliseconds())"
                                  OrderBy="@(e => e.X)"
-                                 YValue="@(e=> decimal.Parse(e.Value))" />
+                                 YValue="@(e=> decimal.Parse(e.Value ?? "0"))" />
             </ApexChart>
         </MudCard>
     </div>
@@ -134,32 +134,32 @@
 </div>
 
 @code {
-    Timer _timer;
-    ApexChart<MetricDataRecord> cpuUsageChart;
-    ApexChart<MetricDataRecord> queryPerSecondChart;
+    Timer _timer = null!;
+    ApexChart<MetricDataRecord> cpuUsageChart = null!;
+    ApexChart<MetricDataRecord> queryPerSecondChart = null!;
 
     ApexChartOptions<MetricDataRecord> cpuUsageOptions = new ApexChartOptions<MetricDataRecord>
-        {
-            Chart =
+    {
+        Chart =
             {
                 Toolbar = new Toolbar
                 {
                     Show = false
                 },
             },
-            Xaxis = new XAxis
+        Xaxis = new XAxis
+        {
+            TickAmount = 10,
+            Labels = new XAxisLabels
             {
-                TickAmount = 10,
-                Labels = new XAxisLabels
+                Rotate = 0,
+                Style = new AxisLabelStyle
                 {
-                    Rotate = 0,
-                    Style = new AxisLabelStyle
-                    {
-                        FontSize = "10px"
-                    }
-                },
+                    FontSize = "10px"
+                }
             },
-            Yaxis = new List<YAxis>
+        },
+        Yaxis = new List<YAxis>
             {
                 new YAxis
                 {
@@ -169,35 +169,35 @@
                 },
 
             },
-            Stroke = new Stroke()
-            {
-                Curve = Curve.Smooth,
-                Width = 2,
-            },
-            Theme = new Theme()
-        };
-    ApexChartOptions<MetricDataRecord> queryPerSecondChartOptions = new ApexChartOptions<MetricDataRecord>
+        Stroke = new Stroke()
         {
-            Chart =
+            Curve = Curve.Smooth,
+            Width = 2,
+        },
+        Theme = new Theme()
+    };
+    ApexChartOptions<MetricDataRecord> queryPerSecondChartOptions = new ApexChartOptions<MetricDataRecord>
+    {
+        Chart =
             {
                 Toolbar = new Toolbar
                 {
                     Show = false
                 },
             },
-            Xaxis = new XAxis
+        Xaxis = new XAxis
+        {
+            TickAmount = 10,
+            Labels = new XAxisLabels
             {
-                TickAmount = 10,
-                Labels = new XAxisLabels
+                Rotate = 0,
+                Style = new AxisLabelStyle
                 {
-                    Rotate = 0,
-                    Style = new AxisLabelStyle
-                    {
-                        FontSize = "10px"
-                    }
-                },
+                    FontSize = "10px"
+                }
             },
-            Yaxis = new List<YAxis>
+        },
+        Yaxis = new List<YAxis>
             {
                 new YAxis
                 {
@@ -207,13 +207,13 @@
                 },
 
             },
-            Stroke = new Stroke()
-            {
-                Curve = Curve.Smooth,
-                Width = 2,
-            },
-            Theme = new Theme()
-        };
+        Stroke = new Stroke()
+        {
+            Curve = Curve.Smooth,
+            Width = 2,
+        },
+        Theme = new Theme()
+    };
 
     protected override async Task OnInitializedAsync()
     {
@@ -268,8 +268,13 @@
         });
     }
 
-    string BytesCountToString(string byteStr)
+    string BytesCountToString(string? byteStr)
     {
+        if (string.IsNullOrEmpty(byteStr))
+        {
+            return "0 B";
+        }
+
         // 字节总数转换为文本显示
         var byteCount = decimal.Parse(byteStr);
         if (byteCount < 1024)

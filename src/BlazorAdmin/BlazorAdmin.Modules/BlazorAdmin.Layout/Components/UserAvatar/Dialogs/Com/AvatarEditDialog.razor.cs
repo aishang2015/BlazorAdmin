@@ -2,6 +2,7 @@
 using Cropper.Blazor.Components;
 using Cropper.Blazor.Extensions;
 using Cropper.Blazor.Models;
+using Cropper.Blazor.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
@@ -13,6 +14,7 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
     {
         [Parameter] public IBrowserFile? BrowserFile { get; set; }
         [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
+        [Inject] private IUrlImageInterop UrlImageInterop { get; set; } = null!;
 
         private string src = "";
 
@@ -39,11 +41,11 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
                 {
                     string oldSrc = src;
 
-                    src = await cropperComponent.GetImageUsingStreamingAsync(BrowserFile, BrowserFile.Size);
+                    src = await UrlImageInterop.GetImageUsingStreamingAsync(BrowserFile, BrowserFile.Size);
 
 
                     cropperComponent?.Destroy();
-                    cropperComponent?.RevokeObjectUrlAsync(oldSrc);
+                    UrlImageInterop?.RevokeObjectUrlAsync(oldSrc);
 
                     StateHasChanged();
                 }
@@ -59,7 +61,7 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
         private void Destroy()
         {
             cropperComponent?.Destroy();
-            cropperComponent?.RevokeObjectUrlAsync(src);
+            UrlImageInterop?.RevokeObjectUrlAsync(src);
         }
 
         public async Task SaveAvatar()
@@ -71,7 +73,11 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
                 ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString()
             };
 
-            var croppedCanvasDataURL = await cropperComponent!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
+            var imageReceiver = await cropperComponent!.GetCroppedCanvasDataInBackgroundAsync(getCroppedCanvasOptions);
+            using MemoryStream croppedCanvasDataStream = await imageReceiver.GetImageChunkStreamAsync();
+            byte[] croppedCanvasData = croppedCanvasDataStream.ToArray();
+            string croppedCanvasDataURL = "data:image/png;base64," + Convert.ToBase64String(croppedCanvasData); 
+            
             var fileName = SaveDataUrlToFile(croppedCanvasDataURL, Path.Combine(AppContext.BaseDirectory, "Avatars"));
 
             var userId = await _stateProvider.GetUserIdAsync();

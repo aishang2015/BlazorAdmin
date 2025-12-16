@@ -209,7 +209,7 @@ namespace BlazorAdmin.Im.Components
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
             var dialog = await _dialogService.ShowAsync<UserPickerDialog>(null, parameters, options);
             var result = await dialog.Result;
-            if (!result.Canceled)
+            if (result != null && !result.Canceled)
             {
                 await InitialChatItemList();
             }
@@ -224,11 +224,13 @@ namespace BlazorAdmin.Im.Components
         private async Task SendMessage()
         {
             var userId = await _stateProvider.GetUserIdAsync();
+#pragma warning disable CS0612 // 类型或成员已过时
             await _messageSender.SendChannelMessage(
                 userId,
                 SelectedItem!.IsPrivate ? null : SelectedItem.Id,
                 !SelectedItem!.IsPrivate ? null : SelectedItem.Id,
                 _messageValue);
+#pragma warning restore CS0612 // 类型或成员已过时
             _messageValue = null;
         }
 

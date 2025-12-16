@@ -10,7 +10,7 @@
         @if (string.IsNullOrEmpty(_avatar))
         {
             <MudAvatar Size="Size.Small" Color=" Color.Primary">
-                @_userName.First()
+                @_userName.FirstOrDefault()
             </MudAvatar>
         }
         else
@@ -64,8 +64,11 @@
             var userId = await _stateProvider.GetUserIdAsync();
             using var context = await _dbFactory.CreateDbContextAsync();
             var userInfo = context.Users.Find(userId);
-            _userName = userInfo.RealName;
-            _avatar = userInfo.Avatar;
+            if (userInfo != null)
+            {
+                _userName = userInfo.RealName;
+                _avatar = userInfo.Avatar;
+            }
         }
     }
 
@@ -79,9 +82,12 @@
         using var context = await _dbFactory.CreateDbContextAsync();
         var userId = await _stateProvider.GetUserIdAsync();
         var userInfo = context.Users.Find(userId);
-        _userName = userInfo.RealName;
-        _avatar = userInfo.Avatar;
-        StateHasChanged();
+        if (userInfo != null)
+        {
+            _userName = userInfo.RealName;
+            _avatar = userInfo.Avatar;
+            StateHasChanged();
+        }
     }
 
     private async Task LogoutClick()

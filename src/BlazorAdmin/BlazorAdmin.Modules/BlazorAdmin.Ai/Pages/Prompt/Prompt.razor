@@ -10,7 +10,7 @@
 @rendermode RenderMode.InteractiveServer
 
 <PageHeader Title="@localizer["PromptPage_Title"]">
-    <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="()=>dataGrid.ReloadServerData()"
+    <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Search" OnClick="() => dataGrid.ReloadServerData()"
                    Variant="Variant.Outlined" Color="Color.Primary" Class="mr-2"></MudIconButton>
     <MudTooltip Text="@localizer["PromptPage_Reset"]" Color="Color.Primary">
         <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.SearchOff" OnClick="SearchReset"
@@ -18,7 +18,7 @@
     </MudTooltip>
     @if (_accessService.CheckHasElementRights("PromptAddBtn").Result)
     {
-        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" OnClick="()=>OpenDialog()"
+        <MudIconButton Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Add" OnClick="() => OpenDialog()"
                        Variant="Variant.Outlined" Color="Color.Primary" Class="ml-2"></MudIconButton>
     }
 </PageHeader>
@@ -83,11 +83,11 @@
             .Skip((searchObject.Page - 1) * searchObject.Size)
             .Take(searchObject.Size)
             .Select(x => new TableModel
-                {
-                    Id = x.Id,
-                    PromptName = x.PromptName,
-                    PromptContent = x.PromptContent
-                })
+            {
+                Id = x.Id,
+                PromptName = x.PromptName,
+                PromptContent = x.PromptContent
+            })
             .ToListAsync();
 
         TableData = data;
@@ -120,16 +120,16 @@
         if (model != null)
         {
             parameters.Add(x => x.Model, new AiPrompt
-                {
-                    Id = model.Id,
-                    PromptName = model.PromptName,
-                    PromptContent = model.PromptContent
-                });
+            {
+                Id = model.Id,
+                PromptName = model.PromptName,
+                PromptContent = model.PromptContent
+            });
         }
 
         var dialog = await DialogService.ShowAsync<PromptDialog>(model == null ? localizer["PromptPage_Create"] : localizer["PromptPage_Edit"], parameters, options);
         var result = await dialog.Result;
-        if (!result.Canceled)
+        if (result != null && !result.Canceled)
         {
             await dataGrid.ReloadServerData();
         }

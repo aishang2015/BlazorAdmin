@@ -2,7 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
-using MySqlConnector;
+using MySql.Data.MySqlClient;
 using Npgsql;
 using Quartz;
 

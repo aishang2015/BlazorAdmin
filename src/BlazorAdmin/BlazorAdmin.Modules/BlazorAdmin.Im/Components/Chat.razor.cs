@@ -13,8 +13,6 @@ namespace BlazorAdmin.Im.Components
     {
         private bool _isDialogOpen = false;
 
-        private bool _haveMsg = false;
-
         private int _noReadCount = 0;
 
         private HubConnection? _hubConnection;

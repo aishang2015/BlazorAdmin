@@ -2,7 +2,7 @@
 
 A simple management system template written using Blazor and MudBlazor.
 
-[中文版](README_zh.md)
+[中文](README_zh.md)
 
 ---
 
@@ -30,7 +30,7 @@ A simple management system template written using Blazor and MudBlazor.
 
 #### Technology stack:
 
-- .NET 9
+- .NET 10
 
 - Blazor
 

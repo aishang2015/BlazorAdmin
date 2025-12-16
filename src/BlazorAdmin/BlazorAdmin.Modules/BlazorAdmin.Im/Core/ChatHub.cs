@@ -39,7 +39,7 @@ namespace BlazorAdmin.Im.Core
             var httpContextFeature = Context.Features.FirstOrDefault(f => f.Value is IHttpRequestFeature).Value as IHttpRequestFeature;
             var authToken = httpContextFeature?.Headers.Authorization.ToString().Split(" ").Last();
             var userPrincipal = _jwtHelper.ValidToken(authToken ?? string.Empty);
-            OnlineUsers.Remove(userPrincipal.GetUserId(), out var connectionId);
+            OnlineUsers.Remove(userPrincipal?.GetUserId() ?? 0, out var connectionId);
             await base.OnDisconnectedAsync(exception);
         }
 

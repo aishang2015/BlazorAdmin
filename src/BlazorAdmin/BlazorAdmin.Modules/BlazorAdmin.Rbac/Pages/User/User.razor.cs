@@ -106,7 +106,7 @@ namespace BlazorAdmin.Rbac.Pages.User
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
             var dialog = await _dialogService.ShowAsync<CreateUserDialog>(Loc["UserPage_CreateNewTitle"], parameters, options);
             var result = await dialog.Result;
-            if (!result.Canceled)
+            if (result != null && !result.Canceled)
             {
                 await dataGrid.ReloadServerData();
             }
@@ -149,7 +149,7 @@ namespace BlazorAdmin.Rbac.Pages.User
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
             var dialog = await _dialogService.ShowAsync<UpdateUserDialog>(Loc["UserPage_EditTitle"], parameters, options);
             var result = await dialog.Result;
-            if (!result.Canceled)
+            if (result != null && !result.Canceled)
             {
                 await dataGrid.ReloadServerData();
             }
@@ -175,7 +175,7 @@ namespace BlazorAdmin.Rbac.Pages.User
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
             var dialog = await _dialogService.ShowAsync<UserRoleDialog>(Loc["UserPage_SetUserRoleTitle"], parameters, options);
             var result = await dialog.Result;
-            if (!result.Canceled)
+            if (result != null && !result.Canceled)
             {
                 await dataGrid.ReloadServerData();
             }

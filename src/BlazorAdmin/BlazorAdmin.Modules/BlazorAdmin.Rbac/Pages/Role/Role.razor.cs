@@ -70,7 +70,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
             var dialog = await _dialogService.ShowAsync<CreateRoleDialog>(Loc["RolePage_CreateNewTitle"], parameters, options);
             var result = await dialog.Result;
-            if (!result.Canceled)
+            if (result != null && !result.Canceled)
             {
                 await dataGridRef.ReloadServerData();
             }
@@ -121,7 +121,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
             var dialog = await _dialogService.ShowAsync<UpdateRoleDialog>(Loc["RolePage_EditTitle"], parameters, options);
             var result = await dialog.Result;
-            if (!result.Canceled)
+            if (result != null && !result.Canceled)
             {
                 await dataGridRef.ReloadServerData();
             }
@@ -136,7 +136,7 @@ namespace BlazorAdmin.Rbac.Pages.Role
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
             var dialog = await _dialogService.ShowAsync<RoleMenuDialog>(Loc["RolePage_SetRoleMenuTitle"], parameters, options);
             var result = await dialog.Result;
-            if (!result.Canceled)
+            if (result != null && !result.Canceled)
             {
                 await dataGridRef.ReloadServerData();
             }

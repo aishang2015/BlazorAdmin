@@ -26,7 +26,7 @@ namespace BlazorAdmin.Servers.Core.Helper
         {
             using var context = await _dbContextFactory.CreateDbContextAsync();
             var config = context.AiConfigs.FirstOrDefault(c => c.ConfigName == configName);
-            if (config == null)
+            if (config == null || config.ModelName == null || config.ApiKey == null || config.Endpoint == null)
             {
                 throw new Exception("Ai config not found");
             }
@@ -66,11 +66,11 @@ namespace BlazorAdmin.Servers.Core.Helper
             decimal totalPrice = 0;
             if (config.InputPricePerToken != null && config.InputPricePerToken > 0)
             {
-                totalPrice += config.InputPricePerToken.Value * usage.InputTokenCount;
+                totalPrice += config.InputPricePerToken.Value * usage?.InputTokenCount ?? 0;
             }
             if (config.OutputPricePerToken != null && config.OutputPricePerToken > 0)
             {
-                totalPrice += config.OutputPricePerToken.Value * usage.OutputTokenCount;
+                totalPrice += config.OutputPricePerToken.Value * usage?.OutputTokenCount ?? 0;
             }
 
             var requestContent = prompt.PromptContent ?? string.Empty;
@@ -84,8 +84,8 @@ namespace BlazorAdmin.Servers.Core.Helper
                 AiConfigId = config.Id,
                 RequestTime = DateTime.Now,
                 ElapsedMilliseconds = (int)stopWatch.ElapsedMilliseconds,
-                RequestTokens = usage.InputTokenCount,
-                ResponseTokens = usage.OutputTokenCount,
+                RequestTokens = usage?.InputTokenCount ?? 0,
+                ResponseTokens = usage?.OutputTokenCount ?? 0,
                 RequestContent = requestContent,
                 ResponseContent = responseText,
                 TotalPrice = totalPrice,
@@ -128,8 +128,8 @@ namespace BlazorAdmin.Servers.Core.Helper
                     AiConfigId = configId,
                     RequestTime = DateTime.Now,
                     ElapsedMilliseconds = (int)stopWatch.ElapsedMilliseconds,
-                    RequestTokens = usage.InputTokenCount,
-                    ResponseTokens = usage.OutputTokenCount,
+                    RequestTokens = usage?.InputTokenCount ?? 0,
+                    ResponseTokens = usage?.OutputTokenCount ?? 0,
                     RequestContent = "请回复hello，不需要别的内容",
                     ResponseContent = responseText,
                 });

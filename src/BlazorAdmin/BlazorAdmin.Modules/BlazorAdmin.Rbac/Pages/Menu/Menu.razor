@@ -28,7 +28,7 @@
                         <MudTreeViewItem @bind-Expanded="@context.Expanded" Items="@context.Children" Value="@context.Value">
                             <Content>
                                 <MudTreeViewItemToggleButton @bind-Expanded="@context.Expanded" Visible="context.HasChildren" />
-                                @if (context.Value.MenuType == 1)
+                                @if (context.Value?.MenuType == 1)
                                 {
                                     <MudIcon Icon="@context.Value.Icon" Class="mr-2"></MudIcon>
                                 }
@@ -37,8 +37,8 @@
                                     <MudIcon Icon="@Icons.Material.Outlined.Square" Class="mr-2"></MudIcon>
 
                                 }
-                                <MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.Value.MenuName</MudText>
-                                <div class="identify" style="display:none;">@context.Value.Id</div>
+                                <MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.Value?.MenuName</MudText>
+                                <div class="identify" style="display:none;">@context.Value?.Id</div>
                                 <MudSpacer />
                                 @if (_accessService.CheckHasElementRights("MenuOrderBtn").Result)
                                 {

@@ -6,11 +6,11 @@
 
 @if (IsFab)
 {
-    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.ColorLens" OnClick="()=>{visible=true;}" />
+    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.ColorLens" OnClick="() => { visible = true; }" />
 }
 else
 {
-    <MudIconButton  Icon="@Icons.Material.Filled.ColorLens" Color="Color.Inherit"
+    <MudIconButton Icon="@Icons.Material.Filled.ColorLens" Color="Color.Inherit"
                    Edge="Edge.Start" OnClick="()=>{visible=true;}" />
 }
 
@@ -35,7 +35,7 @@ else
                     <MudIcon Icon="@Icons.Material.Filled.DarkMode" Color="Color.Default" />
                     <MudIcon Icon="@Icons.Material.Filled.LightMode" Color="Color.Default" /> *@
 
-                    <MudToggleGroup T="string" Value="@toggleValue" ValueChanged="ToggleChanged" Outlined="true" Delimiters="true" Rounded="true" CheckMark="false" Style="width: 100%;">
+                    <MudToggleGroup T="string" Value="@toggleValue" ValueChanged="ToggleChanged" Outlined="true" Delimiters="true" CheckMark="false" Style="width: 100%;">
                         <MudToggleItem Value="@("Light")">
                             <div class="d-flex">
                                 <MudIcon Icon="@Icons.Material.Filled.LightMode"></MudIcon>

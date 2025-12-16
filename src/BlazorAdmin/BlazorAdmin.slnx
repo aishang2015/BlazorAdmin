@@ -1,0 +1,21 @@
+<Solution>
+  <Folder Name="/BlazorAdmin.Modules/">
+    <Project Path="BlazorAdmin.Modules/BlazorAdmin.Ai/BlazorAdmin.Ai.csproj" />
+    <Project Path="BlazorAdmin.Modules/BlazorAdmin.Im/BlazorAdmin.Im.csproj" />
+    <Project Path="BlazorAdmin.Modules/BlazorAdmin.Layout/BlazorAdmin.Layout.csproj" />
+    <Project Path="BlazorAdmin.Modules/BlazorAdmin.Log/BlazorAdmin.Log.csproj" />
+    <Project Path="BlazorAdmin.Modules/BlazorAdmin.Metric/BlazorAdmin.Metric.csproj" />
+    <Project Path="BlazorAdmin.Modules/BlazorAdmin.Rbac/BlazorAdmin.Rbac.csproj" />
+    <Project Path="BlazorAdmin.Modules/BlazorAdmin.Setting/BlazorAdmin.Setting.csproj" />
+  </Folder>
+  <Folder Name="/BlazorAdmin.Modules/BlazorAdmin.About/">
+    <Project Path="BlazorAdmin.Modules/BlazorAdmin.About/BlazorAdmin.About.Client/BlazorAdmin.About.Client.csproj" />
+    <Project Path="BlazorAdmin.Modules/BlazorAdmin.About/BlazorAdmin.About.Server/BlazorAdmin.About.Server.csproj" />
+  </Folder>
+  <Folder Name="/BlazorAdmin.Modules/BlazorAdmin.Clients/">
+    <Project Path="BlazorAdmin.Modules/BlazorAdmin.Clients/BlazorAdmin.Clients.Core/BlazorAdmin.Clients.Core.csproj" />
+    <Project Path="BlazorAdmin.Modules/BlazorAdmin.Clients/BlazorAdmin.Clients/BlazorAdmin.Clients.csproj" />
+  </Folder>
+  <Project Path="BlazorAdmin.Servers.Core/BlazorAdmin.Servers.Core.csproj" />
+  <Project Path="BlazorAdmin.Web/BlazorAdmin.Web.csproj" />
+</Solution>

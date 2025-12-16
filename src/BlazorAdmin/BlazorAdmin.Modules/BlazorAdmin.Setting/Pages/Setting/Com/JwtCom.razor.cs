@@ -9,7 +9,7 @@ namespace BlazorAdmin.Setting.Pages.Setting.Com
 {
     public partial class JwtCom
     {
-        private JwtConfig JwtConfigModel;
+        private JwtConfig JwtConfigModel = null!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -36,9 +36,11 @@ namespace BlazorAdmin.Setting.Pages.Setting.Com
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true };
             var dialog = await _dialogService.ShowAsync<ConfirmUpdateRsa>(string.Empty, new DialogParameters(), options);
             var result = await dialog.Result;
-            if (!result.Canceled)
+            if (result != null && !result.Canceled)
             {
+#pragma warning disable CA1416 // 验证平台兼容性
                 var rsa = RSA.Create();
+#pragma warning restore CA1416 // 验证平台兼容性
                 JwtConfigModel.RsaPrivateKey = Convert.ToBase64String(rsa.ExportRSAPrivateKey());
                 JwtConfigModel.RsaPublicKey = Convert.ToBase64String(rsa.ExportRSAPublicKey());
             }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -12,27 +12,26 @@
 	
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<PackageReference Include="Blazor-ApexCharts" Version="6.0.1" />
-		<PackageReference Include="Cropper.Blazor" Version="1.4.1" />
-		<PackageReference Include="CrystalQuartz.AspNetCore" Version="7.1.0" />
-		<PackageReference Include="Mapster" Version="7.4.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.5" />
-		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.5" />
-		<PackageReference Include="Microsoft.SemanticKernel" Version="1.54.0" />
-		<PackageReference Include="MudBlazor" Version="8.7.0" />
-		<PackageReference Include="MudBlazor.Markdown" Version="8.6.0" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.5" />
-		<PackageReference Include="MySql.Data" Version="9.4.0" />
-		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
-		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0-rc.1.efcore.9.0.0" />
-		<PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.14.0" />
-		<PackageReference Include="Quartz.Extensions.Hosting" Version="3.14.0" />
-		<PackageReference Include="Quartz.Serialization.Json" Version="3.14.0" />
-		<PackageReference Include="Selenium.WebDriver" Version="4.33.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.5" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.5" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.5" />
+		<PackageReference Include="Blazor-ApexCharts" Version="6.0.2" />
+		<PackageReference Include="Cropper.Blazor" Version="1.5.0" />
+		<PackageReference Include="CrystalQuartz.AspNetCore" Version="7.3.0" />
+		<PackageReference Include="Mapster" Version="9.0.0-pre01" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.1" />
+		<PackageReference Include="Microsoft.SemanticKernel" Version="1.68.0" />
+		<PackageReference Include="MudBlazor" Version="8.15.0" />
+		<PackageReference Include="MudBlazor.Markdown" Version="8.11.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.1" />
+		<PackageReference Include="MySql.EntityFrameworkCore" Version="10.0.0-rc" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
+		<PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.15.1" />
+		<PackageReference Include="Quartz.Extensions.Hosting" Version="3.15.1" />
+		<PackageReference Include="Quartz.Serialization.Json" Version="3.15.1" />
+		<PackageReference Include="Selenium.WebDriver" Version="4.39.0" />
+		<PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.1" />
 	</ItemGroup>
 	
 	<ItemGroup>

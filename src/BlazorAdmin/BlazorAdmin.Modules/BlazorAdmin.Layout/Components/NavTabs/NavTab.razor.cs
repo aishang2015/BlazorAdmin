@@ -24,7 +24,7 @@ namespace BlazorAdmin.Layout.Components.NavTabs
                 ?.Value;
             if (userTabs != null)
             {
-                _userTabs = JsonSerializer.Deserialize<List<TabView>>(userTabs);
+                _userTabs = JsonSerializer.Deserialize<List<TabView>>(userTabs)!;
                 var index = _userTabs.FindIndex(t => _navManager.Uri.EndsWith(t.Route));
                 if (index == -1)
                 {
@@ -60,17 +60,17 @@ namespace BlazorAdmin.Layout.Components.NavTabs
 
         private async Task NavigateTo(NavMenuItem route)
         {
-            if (_userTabs.All(t => t.Route != route.Route))
+            if (_userTabs.All(t => t.Route != route.Route) && route != null)
             {
                 _userTabs.Add(new TabView
                 {
                     Id = Guid.NewGuid(),
                     Label = route.MenuName!,
-                    Route = route.Route,
+                    Route = route.Route ?? "",
                     ShowCloseIcon = true
                 });
             }
-            var index = _userTabs.FindIndex(t => t.Route == route.Route);
+            var index = _userTabs.FindIndex(t => t.Route == route?.Route);
             _selectedTabIndex = index;
             await SaveUserTabsAsync();
             StateHasChanged();
@@ -83,7 +83,7 @@ namespace BlazorAdmin.Layout.Components.NavTabs
 
         private async Task OnTabClose(MudTabPanel panel)
         {
-            var tabView = _userTabs.FirstOrDefault(t => t.Id == (Guid)panel.ID);
+            var tabView = _userTabs.FirstOrDefault(t => t.Id.ToString() == panel.ID?.ToString());
             if (tabView is not null)
             {
                 _userTabs.Remove(tabView);

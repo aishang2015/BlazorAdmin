@@ -120,6 +120,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
 }
+app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 
 app.UseRequestLocalization(new RequestLocalizationOptions()
     .AddSupportedCultures(new[] { "zh-CN", "en-US" })

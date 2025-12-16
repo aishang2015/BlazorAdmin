@@ -16,8 +16,6 @@ namespace BlazorAdmin.Servers.Core.Components.Dialogs
                    { "autocomplete", "new-password2" },
                 };
 
-        private bool _isLoading = false;
-
         private PasswordModel _passwordModel = new PasswordModel();
 
         [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
@@ -28,7 +26,6 @@ namespace BlazorAdmin.Servers.Core.Components.Dialogs
 
         private async Task ConfirmPassword()
         {
-            _isLoading = true;
             using var context = await _dbFactory.CreateDbContextAsync();
 
             var userId = await AuthStateProvider!.GetUserIdAsync();
@@ -48,7 +45,6 @@ namespace BlazorAdmin.Servers.Core.Components.Dialogs
             }
 
             await ConfirmCallBack.InvokeAsync(new CommonDialogEventArgs());
-            _isLoading = false;
             MudDialog?.Close(DialogResult.Ok(true));
         }
 

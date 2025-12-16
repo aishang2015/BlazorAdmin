@@ -18,8 +18,7 @@
                         Icon="@Icons.Material.Filled.Folder"
                         ToggledColor="Color.Primary" 
                         Color="Color.Primary"
-                        Title="@_loc["SwitchToProjectGeneration"]"
-                        ToggledTitle="@_loc["SwitchToPageGeneration"]"
+                        title="@(_showPageGeneration? _loc["SwitchToProjectGeneration"] : _loc["SwitchToPageGeneration"])"
                         Class="mr-2" />
     
     @if (_showPageGeneration)

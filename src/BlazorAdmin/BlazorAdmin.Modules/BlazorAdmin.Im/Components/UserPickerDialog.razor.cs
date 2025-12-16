@@ -69,11 +69,13 @@ namespace BlazorAdmin.Im.Components
                 (m.SenderId == _checkedUserSet.First() && m.ReceiverId == userId) ||
                 (m.ReceiverId == _checkedUserSet.First() && m.SenderId == userId)))
                 {
+#pragma warning disable CS0612 // 类型或成员已过时
                     await _messageSender.SendChannelMessage(
                         userId,
                         null,
                         _checkedUserSet.First(),
                         string.Empty, 0);
+#pragma warning restore CS0612 // 类型或成员已过时
                 }
             }
             else if (_checkedUserSet.Count > 1)

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MySql.EntityFrameworkCore;
 using MudBlazor;
 using Quartz;
 using System.Reflection;
@@ -39,9 +40,15 @@ namespace BlazorAdmin.Servers.Core.Data
                 }
                 else if (dbProvider == "MySQL")
                 {
-                    b.UseMySql(dbConnectinoString, ServerVersion.AutoDetect(dbConnectinoString));
+                    b.UseMySQL(dbConnectinoString);
                 }
-                b.UseSeeding((d, v) => (d as BlazorAdminDbContext).InitialData(v));
+                b.UseSeeding((d, v) =>
+                {
+                    if (d is BlazorAdminDbContext context)
+                    {
+                        context.InitialData(v);
+                    }
+                });
             }, ServiceLifetime.Scoped);
 
             var useQuartz = builder.Configuration.GetValue<bool>("Application:UseQuartz");
@@ -95,7 +102,9 @@ namespace BlazorAdmin.Servers.Core.Data
         {
             if (isCreated)
             {
+#pragma warning disable CA1416 // 验证平台兼容性
                 var rsa = RSA.Create();
+#pragma warning restore CA1416 // 验证平台兼容性
                 var privateKey = Convert.ToBase64String(rsa.ExportRSAPrivateKey());
                 var publicKey = Convert.ToBase64String(rsa.ExportRSAPublicKey());
 

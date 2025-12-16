@@ -117,7 +117,7 @@ namespace BlazorAdmin.Servers.Core.States
             set
             {
                 _isDark = value;
-                SetCookie("IsDark", value.ToString());
+                SetCookie("IsDark", value.ToString()).ConfigureAwait(false);
             }
         }
 
@@ -130,7 +130,7 @@ namespace BlazorAdmin.Servers.Core.States
             set
             {
                 UpdatePaletteColor(value);
-                SetCookie("PrimaryColor", value.Value);
+                SetCookie("PrimaryColor", value.Value).ConfigureAwait(false);
             }
         }
 

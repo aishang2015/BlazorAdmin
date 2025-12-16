@@ -22,7 +22,9 @@ namespace BlazorAdmin.Servers.Core.Auth
             var privateKey = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtSigningRsaPrivateKey)!.Value;
             var publicKey = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtSigningRsaPublicKey)!.Value;
 
+#pragma warning disable CA1416 // 验证平台兼容性
             var rsa = RSA.Create();
+#pragma warning restore CA1416 // 验证平台兼容性
             rsa.ImportRSAPublicKey(Convert.FromBase64String(publicKey), out int publicReadBytes);
             rsa.ImportRSAPrivateKey(Convert.FromBase64String(privateKey), out int privateReadBytes);
             var securityKey = new RsaSecurityKey(rsa);

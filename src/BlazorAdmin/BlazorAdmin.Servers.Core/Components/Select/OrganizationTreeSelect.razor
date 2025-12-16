@@ -32,7 +32,7 @@
 @inject IStringLocalizer<CommonComponent> _loc;
 
 <div class="d-flex flex-column">
-    <MudTextField Value="SelectedMenuName"  Variant="Variant.Outlined"
+    <MudTextField Value="SelectedMenuName" Variant="Variant.Outlined"
                   Margin="Margin.Dense" @onfocus="ElementFocused" @onblur="MouseBlur" Label="@(Label ?? _loc["OrganizationTreeSelect_Title"])"
                   Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Clear"
                   OnAdornmentClick="CleanSelected" IconSize="Size.Small" Class="search-com" />
@@ -60,7 +60,7 @@
                             {
                                 <MudIcon Icon="@Icons.Material.Outlined.AccountTree" Class="mr-2"></MudIcon>
                             }
-                            <MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.Value.Name</MudText>
+                            <MudText Typo="Typo.subtitle2" Style="user-select:none;">@context.Value?.Name</MudText>
                             <MudSpacer />
                         </Content>
                     </MudTreeViewItem>

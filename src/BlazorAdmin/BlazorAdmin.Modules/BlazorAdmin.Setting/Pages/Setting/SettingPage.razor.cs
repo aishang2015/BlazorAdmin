@@ -5,7 +5,6 @@ namespace BlazorAdmin.Setting.Pages.Setting
 {
     public partial class SettingPage
     {
-        private MudListItem<SettingModel>? SelectedItem;
 
         private SettingModel? SelectedValue;
 

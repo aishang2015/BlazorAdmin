@@ -11,8 +11,7 @@ namespace BlazorAdmin.Servers.Core.Helper
             RandomNumberGenerator.Create().GetBytes(salt);
 
             // 使用PBKDF2算法生成哈希值
-            var pbkdf2 = new Rfc2898DeriveBytes(pwd, salt, 10000, HashAlgorithmName.SHA256);
-            byte[] hash = pbkdf2.GetBytes(32);
+            byte[] hash = Rfc2898DeriveBytes.Pbkdf2(pwd, salt, 10000, HashAlgorithmName.SHA256, 32);
             return Encoding.UTF8.GetString(hash);
         }
 
@@ -20,9 +19,9 @@ namespace BlazorAdmin.Servers.Core.Helper
         {
             var salt = new byte[16];
             RandomNumberGenerator.Create().GetBytes(salt);
-            using var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000, HashAlgorithmName.SHA256);
+            byte[] hash = Rfc2898DeriveBytes.Pbkdf2(password, salt, 10000, HashAlgorithmName.SHA256, 32);
             var saltString = Convert.ToBase64String(salt);
-            var hashString = Convert.ToBase64String(pbkdf2.GetBytes(32));
+            var hashString = Convert.ToBase64String(hash);
             return $"{saltString}:{hashString}";
         }
 
@@ -32,8 +31,8 @@ namespace BlazorAdmin.Servers.Core.Helper
             byte[] salt = Convert.FromBase64String(passwordParts.First());
             byte[] hash = Convert.FromBase64String(passwordParts.Last());
 
-            using var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000, HashAlgorithmName.SHA256);
-            return pbkdf2.GetBytes(32).SequenceEqual(hash);
+            byte[] hashByte2 = Rfc2898DeriveBytes.Pbkdf2(password, salt, 10000, HashAlgorithmName.SHA256, 32);
+            return hashByte2.SequenceEqual(hash);
         }
     }
 }

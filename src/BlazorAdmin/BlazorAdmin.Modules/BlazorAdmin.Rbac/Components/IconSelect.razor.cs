@@ -94,7 +94,7 @@ namespace BlazorAdmin.Rbac.Components
             }
         }
 
-        private async Task SelectIcon(string content)
+        private async Task SelectIcon(string? content)
         {
             SelectedIcon = content;
             await SelectedIconChanged.InvokeAsync(content);

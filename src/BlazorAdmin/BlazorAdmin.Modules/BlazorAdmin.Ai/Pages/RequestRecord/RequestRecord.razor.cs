@@ -31,12 +31,12 @@ namespace BlazorAdmin.Ai.Pages.RequestRecord
 
             var recordQuery = context.AiRequestRecords
                 .AndIfExist(searchObject.StartTime, r => r.RequestTime >= searchObject.StartTime)
-                .AndIfExist(searchObject.EndTime, r => r.RequestTime < searchObject.EndTime.Value.AddDays(1));
+                .AndIfExist(searchObject.EndTime, r => r.RequestTime < searchObject.EndTime!.Value.AddDays(1));
 
             var query = from r in recordQuery
                         join c in context.AiConfigs on r.AiConfigId equals c.Id into rc
                         from c in rc.DefaultIfEmpty()
-                        where string.IsNullOrEmpty(searchObject.AiConfigCode) || c.ConfigName.Contains(searchObject.AiConfigCode)
+                        where string.IsNullOrEmpty(searchObject.AiConfigCode) || (c.ConfigName != null && c.ConfigName.Contains(searchObject.AiConfigCode))
                         select new RequestRecordModel
                         {
                             Id = r.Id,

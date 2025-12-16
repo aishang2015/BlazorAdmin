@@ -23,11 +23,10 @@ namespace BlazorAdmin.Servers.Core.Extension
         {
             foreach (var keySelector in keySelectors)
             {
-                if (queryable is IOrderedQueryable<T>)
+                if (queryable is IOrderedQueryable<T> q)
                 {
                     queryable = keySelector.Item2 ?
-                           (queryable as IOrderedQueryable<T>).ThenBy(keySelector.Item1) :
-                           (queryable as IOrderedQueryable<T>).ThenByDescending(keySelector.Item1);
+                           q.ThenBy(keySelector.Item1) : q.ThenByDescending(keySelector.Item1);
                 }
                 else
                 {

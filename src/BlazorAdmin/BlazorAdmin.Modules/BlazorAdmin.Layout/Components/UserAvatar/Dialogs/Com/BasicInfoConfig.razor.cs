@@ -32,7 +32,7 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
 
             using var context = await _dbFactory.CreateDbContextAsync();
             var userId = await _stateProvider.GetUserIdAsync();
-            _user = context.Users.Find(userId);
+            _user = context.Users.Find(userId)!;
         }
 
         private async Task ChangePwd()
@@ -74,11 +74,14 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
                 {
                     var userid = await _stateProvider.GetUserIdAsync();
                     var findUser = context.Users.Find(userid);
-                    findUser.Name = _editUserName;
-                    await context.SaveChangesAsync();
-                    _user.Name = _editUserName;
-                    _isEditUserName = false;
-                    _snackbarService.Add("用户名修改成功！", Severity.Success);
+                    if (findUser != null)
+                    {
+                        findUser.Name = _editUserName;
+                        await context.SaveChangesAsync();
+                        _user.Name = _editUserName;
+                        _isEditUserName = false;
+                        _snackbarService.Add("用户名修改成功！", Severity.Success);
+                    }
                 }
 
             }
@@ -107,11 +110,15 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
                 using var context = await _dbFactory.CreateDbContextAsync();
                 var userId = await _stateProvider.GetUserIdAsync();
                 var findUser = context.Users.Find(userId);
-                findUser.RealName = _editRealName;
-                await context.SaveChangesAsync();
-                _user.RealName = _editRealName;
-                _isEditRealName = false;
-                _snackbarService.Add("用户名修改成功！", Severity.Success);
+
+                if (findUser != null)
+                {
+                    findUser.RealName = _editRealName;
+                    await context.SaveChangesAsync();
+                    _user.RealName = _editRealName;
+                    _isEditRealName = false;
+                    _snackbarService.Add("用户名修改成功！", Severity.Success);
+                }
             }
         }
 
@@ -124,11 +131,11 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = false };
             var dialog = await _dialogService.ShowAsync<AvatarEditDialog>("编辑图片", parameters, options);
             var result = await dialog.Result;
-            if (!result.Canceled)
+            if (result != null && !result.Canceled)
             {
                 using var context = await _dbFactory.CreateDbContextAsync();
                 var userId = await _stateProvider.GetUserIdAsync();
-                _user = context.Users.Find(userId);
+                _user = context.Users.Find(userId)!;
                 StateHasChanged();
             }
         }
@@ -156,11 +163,14 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
                 using var context = await _dbFactory.CreateDbContextAsync();
                 var userId = await _stateProvider.GetUserIdAsync();
                 var findUser = context.Users.Find(userId);
-                findUser.Email = _editEmail;
-                await context.SaveChangesAsync();
-                _user.Email = _editEmail;
-                _isEditEmail = false;
-                _snackbarService.Add("邮箱修改成功！", Severity.Success);
+                if (findUser != null)
+                {
+                    findUser.Email = _editEmail;
+                    await context.SaveChangesAsync();
+                    _user.Email = _editEmail;
+                    _isEditEmail = false;
+                    _snackbarService.Add("邮箱修改成功！", Severity.Success);
+                }
             }
         }
 
@@ -187,11 +197,14 @@ namespace BlazorAdmin.Layout.Components.UserAvatar.Dialogs.Com
                 using var context = await _dbFactory.CreateDbContextAsync();
                 var userId = await _stateProvider.GetUserIdAsync();
                 var findUser = context.Users.Find(userId);
-                findUser.PhoneNumber = _editPhone;
-                await context.SaveChangesAsync();
-                _user.PhoneNumber = _editPhone;
-                _isEditPhone = false;
-                _snackbarService.Add("手机号修改成功！", Severity.Success);
+                if (findUser != null)
+                {
+                    findUser.PhoneNumber = _editPhone;
+                    await context.SaveChangesAsync();
+                    _user.PhoneNumber = _editPhone;
+                    _isEditPhone = false;
+                    _snackbarService.Add("手机号修改成功！", Severity.Success);
+                }
             }
         }
     }

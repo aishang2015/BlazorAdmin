@@ -36,7 +36,7 @@ namespace BlazorAdmin.Servers.Core.Components.Dialogs
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true, };
             var dialog = await dialogService.ShowAsync<CommonDeleteDialog>(string.Empty, parameters, options);
             var result = await dialog.Result;
-            return !result.Canceled;
+            return result != null ? !result.Canceled : false;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace BlazorAdmin.Servers.Core.Components.Dialogs
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, NoHeader = true, };
             var dialog = await dialogService.ShowAsync<ConfirmUserPasswordDialog>(string.Empty, parameters, options);
             var result = await dialog.Result;
-            return !result.Canceled;
+            return result != null ? !result.Canceled : false;
         }
     }
 }

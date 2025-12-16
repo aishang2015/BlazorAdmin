@@ -21,13 +21,13 @@ namespace BlazorAdmin.Core.Helper
             Type type = obj.GetType();
             PropertyInfo[] properties = type.GetProperties(
                 BindingFlags.DeclaredOnly |
-                BindingFlags.Public | 
+                BindingFlags.Public |
                 BindingFlags.Instance);
 
 
             foreach (PropertyInfo property in properties)
             {
-                object value = property.GetValue(obj);
+                var value = property.GetValue(obj);
                 if (value != null && !IsEmpty(value))
                 {
                     count++;

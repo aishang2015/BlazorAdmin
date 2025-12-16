@@ -46,7 +46,9 @@ namespace BlazorAdmin.Servers.Core.Helper
                 var publicKey = context.Settings.FirstOrDefault(s => s.Key == JwtConstant.JwtSigningRsaPublicKey)!.Value;
 
                 // firstly public key，secondly private key
+#pragma warning disable CA1416 // 验证平台兼容性
                 var rsa = RSA.Create();
+#pragma warning restore CA1416 // 验证平台兼容性
                 rsa.ImportRSAPublicKey(Convert.FromBase64String(publicKey), out int publicReadBytes);
                 rsa.ImportRSAPrivateKey(Convert.FromBase64String(privateKey), out int privateReadBytes);
                 _securityKey = new RsaSecurityKey(rsa);
@@ -89,7 +91,7 @@ namespace BlazorAdmin.Servers.Core.Helper
             var jwtSecurityToken = new JwtSecurityToken(
                 issuer: _validationParameters.ValidIssuer,
                 audience: _validationParameters.ValidAudience,
-                expires: DateTime.Now.AddMinutes(_expireSpan.Value),
+                expires: DateTime.Now.AddMinutes(_expireSpan == null ? 120 : _expireSpan.Value),
                 claims: claims,
                 signingCredentials: _credentials);
             var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);

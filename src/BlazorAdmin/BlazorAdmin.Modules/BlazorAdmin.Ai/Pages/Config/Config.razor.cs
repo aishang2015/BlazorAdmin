@@ -30,7 +30,7 @@ namespace BlazorAdmin.Ai.Pages.Config
 
             var query = context.AiConfigs
                 .Where(c => !c.IsDeleted)
-                .AndIfExist(searchObject.SearchModelName, c => c.ModelName.Contains(searchObject.SearchModelName!))
+                .AndIfExist(searchObject.SearchModelName, c => c.ModelName != null && c.ModelName.Contains(searchObject.SearchModelName!))
                 .AndIfExist(searchObject.SearchEndpoint, c => c.Endpoint!.Contains(searchObject.SearchEndpoint!))
                 .AndIfExist(searchObject.SearchConfigName, c => c.ConfigName!.Contains(searchObject.SearchConfigName!));
 
@@ -41,7 +41,7 @@ namespace BlazorAdmin.Ai.Pages.Config
                 .Select(c => new ConfigModel
                 {
                     Id = c.Id,
-                    ModelName = c.ModelName,
+                    ModelName = c.ModelName ?? "",
                     Endpoint = c.Endpoint,
                     ContextLength = c.ContextLength,
                     Description = c.Description,
@@ -71,7 +71,7 @@ namespace BlazorAdmin.Ai.Pages.Config
             var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium };
             var dialog = await _dialogService.ShowAsync<EditConfigDialog>(Loc["AIConfigPage_CreateTitle"], parameters, options);
             var result = await dialog.Result;
-            if (!result.Canceled)
+            if (result != null && !result.Canceled)
             {
                 await dataGrid.ReloadServerData();
             }
@@ -83,7 +83,7 @@ namespace BlazorAdmin.Ai.Pages.Config
             var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium };
             var dialog = await _dialogService.ShowAsync<EditConfigDialog>(Loc["AIConfigPage_EditTitle"], parameters, options);
             var result = await dialog.Result;
-            if (!result.Canceled)
+            if (result != null && !result.Canceled)
             {
                 await dataGrid.ReloadServerData();
             }
@@ -110,6 +110,11 @@ namespace BlazorAdmin.Ai.Pages.Config
             _snackbarService.Add(Loc["AIConfigPage_TestStart"], Severity.Info);
             using var context = await _dbFactory.CreateDbContextAsync();
             var config = context.AiConfigs.Find(configId);
+            if (config == null || config.ModelName == null || config.Endpoint == null || config.ApiKey == null)
+            {
+                _snackbarService.Add("配置不完整！", Severity.Error);
+                return;
+            }
             var result = await _aiHelper.TestAiConfig(config.ModelName, config.ApiKey, config.Endpoint, configId);
             if (result.IsSuccess)
             {
@@ -117,7 +122,7 @@ namespace BlazorAdmin.Ai.Pages.Config
             }
             else
             {
-                _snackbarService.Add(result.ErrorMessage, Severity.Error);
+                _snackbarService.Add(result.ErrorMessage ?? "", Severity.Error);
             }
         }
 
